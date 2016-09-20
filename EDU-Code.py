@@ -36,11 +36,11 @@ reserved = {
 }
 
 # List of tokens
-tokens = (
+tokens = [
 	'INTVAL',
 	'FLOATVAL',
 	'STRINGVAL',
-	'LISTVAL'
+	'LISTVAL',
 	'ID',
 	'PLUS',
 	'MINUS',
@@ -50,14 +50,13 @@ tokens = (
 	'RPAREN',
 	'LCURL',
 	'RCURL',
-	'SEMICOLON',
 	'COLON',
 	'COMMA',
 	'EQUALS',
 	'DIFF',
 	'LESS',
 	'GREATER',
-	) + list(reserved.values())
+	] + list(reserved.values())
 
 # Regular Expresions for Tokens
 t_ID        = r'[a-zA-Z_][a-zA-Z0-9_]*'
@@ -67,13 +66,12 @@ t_TIMES		= r'\*'
 t_DIVIDE	= r'/'
 t_LPAREN 	= r'\('
 t_RPAREN	= r'\)'
-t_SEMICOLON	= r';'
 t_LCURL		= r'{'
 t_RCURL		= r'}'
 t_COLON 	= r':'
 t_COMMA		= r','
 t_EQUALS	= r'='
-t_DIFF		= r'<>'
+t_DIFF		= r'!='
 t_LESS 		= r'<'
 t_GREATER	= r'>'
 t_ignore    = ' \t'
@@ -106,7 +104,7 @@ def t_newline(t):
 
 def t_error(t):
 	if t:
-		print "Syntax error at line " + str(t.lexer.lineno) + " Illegal character " + str(t.value[0])
+		print("Error at line " + str(t.lexer.lineno) + " Illegal character " + str(t.value[0]))
 	else:
 		print("Unexpected end of input")
 	t.lexer.skip(1)
@@ -267,7 +265,8 @@ if __name__ == '__main__':
 	if (len(sys.argv) > 1):
 		fin = sys.argv[1]
 	else:
-		fin = 'prueba1.txt'
+		print("No file provided!")
+		exit(1)
 
 	f = open(fin, 'r')
 	data = f.read()
@@ -278,7 +277,6 @@ if __name__ == '__main__':
 	for tok in lexer:
 		print(tok)
 
-	data = f.read()
 	parser.parse(data, tracking=True)
 
 	print("Successful")
