@@ -1,0 +1,64 @@
+<PROGRAMA>
+PROGRAMA -> start programa1 MAIN end
+
+programa1 -> VAR_DECLARACION programa1
+programa1 -> vacio
+
+programa2 -> FUNCION programa2
+programa2 -> vacio
+
+<VAR_DECLARACION>
+VAR_DECLARACION -> TIPO var_declaracion1
+VAR_DECLARACION -> list var_declaracion2
+
+var_declaracion1 -> id
+var_declaracion1 -> ASIGNACION
+
+var_declaracion2 -> id
+var_declaracion2 -> ASIGNACION_LIST
+
+<PARAMETROS>
+PARAMETROS -> TIPO parametros1 id , PARAMETROS
+PARAMETROS -> list parametros1 id , PARAMETROS
+
+parametros1 -> &
+parametros1 -> vacio
+
+<ASIGNACION>
+ASIGNACION -> id EQUAL EXPRESION
+
+<TIPO>
+TIPO -> int
+TIPO -> float
+TIPO -> string
+TIPO -> bool
+
+<BLOQUE>
+BLOQUE -> { bloque1 }
+
+bloque1 -> vacio
+bloque1 -> estatuto
+
+<EXP>
+EXP -> TERMINO exp1 EXP
+
+exp1 -> +
+exp1 -> -
+
+<TERMINO>
+TERMINO -> FACTOR termino1 TERMINO
+
+termino1 -> *
+termino1 -> /
+
+<FUNCION>
+FUNCION -> 
+
+<COMENTARIO>
+
+
+
+
+
+
+

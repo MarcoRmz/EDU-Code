@@ -59,7 +59,6 @@ tokens = [
 	] + list(reserved.values())
 
 # Regular Expresions for Tokens
-t_ID        = r'[a-zA-Z_][a-zA-Z0-9_]*'
 t_PLUS 		= r'\+'
 t_MINUS 	= r'-'
 t_TIMES		= r'\*'
@@ -75,6 +74,11 @@ t_DIFF		= r'!='
 t_LESS 		= r'<'
 t_GREATER	= r'>'
 t_ignore    = ' \t'
+
+def t_ID(t):
+    r'[a-zA-Z_][a-zA-Z_0-9]*'
+    t.type = reserved.get(t.value,'ID')
+    return t
 
 def t_FLOATVAL(t):
     r"\d+\.\d*"
