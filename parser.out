@@ -2,22 +2,13 @@ Created by PLY version 3.9 (http://www.dabeaz.com/ply)
 
 Unused terminals:
 
-    RETURN
     STRINGVAL
     TRUE
-    CASE
-    FOR
     LISTVAL
-    BY
-    TO
-    SWITCH
-    COLON
     FLOATVAL
     INTVAL
     PASS
-    INPUT
     FALSE
-    LIST
 
 Grammar
 
@@ -25,20 +16,20 @@ Rule 0     S' -> programa
 Rule 1     programa -> START programa1 programa2 main END
 Rule 2     programa1 -> var_declaracion programa1
 Rule 3     programa1 -> epsilon
-Rule 4     programa2 -> funcion programa2
+Rule 4     programa2 -> function programa2
 Rule 5     programa2 -> epsilon
 Rule 6     var_declaracion -> tipo var_declaracion1
-Rule 7     var_declaracion -> list var_declaracion2
+Rule 7     var_declaracion -> LIST var_declaracion2
 Rule 8     var_declaracion1 -> ID
 Rule 9     var_declaracion1 -> asignacion
 Rule 10    var_declaracion2 -> ID
 Rule 11    var_declaracion2 -> asignacion_list
 Rule 12    parametros -> tipo parametros1 ID COMMA parametros2
-Rule 13    parametros -> list parametros1 ID COMMA parametros2
+Rule 13    parametros -> LIST parametros1 ID COMMA parametros2
 Rule 14    parametros1 -> AMPERSON
 Rule 15    parametros1 -> epsilon
 Rule 16    parametros2 -> tipo parametros1 ID COMMA parametros2
-Rule 17    parametros2 -> list parametros1 ID COMMA parametros2
+Rule 17    parametros2 -> LIST parametros1 ID COMMA parametros2
 Rule 18    parametros2 -> epsilon
 Rule 19    asignacion -> ID EQUALS expresion
 Rule 20    tipo -> INT
@@ -56,8 +47,8 @@ Rule 31    termino -> factor termino1
 Rule 32    termino1 -> TIMES termino
 Rule 33    termino1 -> DIVIDE termino
 Rule 34    termino1 -> epsilon
-Rule 35    asignacion_list -> list LPAREN asignacion_list1 RPAREN
-Rule 36    asignacion_list1 -> var_cte asignacion_list2
+Rule 35    asignacion_list -> LIST LPAREN asignacion_list1 RPAREN
+Rule 36    asignacion_list1 -> varcte asignacion_list2
 Rule 37    asignacion_list1 -> epsilon
 Rule 38    asignacion_list2 -> COMMA asignacion_list1
 Rule 39    asignacion_list2 -> epsilon
@@ -88,127 +79,158 @@ Rule 63    expresion2 -> AND
 Rule 64    expresion2 -> OR
 Rule 65    expresion2 -> DOUBLE_EQUAL
 Rule 66    expresion2 -> DIFF
-Rule 67    print -> PRINT LPAREN print1 RPAREN
-Rule 68    print1 -> CTE_STRING print2
-Rule 69    print1 -> ID print2
-Rule 70    print2 -> epsilon
-Rule 71    print2 -> PLUS print1
-Rule 72    condicion -> IF LPAREN expresion RPAREN bloque condicion1
-Rule 73    condicion1 -> condicion2
-Rule 74    condicion1 -> ELSEIF bloque condicion1
-Rule 75    condicion1 -> epsilon
-Rule 76    condicion2 -> ELSE bloque
-Rule 77    condicion2 -> epsilon
-Rule 78    varcte -> ID
-Rule 79    varcte -> CTE_INT
-Rule 80    varcte -> CTE_FLOAT
-Rule 81    varcte -> CTE_STRING
-Rule 82    varcte -> CTE_BOOL
-Rule 83    varcte -> CTE_LIST
-Rule 84    epsilon -> <empty>
+Rule 67    varcte -> ID
+Rule 68    varcte -> CTE_INT
+Rule 69    varcte -> CTE_FLOAT
+Rule 70    varcte -> CTE_STRING
+Rule 71    varcte -> CTE_BOOL
+Rule 72    varcte -> CTE_LIST
+Rule 73    print -> PRINT LPAREN print1 RPAREN
+Rule 74    print1 -> CTE_STRING print2
+Rule 75    print1 -> ID print2
+Rule 76    print2 -> epsilon
+Rule 77    print2 -> PLUS print1
+Rule 78    condicion -> IF LPAREN expresion RPAREN bloque condicion1
+Rule 79    condicion1 -> condicion2
+Rule 80    condicion1 -> ELSEIF bloque condicion1
+Rule 81    condicion1 -> epsilon
+Rule 82    condicion2 -> ELSE bloque
+Rule 83    condicion2 -> epsilon
+Rule 84    input -> tipo ID EQUAL INPUT LPAREN input1 RPAREN
+Rule 85    input -> ID EQUAL INPUT LPAREN input1 RPAREN
+Rule 86    input1 -> CTE_STRING
+Rule 87    input1 -> epsilon
+Rule 88    for -> FOR CTE_INT TO CTE_INT BY LPAREN for1 CTE_INT RPAREN
+Rule 89    for -> PLUS
+Rule 90    for -> TIMES
+Rule 91    for -> DIVIDE
+Rule 92    for -> MINUS
+Rule 93    funcion -> FUNCTION VOID ID LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RCURL
+Rule 94    funcion -> FUNCTION tipo ID LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN ID RCURL
+Rule 95    funcion2 -> epsilon
+Rule 96    funcion2 -> estatuto funcion2
+Rule 97    funcion3 -> parametros
+Rule 98    funcion3 -> epsilon
+Rule 99    switch -> SWITCH varcte LCURL CASE COLON estatuto switch1 DEFAULT COLON estatuto RCURL
+Rule 100   switch1 -> epsilon
+Rule 101   switch1 -> CASE COLON estatuto switch1
+Rule 102   comentario -> POUND varcte comentario1
+Rule 103   comentario -> DIVIDE TIMES comentario1 TIMES DIVIDE
+Rule 104   comentario1 -> varcte comentario1
+Rule 105   comentario1 -> epsilon
+Rule 106   epsilon -> <empty>
 
 Terminals, with rules where they appear
 
 AMPERSON             : 14
 AND                  : 63
 BOOL                 : 22
-BY                   : 
-CASE                 : 
-COLON                : 
+BY                   : 88
+CASE                 : 99 101
+COLON                : 99 99 101
 COMMA                : 12 13 16 17 38
 DIFF                 : 66
-DIVIDE               : 33
+DIVIDE               : 33 91 103 103
 DOUBLE_EQUAL         : 65
-ELSE                 : 76
-ELSEIF               : 74
+ELSE                 : 82
+ELSEIF               : 80
 END                  : 1
 EQUALS               : 19
 FALSE                : 
 FLOAT                : 21
 FLOATVAL             : 
-FOR                  : 
-FUNCTION             : 40
+FOR                  : 88
+FUNCTION             : 40 93 94
 GREATER              : 62
-ID                   : 8 10 12 13 16 17 19 69 78
-IF                   : 72
-INPUT                : 
+ID                   : 8 10 12 13 16 17 19 67 75 84 85 93 94 94
+IF                   : 78
+INPUT                : 84 85
 INT                  : 20
 INTVAL               : 
-LCURL                : 24 40
+LCURL                : 24 40 93 94 99
 LESS                 : 61
-LIST                 : 
+LIST                 : 7 13 17 35
 LISTVAL              : 
-LPAREN               : 35 40 45 46 67 72
+LPAREN               : 35 40 45 46 73 78 84 85 88 93 94
 MAIN                 : 40
-MINUS                : 29 49
+MINUS                : 29 49 92
 OR                   : 64
 PASS                 : 
-PLUS                 : 28 48 71
-PRINT                : 67
-RCURL                : 24 40
-RETURN               : 
-RPAREN               : 35 40 45 46 67 72
+PLUS                 : 28 48 77 89
+PRINT                : 73
+RCURL                : 24 40 93 94 99
+RETURN               : 94
+RPAREN               : 35 40 45 46 73 78 84 85 88 93 94
 START                : 1
 STRING               : 23
 STRINGVAL            : 
-SWITCH               : 
-TIMES                : 32
-TO                   : 
+SWITCH               : 99
+TIMES                : 32 90 103 103
+TO                   : 88
 TRUE                 : 
-VOID                 : 40
+VOID                 : 40 93
 WHILE                : 45
 error                : 
 
 Nonterminals, with rules where they appear
 
-CTE_BOOL             : 82
-CTE_FLOAT            : 80
-CTE_INT              : 79
-CTE_LIST             : 83
-CTE_STRING           : 68 81
+CTE_BOOL             : 71
+CTE_FLOAT            : 69
+CTE_INT              : 68 88 88 88
+CTE_LIST             : 72
+CTE_STRING           : 70 74 86
+DEFAULT              : 99
+EQUAL                : 84 85
+POUND                : 102
 asignacion           : 9 51
 asignacion_list      : 11
 asignacion_list1     : 35 38
 asignacion_list2     : 36
-bloque               : 45 72 74 76
+bloque               : 45 78 80 82
 bloque1              : 24 25
 comentario           : 52
+comentario1          : 102 103 104
 condicion            : 
-condicion1           : 72 74
-condicion2           : 73
-epsilon              : 3 5 15 18 26 30 34 37 39 42 44 50 59 70 75 77
-estatuto             : 25 40 43
+condicion1           : 78 80
+condicion2           : 79
+epsilon              : 3 5 15 18 26 30 34 37 39 42 44 50 59 76 81 83 87 95 98 100 105
+estatuto             : 25 40 43 93 94 96 99 99 101
 exp                  : 28 29 58 60
 exp1                 : 27
-expresion            : 19 45 46 72
+expresion            : 19 45 46 78
 expresion1           : 58
 expresion2           : 60
 factor               : 31
 factor1              : 47
 for                  : 57
-funcion              : 4
+for1                 : 88
+funcion              : 
+funcion1             : 93 94
+funcion2             : 93 94 96
+funcion3             : 93 94
+function             : 4
 input                : 54
-list                 : 7 13 17 35
+input1               : 84 85
 main                 : 1
 main1                : 40 41
 main2                : 40 43
-parametros           : 
+parametros           : 97
 parametros1          : 12 13 16 17
 parametros2          : 12 13 16 17
 print                : 53
-print1               : 67 71
-print2               : 68 69
+print1               : 73 77
+print2               : 74 75
 programa             : 0
 programa1            : 1 2
 programa2            : 1 4
 switch               : 55
+switch1              : 99 101
 termino              : 27 32 33
 termino1             : 31
-tipo                 : 6 12 16
-var_cte              : 36
+tipo                 : 6 12 16 84 94
 var_declaracion      : 2 41
 var_declaracion1     : 6
 var_declaracion2     : 7
-varcte               : 47
+varcte               : 36 47 99 102 104
 while                : 56
 

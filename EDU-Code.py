@@ -38,10 +38,9 @@ reserved = {
 
 # List of tokens
 tokens = [
-	'INTVAL',
-	'FLOATVAL',
-	'STRINGVAL',
-	'LISTVAL',
+	'CTE_INT',
+	'CTE_FLOAT',
+	'CTE_STRING',
 	'ID',
 	'PLUS',
 	'MINUS',
@@ -85,7 +84,7 @@ def t_ID(t):
     t.type = reserved.get(t.value,'ID')
     return t
 
-def t_FLOATVAL(t):
+def t_CTE_FLOAT(t):
     r"\d+\.\d*"
     try:
         t.value = float(t.value)
@@ -94,7 +93,7 @@ def t_FLOATVAL(t):
         t.value = 0
     return t
 
-def t_INTVAL(t):
+def t_CTE_INT(t):
     r'\d+'
     try:
         t.value = int(t.value)
@@ -103,7 +102,7 @@ def t_INTVAL(t):
         t.value = 0
     return t
 
-def t_STRINGVAL(t):
+def t_CTE_STRING(t):
 	r'\"[a-zA-Z]([a-zA-Z0-9])*\"'
 	return t
 
@@ -136,7 +135,7 @@ def p_programa1(p):
 	pass
 
 def p_programa2(p):
-	'''programa2 : function programa2
+	'''programa2 : FUNCTION programa2
 				| epsilon'''
 	pass
 
@@ -287,8 +286,12 @@ def p_varcte(p):
 				| CTE_INT
 				| CTE_FLOAT
                 | CTE_STRING
-                | CTE_BOOL
-                | CTE_LIST'''
+                | cte_bool'''
+	pass
+
+def p_cte_bool(p):
+	''' cte_bool : TRUE
+				 | FALSE'''
 	pass
 
 def p_print(p):
@@ -319,6 +322,7 @@ def p_condicion2(p):
 	'''condicion2	: ELSE bloque
 					| epsilon'''
 	pass
+
 def p_input(p):
 	'''input	: tipo ID EQUAL INPUT LPAREN input1 RPAREN
 				| ID EQUAL INPUT LPAREN input1 RPAREN'''
