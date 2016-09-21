@@ -13,9 +13,9 @@ Unused terminals:
     BY
     TO
     SWITCH
+    COLON
     FLOATVAL
     FUNCTION
-    END
     INTVAL
     PASS
     INPUT
@@ -23,105 +23,117 @@ Unused terminals:
     MAIN
     FALSE
     LIST
-    BOOL
     OR
 
 Grammar
 
-Rule 0     S' -> start
-Rule 1     start -> START ID SEMICOLON start1 bloque
-Rule 2     start1 -> vars
-Rule 3     start1 -> epsilon
-Rule 4     vars -> VAR ID vars1 COLON tipo SEMICOLON vars2
-Rule 5     vars1 -> COMMA ID vars1
-Rule 6     vars1 -> epsilon
-Rule 7     vars2 -> ID vars1 COLON tipo SEMICOLON vars2
-Rule 8     vars2 -> epsilon
-Rule 9     tipo -> INT
-Rule 10    tipo -> FLOAT
-Rule 11    tipo -> STRING
-Rule 12    bloque -> LCURL bloque1 RCURL
-Rule 13    bloque1 -> estatuto bloque1
-Rule 14    bloque1 -> epsilon
-Rule 15    estatuto -> asignacion
-Rule 16    estatuto -> condicion
-Rule 17    estatuto -> escritura
-Rule 18    asignacion -> ID EQUALS expresion SEMICOLON
-Rule 19    expresion -> exp expresion1
-Rule 20    expresion1 -> epsilon
-Rule 21    expresion1 -> expresion2 exp
-Rule 22    expresion2 -> LESS
-Rule 23    expresion2 -> GREATER
-Rule 24    expresion2 -> DIFF
-Rule 25    escritura -> PRINT LPAREN escritura1 RPAREN SEMICOLON
-Rule 26    escritura1 -> expresion escritura2
-Rule 27    escritura1 -> STRING escritura2
-Rule 28    escritura2 -> COMMA escritura1
-Rule 29    escritura2 -> epsilon
-Rule 30    exp -> termino exp1
-Rule 31    exp1 -> PLUS termino exp1
-Rule 32    exp1 -> MINUS termino exp1
-Rule 33    exp1 -> epsilon
-Rule 34    condicion -> IF LPAREN expresion RPAREN bloque condicion1 SEMICOLON
-Rule 35    condicion1 -> ELSE bloque
-Rule 36    condicion1 -> epsilon
-Rule 37    termino -> factor termino1
-Rule 38    termino1 -> TIMES factor termino1
-Rule 39    termino1 -> DIVIDE factor termino1
-Rule 40    termino1 -> epsilon
-Rule 41    factor -> LPAREN expresion RPAREN
-Rule 42    factor -> factor1 varcte
-Rule 43    factor1 -> PLUS
-Rule 44    factor1 -> MINUS
-Rule 45    factor1 -> epsilon
-Rule 46    varcte -> FLOAT
-Rule 47    varcte -> INT
-Rule 48    varcte -> ID
-Rule 49    epsilon -> <empty>
+Rule 0     S' -> programa
+Rule 1     programa -> START programa1 programa2 main END
+Rule 2     programa1 -> var_declaracion programa3
+Rule 3     programa1 -> epsilon
+Rule 4     programa2 -> funcion programa4
+Rule 5     programa2 -> epsilon
+Rule 6     programa3 -> var_declaracion programa1
+Rule 7     programa3 -> epsilon
+Rule 8     programa4 -> funcion programa2
+Rule 9     programa4 -> epsilon
+Rule 10    var_declaracion -> tipo var_declaracion1
+Rule 11    var_declaracion -> list var_declaracion2
+Rule 12    var_declaracion1 -> ID
+Rule 13    var_declaracion1 -> asignacion
+Rule 14    var_declaracion2 -> ID
+Rule 15    var_declaracion2 -> asignacion_list
+Rule 16    parametros -> tipo parametros1 ID COMMA parametros
+Rule 17    parametros -> list parametros1 ID COMMA parametros
+Rule 18    parametros1 -> AMPERSON
+Rule 19    parametros1 -> epsilon
+Rule 20    asignacion -> ID EQUALS expresion
+Rule 21    tipo -> INT
+Rule 22    tipo -> FLOAT
+Rule 23    tipo -> BOOL
+Rule 24    tipo -> STRING
+Rule 25    bloque -> LCURL bloque1 RCURL
+Rule 26    bloque1 -> estatuto bloque1
+Rule 27    bloque1 -> epsilon
+Rule 28    exp -> termino exp1
+Rule 29    exp1 -> PLUS exp
+Rule 30    exp1 -> MINUS exp
+Rule 31    exp1 -> epsilon
+Rule 32    estatuto -> asignacion
+Rule 33    estatuto -> condicion
+Rule 34    estatuto -> escritura
+Rule 35    expresion -> exp expresion1
+Rule 36    expresion1 -> epsilon
+Rule 37    expresion1 -> expresion2 exp
+Rule 38    expresion2 -> LESS
+Rule 39    expresion2 -> GREATER
+Rule 40    expresion2 -> DIFF
+Rule 41    escritura -> PRINT LPAREN escritura1 RPAREN
+Rule 42    escritura1 -> expresion escritura2
+Rule 43    escritura1 -> STRING escritura2
+Rule 44    escritura2 -> COMMA escritura1
+Rule 45    escritura2 -> epsilon
+Rule 46    condicion -> IF LPAREN expresion RPAREN bloque condicion1
+Rule 47    condicion1 -> ELSE bloque
+Rule 48    condicion1 -> epsilon
+Rule 49    termino -> factor termino1
+Rule 50    termino1 -> TIMES factor termino1
+Rule 51    termino1 -> DIVIDE factor termino1
+Rule 52    termino1 -> epsilon
+Rule 53    factor -> LPAREN expresion RPAREN
+Rule 54    factor -> factor1 varcte
+Rule 55    factor1 -> PLUS
+Rule 56    factor1 -> MINUS
+Rule 57    factor1 -> epsilon
+Rule 58    varcte -> FLOAT
+Rule 59    varcte -> INT
+Rule 60    varcte -> ID
+Rule 61    epsilon -> <empty>
 
 Terminals, with rules where they appear
 
+AMPERSON             : 18
 AND                  : 
-BOOL                 : 
+BOOL                 : 23
 BY                   : 
 CASE                 : 
-COLON                : 4 7
-COMMA                : 5 28
-DIFF                 : 24
-DIVIDE               : 39
-ELSE                 : 35
-END                  : 
-EQUALS               : 18
+COLON                : 
+COMMA                : 16 17 44
+DIFF                 : 40
+DIVIDE               : 51
+ELSE                 : 47
+END                  : 1
+EQUALS               : 20
 FALSE                : 
-FLOAT                : 10 46
+FLOAT                : 22 58
 FLOATVAL             : 
 FOR                  : 
 FUNCTION             : 
-GREATER              : 23
-ID                   : 1 4 5 7 18 48
-IF                   : 34
+GREATER              : 39
+ID                   : 12 14 16 17 20 60
+IF                   : 46
 INPUT                : 
-INT                  : 9 47
+INT                  : 21 59
 INTVAL               : 
-LCURL                : 12
-LESS                 : 22
+LCURL                : 25
+LESS                 : 38
 LIST                 : 
 LISTVAL              : 
-LPAREN               : 25 34 41
+LPAREN               : 41 46 53
 MAIN                 : 
-MINUS                : 32 44
+MINUS                : 30 56
 OR                   : 
 PASS                 : 
-PLUS                 : 31 43
-PRINT                : 25
-RCURL                : 12
+PLUS                 : 29 55
+PRINT                : 41
+RCURL                : 25
 RETURN               : 
-RPAREN               : 25 34 41
+RPAREN               : 41 46 53
 START                : 1
-STRING               : 11 27
+STRING               : 24 43
 STRINGVAL            : 
 SWITCH               : 
-TIMES                : 38
+TIMES                : 50
 TO                   : 
 TRUE                 : 
 VOID                 : 
@@ -130,32 +142,39 @@ error                :
 
 Nonterminals, with rules where they appear
 
-SEMICOLON            : 1 4 7 18 25 34
-VAR                  : 4
-asignacion           : 15
-bloque               : 1 34 35
-bloque1              : 12 13
-condicion            : 16
-condicion1           : 34
-epsilon              : 3 6 8 14 20 29 33 36 40 45
-escritura            : 17
-escritura1           : 25 28
-escritura2           : 26 27
-estatuto             : 13
-exp                  : 19 21
-exp1                 : 30 31 32
-expresion            : 18 26 34 41
-expresion1           : 19
-expresion2           : 21
-factor               : 37 38 39
-factor1              : 42
-start                : 0
-start1               : 1
-termino              : 30 31 32
-termino1             : 37 38 39
-tipo                 : 4 7
-varcte               : 42
-vars                 : 2
-vars1                : 4 5 7
-vars2                : 4 7
+asignacion           : 13 32
+asignacion_list      : 15
+bloque               : 46 47
+bloque1              : 25 26
+condicion            : 33
+condicion1           : 46
+epsilon              : 3 5 7 9 19 27 31 36 45 48 52 57
+escritura            : 34
+escritura1           : 41 44
+escritura2           : 42 43
+estatuto             : 26
+exp                  : 29 30 35 37
+exp1                 : 28
+expresion            : 20 42 46 53
+expresion1           : 35
+expresion2           : 37
+factor               : 49 50 51
+factor1              : 54
+funcion              : 4 8
+list                 : 11 17
+main                 : 1
+parametros           : 16 17
+parametros1          : 16 17
+programa             : 0
+programa1            : 1 6
+programa2            : 1 8
+programa3            : 2
+programa4            : 4
+termino              : 28
+termino1             : 49 50 51
+tipo                 : 10 16
+var_declaracion      : 2 6
+var_declaracion1     : 10
+var_declaracion2     : 11
+varcte               : 54
 

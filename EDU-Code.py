@@ -56,6 +56,7 @@ tokens = [
 	'DIFF',
 	'LESS',
 	'GREATER',
+	'AMPERSON',
 	] + list(reserved.values())
 
 # Regular Expresions for Tokens
@@ -73,6 +74,7 @@ t_EQUALS	= r'='
 t_DIFF		= r'!='
 t_LESS 		= r'<'
 t_GREATER	= r'>'
+t_AMPERSON	= r'&'
 t_ignore    = ' \t'
 
 def t_ID(t):
@@ -121,32 +123,59 @@ import ply.lex as lex
 lexer = lex.lex()
 
 # Grammar
-def p_start(p):
-	'start 	: START ID SEMICOLON start1 bloque'
+def p_programa(p):
+	'programa 	: START programa1 programa2 main END'
 	pass
 
-def p_start1(p):
-	'''start1	: vars
+def p_programa1(p):
+	'''programa1 : var_declaracion programa1
 				| epsilon'''
 	pass
 
-def p_vars(p):
-	'vars 		: VAR ID vars1 COLON tipo SEMICOLON vars2'
-	pass
-
-def p_vars1(p):
-	'''vars1	: COMMA ID vars1
+def p_programa2(p):
+	'''programa2 : funcion programa2
 				| epsilon'''
 	pass
 
-def p_vars2(p):
-	'''vars2	: ID vars1 COLON tipo SEMICOLON vars2
+def p_var_declaracion(p):
+	'''var_declaracion : tipo var_declaracion1
+				| list var_declaracion2'''
+	pass
+
+def p_var_declaracion1(p):
+	'''var_declaracion1 : ID
+				| asignacion'''
+	pass
+
+def p_var_declaracion2(p):
+	'''var_declaracion2 : ID
+				| asignacion_list'''
+	pass
+
+def p_parametros(p):
+	'''parametros : tipo parametros1 ID COMMA parametros2
+				| list parametros1 ID COMMA parametros2'''
+	pass
+
+def p_parametros1(p):
+	'''parametros1 : AMPERSON
 				| epsilon'''
+	pass
+
+def p_parametros2(p):
+	'''parametros2 : tipo parametros1 ID COMMA parametros2
+				| list parametros1 ID COMMA parametros2
+				| epsilon'''
+	pass
+
+def p_asignacion(p):
+	'asignacion : ID EQUALS expresion'
 	pass
 
 def p_tipo(p):
 	'''tipo 	: INT
 				| FLOAT
+				| BOOL
 				| STRING'''
 	pass
 
@@ -159,14 +188,20 @@ def p_bloque1(p):
 				| epsilon'''
 	pass
 
+def p_exp(p):
+	'exp 	: termino exp1'
+	pass
+
+def p_exp1(p):
+	''' exp1 	: PLUS exp
+				| MINUS exp
+				| epsilon'''
+	pass
+
 def p_estatuto(p):
 	'''estatuto : asignacion
 				| condicion
 				| escritura'''
-	pass
-
-def p_asignacion(p):
-	'asignacion : ID EQUALS expresion SEMICOLON'
 	pass
 
 def p_expresion(p):
@@ -185,7 +220,7 @@ def p_expresion2(p):
 	pass
 
 def p_escritura(p):
-	'escritura 		: PRINT LPAREN escritura1 RPAREN SEMICOLON'
+	'escritura 		: PRINT LPAREN escritura1 RPAREN'
 	pass
 
 def p_escritura1(p):
@@ -198,18 +233,8 @@ def p_escritura2(p):
 					| epsilon'''
 	pass
 
-def p_exp(p):
-	'exp 	: termino exp1'
-	pass
-
-def p_exp1(p):
-	''' exp1 	: PLUS termino exp1
-				| MINUS termino exp1
-				| epsilon'''
-	pass
-
 def p_condicion(p):
-	'''condicion 	: IF LPAREN expresion RPAREN bloque condicion1 SEMICOLON'''
+	'''condicion 	: IF LPAREN expresion RPAREN bloque condicion1'''
 	pass
 
 def p_condicion1(p):

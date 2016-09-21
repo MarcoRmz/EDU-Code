@@ -1,5 +1,5 @@
 <PROGRAMA>
-PROGRAMA -> start programa1 MAIN end
+PROGRAMA -> start programa1 programa2 MAIN end
 
 programa1 -> VAR_DECLARACION programa1
 programa1 -> vacio
@@ -37,13 +37,14 @@ TIPO -> bool
 BLOQUE -> { bloque1 }
 
 bloque1 -> vacio
-bloque1 -> estatuto
+bloque1 -> estatuto bloque1
 
 <EXP>
-EXP -> TERMINO exp1 EXP
+EXP -> TERMINO exp1
 
-exp1 -> +
-exp1 -> -
+exp1 -> + EXP
+exp1 -> - EXP
+exp1 -> vacio
 
 <TERMINO>
 TERMINO -> FACTOR termino1 TERMINO

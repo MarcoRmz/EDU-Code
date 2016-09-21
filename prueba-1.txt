@@ -4,12 +4,12 @@ int count
 int sum = 0
 
 function void main {
-	count = 1;
+	count = 1
 
 	if (sum < 4) {
-		sum = count+1;
-		count = 2;
+		sum = count+1
+		count = 2
 	};
-	print(sum);
+	print(sum)
 }
 end
