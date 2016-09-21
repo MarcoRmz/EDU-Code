@@ -100,7 +100,7 @@ def t_INTVAL(t):
         t.value = 0
     return t
 
-def t_STRINGVAL(t):	
+def t_STRINGVAL(t):
 	r'\"[a-zA-Z]([a-zA-Z0-9])*\"'
 	return t
 
@@ -219,18 +219,18 @@ def p_expresion2(p):
 					| DIFF'''
 	pass
 
-def p_escritura(p):
-	'escritura 		: PRINT LPAREN escritura1 RPAREN'
+def p_print(p):
+	'print 		    : PRINT LPAREN print1 RPAREN'
 	pass
 
-def p_escritura1(p):
-	'''escritura1 	: expresion escritura2
-					| STRING escritura2'''
+def p_print1(p):
+	'''print1 		: CTE_STRING print2
+                    | ID print2'''
 	pass
 
-def p_escritura2(p):
-	'''escritura2 	: COMMA escritura1
-					| epsilon'''
+def p_print2(p):
+	'''print2 		: epsilon
+                    | PLUS print1'''
 	pass
 
 def p_condicion(p):
@@ -238,12 +238,18 @@ def p_condicion(p):
 	pass
 
 def p_condicion1(p):
+	'''condicion1	: condicion2
+                    | ELSEIF bloque condicion1
+					| epsilon'''
+	pass
+
+def p_condicion2(p):
 	'''condicion1	: ELSE bloque
 					| epsilon'''
 	pass
 
 def p_termino(p):
-	'''termino 	: factor termino1'''
+	'''termino 	: factor termino1 '''
 	pass
 
 def p_termino1(p):
@@ -255,7 +261,7 @@ def p_termino1(p):
 def p_factor(p):
 	''' factor	: LPAREN expresion RPAREN
 				| factor1 varcte'''
-	pass 
+	pass
 
 def p_factor1(p):
 	''' factor1 : PLUS
@@ -264,9 +270,12 @@ def p_factor1(p):
 	pass
 
 def p_varcte(p):
-	''' varcte 	: FLOAT
-				| INT
-				| ID'''
+	''' varcte 	: ID
+				| CTE_INT
+				| CTE_FLOAT
+                | CTE_STRING
+                | CTE_BOOL
+                | CTE_LIST'''
 	pass
 
 def p_epsilon(p):

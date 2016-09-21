@@ -123,6 +123,7 @@ condicion1 -> else if BLOQUE condicion1
 condicion1 -> vacio
 
 condicion3 -> else BLOQUE
+condicion3 -> vacio
 
 <INPUT>
 INPUT -> TIPO id = input ( input1 )
@@ -164,4 +165,3 @@ COMENTARIO -> / * VAR_CTE comentario1 * /
 
 comentario1 -> VAR_CTE comentario1
 comentario1 -> vacio
-
