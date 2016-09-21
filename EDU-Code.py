@@ -320,6 +320,32 @@ def p_condicion2(p):
 					| epsilon'''
 	pass
 
+def p_input(p):
+	'''input	: tipo ID EQUAL INPUT LPAREN input1 RPAREN
+				| ID EQUAL INPUT LPAREN input1 RPAREN'''
+	pass
+
+def p_input1(p):
+	'''input1	: CTE_STRING
+				| epsilon'''
+	pass
+
+def p_for(p):
+	'for : FOR CTE_INT TO CTE_INT BY LPAREN for1 CTE_INT RPAREN'
+	pass
+
+def p_for1(p):
+	'''for	: PLUS
+			| TIMES
+			| DIVIDE
+			| MINUS'''
+	pass
+
+def p_funcion(p):
+	'''funcion	: FUNCTION VOID ID LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RCURL
+				| FUNCTION tipo ID LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN ID RCURL'''
+	pass
+
 def p_comentario(p):
     '''comentario : POUND varcte comentario1
                   | DIVIDE TIMES comentario1 TIMES DIVIDE'''
