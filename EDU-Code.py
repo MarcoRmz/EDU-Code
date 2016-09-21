@@ -320,6 +320,21 @@ def p_condicion2(p):
 					| epsilon'''
 	pass
 
+def p_funcion2(p):
+    '''funcion2 : epsilon
+                | estatuto funcion2'''
+
+def p_funcion3(p):
+    '''funcion3 : parametros
+                | epsilon'''
+
+def p_switch(p):
+    'switch     : SWITCH varcte LCURL CASE COLON estatuto switch1 DEFAULT COLON estatuto RCURL'
+
+def p_switch1(p):
+    '''switch1  : epsilon
+                | CASE COLON estatuto switch1'''
+
 def p_comentario(p):
     '''comentario : POUND varcte comentario1
                   | DIVIDE TIMES comentario1 TIMES DIVIDE'''
