@@ -3,7 +3,12 @@ start
 int count
 int sum = 0
 
-function void main () {
+function int increase(int sum) {
+	sum = sum + 1
+	return sum
+}
+
+main {
 	count = 1
 
 	if (sum < 4) {

@@ -158,8 +158,8 @@ def p_var_declaracion2(p):
 	pass
 
 def p_parametros(p):
-	'''parametros : tipo parametros1 ID COMMA parametros2
-				| LIST parametros1 ID COMMA parametros2'''
+	'''parametros : tipo parametros1 ID parametros2
+				| LIST parametros1 ID parametros2'''
 	pass
 
 def p_parametros1(p):
@@ -168,8 +168,8 @@ def p_parametros1(p):
 	pass
 
 def p_parametros2(p):
-	'''parametros2 : tipo parametros1 ID COMMA parametros2
-				| LIST parametros1 ID COMMA parametros2
+	'''parametros2 : COMMA tipo parametros1 ID parametros2
+				| COMMA LIST parametros1 ID parametros2
 				| epsilon'''
 	pass
 
@@ -228,7 +228,7 @@ def p_asignacion_list2(p):
 	pass
 
 def p_main(p):
-	'main : FUNCTION VOID MAIN LPAREN RPAREN LCURL main1 estatuto main2 RCURL'
+	'main : MAIN LCURL main1 estatuto main2 RCURL'
 	pass
 
 def p_main1(p):
@@ -426,9 +426,8 @@ if __name__ == '__main__':
 	f = open(fin, 'r')
 	data = f.read()
 
-	lexer.input(data)
-
-	# Tokenize
+	# Print Tokens
+	# lexer.input(data)
 	# for tok in lexer:
 	# 	print(tok)
 

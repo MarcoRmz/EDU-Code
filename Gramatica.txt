@@ -18,13 +18,14 @@ var_declaracion2 -> id
 var_declaracion2 -> ASIGNACION_LIST
 
 <PARAMETROS>
-PARAMETROS -> TIPO parametros1 id , parametros2
-PARAMETROS -> list parametros1 id , parametros2
+PARAMETROS -> TIPO parametros1 id parametros2
+PARAMETROS -> list parametros1 id parametros2
 
 parametros1 -> &
 parametros1 -> vacio
 
-parametros2 -> TIPO parametros1 id , parametros2
+parametros2 -> , TIPO parametros1 id parametros2
+parametros2 -> , list parametros1 id parametros2
 parametros2 -> vacio
 
 <ASIGNACION>
@@ -66,7 +67,7 @@ asignacion_list2 -> , asignacion_list1
 asignacion_list2 -> vacio
 
 <MAIN>
-MAIN -> function void main ( ) { main1 ESTATUTO main2 }
+MAIN -> main { main1 ESTATUTO main2 }
 
 main1 -> vacio
 main1 -> VAR_DECLARACION main1
