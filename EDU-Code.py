@@ -246,7 +246,7 @@ def p_while(p):
 def p_factor(p):
 	''' factor	: LPAREN expresion RPAREN
 				| factor1 varcte'''
-	pass 
+	pass
 
 def p_factor1(p):
 	''' factor1 : PLUS
@@ -319,6 +319,14 @@ def p_condicion2(p):
 	'''condicion2	: ELSE bloque
 					| epsilon'''
 	pass
+
+def p_comentario(p):
+    '''comentario : POUND varcte comentario1
+                  | DIVIDE TIMES comentario1 TIMES DIVIDE'''
+
+def p_comentario1(p):
+    '''comentario1 : varcte comentario1
+                   | epsilon'''
 
 def p_epsilon(p):
 	'epsilon :'
