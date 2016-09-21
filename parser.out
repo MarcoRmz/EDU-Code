@@ -3,9 +3,7 @@ Created by PLY version 3.9 (http://www.dabeaz.com/ply)
 Unused terminals:
 
     RETURN
-    VOID
     STRINGVAL
-    WHILE
     TRUE
     CASE
     FOR
@@ -15,16 +13,11 @@ Unused terminals:
     SWITCH
     COLON
     FLOATVAL
-    FUNCTION
     INTVAL
     PASS
     INPUT
-    AND
-    MAIN
     FALSE
     LIST
-    ELSEIF
-    OR
 
 Grammar
 
@@ -63,125 +56,159 @@ Rule 31    termino -> factor termino1
 Rule 32    termino1 -> TIMES termino
 Rule 33    termino1 -> DIVIDE termino
 Rule 34    termino1 -> epsilon
-Rule 35    asignacion_list1 -> var_cte asignacion_list2
-Rule 36    asignacion_list -> list LPAR asignacion_list1 RPAR
-Rule 37    estatuto -> asignacion
-Rule 38    estatuto -> condicion
-Rule 39    estatuto -> escritura
-Rule 40    expresion -> exp expresion1
-Rule 41    expresion1 -> epsilon
-Rule 42    expresion1 -> expresion2 exp
-Rule 43    expresion2 -> LESS
-Rule 44    expresion2 -> GREATER
-Rule 45    expresion2 -> DIFF
-Rule 46    escritura -> PRINT LPAREN escritura1 RPAREN
-Rule 47    escritura1 -> expresion escritura2
-Rule 48    escritura1 -> STRING escritura2
-Rule 49    escritura2 -> COMMA escritura1
-Rule 50    escritura2 -> epsilon
-Rule 51    condicion -> IF LPAREN expresion RPAREN bloque condicion1
-Rule 52    condicion1 -> ELSE bloque
-Rule 53    condicion1 -> epsilon
-Rule 54    factor -> LPAREN expresion RPAREN
-Rule 55    factor -> factor1 varcte
-Rule 56    factor1 -> PLUS
-Rule 57    factor1 -> MINUS
-Rule 58    factor1 -> epsilon
-Rule 59    varcte -> FLOAT
-Rule 60    varcte -> INT
-Rule 61    varcte -> ID
-Rule 62    epsilon -> <empty>
+Rule 35    asignacion_list -> list LPAREN asignacion_list1 RPAREN
+Rule 36    asignacion_list1 -> var_cte asignacion_list2
+Rule 37    asignacion_list1 -> epsilon
+Rule 38    asignacion_list2 -> COMMA asignacion_list1
+Rule 39    asignacion_list2 -> epsilon
+Rule 40    main -> FUNCTION VOID MAIN LPAREN RPAREN LCURL main1 estatuto main2 RCURL
+Rule 41    main1 -> var_declaracion main1
+Rule 42    main1 -> epsilon
+Rule 43    main2 -> estatuto main2
+Rule 44    main2 -> epsilon
+Rule 45    while -> WHILE LPAREN expresion RPAREN bloque
+Rule 46    factor -> LPAREN expresion RPAREN
+Rule 47    factor -> factor1 varcte
+Rule 48    factor1 -> PLUS
+Rule 49    factor1 -> MINUS
+Rule 50    factor1 -> epsilon
+Rule 51    estatuto -> asignacion
+Rule 52    estatuto -> comentario
+Rule 53    estatuto -> print
+Rule 54    estatuto -> input
+Rule 55    estatuto -> switch
+Rule 56    estatuto -> while
+Rule 57    estatuto -> for
+Rule 58    expresion -> exp expresion1
+Rule 59    expresion1 -> epsilon
+Rule 60    expresion1 -> expresion2 exp
+Rule 61    expresion2 -> LESS
+Rule 62    expresion2 -> GREATER
+Rule 63    expresion2 -> AND
+Rule 64    expresion2 -> OR
+Rule 65    expresion2 -> DOUBLE_EQUAL
+Rule 66    expresion2 -> DIFF
+Rule 67    print -> PRINT LPAREN print1 RPAREN
+Rule 68    print1 -> CTE_STRING print2
+Rule 69    print1 -> ID print2
+Rule 70    print2 -> epsilon
+Rule 71    print2 -> PLUS print1
+Rule 72    condicion -> IF LPAREN expresion RPAREN bloque condicion1
+Rule 73    condicion1 -> condicion2
+Rule 74    condicion1 -> ELSEIF bloque condicion1
+Rule 75    condicion1 -> epsilon
+Rule 76    condicion2 -> ELSE bloque
+Rule 77    condicion2 -> epsilon
+Rule 78    varcte -> ID
+Rule 79    varcte -> CTE_INT
+Rule 80    varcte -> CTE_FLOAT
+Rule 81    varcte -> CTE_STRING
+Rule 82    varcte -> CTE_BOOL
+Rule 83    varcte -> CTE_LIST
+Rule 84    epsilon -> <empty>
 
 Terminals, with rules where they appear
 
 AMPERSON             : 14
-AND                  : 
+AND                  : 63
 BOOL                 : 22
 BY                   : 
 CASE                 : 
 COLON                : 
-COMMA                : 12 13 16 17 49
-DIFF                 : 45
+COMMA                : 12 13 16 17 38
+DIFF                 : 66
 DIVIDE               : 33
-ELSE                 : 52
-ELSEIF               : 
+DOUBLE_EQUAL         : 65
+ELSE                 : 76
+ELSEIF               : 74
 END                  : 1
 EQUALS               : 19
 FALSE                : 
-FLOAT                : 21 59
+FLOAT                : 21
 FLOATVAL             : 
 FOR                  : 
-FUNCTION             : 
-GREATER              : 44
-ID                   : 8 10 12 13 16 17 19 61
-IF                   : 51
+FUNCTION             : 40
+GREATER              : 62
+ID                   : 8 10 12 13 16 17 19 69 78
+IF                   : 72
 INPUT                : 
-INT                  : 20 60
+INT                  : 20
 INTVAL               : 
-LCURL                : 24
-LESS                 : 43
+LCURL                : 24 40
+LESS                 : 61
 LIST                 : 
 LISTVAL              : 
-LPAREN               : 46 51 54
-MAIN                 : 
-MINUS                : 29 57
-OR                   : 
+LPAREN               : 35 40 45 46 67 72
+MAIN                 : 40
+MINUS                : 29 49
+OR                   : 64
 PASS                 : 
-PLUS                 : 28 56
-PRINT                : 46
-RCURL                : 24
+PLUS                 : 28 48 71
+PRINT                : 67
+RCURL                : 24 40
 RETURN               : 
-RPAREN               : 46 51 54
+RPAREN               : 35 40 45 46 67 72
 START                : 1
-STRING               : 23 48
+STRING               : 23
 STRINGVAL            : 
 SWITCH               : 
 TIMES                : 32
 TO                   : 
 TRUE                 : 
-VOID                 : 
-WHILE                : 
+VOID                 : 40
+WHILE                : 45
 error                : 
 
 Nonterminals, with rules where they appear
 
-LPAR                 : 36
-RPAR                 : 36
-asignacion           : 9 37
+CTE_BOOL             : 82
+CTE_FLOAT            : 80
+CTE_INT              : 79
+CTE_LIST             : 83
+CTE_STRING           : 68 81
+asignacion           : 9 51
 asignacion_list      : 11
-asignacion_list1     : 36
-asignacion_list2     : 35
-bloque               : 51 52
+asignacion_list1     : 35 38
+asignacion_list2     : 36
+bloque               : 45 72 74 76
 bloque1              : 24 25
-condicion            : 38
-condicion1           : 51
-epsilon              : 3 5 15 18 26 30 34 41 50 53 58
-escritura            : 39
-escritura1           : 46 49
-escritura2           : 47 48
-estatuto             : 25
-exp                  : 28 29 40 42
+comentario           : 52
+condicion            : 
+condicion1           : 72 74
+condicion2           : 73
+epsilon              : 3 5 15 18 26 30 34 37 39 42 44 50 59 70 75 77
+estatuto             : 25 40 43
+exp                  : 28 29 58 60
 exp1                 : 27
-expresion            : 19 47 51 54
-expresion1           : 40
-expresion2           : 42
+expresion            : 19 45 46 72
+expresion1           : 58
+expresion2           : 60
 factor               : 31
-factor1              : 55
+factor1              : 47
+for                  : 57
 funcion              : 4
-list                 : 7 13 17 36
+input                : 54
+list                 : 7 13 17 35
 main                 : 1
+main1                : 40 41
+main2                : 40 43
 parametros           : 
 parametros1          : 12 13 16 17
 parametros2          : 12 13 16 17
+print                : 53
+print1               : 67 71
+print2               : 68 69
 programa             : 0
 programa1            : 1 2
 programa2            : 1 4
+switch               : 55
 termino              : 27 32 33
 termino1             : 31
 tipo                 : 6 12 16
-var_cte              : 35
-var_declaracion      : 2
+var_cte              : 36
+var_declaracion      : 2 41
 var_declaracion1     : 6
 var_declaracion2     : 7
-varcte               : 55
+varcte               : 47
+while                : 56
 

@@ -136,13 +136,13 @@ def p_programa1(p):
 	pass
 
 def p_programa2(p):
-	'''programa2 : funcion programa2
+	'''programa2 : function programa2
 				| epsilon'''
 	pass
 
 def p_var_declaracion(p):
 	'''var_declaracion : tipo var_declaracion1
-				| list var_declaracion2'''
+				| LIST var_declaracion2'''
 	pass
 
 def p_var_declaracion1(p):
@@ -157,7 +157,7 @@ def p_var_declaracion2(p):
 
 def p_parametros(p):
 	'''parametros : tipo parametros1 ID COMMA parametros2
-				| list parametros1 ID COMMA parametros2'''
+				| LIST parametros1 ID COMMA parametros2'''
 	pass
 
 def p_parametros1(p):
@@ -167,7 +167,7 @@ def p_parametros1(p):
 
 def p_parametros2(p):
 	'''parametros2 : tipo parametros1 ID COMMA parametros2
-				| list parametros1 ID COMMA parametros2
+				| LIST parametros1 ID COMMA parametros2
 				| epsilon'''
 	pass
 
@@ -212,11 +212,11 @@ def p_termino1(p):
 	pass
 
 def p_asignacion_list(p):
-	'asignacion_list : list LPAREN asignacion_list1 RPAREN'
+	'asignacion_list : LIST LPAREN asignacion_list1 RPAREN'
 	pass
 
 def p_asignacion_list1(p):
-	'''asignacion_list1 : var_cte asignacion_list2
+	'''asignacion_list1 : varcte asignacion_list2
 				| epsilon'''
 	pass
 
@@ -282,6 +282,15 @@ def p_expresion2(p):
 					| DIFF'''
 	pass
 
+def p_varcte(p):
+	''' varcte 	: ID
+				| CTE_INT
+				| CTE_FLOAT
+                | CTE_STRING
+                | CTE_BOOL
+                | CTE_LIST'''
+	pass
+
 def p_print(p):
 	'print 		    : PRINT LPAREN print1 RPAREN'
 	pass
@@ -307,17 +316,8 @@ def p_condicion1(p):
 	pass
 
 def p_condicion2(p):
-	'''condicion1	: ELSE bloque
+	'''condicion2	: ELSE bloque
 					| epsilon'''
-	pass
-
-def p_varcte(p):
-	''' varcte 	: ID
-				| CTE_INT
-				| CTE_FLOAT
-                | CTE_STRING
-                | CTE_BOOL
-                | CTE_LIST'''
 	pass
 
 def p_epsilon(p):
