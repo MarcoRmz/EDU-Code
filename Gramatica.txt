@@ -114,8 +114,6 @@ print1 -> id print2
 print2 -> vacio
 print2 -> + print1
 
-
-********* CHECAR **********
 <CONDICION>
 CONDICION -> if ( EXPRESION ) BLOQUE condicion1
 
@@ -124,8 +122,6 @@ condicion1 -> else if BLOQUE condicion1
 condicion1 -> vacio
 
 condicion3 -> else BLOQUE
-
-****************************
 
 <INPUT>
 INPUT -> TIPO id = input ( input1 )
