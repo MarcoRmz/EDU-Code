@@ -353,8 +353,12 @@ def p_for1(p):
 	pass
 
 def p_funcion(p):
-	'''funcion	: FUNCTION VOID ID LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RCURL
-				| FUNCTION tipo ID LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN ID RCURL'''
+	'funcion	: FUNCTION funcion4'
+	pass
+
+def p_funcion4(p):
+	'''funcion4	: VOID ID LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RCURL
+				| tipo ID LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN ID RCURL'''
 	pass
 
 def p_funcion1(p):
@@ -397,7 +401,7 @@ def p_epsilon(p):
 
 def p_error(p):
 	if p:
-		print("Syntax error at token", p.type)
+		print("Syntax error at token:", p.type, " line: ", p.lineno)
 		# Discard the token
 		parser.errok()
 	else:
@@ -425,8 +429,8 @@ if __name__ == '__main__':
 	lexer.input(data)
 
 	# Tokenize
-	for tok in lexer:
-		print(tok)
+	# for tok in lexer:
+	# 	print(tok)
 
 	parser.parse(data, tracking=True)
 
