@@ -212,7 +212,7 @@ def p_termino1(p):
 	pass
 
 def p_asignacion_list(p):
-	'asignacion_list : LIST LPAREN asignacion_list1 RPAREN'
+	'asignacion_list : LIST ID EQUAL LPAREN asignacion_list1 RPAREN'
 	pass
 
 def p_asignacion_list1(p):
