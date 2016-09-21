@@ -51,14 +51,120 @@ TERMINO -> FACTOR termino1 TERMINO
 termino1 -> *
 termino1 -> /
 
+<ASIGNACION_LIST>
+ASIGNACION_LIST -> list ( asignacion_list1 )
+
+asignacion_list1 -> VAR_CTE asignacion_list2
+asignacion_list1 -> vacio
+
+asignacion_list2 -> , asignacion_list1
+asignacion_list2 -> vacio
+
+<MAIN>
+MAIN -> function void main ( ) { main1 ESTATUTO main2 }
+
+main1 -> vacio
+main1 -> VAR_DECLARACION main1
+
+main2 -> ESTATUTO main2
+main2 -> vacio
+
+<WHILE>
+WHILE -> while ( EXPRESION ) BLOQUE
+
+<FACTOR>
+FACTOR -> ( EXPRESION )
+FACTOR -> + VAR_CTE
+FACTOR -> - VAR_CTE
+FACTOR -> VAR_CTE
+
+<ESTATUTO>
+ESTATUTO -> ASIGNACION
+ESTATUTO -> COMENTARIO
+ESTATUTO -> PRINT
+ESTATUTO -> INPUT
+ESTATUTO -> SWITCH
+ESTATUTO -> WHILE
+ESTATUTO -> FOR
+
+<EXPRESION>
+EXPRESION -> EXP expresion1
+
+expresion1 -> > EXP
+expresion1 -> < EXP
+expresion1 -> and EXP
+expresion1 -> or EXP
+expresion1 -> ! = EXP
+expresion1 -> = = EXP
+
+<VAR_CTE>
+VAR_CTE -> id
+VAR_CTE -> cte_int
+VAR_CTE -> cte_float
+VAR_CTE -> cte_string
+VAR_CTE -> cte_bool
+VAR_CTE -> cte_list
+
+<PRINT>
+PRINT -> print ( print1 )
+
+print1 -> cte_string print2
+print1 -> id print2
+
+print2 -> vacio
+print2 -> + print1
+
+
+********* CHECAR **********
+<CONDICION>
+CONDICION -> if ( EXPRESION ) BLOQUE condicion1
+
+condicion1 -> condicion3
+condicion1 -> else if BLOQUE condicion1
+condicion1 -> vacio
+
+condicion3 -> else BLOQUE
+
+****************************
+
+<INPUT>
+INPUT -> TIPO id = input ( input1 )
+INPUT -> id = input ( input1 )
+
+input1 -> vacio
+input1 -> cte_string
+
+<FOR>
+FOR -> for cte_int to cte_int by ( for1 cte_int )
+
+for1 -> +
+for1 -> -
+for1 -> /
+for1 -> *
+
 <FUNCION>
-FUNCION -> 
+FUNCION -> function void id ( funcion3 ) { funcion1 ESTATUTO funcion2 }
+FUNCION -> function TIPO id ( funcion3 ) { funcion1 ESTATUTO funcion2 return id }
+
+funcion1 -> vacio
+funcion1 -> VAR_DECLARACION funcion1
+
+funcion2 -> vacio
+funcion2 -> ESTATUTO funcion2
+
+funcion3 -> PARAMETROS
+funcion3 -> vacio
+
+<SWITCH>
+SWITCH -> switch VAR_CTE { case : ESTATUTO switch1 default : ESTATUTO }
+
+switch1 -> vacio
+switch1 -> case : ESTATUTO switch1
 
 <COMENTARIO>
+COMENTARIO -> # VAR_CTE comentario1
+COMENTARIO -> / * VAR_CTE comentario1 * /
 
-
-
-
-
-
+comentario1 -> VAR_CTE comentario1
+comentario1 -> vacio
 
