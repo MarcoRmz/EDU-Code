@@ -357,9 +357,13 @@ def p_funcion(p):
 	pass
 
 def p_funcion4(p):
-	'''funcion4	: VOID ID LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RCURL
+	'''funcion4	: VOID funcion5
 				| tipo ID LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN ID RCURL'''
 	pass
+
+def p_funcion5(p):
+    '''funcion5   : ID LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RCURL
+                |  MAIN LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RCURL'''
 
 def p_funcion1(p):
     '''funcion1 : epsilon
