@@ -88,6 +88,7 @@ factor1 -> vacio
 <ESTATUTO>
 ESTATUTO -> ASIGNACION
 ESTATUTO -> COMENTARIO
+ESTATUTO -> CONDICION
 ESTATUTO -> PRINT
 ESTATUTO -> INPUT
 ESTATUTO -> SWITCH
@@ -128,11 +129,13 @@ print2 -> + print1
 CONDICION -> if ( EXPRESION ) BLOQUE condicion1
 
 condicion1 -> condicion2
-condicion1 -> else if BLOQUE condicion1
+condicion1 -> else if condicion3 condicion1
 condicion1 -> vacio
 
-condicion2 -> else BLOQUE
-condicion2 -> vacio
+condicion2 -> else condicion3
+
+condicion3 -> BLOQUE
+condicion3 -> { pass }
 
 <INPUT>
 INPUT -> TIPO id = input ( input1 )
@@ -163,10 +166,15 @@ funcion3 -> PARAMETROS
 funcion3 -> vacio
 
 <SWITCH>
-SWITCH -> switch VAR_CTE { case : ESTATUTO switch1 default : ESTATUTO }
+SWITCH -> switch VAR_CTE { case : switch3 switch1 switch2 }
 
 switch1 -> vacio
-switch1 -> case : ESTATUTO switch1
+switch1 -> case : switch3 switch1
+
+switch2 -> default : switch3
+
+switch3 -> ESTATUTO
+switch3 -> pass
 
 <COMENTARIO>
 COMENTARIO -> # VAR_CTE comentario1
