@@ -47,10 +47,11 @@ exp1 -> - EXP
 exp1 -> vacio
 
 <TERMINO>
-TERMINO -> FACTOR termino1 TERMINO
+TERMINO -> FACTOR termino1
 
-termino1 -> *
-termino1 -> /
+termino1 -> * TERMINO
+termino1 -> / TERMINO
+termino1 -> vacio
 
 <ASIGNACION_LIST>
 ASIGNACION_LIST -> list ( asignacion_list1 )
@@ -75,9 +76,11 @@ WHILE -> while ( EXPRESION ) BLOQUE
 
 <FACTOR>
 FACTOR -> ( EXPRESION )
-FACTOR -> + VAR_CTE
-FACTOR -> - VAR_CTE
-FACTOR -> VAR_CTE
+FACTOR -> factor1 VAR_CTE
+
+factor1 -> -
+factor1 -> +
+factor1 -> vacio
 
 <ESTATUTO>
 ESTATUTO -> ASIGNACION
@@ -97,6 +100,7 @@ expresion1 -> and EXP
 expresion1 -> or EXP
 expresion1 -> ! = EXP
 expresion1 -> = = EXP
+expresion1 -> vacio
 
 <VAR_CTE>
 VAR_CTE -> id

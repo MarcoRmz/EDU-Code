@@ -15,6 +15,7 @@ reserved = {
    'string' : 'STRING',
    'for' : 'FOR',
    'while' : 'WHILE',
+   'else if' : 'ELSEIF',
    'if' : 'IF',
    'else' : 'ELSE',
    'switch' : 'SWITCH',
@@ -53,6 +54,7 @@ tokens = [
 	'COLON',
 	'COMMA',
 	'EQUALS',
+	'DOUBLE_EQUAL',
 	'DIFF',
 	'LESS',
 	'GREATER',
@@ -70,6 +72,7 @@ t_LCURL		= r'{'
 t_RCURL		= r'}'
 t_COLON 	= r':'
 t_COMMA		= r','
+t_DOUBLE_EQUAL = r'=='
 t_EQUALS	= r'='
 t_DIFF		= r'!='
 t_LESS 		= r'<'
@@ -198,10 +201,67 @@ def p_exp1(p):
 				| epsilon'''
 	pass
 
+def p_termino(p):
+	'termino 	: factor termino1'
+	pass
+
+def p_termino1(p):
+	'''termino1 : TIMES termino
+				| DIVIDE termino
+				| epsilon'''
+	pass
+
+def p_asignacion_list(p):
+	'asignacion_list : list LPAREN asignacion_list1 RPAREN'
+	pass
+
+def p_asignacion_list1(p):
+	'''asignacion_list1 : var_cte asignacion_list2
+				| epsilon'''
+	pass
+
+def p_asignacion_list2(p):
+	'''asignacion_list2 : COMMA asignacion_list1
+				| epsilon'''
+	pass
+
+def p_main(p):
+	'main : FUNCTION VOID MAIN LPAREN RPAREN LCURL main1 estatuto main2 RCURL'
+	pass
+
+def p_main1(p):
+	'''main1 : var_declaracion main1
+				| epsilon'''
+	pass
+
+def p_main2(p):
+	'''main2 : estatuto main2
+				| epsilon'''
+	pass
+
+def p_while(p):
+	'while : WHILE LPAREN expresion RPAREN bloque'
+	pass
+
+def p_factor(p):
+	''' factor	: LPAREN expresion RPAREN
+				| factor1 varcte'''
+	pass 
+
+def p_factor1(p):
+	''' factor1 : PLUS
+				| MINUS
+				| epsilon'''
+	pass
+
 def p_estatuto(p):
 	'''estatuto : asignacion
-				| condicion
-				| escritura'''
+				| comentario
+				| print
+				| input
+				| switch
+				| while
+				| for'''
 	pass
 
 def p_expresion(p):
@@ -216,6 +276,9 @@ def p_expresion1(p):
 def p_expresion2(p):
 	'''expresion2 	: LESS
 					| GREATER
+					| AND
+					| OR
+					| DOUBLE_EQUAL
 					| DIFF'''
 	pass
 
@@ -240,27 +303,6 @@ def p_condicion(p):
 def p_condicion1(p):
 	'''condicion1	: ELSE bloque
 					| epsilon'''
-	pass
-
-def p_termino(p):
-	'''termino 	: factor termino1'''
-	pass
-
-def p_termino1(p):
-	'''termino1 : TIMES factor termino1
-				| DIVIDE factor termino1
-				| epsilon'''
-	pass
-
-def p_factor(p):
-	''' factor	: LPAREN expresion RPAREN
-				| factor1 varcte'''
-	pass 
-
-def p_factor1(p):
-	''' factor1 : PLUS
-				| MINUS
-				| epsilon'''
 	pass
 
 def p_varcte(p):
