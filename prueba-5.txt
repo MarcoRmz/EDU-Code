@@ -1,0 +1,15 @@
+start
+
+string name
+string welcome = "Hello!"
+
+function void sayHi(string name) {
+	print(welcome + " " + name)
+}
+
+main {
+	name = input("What is your name?")
+
+	sayHi(name)
+}
+end
