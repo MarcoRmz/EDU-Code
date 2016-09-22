@@ -1,0 +1,22 @@
+start
+
+int count
+int sum = 0
+
+function int increase(int sum) {
+	sum = sum + 1
+	return sum
+}
+main {
+  a = 1
+}
+main {
+	count = 1
+
+	if (sum < 4) {
+		sum = count+1
+		count = 2
+	}
+	print(sum)
+}
+end
