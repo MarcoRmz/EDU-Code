@@ -1,10 +1,10 @@
 <PROGRAMA>
 PROGRAMA -> START programa1 programa2 main END
 
-programa1 -> VAR_DECLARACION programa1
+programa1 -> var_declaracion programa1
 programa1 -> vacio
 
-programa2 -> FUNCION programa2
+programa2 -> funcion programa2
 programa2 -> vacio
 
 <VAR_DECLARACION>
@@ -37,7 +37,7 @@ TIPO -> string
 TIPO -> bool
 
 <BLOQUE>
-BLOQUE -> { estatuto bloque1 }
+BLOQUE -> '{' estatuto bloque1 '}'
 
 bloque1 -> vacio
 bloque1 -> estatuto bloque1
@@ -57,7 +57,7 @@ termino1 -> '/' termino
 termino1 -> vacio
 
 <INICIALIZACION_VECTOR>
-INICIALIZACION_VECTOR -> ID = '(' inicializacion_vector1 ')'
+INICIALIZACION_VECTOR -> ID = '[' inicializacion_vector1 ']'
 
 inicializacion_vector1 -> var_cte inicializacion_vector2
 inicializacion_vector1 -> vacio
@@ -134,6 +134,9 @@ var_cte1 -> '[' exp ']'
 
 var_cte2 -> ',' exp var_cte2
 
+<CTE_BOOL>
+CTE_BOOL -> TRUE | FALSE
+
 <PRINT>
 PRINT -> PRINT '(' print1 ')'
 
@@ -161,9 +164,6 @@ INPUT -> ID '=' input '(' input1 ')'
 
 input1 -> vacio
 input1 -> CTE_STRING
-
-<CTE_BOOL>
-CTE_BOOL -> TRUE | FALSE
 
 <FOR>
 FOR -> FOR CTE_INT TO CTE_INT BY '(' for1 CTE_INT ')' bloque

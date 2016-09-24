@@ -30,7 +30,7 @@ reserved = {
    'or' : 'OR',
    'input' : 'INPUT',
    'print' : 'PRINT',
-   'list' : 'LIST',
+   'vector' : 'VECTOR',
    'by' : 'BY',
    'to' : 'TO',
    'pass' : 'PASS',
@@ -149,22 +149,22 @@ def p_programa2(p):
 
 def p_var_declaracion(p):
 	'''var_declaracion : tipo var_declaracion1
-				| LIST var_declaracion2'''
+				| VECTOR tipo var_declaracion2'''
 	pass
 
 def p_var_declaracion1(p):
 	'''var_declaracion1 : ID
-				| asignacion'''
+				| inicializacion'''
 	pass
 
 def p_var_declaracion2(p):
 	'''var_declaracion2 : ID
-				| asignacion_list'''
+				| inicializacion_vector'''
 	pass
 
 def p_parametros(p):
 	'''parametros : tipo parametros1 ID parametros2
-				| LIST parametros1 ID parametros2'''
+				| VECTOR tipo parametros1 ID parametros2'''
 	pass
 
 def p_parametros1(p):
@@ -173,13 +173,12 @@ def p_parametros1(p):
 	pass
 
 def p_parametros2(p):
-	'''parametros2 : COMMA tipo parametros1 ID parametros2
-				| COMMA LIST parametros1 ID parametros2
+	'''parametros2 : COMMA parametros
 				| epsilon'''
 	pass
 
-def p_asignacion(p):
-	'asignacion : ID EQUALS expresion'
+def p_inicializacion(p):
+	'inicializacion : ID EQUALS var_cte'
 	pass
 
 def p_tipo(p):
@@ -190,7 +189,7 @@ def p_tipo(p):
 	pass
 
 def p_bloque(p):
-	'bloque 	: LCURL bloque1 RCURL'
+	'bloque 	: LCURL estatuto bloque1 RCURL'
 	pass
 
 def p_bloque1(p):
@@ -218,17 +217,17 @@ def p_termino1(p):
 				| epsilon'''
 	pass
 
-def p_asignacion_list(p):
-	'asignacion_list : LIST ID EQUALS LPAREN asignacion_list1 RPAREN'
+def p_inicializacion_vector(p):
+	'inicializacion_vector : ID EQUALS LBRACKET inicializacion_vector1 RBRACKET'
 	pass
 
-def p_asignacion_list1(p):
-	'''asignacion_list1 : varcte asignacion_list2
+def p_inicializacion_vector1(p):
+	'''inicializacion_vector1 : varcte inicializacion_vector2
 				| epsilon'''
 	pass
 
-def p_asignacion_list2(p):
-	'''asignacion_list2 : COMMA asignacion_list1
+def p_inicializacion_vector2(p):
+	'''inicializacion_vector2 : COMMA var_cte inicializacion_vector2
 				| epsilon'''
 	pass
 
@@ -256,14 +255,14 @@ def p_factor(p):
 	pass
 
 def p_factor1(p):
-	''' factor1 : PLUS
-				| MINUS
+	''' factor1 : PLUS var_cte
+				| MINUS var_cte
 				| epsilon'''
 	pass
 
 def p_estatuto(p):
-	'''estatuto : asignacion
-				| comentario
+	'''estatuto : inicializacion
+				| llamada
 				| print
 				| input
 				| condicion
@@ -273,7 +272,7 @@ def p_estatuto(p):
 	pass
 
 def p_expresion(p):
-	'expresion 	: exp expresion1'
+	'expresion 	: expresion1'
 	pass
 
 def p_expresion1(p):
@@ -284,18 +283,49 @@ def p_expresion1(p):
 def p_expresion2(p):
 	'''expresion2 	: LESS
 					| GREATER
-					| AND
-					| OR
 					| DOUBLE_EQUAL
 					| DIFF'''
 	pass
 
+def p_expresion_logica(p):
+	'expresion_logica 	: exp expresion_logica1 expresion'
+	pass
+
+def p_expresion_logica1(p):
+	'''expresion_logica1 	: AND exp
+					| OR exp'''
+	pass
+
+def p_llamada(p):
+	'llamada 	: ID LPAREN llamada1 RPAREN'
+	pass
+
+def p_llamada1(p):
+	'''llamada1 	: epsilon
+					| exp llamada2'''
+	pass
+
+def p_llamada2(p):
+	'''llamada2 	: epsilon
+					| COMMA exp llamada2'''
+	pass
+
 def p_varcte(p):
-	''' varcte 	: ID
+	''' varcte 	: ID var_cte1
 				| CTE_INT
 				| CTE_FLOAT
                 | CTE_STRING
                 | cte_bool'''
+	pass
+
+def p_varcte1(p):
+	''' varcte1 	: epsilon
+				| LPAREN exp var_cte2 RPAREN
+				| LBRACKET exp RBRACKET'''
+	pass
+
+def p_var_cte2(p):
+	'var_cte2 : COMMA exp var_cte2'
 	pass
 
 def p_cte_bool(p):
