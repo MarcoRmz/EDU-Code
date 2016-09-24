@@ -59,7 +59,6 @@ tokens = [
 	'LESS',
 	'GREATER',
 	'AMPERSON',
-	'POUND',
 	'LBRACKET',
 	'RBRACKET',
 	] + list(reserved.values())
@@ -73,8 +72,8 @@ t_LPAREN 	= r'\('
 t_RPAREN	= r'\)'
 t_LCURL		= r'{'
 t_RCURL		= r'}'
-t_LBRACKET  = r'['
-t_RBRACKET  = r']'
+t_LBRACKET  = r'\['
+t_RBRACKET  = r'\]'
 t_COLON 	= r':'
 t_COMMA		= r','
 t_DOUBLE_EQUAL = r'=='
@@ -83,7 +82,6 @@ t_DIFF		= r'!='
 t_LESS 		= r'<'
 t_GREATER	= r'>'
 t_AMPERSON	= r'&'
-t_POUND		= r'\#'
 t_ignore    = ' \t'
 
 def t_ID(t):
@@ -182,7 +180,7 @@ def p_parametros2(p):
 	pass
 
 def p_inicializacion(p):
-	'inicializacion : ID EQUALS var_cte'
+	'inicializacion : ID EQUALS varcte'
 	pass
 
 def p_tipo(p):
@@ -231,7 +229,7 @@ def p_inicializacion_vector1(p):
 	pass
 
 def p_inicializacion_vector2(p):
-	'''inicializacion_vector2 : COMMA var_cte inicializacion_vector2
+	'''inicializacion_vector2 : COMMA varcte inicializacion_vector2
 				| epsilon'''
 	pass
 
@@ -259,8 +257,8 @@ def p_factor(p):
 	pass
 
 def p_factor1(p):
-	''' factor1 : PLUS var_cte
-				| MINUS var_cte
+	''' factor1 : PLUS varcte
+				| MINUS varcte
 				| epsilon'''
 	pass
 
@@ -315,7 +313,7 @@ def p_llamada2(p):
 	pass
 
 def p_varcte(p):
-	''' varcte 	: ID var_cte1
+	''' varcte 	: ID varcte1
 				| CTE_INT
 				| CTE_FLOAT
                 | CTE_STRING
@@ -324,12 +322,13 @@ def p_varcte(p):
 
 def p_varcte1(p):
 	''' varcte1 	: epsilon
-				| LPAREN exp var_cte2 RPAREN
+				| LPAREN exp varcte2 RPAREN
 				| LBRACKET exp RBRACKET'''
 	pass
 
-def p_var_cte2(p):
-	'var_cte2 : COMMA exp var_cte2'
+def p_varcte2(p):
+	'''varcte2 	: epsilon
+					| COMMA exp varcte2'''
 	pass
 
 def p_cte_bool(p):

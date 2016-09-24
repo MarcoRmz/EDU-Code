@@ -133,6 +133,7 @@ var_cte1 -> '(' exp var_cte2 ')'
 var_cte1 -> '[' exp ']'
 
 var_cte2 -> ',' exp var_cte2
+var_cte2 -> vacio
 
 <CTE_BOOL>
 CTE_BOOL -> TRUE | FALSE
