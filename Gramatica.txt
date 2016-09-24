@@ -1,5 +1,5 @@
 <PROGRAMA>
-PROGRAMA -> start programa1 programa2 MAIN end
+PROGRAMA -> START programa1 programa2 main END
 
 programa1 -> VAR_DECLARACION programa1
 programa1 -> vacio
@@ -8,28 +8,27 @@ programa2 -> FUNCION programa2
 programa2 -> vacio
 
 <VAR_DECLARACION>
-VAR_DECLARACION -> TIPO var_declaracion1
-VAR_DECLARACION -> list var_declaracion2
+VAR_DECLARACION -> tipo var_declaracion1
+VAR_DECLARACION -> VECTOR tipo var_declaracion2
 
-var_declaracion1 -> id
-var_declaracion1 -> ASIGNACION
+var_declaracion1 -> ID
+var_declaracion1 -> inicializacion
 
-var_declaracion2 -> id
-var_declaracion2 -> ASIGNACION_LIST
+var_declaracion2 -> ID
+var_declaracion2 -> inicializacion_vector
 
 <PARAMETROS>
-PARAMETROS -> TIPO parametros1 id parametros2
-PARAMETROS -> list parametros1 id parametros2
+PARAMETROS -> tipo parametros1 ID parametros2
+PARAMETROS -> VECTOR tipo parametros1 ID parametros2
 
-parametros1 -> &
+parametros1 -> '&'
 parametros1 -> vacio
 
-parametros2 -> , TIPO parametros1 id parametros2
-parametros2 -> , list parametros1 id parametros2
+parametros2 -> ',' parametros
 parametros2 -> vacio
 
-<ASIGNACION>
-ASIGNACION -> id EQUAL EXPRESION
+<INICIALIZACION>
+INICIALIZACION -> ID EQUAL var_cte
 
 <TIPO>
 TIPO -> int
@@ -38,90 +37,108 @@ TIPO -> string
 TIPO -> bool
 
 <BLOQUE>
-BLOQUE -> { bloque1 }
+BLOQUE -> { estatuto bloque1 }
 
 bloque1 -> vacio
 bloque1 -> estatuto bloque1
 
 <EXP>
-EXP -> TERMINO exp1
+EXP -> termino exp1
 
-exp1 -> + EXP
-exp1 -> - EXP
+exp1 -> '+' exp
+exp1 -> '-' exp
 exp1 -> vacio
 
 <TERMINO>
-TERMINO -> FACTOR termino1
+TERMINO -> factor termino1
 
-termino1 -> * TERMINO
-termino1 -> / TERMINO
+termino1 -> '*' termino
+termino1 -> '/' termino
 termino1 -> vacio
 
-<ASIGNACION_LIST>
-ASIGNACION_LIST -> list ( asignacion_list1 )
+<INICIALIZACION_VECTOR>
+INICIALIZACION_VECTOR -> ID = '(' inicializacion_vector1 ')'
 
-asignacion_list1 -> VAR_CTE asignacion_list2
-asignacion_list1 -> vacio
+inicializacion_vector1 -> var_cte inicializacion_vector2
+inicializacion_vector1 -> vacio
 
-asignacion_list2 -> , asignacion_list1
-asignacion_list2 -> vacio
+inicializacion_vector2 -> ',' var_cte inicializacion_vector2
+inicializacion_vector2 -> vacio
 
 <MAIN>
-MAIN -> main { main1 ESTATUTO main2 }
+MAIN -> MAIN '{' main1 estatuto main2 '}'
 
 main1 -> vacio
-main1 -> VAR_DECLARACION main1
+main1 -> var_declaracion main1
 
-main2 -> ESTATUTO main2
+main2 -> estatuto main2
 main2 -> vacio
 
 <WHILE>
-WHILE -> while ( EXPRESION ) BLOQUE
+WHILE -> WHILE '(' expresion ')' bloque
 
 <FACTOR>
-FACTOR -> ( EXPRESION )
-FACTOR -> factor1 VAR_CTE
+FACTOR -> '(' expresion ')'
+FACTOR -> factor1 var_cte
 
-factor1 -> -
-factor1 -> +
+factor1 -> '-' var_cte
+factor1 -> '+' var_cte
 factor1 -> vacio
 
 <ESTATUTO>
-ESTATUTO -> ASIGNACION
-ESTATUTO -> COMENTARIO
-ESTATUTO -> CONDICION
-ESTATUTO -> PRINT
-ESTATUTO -> INPUT
-ESTATUTO -> SWITCH
-ESTATUTO -> WHILE
-ESTATUTO -> FOR
+ESTATUTO -> inicializacion
+ESTATUTO -> condicion
+ESTATUTO -> print
+ESTATUTO -> input
+ESTATUTO -> switch
+ESTATUTO -> while
+ESTATUTO -> for
+ESTATUTO -> llamada
 
 <EXPRESION>
-EXPRESION -> EXP expresion1
+EXPRESION -> expresion1
 
 expresion1 -> vacio
-expresion1 -> expresion2 EXP
+expresion1 -> expresion2 exp
 
-expresion2 -> >
-expresion2 -> <
-expresion2 -> and
-expresion2 -> or
-expresion2 -> ! =
-expresion2 -> = =
+expresion2 -> '>'
+expresion2 -> '<'
+expresion2 -> '!' '='
+expresion2 -> '=' '='
+
+<EXPRESION_LOGICA>
+EXPRESION_LOGICA -> exp expresion_logica1 expresion
+
+expresion_logica1 -> AND exp
+expresion_logica1 -> OR exp
+
+<LLAMADA>
+LLAMADA -> ID '(' llamada1 ')'
+
+llamada1 -> vacio
+llamada1-> exp llamada2
+
+llamada2 -> vacio
+llamada2 -> ',' exp llamada2
 
 <VAR_CTE>
-VAR_CTE -> id
-VAR_CTE -> cte_int
-VAR_CTE -> cte_float
-VAR_CTE -> cte_string
+VAR_CTE -> ID var_cte1
+VAR_CTE -> CTE_INT
+VAR_CTE -> CTE_FLOAT
+VAR_CTE -> CTE_STRING
 VAR_CTE -> cte_bool
-VAR_CTE -> cte_list
+
+var_cte1 -> vacio
+var_cte1 -> '(' exp var_cte2 ')'
+var_cte1 -> '[' exp ']'
+
+var_cte2 -> ',' exp var_cte2
 
 <PRINT>
-PRINT -> print ( print1 )
+PRINT -> PRINT '(' print1 ')'
 
-print1 -> cte_string print2
-print1 -> id print2
+print1 -> CTE_STRING print2
+print1 -> ID print2
 
 print2 -> vacio
 print2 -> + print1
@@ -139,17 +156,19 @@ condicion3 -> BLOQUE
 condicion3 -> { pass }
 
 <INPUT>
-INPUT -> TIPO id = input ( input1 )
-INPUT -> id = input ( input1 )
+INPUT -> TIPO ID = input ( input1 )
+INPUT -> ID = input ( input1 )
 
 input1 -> vacio
-input1 -> cte_string
+input1 -> CTE_STRING
 
 <CTE_BOOL>
 CTE_BOOL -> TRUE | FALSE
 
 <FOR>
+
 FOR -> FOR CTE_INT TO CTE_INT BY ( for1 CTE_INT ) bloque
+
 
 for1 -> +
 for1 -> -
@@ -157,6 +176,7 @@ for1 -> /
 for1 -> *
 
 <FUNCION>
+
 FUNCION -> FUNCTION funcion1
 
 funcion1 -> VOID ID ( funcion4 ) { funcion2 ESTATUTO funcion3 }
