@@ -108,12 +108,12 @@ def t_CTE_INT(t):
     return t
 
 def t_CTE_STRING(t):
-	r'\"[a-zA-Z]([a-zA-Z0-9])*\"'
-	try:
-		t.value = string(t.value)
-	except ValueError:
-		print("String value invalid %d", t.value)
-        t.value = ""
+	r'\".*\"'
+	# try:
+	# 	t.value = string(t.value)
+	# except ValueError:
+	# 	print("String value invalid %d", t.value)
+ #        t.value = ""
 	return t
 
 def t_newline(t):
