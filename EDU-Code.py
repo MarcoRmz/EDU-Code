@@ -60,6 +60,8 @@ tokens = [
 	'GREATER',
 	'AMPERSON',
 	'POUND',
+	'LBRACKET',
+	'RBRACKET',
 	] + list(reserved.values())
 
 # Regular Expresions for Tokens
@@ -71,6 +73,8 @@ t_LPAREN 	= r'\('
 t_RPAREN	= r'\)'
 t_LCURL		= r'{'
 t_RCURL		= r'}'
+t_LBRACKET  = r'['
+t_RBRACKET  = r']'
 t_COLON 	= r':'
 t_COMMA		= r','
 t_DOUBLE_EQUAL = r'=='
@@ -348,22 +352,22 @@ def p_print2(p):
 	pass
 
 def p_condicion(p):
-	'condicion 	: IF LPAREN expresion RPAREN bloque condicion1'
+	'condicion 	: IF LPAREN expresion_logica RPAREN condicion1 condicion2 condicion3'
 	pass
 
 def p_condicion1(p):
-	'''condicion1	: condicion2
-                    | ELSEIF condicion3 condicion1
-					| epsilon'''
+	'''condicion1	: bloque
+                    | LCURL bloque RCURL'''
 	pass
 
 def p_condicion2(p):
-	'condicion2 	: ELSE condicion3'
+	'''condicion2 	: ELSEIF condicion1 condicion2
+                    | epsilon'''
 	pass
 
 def p_condicion3(p):
-	'''condicion3	: bloque
-					| PASS'''
+	'''condicion3	: ELSE condicion1
+					| epsilon'''
 	pass
 
 def p_input(p):
@@ -377,7 +381,7 @@ def p_input1(p):
 	pass
 
 def p_for(p):
-	'for : FOR CTE_INT TO CTE_INT BY LPAREN for1 CTE_INT RPAREN'
+	'for : FOR CTE_INT TO CTE_INT BY LPAREN for1 CTE_INT RPAREN bloque'
 	pass
 
 def p_for1(p):
@@ -391,44 +395,49 @@ def p_funcion(p):
 	'funcion	: FUNCTION funcion4'
 	pass
 
+
+def p_funcion1(p):
+    '''funcion1 : epsilon
+                | var_declaracion funcion1'''
+    pass
+
+def p_funcion2(p):
+    '''funcion2 : epsilon
+                | estatuto funcion2'''
+    pass
+
+def p_funcion3(p):
+    '''funcion3 : parametros
+                | epsilon'''
+    pass
+
 def p_funcion4(p):
 	'''funcion4	: VOID ID LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RCURL
 				| tipo ID LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN ID RCURL'''
 	pass
 
-def p_funcion1(p):
-    '''funcion1 : epsilon
-                | var_declaracion funcion1'''
-
-def p_funcion2(p):
-    '''funcion2 : epsilon
-                | estatuto funcion2'''
-
-def p_funcion3(p):
-    '''funcion3 : parametros
-                | epsilon'''
-
 def p_switch(p):
-    'switch     : SWITCH varcte LCURL CASE COLON switch3 switch1 switch2 RCURL'
+    'switch     : SWITCH ID switch1 LCURL switch2 switch3 RCURL'
+    pass
 
 def p_switch1(p):
     '''switch1  : epsilon
-                | CASE COLON switch3 switch1'''
+                | LBRACKET exp RBRACKET'''
+    pass
 
 def p_switch2(p):
-    'switch2  : DEFAULT COLON switch3'
+    '''switch2  : epsilon
+                | CASE varcte COLON switch4 switch2'''
+    pass
 
 def p_switch3(p):
-    '''switch3  : PASS
+    'switch3  : DEFAULT COLON switch4'
+    pass
+
+def p_switch4(p):
+    '''switch4  : LCURL PASS RCURL
     			| estatuto'''
-
-def p_comentario(p):
-    '''comentario : POUND varcte comentario1
-                  | DIVIDE TIMES comentario1 TIMES DIVIDE'''
-
-def p_comentario1(p):
-    '''comentario1 : varcte comentario1
-                   | epsilon'''
+    pass
 
 def p_epsilon(p):
 	'epsilon :'
