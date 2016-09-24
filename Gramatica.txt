@@ -127,7 +127,7 @@ print2 -> vacio
 print2 -> + print1
 
 <CONDICION>
-CONDICION -> if ( EXPRESION ) BLOQUE condicion1
+CONDICION -> IF ( expresion_logica ) condicion3 condicion1
 
 condicion1 -> condicion2
 condicion1 -> else if condicion3 condicion1
@@ -145,8 +145,11 @@ INPUT -> id = input ( input1 )
 input1 -> vacio
 input1 -> cte_string
 
+<CTE_BOOL>
+CTE_BOOL -> TRUE | FALSE
+
 <FOR>
-FOR -> for cte_int to cte_int by ( for1 cte_int )
+FOR -> FOR CTE_INT TO CTE_INT BY ( for1 CTE_INT ) bloque
 
 for1 -> +
 for1 -> -
@@ -154,32 +157,30 @@ for1 -> /
 for1 -> *
 
 <FUNCION>
-FUNCION -> function void id ( funcion3 ) { funcion1 ESTATUTO funcion2 }
-FUNCION -> function TIPO id ( funcion3 ) { funcion1 ESTATUTO funcion2 return id }
+FUNCION -> FUNCTION funcion1
 
-funcion1 -> vacio
-funcion1 -> VAR_DECLARACION funcion1
+funcion1 -> VOID ID ( funcion4 ) { funcion2 ESTATUTO funcion3 }
+funcion1 -> TIPO ID ( funcion4 ) { funcion2 ESTATUTO funcion3 return id }
 
 funcion2 -> vacio
-funcion2 -> ESTATUTO funcion2
+funcion2 -> VAR_DECLARACION funcion2
 
-funcion3 -> PARAMETROS
 funcion3 -> vacio
+funcion3 -> ESTATUTO funcion3
+
+funcion4 -> PARAMETROS
+funcion4 -> vacio
 
 <SWITCH>
-SWITCH -> switch VAR_CTE { case : switch3 switch1 switch2 }
+SWITCH -> switch ID switch1  { switch2  switch3 }
 
 switch1 -> vacio
-switch1 -> case : switch3 switch1
+switch1 -> [ exp ]
 
-switch2 -> default : switch3
+switch2 -> vacio
+switch2 -> case VAR_CTE : switch4 switch2
 
-switch3 -> ESTATUTO
-switch3 -> pass
+switch3 -> default : switch4
 
-<COMENTARIO>
-COMENTARIO -> # VAR_CTE comentario1
-COMENTARIO -> / * VAR_CTE comentario1 * /
-
-comentario1 -> VAR_CTE comentario1
-comentario1 -> vacio
+switch4 -> ESTATUTO
+switch4 -> { PASS }
