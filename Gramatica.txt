@@ -144,16 +144,16 @@ print2 -> vacio
 print2 -> + print1
 
 <CONDICION>
-CONDICION -> if ( EXPRESION ) BLOQUE condicion1
+CONDICION -> IF '(' expresion_logica ')' condicion1 condicion2 condicion3
 
-condicion1 -> condicion2
-condicion1 -> else if condicion3 condicion1
-condicion1 -> vacio
+condicion1 -> bloque
+condicion1 -> '{' PASS '}'
 
-condicion2 -> else condicion3
+condicion2 -> ELSE IF condicion1 condicion2
+condicion2 -> vacio
 
-condicion3 -> BLOQUE
-condicion3 -> { pass }
+condicion3 -> ELSE condicion1
+condicion3 -> vacio
 
 <INPUT>
 INPUT -> TIPO ID = input ( input1 )
