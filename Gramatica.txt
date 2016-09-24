@@ -28,7 +28,7 @@ parametros2 -> ',' parametros
 parametros2 -> vacio
 
 <INICIALIZACION>
-INICIALIZACION -> ID EQUAL var_cte
+INICIALIZACION -> ID EQUAL exp
 
 <TIPO>
 TIPO -> int
@@ -59,7 +59,7 @@ termino1 -> vacio
 <INICIALIZACION_VECTOR>
 INICIALIZACION_VECTOR -> ID = '[' inicializacion_vector1 ']'
 
-inicializacion_vector1 -> var_cte inicializacion_vector2
+inicializacion_vector1 -> expresion inicializacion_vector2
 inicializacion_vector1 -> vacio
 
 inicializacion_vector2 -> ',' var_cte inicializacion_vector2
@@ -111,6 +111,7 @@ EXPRESION_LOGICA -> exp expresion_logica1 expresion
 
 expresion_logica1 -> AND exp
 expresion_logica1 -> OR exp
+expresion_logica1 -> vacio
 
 <LLAMADA>
 LLAMADA -> ID '(' llamada1 ')'

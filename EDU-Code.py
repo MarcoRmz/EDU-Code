@@ -180,7 +180,7 @@ def p_parametros2(p):
 	pass
 
 def p_inicializacion(p):
-	'inicializacion : ID EQUALS varcte'
+	'inicializacion : ID EQUALS exp'
 	pass
 
 def p_tipo(p):
@@ -295,6 +295,7 @@ def p_expresion_logica(p):
 
 def p_expresion_logica1(p):
 	'''expresion_logica1 	: AND exp
+					| epsilon
 					| OR exp'''
 	pass
 
