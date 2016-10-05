@@ -22,20 +22,30 @@ functionsDir = {}
 # Parser
 def p_programa(p):
 	'programa 	: START programa1 programa2 main END'
-
+	p[0] = p[1] + p[2] + p[3] + p[4] + p[5]
 def p_programa1(p):
 	'''programa1 : var_declaracion programa1
 				| epsilon'''
+	if len(p) == 2:
+		p[0] = p[1] + p[2]
+
 
 def p_programa2(p):
 	'''programa2 : funcion programa2
 				| epsilon'''
+	if len(p) == 2:
+		p[0] = p[1] + p[2]
+
 
 def p_var_declaracion(p):
 	'''var_declaracion : tipo var_declaracion1
 				| VECTOR tipo var_declaracion2'''
   	# Var typeTmp
   	print("tipo: " + p[1] + " id: " + p[2])
+	if len(p) == 2:
+		p[0] = p[1] + p[2]
+	else:
+		p[0] = p[1] + p[2] + p[3]
 
 def p_var_declaracion1(p):
 	'''var_declaracion1 : ID
@@ -52,14 +62,21 @@ def p_var_declaracion2(p):
 def p_parametros(p):
 	'''parametros : tipo parametros1 ID parametros2
 				| VECTOR tipo parametros1 ID parametros2'''
+	if len(p) == 5:
+		p[0] = p[1] + p[2] + p[3] + p[4]
+	else:
+		p[0] = p[1] + p[2] + p[3] + p[4] + p[5]
 
 def p_parametros1(p):
 	'''parametros1 : AMPERSON
 				| epsilon'''
+	p[0] = p[1]
 
 def p_parametros2(p):
 	'''parametros2 : COMMA parametros
 				| epsilon'''
+	if len(p) == 2:
+		p[0] = p[1] + p[2]
 
 def p_inicializacion(p):
 	'inicializacion : ID EQUALS exp'
@@ -89,7 +106,8 @@ def p_bloque1(p):
 
 def p_exp(p):
 	'exp 	: termino exp1'
-
+	p[0] = p[1] + p[2]
+	
 def p_exp1(p):
 	''' exp1 	: PLUS exp
 				| MINUS exp
@@ -108,7 +126,7 @@ def p_inicializacion_vector(p):
   # Save ID key with typeTmp and value as tuple
 	p[0] = p[1]
 	print(p[0])
-  
+
 def p_inicializacion_vector1(p):
 	'''inicializacion_vector1 : varcte inicializacion_vector2
 				| epsilon'''
