@@ -42,10 +42,7 @@ def p_var_declaracion(p):
 				| VECTOR tipo var_declaracion2'''
   	# Var typeTmp
   	print("tipo: " + p[1] + " id: " + p[2])
-	if len(p) == 2:
-		p[0] = p[1] + p[2]
-	else:
-		p[0] = p[1] + p[2] + p[3]
+	p[0] = p[1] + p[2]
 
 def p_var_declaracion1(p):
 	'''var_declaracion1 : ID
@@ -112,14 +109,22 @@ def p_exp1(p):
 	''' exp1 	: PLUS exp
 				| MINUS exp
 				| epsilon'''
+	if len(p) == 2:
+		p[0] = p[1] + p[2]
 
 def p_termino(p):
 	'termino 	: factor termino1'
+	if len(p) == 3:
+		p[0] = p[1] + p[2]
+	else:
+		p[0] = p[1]
 
 def p_termino1(p):
 	'''termino1 : TIMES termino
 				| DIVIDE termino
 				| epsilon'''
+	if len(p) == 3:
+		p[0] = p[1] + p[2]
 
 def p_inicializacion_vector(p):
 	'inicializacion_vector : ID EQUALS LBRACKET inicializacion_vector1 RBRACKET'
@@ -152,12 +157,20 @@ def p_while(p):
 
 def p_factor(p):
 	''' factor	: LPAREN expresion RPAREN
-				| factor1 varcte'''
+				| factor1'''
+	if len(p) == 3:
+		p[0] = p[1] + p[2]
+	else:
+		p[0] = p[1]
 
 def p_factor1(p):
 	''' factor1 : PLUS varcte
 				| MINUS varcte
-				| epsilon'''
+				| varcte'''
+	if len(p) == 3:
+		p[0] = p[1] + p[2]
+	else:
+		p[0] = p[1]
 
 def p_estatuto(p):
 	'''estatuto : inicializacion
@@ -172,24 +185,31 @@ def p_estatuto(p):
 
 def p_expresion(p):
 	'expresion 	: expresion1'
+	p[0] = p[1]
 
 def p_expresion1(p):
 	'''expresion1 	: epsilon
 					| expresion2 exp'''
+	if len(p) == 3:
+		p[0] = p[1] + p[2]
 
 def p_expresion2(p):
 	'''expresion2 	: LESS
 					| GREATER
 					| DOUBLE_EQUAL
 					| DIFF'''
+	p[0] = p[1]
 
 def p_expresion_logica(p):
 	'expresion_logica 	: exp expresion_logica1 expresion'
+	p[0] = p[1] + p[2] + p[3]
 
 def p_expresion_logica1(p):
 	'''expresion_logica1 	: AND exp
 					| epsilon
 					| OR exp'''
+	if len(p) == 3:
+		p[0] = p[1] + p[2]
 
 def p_llamada(p):
 	'llamada 	: ID LPAREN llamada1 RPAREN'
@@ -225,7 +245,7 @@ def p_varcte1(p):
 				| LBRACKET exp RBRACKET'''
 	if len(p) == 2:
 		p[0] = p[1]
-	else if len(p) == 4:
+	elif len(p) == 4:
 		p[0] = p[1] + p[2] + p[3]
 	else:
 		p[0] = p[1] + p[2] + p[3] + p[4]
