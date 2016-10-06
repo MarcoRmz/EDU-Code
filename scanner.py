@@ -117,7 +117,7 @@ def t_CTE_STRING(t):
 	# 	t.value = string(t.value)
 	# except ValueError:
 	# 	print("String value invalid %d", t.value)
- #        t.value = ""
+	#        t.value = ""
 	return t
 
 def t_newline(t):

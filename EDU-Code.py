@@ -36,26 +36,31 @@ def p_var_declaracion(p):
 				| VECTOR tipo var_declaracion2'''
   	# Var typeTmp
   	#print("tipo: %s  id: %s" %(p[1], p[2]))
-  	if function_ptr == 'GLOBAL':
-  		if globalVars.has_key(p[2]):
+
+def p_var_declaracion1(p):
+	'''var_declaracion1 : ID declareVar var_declaracion3'''
+
+def p_var_declaracion2(p):
+	'''var_declaracion2 : ID declareVar
+				| inicializacion_vector'''
+
+def p_var_declaracion3(p):
+	'''var_declaracion3 : epsilon
+				| inicializacion'''
+
+def p_declareVar(p):
+	'''declareVar :'''
+	if function_ptr == 'GLOBAL':
+  		if globalVars.has_key(p[-1]):
   			# Error
   			print("Variable already defined!")
   			exit(1)
-  		globalVars[p[2]] = [p[1], 'ValueNone']
+  		globalVars[p[-1]] = [p[-2], 'ValueNone']
 	else:
 		if functionsDir.has_key(function_ptr) == False:
 			functionsDir[function_ptr] = ['FunctTypeNone', {}]
-		functionsDir[function_ptr][1][p[2]] = [p[1], 'ValueNone']
-
-def p_var_declaracion1(p):
-	'''var_declaracion1 : ID
-				| inicializacion'''
-  	p[0] = p[1]
-
-def p_var_declaracion2(p):
-	'''var_declaracion2 : ID
-				| inicializacion_vector'''
-	p[0] = p[1]
+		functionsDir[function_ptr][1][p[-1]] = [p[-2], 'ValueNone']
+	p[0] = p[-1]
 
 def p_parametros(p):
 	'''parametros : tipo parametros1 ID parametros2
@@ -70,23 +75,22 @@ def p_parametros2(p):
 				| epsilon'''
 
 def p_inicializacion(p):
-	'inicializacion : ID EQUALS exp'
+	'inicializacion : EQUALS exp'
   	# Save ID key with typeTmp and value as tuple
-  	p[0] = p[1]
-  	if function_ptr == 'GLOBAL':
-  		if globalVars.has_key(p[1]):
-  			globalVars[p[1]][1] = p[3]
-  		else:
-  			# Error
-  			print("Variable is not declared!")
-  			exit(1)
-	else:
-		if functionsDir[function_ptr][1].has_key(p[1]):
-			functionsDir[function_ptr][1][p[1]][1] = p[2]
+	if function_ptr == 'GLOBAL':
+		if globalVars.has_key(p[-1]):
+			globalVars[p[-1]][1] = p[2]
 		else:
-  			# Error
-  			print("Variable is not declared!")
-  			exit(1)
+			# Error
+			print("Variable is not declared!")
+			exit(1)
+	else:
+		if functionsDir[function_ptr][1].has_key(p[-1]):
+			functionsDir[function_ptr][1][p[-1]][1] = p[2]
+		else:
+			# Error
+			print("Variable is not declared!")
+			exit(1)
 
 def p_tipo(p):
 	'''tipo 	: INT
@@ -129,7 +133,7 @@ def p_termino1(p):
 		p[0] = str(p[-1])
 
 def p_inicializacion_vector(p):
-	'inicializacion_vector : ID EQUALS LBRACKET inicializacion_vector1 RBRACKET'
+	'inicializacion_vector : ID declareVar EQUALS LBRACKET inicializacion_vector1 RBRACKET'
   # Save ID key with typeTmp and value as tuple
 	p[0] = p[1]
 	print(p[0])
@@ -341,7 +345,7 @@ def p_epsilon(p):
 
 def p_error(p):
 	if p:
-		print("Syntax error at token:", p.type, " line: ", p.lineno)
+		print("Syntax error at token: '%s' with value: '%s' at line: %d in pos: %d" %(p.type, p.value, p.lineno, p.lexpos))
 		# Discard the token
 		parser.errok()
 	else:
