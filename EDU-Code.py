@@ -34,8 +34,6 @@ def p_programa2(p):
 def p_var_declaracion(p):
 	'''var_declaracion : tipo var_declaracion1
 				| VECTOR tipo var_declaracion2'''
-  	# Var typeTmp
-  	#print("tipo: %s  id: %s" %(p[1], p[2]))
 
 def p_var_declaracion1(p):
 	'''var_declaracion1 : ID declareVar var_declaracion3'''
@@ -53,13 +51,22 @@ def p_declareVar(p):
 	if function_ptr == 'GLOBAL':
   		if globalVars.has_key(p[-1]):
   			# Error
-  			print("Variable already defined!")
+  			print("Variable %s already declared!" %(p[-1]))
   			exit(1)
   		globalVars[p[-1]] = [p[-2], 'ValueNone']
 	else:
 		if functionsDir.has_key(function_ptr) == False:
 			functionsDir[function_ptr] = ['FunctTypeNone', {}]
-		functionsDir[function_ptr][1][p[-1]] = [p[-2], 'ValueNone']
+		else:
+			if globalVars.has_key(p[-1]):
+	  			# Error
+	  			print("Variable %s already declared!" %(p[-1]))
+	  			exit(1)
+	  		elif functionsDir[function_ptr][1].has_key(p[-1]):
+	  			# Error
+	  			print("Variable %s already declared!" %(p[-1]))
+	  			exit(1)
+	  	functionsDir[function_ptr][1][p[-1]] = [p[-2], 'ValueNone']
 	p[0] = p[-1]
 
 def p_parametros(p):
@@ -82,14 +89,14 @@ def p_inicializacion(p):
 			globalVars[p[-1]][1] = p[2]
 		else:
 			# Error
-			print("Variable is not declared!")
+			print("Variable %s is not declared!" %(p[-1]))
 			exit(1)
 	else:
 		if functionsDir[function_ptr][1].has_key(p[-1]):
 			functionsDir[function_ptr][1][p[-1]][1] = p[2]
 		else:
 			# Error
-			print("Variable is not declared!")
+			print("Variable %s is not declared!" %(p[-1]))
 			exit(1)
 
 def p_tipo(p):
@@ -136,7 +143,6 @@ def p_inicializacion_vector(p):
 	'inicializacion_vector : ID declareVar EQUALS LBRACKET inicializacion_vector1 RBRACKET'
   # Save ID key with typeTmp and value as tuple
 	p[0] = p[1]
-	print(p[0])
 
 def p_inicializacion_vector1(p):
 	'''inicializacion_vector1 : varcte inicializacion_vector2
@@ -179,14 +185,30 @@ def p_factor1(p):
 		p[0] = p[1]
 
 def p_estatuto(p):
-	'''estatuto : inicializacion
+	'''estatuto : asignacion
 				| llamada
-				| print
-				| input
 				| condicion
 				| switch
 				| while
 				| for'''
+
+def p_asignacion(p):
+	'''asignacion : ID EQUALS asignacion1'''
+	if p[1] != 'print':
+		if globalVars.has_key(p[1]):
+			globalVars[p[1]][1] = p[3]
+		else:
+			if functionsDir[function_ptr][1].has_key(p[1]):
+				functionsDir[function_ptr][1][p[1]][1] = p[3]
+			else:
+				# Error
+				print("Variable %s is not declared!" %(p[1]))
+				exit(1)
+
+def p_asignacion1(p):
+	'''asignacion1 : exp
+				| llamada'''
+	p[0] = p[1]
 
 def p_expresion(p):
 	'expresion 	: expresion1'
@@ -214,8 +236,11 @@ def p_expresion_logica1(p):
 					| OR exp'''
 
 def p_llamada(p):
-	'llamada 	: ID LPAREN llamada1 RPAREN'
-	function_ptr = p[1]
+	'''llamada 	: ID LPAREN llamada1 RPAREN
+				| print
+				| input'''
+	if len(p) > 2:
+		function_ptr = p[1]
 	p[0] = p[1]
 
 def p_llamada1(p):
@@ -260,6 +285,7 @@ def p_cte_bool(p):
 
 def p_print(p):
 	'print 		    : PRINT LPAREN print1 RPAREN'
+	p[0] = p[1]
 
 def p_print1(p):
 	'''print1 		: CTE_STRING print2
@@ -285,8 +311,8 @@ def p_condicion3(p):
 					| epsilon'''
 
 def p_input(p):
-	'''input	: tipo ID EQUALS INPUT LPAREN input1 RPAREN
-				| ID EQUALS INPUT LPAREN input1 RPAREN'''
+	'''input	: INPUT LPAREN input1 RPAREN'''
+	p[0] = p[1]
 
 def p_input1(p):
 	'''input1	: CTE_STRING
