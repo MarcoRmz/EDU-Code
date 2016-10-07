@@ -4,11 +4,14 @@ int count
 int sum = 0
 
 function int increase(int sum) {
+	int x = 0
+	int y
 	sum = sum + 1
 	return sum
 }
 
 main {
+	vector int x
 	count = 1
 
 	if (sum < 4) {

@@ -39,12 +39,15 @@ def p_var_declaracion1(p):
 	'''var_declaracion1 : ID declareVar var_declaracion3'''
 
 def p_var_declaracion2(p):
-	'''var_declaracion2 : ID declareVar
-				| inicializacion_vector'''
+	'''var_declaracion2 : ID declareVar2 var_declaracion4'''
 
 def p_var_declaracion3(p):
 	'''var_declaracion3 : epsilon
 				| inicializacion'''
+
+def p_var_declaracion4(p):
+	'''var_declaracion4 : epsilon
+				| inicializacion_vector'''
 
 def p_declareVar(p):
 	'''declareVar :'''
@@ -55,18 +58,35 @@ def p_declareVar(p):
   			exit(1)
   		globalVars[p[-1]] = [p[-2], 'ValueNone']
 	else:
-		if functionsDir.has_key(function_ptr) == False:
-			functionsDir[function_ptr] = ['FunctTypeNone', {}]
-		else:
-			if globalVars.has_key(p[-1]):
-	  			# Error
-	  			print("Variable %s already declared!" %(p[-1]))
-	  			exit(1)
-	  		elif functionsDir[function_ptr][1].has_key(p[-1]):
-	  			# Error
-	  			print("Variable %s already declared!" %(p[-1]))
-	  			exit(1)
+		if globalVars.has_key(p[-1]):
+  			# Error
+  			print("Variable %s already declared!" %(p[-1]))
+  			exit(1)
+  		elif functionsDir[function_ptr][1].has_key(p[-1]):
+  			# Error
+  			print("Variable %s already declared!" %(p[-1]))
+  			exit(1)
 	  	functionsDir[function_ptr][1][p[-1]] = [p[-2], 'ValueNone']
+	p[0] = p[-1]
+
+def p_declareVar2(p):
+	'''declareVar2 :'''
+	if function_ptr == 'GLOBAL':
+  		if globalVars.has_key(p[-1]):
+  			# Error
+  			print("Variable %s already declared!" %(p[-1]))
+  			exit(1)
+  		globalVars[p[-1]] = [p[-2], 'ValueNone']
+	else:
+		if globalVars.has_key(p[-1]):
+  			# Error
+  			print("Variable %s already declared!" %(p[-1]))
+  			exit(1)
+  		elif functionsDir[function_ptr][1].has_key(p[-1]):
+  			# Error
+  			print("Variable %s already declared!" %(p[-1]))
+  			exit(1)
+	  	functionsDir[function_ptr][1][p[-1]] = ['VECTOR ' + p[-2], 'ValueNone']
 	p[0] = p[-1]
 
 def p_parametros(p):
@@ -140,21 +160,53 @@ def p_termino1(p):
 		p[0] = str(p[-1])
 
 def p_inicializacion_vector(p):
-	'inicializacion_vector : ID declareVar EQUALS LBRACKET inicializacion_vector1 RBRACKET'
-  # Save ID key with typeTmp and value as tuple
+	'inicializacion_vector : EQUALS LBRACKET inicializacion_vector1 RBRACKET'
+  	# Save ID key with typeTmp and value as tuple
+	if function_ptr == 'GLOBAL':
+		if globalVars.has_key(p[-1]):
+			globalVars[p[-1]][1] = p[2] + p[3] + p[4]
+		else:
+			# Error
+			print("Variable %s is not declared!" %(p[-1]))
+			exit(1)
+	else:
+		if functionsDir[function_ptr][1].has_key(p[-1]):
+			functionsDir[function_ptr][1][p[-1]][1] = p[2] + p[3] + p[4]
+		else:
+			# Error
+			print("Variable %s is not declared!" %(p[-1]))
+			exit(1)
 	p[0] = p[1]
 
 def p_inicializacion_vector1(p):
 	'''inicializacion_vector1 : varcte inicializacion_vector2
 				| epsilon'''
+	if len(p) > 2:
+		p[0] = p[1] + p[2]
+	else:
+		p[0] = p[1]
 
 def p_inicializacion_vector2(p):
 	'''inicializacion_vector2 : COMMA varcte inicializacion_vector2
 				| epsilon'''
+	if len(p) > 2:
+		p[0] = p[1] + p[2] + p[3]
+	else:
+		p[0] = p[1]
 
 def p_main(p):
-	'main : MAIN LCURL main1 estatuto main2 RCURL'
-	function_ptr = p[1]
+	'main : MAIN declareMain LCURL main1 estatuto main2 RCURL'
+
+def p_declareMain(p):
+	'''declareMain : '''
+	global function_ptr
+	function_ptr = p[-1]
+	if functionsDir.has_key(p[-1]) == False:
+		functionsDir[p[-1]] = ['main', {}]
+	else:
+		# Error
+		print("Main %s already declared!" %(p[-1]))
+		exit(1)
 
 def p_main1(p):
 	'''main1 : var_declaracion main1
@@ -240,7 +292,13 @@ def p_llamada(p):
 				| print
 				| input'''
 	if len(p) > 2:
-		function_ptr = p[1]
+		if functionsDir.has_key(p[1]):
+			global function_ptr
+			function_ptr = p[1]
+		else:
+			# Error
+			print("Function %s is not declared!" %(p[1]))
+			exit(1)
 	p[0] = p[1]
 
 def p_llamada1(p):
@@ -329,7 +387,6 @@ def p_for1(p):
 
 def p_funcion(p):
 	'funcion	: FUNCTION funcion4'
-	# Save function ID and type
 
 def p_funcion1(p):
     '''funcion1 : epsilon
@@ -344,8 +401,26 @@ def p_funcion3(p):
                 | epsilon'''
 
 def p_funcion4(p):
-	'''funcion4	: VOID ID LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RCURL
-				| tipo ID LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN ID RCURL'''
+	'''funcion4	: VOID funcion5 
+				| tipo funcion5'''
+
+def p_funcion5(p):
+	'''funcion5	: ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 funcion6'''
+
+def p_declareFunc(p):
+	'''declareFunc : '''
+	global function_ptr
+	function_ptr = p[-1]
+	if functionsDir.has_key(p[-1]) == False:
+		functionsDir[p[-1]] = [p[-2], {}]
+	else:
+		# Error
+		print("Function %s already declared!" %(p[-1]))
+		exit(1)
+
+def p_funcion6(p):
+	'''funcion6	: RCURL
+				| RETURN ID RCURL'''
 
 def p_switch(p):
     'switch     : SWITCH ID switch1 LCURL switch2 switch3 RCURL'
