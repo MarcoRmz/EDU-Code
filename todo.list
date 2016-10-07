@@ -1,0 +1,11 @@
+que es la maquina virtual?
+  porque guardar variables en el parser cuando la maquina lo almacenara
+ve alguna ambiguedad en la gramatica?
+preguntarle a icaza que pedo con ls reduce reduce conflicts (warnings)
+que estructura usar para guardar el cubo semantico?
+
+semantica: funcion llamada comparar el fnctpointer vs id llamada haciendo (evitar recursion)
+
+
+** actualizar diagramas y gramatica
+** comentar
