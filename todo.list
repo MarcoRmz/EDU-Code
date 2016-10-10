@@ -6,6 +6,10 @@ que estructura usar para guardar el cubo semantico?
 
 semantica: funcion llamada comparar el fnctpointer vs id llamada haciendo (evitar recursion)
 
+Avance 3:
+** Cubo semantico
+** getType del cubo semantico
+** operaciones aritmeticas basicas (cuadruplo)
 
 ** actualizar diagramas y gramatica
 ** comentar
