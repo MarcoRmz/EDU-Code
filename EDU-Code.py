@@ -182,6 +182,7 @@ def p_checkEXPPOper(p):
 					cuadruplos.dirCuadruplos[cuadruplos.indexCuadruplos] = (operator, operand1, operand2, result)
 				cuadruplos.pOperandos.append(result)
 				cuadruplos.pTipos.append(operationType)
+				cuadruplos.indexCuadruplos += 1
 			else:
 				print("Type mismatch between operand type: %s and %s while trying to %s at line: %s" %(operand1, operand2, operator, p[-1]))
 				exit(1)
@@ -367,9 +368,11 @@ def p_asignacion(p):
 	if p[1] != 'print':
 		if globalVars.has_key(p[1]):
 			globalVars[p[1]][1] = p[3]
+			cuadruplos.pOper.append(EQUALS)
 		else:
 			if functionsDir[function_ptr][1].has_key(p[1]):
 				functionsDir[function_ptr][1][p[1]][1] = p[3]
+				cuadruplos.pOper.append(EQUALS)
 			else:
 				# Error
 				print("Variable %s is not declared!" %(p[1]))
@@ -388,7 +391,7 @@ def p_expresion1(p):
 	'''expresion1 	: epsilon
 					| expresion2 exp'''
 	if len(p) == 3:
-		p[0] = p[1] + p[2]
+		p[0] = p[1]
 
 def p_expresion2(p):
 	'''expresion2 	: LESS
@@ -614,5 +617,9 @@ if __name__ == '__main__':
 	print("*****************************************")
 	print("functionDir: ")
 	print(functionsDir)
+	print("*****************************************")
+	print("cuadruplos: ")
+	print(cuadruplos.dirCuadruplos)
+	print(cuadruplos.pOper)
 	print("*****************************************")
 	print("Successful")
