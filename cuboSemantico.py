@@ -1,9 +1,17 @@
+# -----------------------------------------------------------------------------
+# EDU-Code.py
+#
+# Cubo Semantico
+#
+# Marco Ramirez     A01191344
+# Andres Gutierrez  A01191581
+# -----------------------------------------------------------------------------
 
 """
+Estructura de cubo
 cubo_sem[tipo1,tipo2,operador] = tipo-resultado
 
 Tipos
-
     -1 - ERROR
     0 - INT
     1 - FLOAT
@@ -22,28 +30,27 @@ Operador
 
 """
 
-
 #Cubo Semantico
 cubo_sem={}
 
 #Entero Entero
-cubo_sem[0,0,0] = 0
-cubo_sem[0,0,1] = 0
-cubo_sem[0,0,2] = 1
+cubo_sem[0,0,0] =  0
+cubo_sem[0,0,1] =  0
+cubo_sem[0,0,2] =  1
 cubo_sem[0,0,3] = -1
-cubo_sem[0,0,4] = 3
-cubo_sem[0,0,5] = 3
-cubo_sem[0,0,6] = 3
-cubo_sem[0,0,7] = 0
+cubo_sem[0,0,4] =  3
+cubo_sem[0,0,5] =  3
+cubo_sem[0,0,6] =  3
+cubo_sem[0,0,7] =  0
 
 #Entero Float
-cubo_sem[0,1,0] = 1
-cubo_sem[0,1,1] = 1
-cubo_sem[0,1,2] = 1
+cubo_sem[0,1,0] =  1
+cubo_sem[0,1,1] =  1
+cubo_sem[0,1,2] =  1
 cubo_sem[0,1,3] = -1
-cubo_sem[0,1,4] = 3
-cubo_sem[0,1,5] = 3
-cubo_sem[0,1,6] = 3
+cubo_sem[0,1,4] =  3
+cubo_sem[0,1,5] =  3
+cubo_sem[0,1,6] =  3
 cubo_sem[0,1,7] = -1
 
 #Entero String
@@ -67,24 +74,24 @@ cubo_sem[0,3,6] = -1
 cubo_sem[0,3,7] = -1
 
 #Float int
-cubo_sem[1,0,0] = 1
-cubo_sem[1,0,1] = 1
-cubo_sem[1,0,2] = 1
+cubo_sem[1,0,0] =  1
+cubo_sem[1,0,1] =  1
+cubo_sem[1,0,2] =  1
 cubo_sem[1,0,3] = -1
-cubo_sem[1,0,4] = 3
-cubo_sem[1,0,5] = 3
-cubo_sem[1,0,6] = 3
+cubo_sem[1,0,4] =  3
+cubo_sem[1,0,5] =  3
+cubo_sem[1,0,6] =  3
 cubo_sem[1,0,7] = -1
 
 #Float Float
-cubo_sem[1,1,0] = 1
-cubo_sem[1,1,1] = 1
-cubo_sem[1,1,2] = 1
+cubo_sem[1,1,0] =  1
+cubo_sem[1,1,1] =  1
+cubo_sem[1,1,2] =  1
 cubo_sem[1,1,3] = -1
-cubo_sem[1,1,4] = 3
-cubo_sem[1,1,5] = 3
-cubo_sem[1,1,6] = 3
-cubo_sem[1,1,7] = 1
+cubo_sem[1,1,4] =  3
+cubo_sem[1,1,5] =  3
+cubo_sem[1,1,6] =  3
+cubo_sem[1,1,7] =  1
 
 #Float String
 cubo_sem[1,2,0] = -1

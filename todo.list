@@ -13,3 +13,6 @@ Avance 3:
 
 ** actualizar diagramas y gramatica
 ** comentar
+** reemplazar valores en cuadruplos por direccion de memoria
+** error pop empty list
+** constantes de tipos de datos y operadores para cubo semantico en "main"
