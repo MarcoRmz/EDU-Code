@@ -276,7 +276,10 @@ def p_inicializacion_vector2(p):
 	'''inicializacion_vector2 : COMMA varcte inicializacion_vector2
 				| epsilon'''
 	if len(p) > 2:
-		p[0] = p[1] + str(p[2]) + p[3]
+		if p[3]:
+			p[0] = p[1] + str(p[2]) + str(p[3])
+		else:
+			p[0] = p[1] + str(p[2])
 	else:
 		p[0] = p[1]
 
