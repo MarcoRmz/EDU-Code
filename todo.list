@@ -1,18 +1,17 @@
 que es la maquina virtual?
-  porque guardar variables en el parser cuando la maquina lo almacenara
-ve alguna ambiguedad en la gramatica?
-preguntarle a icaza que pedo con ls reduce reduce conflicts (warnings)
-que estructura usar para guardar el cubo semantico?
+porque guardar variables en el parser cuando la maquina lo almacenara
 
 semantica: funcion llamada comparar el fnctpointer vs id llamada haciendo (evitar recursion)
+
+** actualizar diagramas y gramatica REGEX de main esta como opcional checar los que empiezan en token
+** comentar
+** reemplazar valores en cuadruplos por direccion de memoria
+** error pop empty list
+** constantes de tipos de datos y operadores para cubo semantico en "main"
+** inicializacion vector 2 checar si p[3] es none para no sumar
 
 Avance 3:
 ** Cubo semantico
 ** getType del cubo semantico
 ** operaciones aritmeticas basicas (cuadruplo)
-
-** actualizar diagramas y gramatica
-** comentar
-** reemplazar valores en cuadruplos por direccion de memoria
-** error pop empty list
-** constantes de tipos de datos y operadores para cubo semantico en "main"
+** ERROR gramatica factor con ( espera expresion que se usa para condiciones

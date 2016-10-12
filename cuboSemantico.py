@@ -197,4 +197,4 @@ cubo_sem[3,3,7] =  3
 # Function recieves the operators and the operation
 # Returns the type
 def getResultType(operator1, operator2, operation):
-    return cubo_sem[operator1, operator2, operation]
+	return cubo_sem[operator1, operator2, operation]
