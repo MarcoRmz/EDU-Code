@@ -30,7 +30,7 @@ BOOL = 3
 PLUS = 0
 MINUS = 1
 MULT = 2
-DIVIDE = 2
+DIVIDE = 8
 AND = 3
 OR = 3
 LESS = 4
@@ -40,6 +40,17 @@ GREATER = 4
 DOUBLE_EQUAL = 6
 DIFF = 6
 EQUALS = 7
+
+# Function to parse token type values to equivalent numeric constant
+def parseType(type):
+	if type == 'int':
+		return INT
+	elif type == 'float':
+		return FLOAT
+	elif type == 'bool':
+		return BOOL
+	else:
+		return STRING
 
 # Parser
 def p_programa(p):
@@ -76,19 +87,21 @@ def p_declareVar(p):
 	if function_ptr == 'GLOBAL':
   		if globalVars.has_key(p[-1]):
   			# Error
-  			print("Variable %s already declared!" %(p[-1]))
+  			print("Variable %s already declared! Line: %s" %(p[-1], lexer.lineno))
   			exit(1)
-  		globalVars[p[-1]] = [p[-2], 'ValueNone']
+  		vartype = parseType(p[-2])
+  		globalVars[p[-1]] = [vartype, 'ValueNone']
 	else:
 		if globalVars.has_key(p[-1]):
   			# Error
-  			print("Variable %s already declared!" %(p[-1]))
+  			print("Variable %s already declared! Line: %s" %(p[-1], lexer.lineno))
   			exit(1)
   		elif functionsDir[function_ptr][1].has_key(p[-1]):
   			# Error
-  			print("Variable %s already declared!" %(p[-1]))
+  			print("Variable %s already declared! Line: %s" %(p[-1], lexer.lineno))
   			exit(1)
-	  	functionsDir[function_ptr][1][p[-1]] = [p[-2], 'ValueNone']
+  		vartype = parseType(p[-2])
+	  	functionsDir[function_ptr][1][p[-1]] = [vartype, 'ValueNone']
 	p[0] = p[-1]
 
 def p_declareVar2(p):
@@ -96,19 +109,21 @@ def p_declareVar2(p):
 	if function_ptr == 'GLOBAL':
   		if globalVars.has_key(p[-1]):
   			# Error
-  			print("Variable %s already declared!" %(p[-1]))
+  			print("Variable %s already declared! Line: %s" %(p[-1], lexer.lineno))
   			exit(1)
-  		globalVars[p[-1]] = [p[-2], 'ValueNone']
+  		vartype = parseType(p[-2])
+  		globalVars[p[-1]] = [vartype, 'ValueNone']
 	else:
 		if globalVars.has_key(p[-1]):
   			# Error
-  			print("Variable %s already declared!" %(p[-1]))
+  			print("Variable %s already declared! Line: %s" %(p[-1], lexer.lineno))
   			exit(1)
   		elif functionsDir[function_ptr][1].has_key(p[-1]):
   			# Error
-  			print("Variable %s already declared!" %(p[-1]))
+  			print("Variable %s already declared! Line: %s" %(p[-1], lexer.lineno))
   			exit(1)
-	  	functionsDir[function_ptr][1][p[-1]] = ['VECTOR ' + p[-2], 'ValueNone']
+  		vartype = parseType(p[-2])
+	  	functionsDir[function_ptr][1][p[-1]] = ['VECTOR ' + str(vartype), 'ValueNone']
 	p[0] = p[-1]
 
 def p_parametros(p):
@@ -131,14 +146,14 @@ def p_inicializacion(p):
 			globalVars[p[-1]][1] = p[2]
 		else:
 			# Error
-			print("Variable %s is not declared!" %(p[-1]))
+			print("Variable %s is not declared! Line: %s" %(p[-1], lexer.lineno))
 			exit(1)
 	else:
 		if functionsDir[function_ptr][1].has_key(p[-1]):
 			functionsDir[function_ptr][1][p[-1]][1] = p[2]
 		else:
 			# Error
-			print("Variable %s is not declared!" %(p[-1]))
+			print("Variable %s is not declared! Line: %s" %(p[-1], lexer.lineno))
 			exit(1)
 
 def p_tipo(p):
@@ -171,7 +186,6 @@ def p_checkEXPPOper(p):
 			operandType1 = cuadruplos.pTipos.pop()
 
 			operationType = cuadruplos.cubo.getResultType(operandType1, operandType2, operator)
-			print(operandType1, operandType2, operator)
 			
 			if(operationType != ERROR):
 				if(operator == PLUS):
@@ -180,11 +194,11 @@ def p_checkEXPPOper(p):
 				else:
 					result = operand1-operand2
 					cuadruplos.dirCuadruplos[cuadruplos.indexCuadruplos] = (operator, operand1, operand2, result)
-				cuadruplos.pOperandos.append(result)
-				cuadruplos.pTipos.append(operationType)
+				#cuadruplos.pOperandos.append(result)
+				#cuadruplos.pTipos.append(operationType)
 				cuadruplos.indexCuadruplos += 1
 			else:
-				print("Type mismatch between operand type: %s and %s while trying to %s at line: %s" %(operand1, operand2, operator, p[-1]))
+				print("Type mismatch between operand type: %s and %s while trying to %s at line: %s" %(operand1, operand2, operator, lexer.lineno))
 				exit(1)
 	
 def p_exp1(p):
@@ -217,7 +231,6 @@ def p_checkTERMPOper(p):
 			operandType1 = cuadruplos.pTipos.pop()
 
 			operationType = cuadruplos.cubo.getResultType(operandType1, operandType2, operator)
-			
 			if(operationType != ERROR):
 				if(operator == PLUS):
 					result = operand1*operand2
@@ -225,10 +238,10 @@ def p_checkTERMPOper(p):
 				else:
 					result = operand1/operand2
 					cuadruplos.dirCuadruplos[cuadruplos.indexCuadruplos] = (operator, operand1, operand2, result)
-				cuadruplos.pOperandos.append(result)
-				cuadruplos.pTipos.append(operationType)
+				#cuadruplos.pOperandos.append(result)
+				#cuadruplos.pTipos.append(operationType)
 			else:
-				print("Type mismatch between operand type: %s and %s while trying to %s" %(operand1, operand2, operator))
+				print("Type mismatch between operand type: %s and %s while trying to %s at line: %s" %(operand1, operand2, operator, lexer.lineno))
 				exit(1)
 
 def p_termino1(p):
@@ -253,14 +266,14 @@ def p_inicializacion_vector(p):
 			globalVars[p[-1]][1] = p[2] + str(p[3]) + p[4]
 		else:
 			# Error
-			print("Variable %s is not declared!" %(p[-1]))
+			print("Variable %s is not declared! Line: %s" %(p[-1], lexer.lineno))
 			exit(1)
 	else:
 		if functionsDir[function_ptr][1].has_key(p[-1]):
 			functionsDir[function_ptr][1][p[-1]][1] = p[2] + str(p[3]) + p[4]
 		else:
 			# Error
-			print("Variable %s is not declared!" %(p[-1]))
+			print("Variable %s is not declared! Line: %s" %(p[-1], lexer.lineno))
 			exit(1)
 	p[0] = p[1]
 
@@ -294,7 +307,7 @@ def p_declareMain(p):
 		functionsDir[p[-1]] = ['main', {}]
 	else:
 		# Error
-		print("Main %s already declared!" %(p[-1]))
+		print("Main %s already declared! Line: %s" %(p[-1], lexer.lineno))
 		exit(1)
 
 def p_main1(p):
@@ -329,34 +342,49 @@ def p_factor1(p):
 	if len(p) == 3:
 		p[0] = p[1] + p[2]
 		# Verify PLUS & MINUS are used only on INT & FLOATS
-		if ((type(p[2]) == 'int') or (type(p[2]) == 'float')):
+		if ((isinstance(p[2], int)) or (isinstance(p[2], float))):
 			if (p[1] == '-'):
 				cuadruplos.pOperandos.append(p[2]*-1)
 			else:
 				cuadruplos.pOperandos.append(p[2])
 
 			# Insert Type of varcte to pTipos
-			if type(p[2]) == 'int':
+			if isinstance(p[2], int):
 				cuadruplos.pTipos.append(INT)
-			elif type(p[2]) == 'float':
+			elif isinstance(p[2], float):
 				cuadruplos.pTipos.append(FLOAT)
 		else:
-			print("Operator mismatch you have a %s before a type: %s at line: %s" %(p[1], type(p[2]), p.lineno))
+			print("Operator mismatch you have a %s before a type: %s at line: %s" %(p[1], type(p[2]), lexer.lineno))
 			exit(1)
 	else:
 		p[0] = p[1]
 
-		cuadruplos.pOperandos.append(p[0])
-
+		cuadruplos.pOperandos.append(p[1])
 		# Insert Type of varcte to pTipos
-		if type(p[1]) == 'int':
+		if isinstance(p[1], int):
 			cuadruplos.pTipos.append(INT)
-		elif type(p[1]) == 'float':
+		elif isinstance(p[1], float):
 			cuadruplos.pTipos.append(FLOAT)
-		elif type(p[1]) == 'bool':
+		elif isinstance(p[1], bool):
 			cuadruplos.pTipos.append(BOOL)
 		else:
-			cuadruplos.pTipos.append(STRING)
+			if globalVars.has_key(p[1]):
+					print("tip$$$$")
+					print(globalVars)
+		  			cuadruplos.pTipos.append(globalVars[p[1]][0])
+			elif functionsDir[function_ptr][1].has_key(p[1]):
+					print(functionsDir[function_ptr][1][p[1]][0])
+			  		cuadruplos.pTipos.append(functionsDir[function_ptr][1][p[1]][0])
+			else:
+				cuadruplos.pTipos.append(STRING)
+
+	print("valor: %s  tipo: %s  line: %s" %(p[1], type(p[1]), lexer.lineno))
+	print("tipos:")
+	print(cuadruplos.pTipos)
+	print("")
+	print("operandos:")
+	print(cuadruplos.pOperandos)
+	print("")
 
 def p_estatuto(p):
 	'''estatuto : asignacion
@@ -443,15 +471,15 @@ def p_varcte(p):
 
 def p_tipoINT(p):
 	'tipoINT : '
-	cuadruplos.pTipos.append(INT)
+	#cuadruplos.pTipos.append(INT)
 
 def p_tipoFLOAT(p):
 	'tipoFLOAT : '
-	cuadruplos.pTipos.append(FLOAT)
+	#cuadruplos.pTipos.append(FLOAT)
 
 def p_tipoSTRING(p):
 	'tipoSTRING : '
-	cuadruplos.pTipos.append(STRING)
+	#cuadruplos.pTipos.append(STRING)
 
 def p_varcte1(p):
 	''' varcte1 	: epsilon
@@ -476,7 +504,7 @@ def p_cte_bool(p):
 	''' cte_bool : TRUE
 				 | FALSE'''
 	p[0] = p[1]
-	cuadruplos.pTipos.append(BOOL)
+	#cuadruplos.pTipos.append(BOOL)
 
 def p_print(p):
 	'print 		    : PRINT LPAREN print1 RPAREN'
