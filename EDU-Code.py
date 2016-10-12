@@ -250,14 +250,14 @@ def p_inicializacion_vector(p):
   	# Save ID key with typeTmp and value as tuple
 	if function_ptr == 'GLOBAL':
 		if globalVars.has_key(p[-1]):
-			globalVars[p[-1]][1] = p[2] + p[3] + p[4]
+			globalVars[p[-1]][1] = p[2] + str(p[3]) + p[4]
 		else:
 			# Error
 			print("Variable %s is not declared!" %(p[-1]))
 			exit(1)
 	else:
 		if functionsDir[function_ptr][1].has_key(p[-1]):
-			functionsDir[function_ptr][1][p[-1]][1] = p[2] + p[3] + p[4]
+			functionsDir[function_ptr][1][p[-1]][1] = p[2] + str(p[3]) + p[4]
 		else:
 			# Error
 			print("Variable %s is not declared!" %(p[-1]))
@@ -268,7 +268,7 @@ def p_inicializacion_vector1(p):
 	'''inicializacion_vector1 : varcte inicializacion_vector2
 				| epsilon'''
 	if len(p) > 2:
-		p[0] = p[1] + p[2]
+		p[0] = str(p[1]) + p[2]
 	else:
 		p[0] = p[1]
 
@@ -276,7 +276,7 @@ def p_inicializacion_vector2(p):
 	'''inicializacion_vector2 : COMMA varcte inicializacion_vector2
 				| epsilon'''
 	if len(p) > 2:
-		p[0] = p[1] + p[2] + p[3]
+		p[0] = p[1] + str(p[2]) + p[3]
 	else:
 		p[0] = p[1]
 
@@ -306,7 +306,7 @@ def p_while(p):
 	'while : WHILE LPAREN expresion RPAREN bloque'
 
 def p_factor(p):
-	''' factor	: LPAREN factorAddFakeCover expresion RPAREN
+	''' factor	: LPAREN factorAddFakeCover exp RPAREN
 				| factor1'''
 	if len(p) == 4:
 		p[0] = p[1] + p[3]
@@ -488,7 +488,7 @@ def p_print2(p):
                     | PLUS print1'''
 
 def p_condicion(p):
-	'condicion 	: IF LPAREN expresion_logica RPAREN condicion1 condicion2 condicion3'
+	'condicion 	: IF LPAREN expresion RPAREN condicion1 condicion2 condicion3'
 
 def p_condicion1(p):
 	'''condicion1	: bloque

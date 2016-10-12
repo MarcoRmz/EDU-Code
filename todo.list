@@ -9,6 +9,7 @@ semantica: funcion llamada comparar el fnctpointer vs id llamada haciendo (evita
 ** error pop empty list
 ** constantes de tipos de datos y operadores para cubo semantico en "main"
 ** inicializacion vector 2 checar si p[3] es none para no sumar
+** Diagramas de expresiones logicas
 
 Avance 3:
 ** Cubo semantico
