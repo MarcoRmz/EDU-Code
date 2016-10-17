@@ -12,7 +12,7 @@ semantica: funcion llamada comparar el fnctpointer vs id llamada haciendo (evita
 ** Diagramas de expresiones logicas
 
 Avance 3:
-** Cubo semantico
-** getType del cubo semantico
+** Cubo semantico X
+** getType del cubo semantico X
 ** operaciones aritmeticas basicas (cuadruplo)
 ** ERROR gramatica factor con ( espera expresion que se usa para condiciones

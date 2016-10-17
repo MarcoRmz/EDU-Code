@@ -8,8 +8,18 @@ function void sayHi(string name) {
 }
 
 main {
-	name = input("What is your name?")
+	int x = 0
+	int y
 
-	sayHi(name)
+	if (sum < 4) {
+		if(x > 2){
+			y = 3 + 1
+		}
+		else{
+			y = 4 - 1
+		}
+	}
+
+	name = input("What is your name?")
 }
 end
