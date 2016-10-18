@@ -7,15 +7,13 @@ function int increase(int sum) {
 	int x
 	int y
 
-	x = count * sum
-	sum = sum + 1
+	x = count * 5
+	sum = 3 + 1
 
 	return sum
 }
 
 main {
-	vector int x
-	x = [1,2,3]
 	count = 1
 	sum = count * 4
 
