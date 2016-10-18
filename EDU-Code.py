@@ -203,13 +203,14 @@ def p_checkEXPPOper(p):
 			if(operationType != ERROR):
 				if(operator == PLUS):
 					#result = operand1+operand2
-					cuadruplos.dirCuadruplos.append((operator, operand1, operand2, "result"))
+					cuadruplos.dirCuadruplos.append((operator, operand1, operand2, "t"+str(cuadruplos.countT)))
 				else:
 					#result = operand1-operand2
-					cuadruplos.dirCuadruplos.append((operator, operand1, operand2, "result"))
-				#cuadruplos.pOperandos.append(result)
-				#cuadruplos.pTipos.append(operationType)\
+					cuadruplos.dirCuadruplos.append((operator, operand1, operand2, "t"+str(cuadruplos.countT)))
+				cuadruplos.pOperandos.append("t"+str(cuadruplos.countT))
+				cuadruplos.pTipos.append(operationType)
 				cuadruplos.indexCuadruplos += 1
+				cuadruplos.countT += 1
 			else:
 				print("Type mismatch between operand type: %s and %s while trying to %s at line: %s" %(operand1, operand2, operator, lexer.lineno))
 				exit(1)
@@ -249,13 +250,14 @@ def p_checkTERMPOper(p):
 			if(operationType != ERROR):
 				if(operator == PLUS):
 					#result = operand1*operand2
-					cuadruplos.dirCuadruplos.append( (operator, operand1, operand2, "result"))
+					cuadruplos.dirCuadruplos.append( (operator, operand1, operand2, "t"+str(cuadruplos.countT)))
 				else:
 					#result = operand1/operand2
-					cuadruplos.dirCuadruplos.append((operator, operand1, operand2, "result"))
-				#cuadruplos.pOperandos.append(result)
-				#cuadruplos.pTipos.append(operationType)
+					cuadruplos.dirCuadruplos.append((operator, operand1, operand2, "t"+str(cuadruplos.countT)))
+				cuadruplos.pOperandos.append("t"+str(cuadruplos.countT))
+				cuadruplos.pTipos.append(operationType)
 				cuadruplos.indexCuadruplos += 1
+				cuadruplos.countT += 1
 			else:
 				print("Type mismatch between operand type: %s and %s while trying to %s at line: %s" %(operand1, operand2, operator, lexer.lineno))
 				exit(1)

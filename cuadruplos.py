@@ -21,5 +21,8 @@ pTipos = []
 # Index for Cuadruplos
 indexCuadruplos = 0
 
+# Index T's
+countT = 0
+
 # Directory for Cuadruplos
 dirCuadruplos = []
