@@ -1,33 +1,39 @@
 start
 
 int count
-int sum = 0
+int sum
 
 function int increase(int sum) {
-	int x = 0
+	int x
 	int y
+
+	x = count * sum
 	sum = sum + 1
+
 	return sum
 }
 
 main {
-	vector int x = [1,2,3]
+	vector int x
+	x = [1,2,3]
 	count = 1
-        for 1 to 3 by(+1){
+	sum = count * 4
+
+	for 1 to 3 by(+1){
 		count = count + 1
 	}
 
 	sum = increase(count)
 
-	count = (count / 2) * 3 - sum
+	count = count / 2 * 3 - sum
 
 	if (sum < 4) {
-	  if(x > 2){
-		count = count + 1
-	  }
-	  else{
-		count = count - 1
-	  }
+		if(x > 2){
+			count = count + 1
+		}
+		else{
+			count = count - 1
+		}
 		sum = count+1
 		count = 2
 	}

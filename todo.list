@@ -11,6 +11,7 @@ semantica: funcion llamada comparar el fnctpointer vs id llamada haciendo (evita
 ** inicializacion vector 2 checar si p[3] es none para no sumar
 ** Diagramas de expresiones logicas
 ** Errores Detallados
+** checar tipo de asignacion con tipo de vector 
 
 Avance 3:
 ** Cubo semantico X

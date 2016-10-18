@@ -69,10 +69,10 @@ def p_var_declaracion(p):
 				| VECTOR tipo var_declaracion2'''
 
 def p_var_declaracion1(p):
-	'''var_declaracion1 : ID declareVar var_declaracion3'''
+	'''var_declaracion1 : ID declareVar'''
 
 def p_var_declaracion2(p):
-	'''var_declaracion2 : ID declareVar2 var_declaracion4'''
+	'''var_declaracion2 : ID declareVar2'''
 
 def p_var_declaracion3(p):
 	'''var_declaracion3 : epsilon
@@ -173,10 +173,23 @@ def p_bloque1(p):
 def p_exp(p):
 	'exp 	: termino checkEXPPOper exp1'
 	p[0] = p[2]
+	print("-----------------")
+	print("valor: %s  tipo: %s  line: %s" %(p[1], type(p[1]), lexer.lineno))
+	print("tipos:")
+	print(cuadruplos.pTipos)
+	print("---")
+	print("operandos:")
+	print(cuadruplos.pOperandos)
+	print("---")
+	print("operadores:")
+	print(cuadruplos.pOper)
+	print("-----------------")
+	print("")
 
 def p_checkEXPPOper(p):
 	'checkEXPPOper : '
 	p[0] = p[-1]
+	print("length poper: " + str(len(cuadruplos.pOper)) + " " + str(lexer.lineno))
 	if (len(cuadruplos.pOper) != 0):
 		if ((cuadruplos.pOper[-1] == PLUS) or (cuadruplos.pOper[-1] == MINUS)):
 			operator = cuadruplos.pOper.pop()
@@ -327,8 +340,9 @@ def p_while(p):
 def p_factor(p):
 	''' factor	: LPAREN factorAddFakeCover exp RPAREN
 				| factor1'''
-	if len(p) == 4:
+	if len(p) == 5:
 		p[0] = p[1] + p[3]
+		print("REMOVE COVER: " + str(cuadruplos.pOper[-1]))
 		cuadruplos.pOper.pop()
 	else:
 		p[0] = p[1]
@@ -377,15 +391,6 @@ def p_factor1(p):
 			  		cuadruplos.pTipos.append(functionsDir[function_ptr][1][p[1]][0])
 			else:
 				cuadruplos.pTipos.append(STRING)
-	print("-----------------")
-	print("valor: %s  tipo: %s  line: %s" %(p[1], type(p[1]), lexer.lineno))
-	print("tipos:")
-	print(cuadruplos.pTipos)
-	print("---")
-	print("operandos:")
-	print(cuadruplos.pOperandos)
-	print("-----------------")
-	print("")
 
 def p_estatuto(p):
 	'''estatuto : asignacion
@@ -407,13 +412,18 @@ def p_asignacion(p):
 				cuadruplos.pOper.append(EQUALS)
 			else:
 				# Error
-				print("Variable %s is not declared!" %(p[1]))
+				print("Variable %s is not declared! Line: %s" %(p[1], lexer.lineno))
 				exit(1)
 
 def p_asignacion1(p):
 	'''asignacion1 : exp
-				| llamada'''
+				| llamada
+				| asignacion_vector'''
 	p[0] = p[1]
+
+def p_asignacion_vector(p):
+	'''asignacion_vector : LBRACKET inicializacion_vector1 RBRACKET'''
+	p[0] = p[1] + p[2] + p[3]
 
 def p_expresion(p):
 	'expresion 	: expresion1'
@@ -652,8 +662,11 @@ if __name__ == '__main__':
 	print("*****************************************")
 	print("cuadruplos: ")
 	print(cuadruplos.dirCuadruplos)
+	print("operadores: ")
 	print(cuadruplos.pOper)
+	print("operandos: ")
+	print(cuadruplos.pOperandos)
 	print("*****************************************")
-	print(cuadruplos.indexCuadruplos)
+	print("Num cuadruplos: " + str(cuadruplos.indexCuadruplos))
 	print("*****************************************")
-	print("Successful")
+	print("\nSuccessful")
