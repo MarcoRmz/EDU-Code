@@ -3,13 +3,14 @@ porque guardar variables en el parser cuando la maquina lo almacenara
 
 semantica: funcion llamada comparar el fnctpointer vs id llamada haciendo (evitar recursion)
 
-** actualizar diagramas y gramatica REGEX de main esta como opcional checar los que empiezan en token
+** actualizar diagramas y gramatica REGEX
 ** comentar
 ** reemplazar valores en cuadruplos por direccion de memoria
 ** error pop empty list
 ** constantes de tipos de datos y operadores para cubo semantico en "main"
 ** inicializacion vector 2 checar si p[3] es none para no sumar
 ** Diagramas de expresiones logicas
+** Errores Detallados
 
 Avance 3:
 ** Cubo semantico X

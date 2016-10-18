@@ -107,7 +107,7 @@ Rule 101   print1 -> CTE_STRING print2
 Rule 102   print1 -> ID print2
 Rule 103   print2 -> epsilon
 Rule 104   print2 -> PLUS print1
-Rule 105   condicion -> IF LPAREN expresion RPAREN condicion1 condicion2 condicion3
+Rule 105   condicion -> IF LPAREN expresion_logica RPAREN condicion1 condicion2 condicion3
 Rule 106   condicion1 -> bloque
 Rule 107   condicion1 -> LCURL bloque RCURL
 Rule 108   condicion2 -> ELSEIF condicion1 condicion2
@@ -220,10 +220,10 @@ epsilon              : 3 5 10 12 19 21 29 34 39 42 44 48 50 68 76 81 83 93 96 10
 estatuto             : 27 28 45 49 124 129 140
 exp                  : 22 32 33 52 65 69 74 75 77 82 84 94 95 97 135
 exp1                 : 30
-expresion            : 51 74 105
+expresion            : 51 74
 expresion1           : 67
 expresion2           : 69
-expresion_logica     : 
+expresion_logica     : 105
 expresion_logica1    : 74
 factor               : 35
 factor1              : 53
@@ -326,16 +326,16 @@ state 3
 
     (24) tipo -> FLOAT .
 
-    AMPERSON        reduce using rule 24 (tipo -> FLOAT .)
     ID              reduce using rule 24 (tipo -> FLOAT .)
+    AMPERSON        reduce using rule 24 (tipo -> FLOAT .)
 
 
 state 4
 
     (26) tipo -> STRING .
 
-    AMPERSON        reduce using rule 26 (tipo -> STRING .)
     ID              reduce using rule 26 (tipo -> STRING .)
+    AMPERSON        reduce using rule 26 (tipo -> STRING .)
 
 
 state 5
@@ -407,8 +407,8 @@ state 9
 
     (25) tipo -> BOOL .
 
-    AMPERSON        reduce using rule 25 (tipo -> BOOL .)
     ID              reduce using rule 25 (tipo -> BOOL .)
+    AMPERSON        reduce using rule 25 (tipo -> BOOL .)
 
 
 state 10
@@ -423,8 +423,8 @@ state 11
 
     (23) tipo -> INT .
 
-    AMPERSON        reduce using rule 23 (tipo -> INT .)
     ID              reduce using rule 23 (tipo -> INT .)
+    AMPERSON        reduce using rule 23 (tipo -> INT .)
 
 
 state 12
@@ -436,8 +436,6 @@ state 12
     FLOAT           reduce using rule 6 (var_declaracion -> tipo var_declaracion1 .)
     BOOL            reduce using rule 6 (var_declaracion -> tipo var_declaracion1 .)
     STRING          reduce using rule 6 (var_declaracion -> tipo var_declaracion1 .)
-    FUNCTION        reduce using rule 6 (var_declaracion -> tipo var_declaracion1 .)
-    MAIN            reduce using rule 6 (var_declaracion -> tipo var_declaracion1 .)
     ID              reduce using rule 6 (var_declaracion -> tipo var_declaracion1 .)
     IF              reduce using rule 6 (var_declaracion -> tipo var_declaracion1 .)
     SWITCH          reduce using rule 6 (var_declaracion -> tipo var_declaracion1 .)
@@ -445,6 +443,8 @@ state 12
     FOR             reduce using rule 6 (var_declaracion -> tipo var_declaracion1 .)
     PRINT           reduce using rule 6 (var_declaracion -> tipo var_declaracion1 .)
     INPUT           reduce using rule 6 (var_declaracion -> tipo var_declaracion1 .)
+    FUNCTION        reduce using rule 6 (var_declaracion -> tipo var_declaracion1 .)
+    MAIN            reduce using rule 6 (var_declaracion -> tipo var_declaracion1 .)
 
 
 state 13
@@ -623,8 +623,6 @@ state 27
     FLOAT           reduce using rule 7 (var_declaracion -> VECTOR tipo var_declaracion2 .)
     BOOL            reduce using rule 7 (var_declaracion -> VECTOR tipo var_declaracion2 .)
     STRING          reduce using rule 7 (var_declaracion -> VECTOR tipo var_declaracion2 .)
-    FUNCTION        reduce using rule 7 (var_declaracion -> VECTOR tipo var_declaracion2 .)
-    MAIN            reduce using rule 7 (var_declaracion -> VECTOR tipo var_declaracion2 .)
     ID              reduce using rule 7 (var_declaracion -> VECTOR tipo var_declaracion2 .)
     IF              reduce using rule 7 (var_declaracion -> VECTOR tipo var_declaracion2 .)
     SWITCH          reduce using rule 7 (var_declaracion -> VECTOR tipo var_declaracion2 .)
@@ -632,6 +630,8 @@ state 27
     FOR             reduce using rule 7 (var_declaracion -> VECTOR tipo var_declaracion2 .)
     PRINT           reduce using rule 7 (var_declaracion -> VECTOR tipo var_declaracion2 .)
     INPUT           reduce using rule 7 (var_declaracion -> VECTOR tipo var_declaracion2 .)
+    FUNCTION        reduce using rule 7 (var_declaracion -> VECTOR tipo var_declaracion2 .)
+    MAIN            reduce using rule 7 (var_declaracion -> VECTOR tipo var_declaracion2 .)
 
 
 state 28
@@ -848,6 +848,12 @@ state 39
     RETURN          reduce using rule 89 (varcte -> cte_bool .)
     CASE            reduce using rule 89 (varcte -> cte_bool .)
     DEFAULT         reduce using rule 89 (varcte -> cte_bool .)
+    AND             reduce using rule 89 (varcte -> cte_bool .)
+    OR              reduce using rule 89 (varcte -> cte_bool .)
+    LESS            reduce using rule 89 (varcte -> cte_bool .)
+    GREATER         reduce using rule 89 (varcte -> cte_bool .)
+    DOUBLE_EQUAL    reduce using rule 89 (varcte -> cte_bool .)
+    DIFF            reduce using rule 89 (varcte -> cte_bool .)
     COLON           reduce using rule 89 (varcte -> cte_bool .)
 
 
@@ -879,6 +885,12 @@ state 40
     RETURN          reduce using rule 31 (checkEXPPOper -> .)
     CASE            reduce using rule 31 (checkEXPPOper -> .)
     DEFAULT         reduce using rule 31 (checkEXPPOper -> .)
+    AND             reduce using rule 31 (checkEXPPOper -> .)
+    OR              reduce using rule 31 (checkEXPPOper -> .)
+    LESS            reduce using rule 31 (checkEXPPOper -> .)
+    GREATER         reduce using rule 31 (checkEXPPOper -> .)
+    DOUBLE_EQUAL    reduce using rule 31 (checkEXPPOper -> .)
+    DIFF            reduce using rule 31 (checkEXPPOper -> .)
 
     checkEXPPOper                  shift and go to state 60
 
@@ -890,10 +902,15 @@ state 41
     DIVIDE          reduce using rule 98 (cte_bool -> TRUE .)
     PLUS            reduce using rule 98 (cte_bool -> TRUE .)
     MINUS           reduce using rule 98 (cte_bool -> TRUE .)
-    RBRACKET        reduce using rule 98 (cte_bool -> TRUE .)
-    COLON           reduce using rule 98 (cte_bool -> TRUE .)
-    COMMA           reduce using rule 98 (cte_bool -> TRUE .)
+    LESS            reduce using rule 98 (cte_bool -> TRUE .)
+    GREATER         reduce using rule 98 (cte_bool -> TRUE .)
+    DOUBLE_EQUAL    reduce using rule 98 (cte_bool -> TRUE .)
+    DIFF            reduce using rule 98 (cte_bool -> TRUE .)
     RPAREN          reduce using rule 98 (cte_bool -> TRUE .)
+    AND             reduce using rule 98 (cte_bool -> TRUE .)
+    OR              reduce using rule 98 (cte_bool -> TRUE .)
+    RBRACKET        reduce using rule 98 (cte_bool -> TRUE .)
+    COMMA           reduce using rule 98 (cte_bool -> TRUE .)
     VECTOR          reduce using rule 98 (cte_bool -> TRUE .)
     INT             reduce using rule 98 (cte_bool -> TRUE .)
     FLOAT           reduce using rule 98 (cte_bool -> TRUE .)
@@ -912,6 +929,7 @@ state 41
     RETURN          reduce using rule 98 (cte_bool -> TRUE .)
     CASE            reduce using rule 98 (cte_bool -> TRUE .)
     DEFAULT         reduce using rule 98 (cte_bool -> TRUE .)
+    COLON           reduce using rule 98 (cte_bool -> TRUE .)
 
 
 state 42
@@ -943,8 +961,14 @@ state 43
     DIVIDE          reduce using rule 57 (factor1 -> varcte .)
     PLUS            reduce using rule 57 (factor1 -> varcte .)
     MINUS           reduce using rule 57 (factor1 -> varcte .)
-    COMMA           reduce using rule 57 (factor1 -> varcte .)
+    LESS            reduce using rule 57 (factor1 -> varcte .)
+    GREATER         reduce using rule 57 (factor1 -> varcte .)
+    DOUBLE_EQUAL    reduce using rule 57 (factor1 -> varcte .)
+    DIFF            reduce using rule 57 (factor1 -> varcte .)
     RPAREN          reduce using rule 57 (factor1 -> varcte .)
+    COMMA           reduce using rule 57 (factor1 -> varcte .)
+    AND             reduce using rule 57 (factor1 -> varcte .)
+    OR              reduce using rule 57 (factor1 -> varcte .)
     VECTOR          reduce using rule 57 (factor1 -> varcte .)
     INT             reduce using rule 57 (factor1 -> varcte .)
     FLOAT           reduce using rule 57 (factor1 -> varcte .)
@@ -1017,6 +1041,12 @@ state 45
     RETURN          reduce using rule 36 (checkTERMPOper -> .)
     CASE            reduce using rule 36 (checkTERMPOper -> .)
     DEFAULT         reduce using rule 36 (checkTERMPOper -> .)
+    AND             reduce using rule 36 (checkTERMPOper -> .)
+    OR              reduce using rule 36 (checkTERMPOper -> .)
+    LESS            reduce using rule 36 (checkTERMPOper -> .)
+    GREATER         reduce using rule 36 (checkTERMPOper -> .)
+    DOUBLE_EQUAL    reduce using rule 36 (checkTERMPOper -> .)
+    DIFF            reduce using rule 36 (checkTERMPOper -> .)
 
     checkTERMPOper                 shift and go to state 63
 
@@ -1050,6 +1080,12 @@ state 46
     RETURN          reduce using rule 92 (tipoSTRING -> .)
     CASE            reduce using rule 92 (tipoSTRING -> .)
     DEFAULT         reduce using rule 92 (tipoSTRING -> .)
+    AND             reduce using rule 92 (tipoSTRING -> .)
+    OR              reduce using rule 92 (tipoSTRING -> .)
+    LESS            reduce using rule 92 (tipoSTRING -> .)
+    GREATER         reduce using rule 92 (tipoSTRING -> .)
+    DOUBLE_EQUAL    reduce using rule 92 (tipoSTRING -> .)
+    DIFF            reduce using rule 92 (tipoSTRING -> .)
     COLON           reduce using rule 92 (tipoSTRING -> .)
 
     tipoSTRING                     shift and go to state 64
@@ -1101,6 +1137,12 @@ state 48
     RETURN          reduce using rule 90 (tipoINT -> .)
     CASE            reduce using rule 90 (tipoINT -> .)
     DEFAULT         reduce using rule 90 (tipoINT -> .)
+    AND             reduce using rule 90 (tipoINT -> .)
+    OR              reduce using rule 90 (tipoINT -> .)
+    LESS            reduce using rule 90 (tipoINT -> .)
+    GREATER         reduce using rule 90 (tipoINT -> .)
+    DOUBLE_EQUAL    reduce using rule 90 (tipoINT -> .)
+    DIFF            reduce using rule 90 (tipoINT -> .)
     COLON           reduce using rule 90 (tipoINT -> .)
 
     tipoINT                        shift and go to state 66
@@ -1140,6 +1182,12 @@ state 49
     RETURN          reduce using rule 141 (epsilon -> .)
     CASE            reduce using rule 141 (epsilon -> .)
     DEFAULT         reduce using rule 141 (epsilon -> .)
+    AND             reduce using rule 141 (epsilon -> .)
+    OR              reduce using rule 141 (epsilon -> .)
+    LESS            reduce using rule 141 (epsilon -> .)
+    GREATER         reduce using rule 141 (epsilon -> .)
+    DOUBLE_EQUAL    reduce using rule 141 (epsilon -> .)
+    DIFF            reduce using rule 141 (epsilon -> .)
     COLON           reduce using rule 141 (epsilon -> .)
 
     epsilon                        shift and go to state 68
@@ -1153,10 +1201,15 @@ state 50
     DIVIDE          reduce using rule 99 (cte_bool -> FALSE .)
     PLUS            reduce using rule 99 (cte_bool -> FALSE .)
     MINUS           reduce using rule 99 (cte_bool -> FALSE .)
-    RBRACKET        reduce using rule 99 (cte_bool -> FALSE .)
-    COLON           reduce using rule 99 (cte_bool -> FALSE .)
-    COMMA           reduce using rule 99 (cte_bool -> FALSE .)
+    LESS            reduce using rule 99 (cte_bool -> FALSE .)
+    GREATER         reduce using rule 99 (cte_bool -> FALSE .)
+    DOUBLE_EQUAL    reduce using rule 99 (cte_bool -> FALSE .)
+    DIFF            reduce using rule 99 (cte_bool -> FALSE .)
     RPAREN          reduce using rule 99 (cte_bool -> FALSE .)
+    AND             reduce using rule 99 (cte_bool -> FALSE .)
+    OR              reduce using rule 99 (cte_bool -> FALSE .)
+    RBRACKET        reduce using rule 99 (cte_bool -> FALSE .)
+    COMMA           reduce using rule 99 (cte_bool -> FALSE .)
     VECTOR          reduce using rule 99 (cte_bool -> FALSE .)
     INT             reduce using rule 99 (cte_bool -> FALSE .)
     FLOAT           reduce using rule 99 (cte_bool -> FALSE .)
@@ -1175,6 +1228,7 @@ state 50
     RETURN          reduce using rule 99 (cte_bool -> FALSE .)
     CASE            reduce using rule 99 (cte_bool -> FALSE .)
     DEFAULT         reduce using rule 99 (cte_bool -> FALSE .)
+    COLON           reduce using rule 99 (cte_bool -> FALSE .)
 
 
 state 51
@@ -1206,6 +1260,12 @@ state 51
     RETURN          reduce using rule 53 (factor -> factor1 .)
     CASE            reduce using rule 53 (factor -> factor1 .)
     DEFAULT         reduce using rule 53 (factor -> factor1 .)
+    AND             reduce using rule 53 (factor -> factor1 .)
+    OR              reduce using rule 53 (factor -> factor1 .)
+    LESS            reduce using rule 53 (factor -> factor1 .)
+    GREATER         reduce using rule 53 (factor -> factor1 .)
+    DOUBLE_EQUAL    reduce using rule 53 (factor -> factor1 .)
+    DIFF            reduce using rule 53 (factor -> factor1 .)
 
 
 state 52
@@ -1238,6 +1298,12 @@ state 52
     RETURN          reduce using rule 91 (tipoFLOAT -> .)
     CASE            reduce using rule 91 (tipoFLOAT -> .)
     DEFAULT         reduce using rule 91 (tipoFLOAT -> .)
+    AND             reduce using rule 91 (tipoFLOAT -> .)
+    OR              reduce using rule 91 (tipoFLOAT -> .)
+    LESS            reduce using rule 91 (tipoFLOAT -> .)
+    GREATER         reduce using rule 91 (tipoFLOAT -> .)
+    DOUBLE_EQUAL    reduce using rule 91 (tipoFLOAT -> .)
+    DIFF            reduce using rule 91 (tipoFLOAT -> .)
     COLON           reduce using rule 91 (tipoFLOAT -> .)
 
     tipoFLOAT                      shift and go to state 71
@@ -1398,6 +1464,12 @@ state 60
     RETURN          reduce using rule 141 (epsilon -> .)
     CASE            reduce using rule 141 (epsilon -> .)
     DEFAULT         reduce using rule 141 (epsilon -> .)
+    AND             reduce using rule 141 (epsilon -> .)
+    OR              reduce using rule 141 (epsilon -> .)
+    LESS            reduce using rule 141 (epsilon -> .)
+    GREATER         reduce using rule 141 (epsilon -> .)
+    DOUBLE_EQUAL    reduce using rule 141 (epsilon -> .)
+    DIFF            reduce using rule 141 (epsilon -> .)
 
     epsilon                        shift and go to state 77
     exp1                           shift and go to state 78
@@ -1410,8 +1482,14 @@ state 61
     DIVIDE          reduce using rule 56 (factor1 -> MINUS varcte .)
     PLUS            reduce using rule 56 (factor1 -> MINUS varcte .)
     MINUS           reduce using rule 56 (factor1 -> MINUS varcte .)
-    COMMA           reduce using rule 56 (factor1 -> MINUS varcte .)
+    LESS            reduce using rule 56 (factor1 -> MINUS varcte .)
+    GREATER         reduce using rule 56 (factor1 -> MINUS varcte .)
+    DOUBLE_EQUAL    reduce using rule 56 (factor1 -> MINUS varcte .)
+    DIFF            reduce using rule 56 (factor1 -> MINUS varcte .)
     RPAREN          reduce using rule 56 (factor1 -> MINUS varcte .)
+    COMMA           reduce using rule 56 (factor1 -> MINUS varcte .)
+    AND             reduce using rule 56 (factor1 -> MINUS varcte .)
+    OR              reduce using rule 56 (factor1 -> MINUS varcte .)
     VECTOR          reduce using rule 56 (factor1 -> MINUS varcte .)
     INT             reduce using rule 56 (factor1 -> MINUS varcte .)
     FLOAT           reduce using rule 56 (factor1 -> MINUS varcte .)
@@ -1441,8 +1519,14 @@ state 62
     DIVIDE          reduce using rule 55 (factor1 -> PLUS varcte .)
     PLUS            reduce using rule 55 (factor1 -> PLUS varcte .)
     MINUS           reduce using rule 55 (factor1 -> PLUS varcte .)
-    COMMA           reduce using rule 55 (factor1 -> PLUS varcte .)
+    LESS            reduce using rule 55 (factor1 -> PLUS varcte .)
+    GREATER         reduce using rule 55 (factor1 -> PLUS varcte .)
+    DOUBLE_EQUAL    reduce using rule 55 (factor1 -> PLUS varcte .)
+    DIFF            reduce using rule 55 (factor1 -> PLUS varcte .)
     RPAREN          reduce using rule 55 (factor1 -> PLUS varcte .)
+    COMMA           reduce using rule 55 (factor1 -> PLUS varcte .)
+    AND             reduce using rule 55 (factor1 -> PLUS varcte .)
+    OR              reduce using rule 55 (factor1 -> PLUS varcte .)
     VECTOR          reduce using rule 55 (factor1 -> PLUS varcte .)
     INT             reduce using rule 55 (factor1 -> PLUS varcte .)
     FLOAT           reduce using rule 55 (factor1 -> PLUS varcte .)
@@ -1497,6 +1581,12 @@ state 63
     RETURN          reduce using rule 141 (epsilon -> .)
     CASE            reduce using rule 141 (epsilon -> .)
     DEFAULT         reduce using rule 141 (epsilon -> .)
+    AND             reduce using rule 141 (epsilon -> .)
+    OR              reduce using rule 141 (epsilon -> .)
+    LESS            reduce using rule 141 (epsilon -> .)
+    GREATER         reduce using rule 141 (epsilon -> .)
+    DOUBLE_EQUAL    reduce using rule 141 (epsilon -> .)
+    DIFF            reduce using rule 141 (epsilon -> .)
 
     epsilon                        shift and go to state 82
     termino1                       shift and go to state 83
@@ -1530,6 +1620,12 @@ state 64
     RETURN          reduce using rule 88 (varcte -> CTE_STRING tipoSTRING .)
     CASE            reduce using rule 88 (varcte -> CTE_STRING tipoSTRING .)
     DEFAULT         reduce using rule 88 (varcte -> CTE_STRING tipoSTRING .)
+    AND             reduce using rule 88 (varcte -> CTE_STRING tipoSTRING .)
+    OR              reduce using rule 88 (varcte -> CTE_STRING tipoSTRING .)
+    LESS            reduce using rule 88 (varcte -> CTE_STRING tipoSTRING .)
+    GREATER         reduce using rule 88 (varcte -> CTE_STRING tipoSTRING .)
+    DOUBLE_EQUAL    reduce using rule 88 (varcte -> CTE_STRING tipoSTRING .)
+    DIFF            reduce using rule 88 (varcte -> CTE_STRING tipoSTRING .)
     COLON           reduce using rule 88 (varcte -> CTE_STRING tipoSTRING .)
 
 
@@ -1597,6 +1693,12 @@ state 66
     RETURN          reduce using rule 86 (varcte -> CTE_INT tipoINT .)
     CASE            reduce using rule 86 (varcte -> CTE_INT tipoINT .)
     DEFAULT         reduce using rule 86 (varcte -> CTE_INT tipoINT .)
+    AND             reduce using rule 86 (varcte -> CTE_INT tipoINT .)
+    OR              reduce using rule 86 (varcte -> CTE_INT tipoINT .)
+    LESS            reduce using rule 86 (varcte -> CTE_INT tipoINT .)
+    GREATER         reduce using rule 86 (varcte -> CTE_INT tipoINT .)
+    DOUBLE_EQUAL    reduce using rule 86 (varcte -> CTE_INT tipoINT .)
+    DIFF            reduce using rule 86 (varcte -> CTE_INT tipoINT .)
     COLON           reduce using rule 86 (varcte -> CTE_INT tipoINT .)
 
 
@@ -1664,6 +1766,12 @@ state 68
     RETURN          reduce using rule 93 (varcte1 -> epsilon .)
     CASE            reduce using rule 93 (varcte1 -> epsilon .)
     DEFAULT         reduce using rule 93 (varcte1 -> epsilon .)
+    AND             reduce using rule 93 (varcte1 -> epsilon .)
+    OR              reduce using rule 93 (varcte1 -> epsilon .)
+    LESS            reduce using rule 93 (varcte1 -> epsilon .)
+    GREATER         reduce using rule 93 (varcte1 -> epsilon .)
+    DOUBLE_EQUAL    reduce using rule 93 (varcte1 -> epsilon .)
+    DIFF            reduce using rule 93 (varcte1 -> epsilon .)
     COLON           reduce using rule 93 (varcte1 -> epsilon .)
 
 
@@ -1731,6 +1839,12 @@ state 70
     RETURN          reduce using rule 85 (varcte -> ID varcte1 .)
     CASE            reduce using rule 85 (varcte -> ID varcte1 .)
     DEFAULT         reduce using rule 85 (varcte -> ID varcte1 .)
+    AND             reduce using rule 85 (varcte -> ID varcte1 .)
+    OR              reduce using rule 85 (varcte -> ID varcte1 .)
+    LESS            reduce using rule 85 (varcte -> ID varcte1 .)
+    GREATER         reduce using rule 85 (varcte -> ID varcte1 .)
+    DOUBLE_EQUAL    reduce using rule 85 (varcte -> ID varcte1 .)
+    DIFF            reduce using rule 85 (varcte -> ID varcte1 .)
     COLON           reduce using rule 85 (varcte -> ID varcte1 .)
 
 
@@ -1763,6 +1877,12 @@ state 71
     RETURN          reduce using rule 87 (varcte -> CTE_FLOAT tipoFLOAT .)
     CASE            reduce using rule 87 (varcte -> CTE_FLOAT tipoFLOAT .)
     DEFAULT         reduce using rule 87 (varcte -> CTE_FLOAT tipoFLOAT .)
+    AND             reduce using rule 87 (varcte -> CTE_FLOAT tipoFLOAT .)
+    OR              reduce using rule 87 (varcte -> CTE_FLOAT tipoFLOAT .)
+    LESS            reduce using rule 87 (varcte -> CTE_FLOAT tipoFLOAT .)
+    GREATER         reduce using rule 87 (varcte -> CTE_FLOAT tipoFLOAT .)
+    DOUBLE_EQUAL    reduce using rule 87 (varcte -> CTE_FLOAT tipoFLOAT .)
+    DIFF            reduce using rule 87 (varcte -> CTE_FLOAT tipoFLOAT .)
     COLON           reduce using rule 87 (varcte -> CTE_FLOAT tipoFLOAT .)
 
 
@@ -1804,7 +1924,7 @@ state 73
     (78) llamada -> . ID LPAREN llamada1 RPAREN
     (79) llamada -> . print
     (80) llamada -> . input
-    (105) condicion -> . IF LPAREN expresion RPAREN condicion1 condicion2 condicion3
+    (105) condicion -> . IF LPAREN expresion_logica RPAREN condicion1 condicion2 condicion3
     (133) switch -> . SWITCH ID switch1 LCURL switch2 switch3 RCURL
     (51) while -> . WHILE LPAREN expresion RPAREN bloque
     (115) for -> . FOR CTE_INT TO CTE_INT BY LPAREN for1 CTE_INT RPAREN bloque
@@ -1925,15 +2045,32 @@ state 77
     RETURN          reduce using rule 34 (exp1 -> epsilon .)
     CASE            reduce using rule 34 (exp1 -> epsilon .)
     DEFAULT         reduce using rule 34 (exp1 -> epsilon .)
+    AND             reduce using rule 34 (exp1 -> epsilon .)
+    OR              reduce using rule 34 (exp1 -> epsilon .)
+    LESS            reduce using rule 34 (exp1 -> epsilon .)
+    GREATER         reduce using rule 34 (exp1 -> epsilon .)
+    DOUBLE_EQUAL    reduce using rule 34 (exp1 -> epsilon .)
+    DIFF            reduce using rule 34 (exp1 -> epsilon .)
 
 
 state 78
 
     (30) exp -> termino checkEXPPOper exp1 .
 
-    RBRACKET        reduce using rule 30 (exp -> termino checkEXPPOper exp1 .)
-    COMMA           reduce using rule 30 (exp -> termino checkEXPPOper exp1 .)
+    LESS            reduce using rule 30 (exp -> termino checkEXPPOper exp1 .)
+    GREATER         reduce using rule 30 (exp -> termino checkEXPPOper exp1 .)
+    DOUBLE_EQUAL    reduce using rule 30 (exp -> termino checkEXPPOper exp1 .)
+    DIFF            reduce using rule 30 (exp -> termino checkEXPPOper exp1 .)
     RPAREN          reduce using rule 30 (exp -> termino checkEXPPOper exp1 .)
+    COMMA           reduce using rule 30 (exp -> termino checkEXPPOper exp1 .)
+    RBRACKET        reduce using rule 30 (exp -> termino checkEXPPOper exp1 .)
+    VECTOR          reduce using rule 30 (exp -> termino checkEXPPOper exp1 .)
+    INT             reduce using rule 30 (exp -> termino checkEXPPOper exp1 .)
+    FLOAT           reduce using rule 30 (exp -> termino checkEXPPOper exp1 .)
+    BOOL            reduce using rule 30 (exp -> termino checkEXPPOper exp1 .)
+    STRING          reduce using rule 30 (exp -> termino checkEXPPOper exp1 .)
+    FUNCTION        reduce using rule 30 (exp -> termino checkEXPPOper exp1 .)
+    MAIN            reduce using rule 30 (exp -> termino checkEXPPOper exp1 .)
     ID              reduce using rule 30 (exp -> termino checkEXPPOper exp1 .)
     IF              reduce using rule 30 (exp -> termino checkEXPPOper exp1 .)
     SWITCH          reduce using rule 30 (exp -> termino checkEXPPOper exp1 .)
@@ -1945,13 +2082,8 @@ state 78
     RETURN          reduce using rule 30 (exp -> termino checkEXPPOper exp1 .)
     CASE            reduce using rule 30 (exp -> termino checkEXPPOper exp1 .)
     DEFAULT         reduce using rule 30 (exp -> termino checkEXPPOper exp1 .)
-    VECTOR          reduce using rule 30 (exp -> termino checkEXPPOper exp1 .)
-    INT             reduce using rule 30 (exp -> termino checkEXPPOper exp1 .)
-    FLOAT           reduce using rule 30 (exp -> termino checkEXPPOper exp1 .)
-    BOOL            reduce using rule 30 (exp -> termino checkEXPPOper exp1 .)
-    STRING          reduce using rule 30 (exp -> termino checkEXPPOper exp1 .)
-    FUNCTION        reduce using rule 30 (exp -> termino checkEXPPOper exp1 .)
-    MAIN            reduce using rule 30 (exp -> termino checkEXPPOper exp1 .)
+    AND             reduce using rule 30 (exp -> termino checkEXPPOper exp1 .)
+    OR              reduce using rule 30 (exp -> termino checkEXPPOper exp1 .)
 
 
 state 79
@@ -2084,6 +2216,12 @@ state 82
     RETURN          reduce using rule 39 (termino1 -> epsilon .)
     CASE            reduce using rule 39 (termino1 -> epsilon .)
     DEFAULT         reduce using rule 39 (termino1 -> epsilon .)
+    AND             reduce using rule 39 (termino1 -> epsilon .)
+    OR              reduce using rule 39 (termino1 -> epsilon .)
+    LESS            reduce using rule 39 (termino1 -> epsilon .)
+    GREATER         reduce using rule 39 (termino1 -> epsilon .)
+    DOUBLE_EQUAL    reduce using rule 39 (termino1 -> epsilon .)
+    DIFF            reduce using rule 39 (termino1 -> epsilon .)
 
 
 state 83
@@ -2092,8 +2230,12 @@ state 83
 
     PLUS            reduce using rule 35 (termino -> factor checkTERMPOper termino1 .)
     MINUS           reduce using rule 35 (termino -> factor checkTERMPOper termino1 .)
-    COMMA           reduce using rule 35 (termino -> factor checkTERMPOper termino1 .)
+    LESS            reduce using rule 35 (termino -> factor checkTERMPOper termino1 .)
+    GREATER         reduce using rule 35 (termino -> factor checkTERMPOper termino1 .)
+    DOUBLE_EQUAL    reduce using rule 35 (termino -> factor checkTERMPOper termino1 .)
+    DIFF            reduce using rule 35 (termino -> factor checkTERMPOper termino1 .)
     RPAREN          reduce using rule 35 (termino -> factor checkTERMPOper termino1 .)
+    COMMA           reduce using rule 35 (termino -> factor checkTERMPOper termino1 .)
     VECTOR          reduce using rule 35 (termino -> factor checkTERMPOper termino1 .)
     INT             reduce using rule 35 (termino -> factor checkTERMPOper termino1 .)
     FLOAT           reduce using rule 35 (termino -> factor checkTERMPOper termino1 .)
@@ -2113,6 +2255,8 @@ state 83
     RETURN          reduce using rule 35 (termino -> factor checkTERMPOper termino1 .)
     CASE            reduce using rule 35 (termino -> factor checkTERMPOper termino1 .)
     DEFAULT         reduce using rule 35 (termino -> factor checkTERMPOper termino1 .)
+    AND             reduce using rule 35 (termino -> factor checkTERMPOper termino1 .)
+    OR              reduce using rule 35 (termino -> factor checkTERMPOper termino1 .)
 
 
 state 84
@@ -2242,6 +2386,8 @@ state 95
 
     (63) estatuto -> for .
 
+    CASE            reduce using rule 63 (estatuto -> for .)
+    DEFAULT         reduce using rule 63 (estatuto -> for .)
     ID              reduce using rule 63 (estatuto -> for .)
     IF              reduce using rule 63 (estatuto -> for .)
     SWITCH          reduce using rule 63 (estatuto -> for .)
@@ -2250,8 +2396,6 @@ state 95
     PRINT           reduce using rule 63 (estatuto -> for .)
     INPUT           reduce using rule 63 (estatuto -> for .)
     RCURL           reduce using rule 63 (estatuto -> for .)
-    CASE            reduce using rule 63 (estatuto -> for .)
-    DEFAULT         reduce using rule 63 (estatuto -> for .)
     RETURN          reduce using rule 63 (estatuto -> for .)
 
 
@@ -2271,7 +2415,7 @@ state 96
     (78) llamada -> . ID LPAREN llamada1 RPAREN
     (79) llamada -> . print
     (80) llamada -> . input
-    (105) condicion -> . IF LPAREN expresion RPAREN condicion1 condicion2 condicion3
+    (105) condicion -> . IF LPAREN expresion_logica RPAREN condicion1 condicion2 condicion3
     (133) switch -> . SWITCH ID switch1 LCURL switch2 switch3 RCURL
     (51) while -> . WHILE LPAREN expresion RPAREN bloque
     (115) for -> . FOR CTE_INT TO CTE_INT BY LPAREN for1 CTE_INT RPAREN bloque
@@ -2303,6 +2447,8 @@ state 97
 
     (59) estatuto -> llamada .
 
+    CASE            reduce using rule 59 (estatuto -> llamada .)
+    DEFAULT         reduce using rule 59 (estatuto -> llamada .)
     ID              reduce using rule 59 (estatuto -> llamada .)
     IF              reduce using rule 59 (estatuto -> llamada .)
     SWITCH          reduce using rule 59 (estatuto -> llamada .)
@@ -2311,8 +2457,6 @@ state 97
     PRINT           reduce using rule 59 (estatuto -> llamada .)
     INPUT           reduce using rule 59 (estatuto -> llamada .)
     RCURL           reduce using rule 59 (estatuto -> llamada .)
-    CASE            reduce using rule 59 (estatuto -> llamada .)
-    DEFAULT         reduce using rule 59 (estatuto -> llamada .)
     RETURN          reduce using rule 59 (estatuto -> llamada .)
 
 
@@ -2327,6 +2471,8 @@ state 99
 
     (60) estatuto -> condicion .
 
+    CASE            reduce using rule 60 (estatuto -> condicion .)
+    DEFAULT         reduce using rule 60 (estatuto -> condicion .)
     ID              reduce using rule 60 (estatuto -> condicion .)
     IF              reduce using rule 60 (estatuto -> condicion .)
     SWITCH          reduce using rule 60 (estatuto -> condicion .)
@@ -2335,8 +2481,6 @@ state 99
     PRINT           reduce using rule 60 (estatuto -> condicion .)
     INPUT           reduce using rule 60 (estatuto -> condicion .)
     RCURL           reduce using rule 60 (estatuto -> condicion .)
-    CASE            reduce using rule 60 (estatuto -> condicion .)
-    DEFAULT         reduce using rule 60 (estatuto -> condicion .)
     RETURN          reduce using rule 60 (estatuto -> condicion .)
 
 
@@ -2399,7 +2543,7 @@ state 104
 
 state 105
 
-    (105) condicion -> IF . LPAREN expresion RPAREN condicion1 condicion2 condicion3
+    (105) condicion -> IF . LPAREN expresion_logica RPAREN condicion1 condicion2 condicion3
 
     LPAREN          shift and go to state 137
 
@@ -2408,6 +2552,8 @@ state 106
 
     (58) estatuto -> asignacion .
 
+    CASE            reduce using rule 58 (estatuto -> asignacion .)
+    DEFAULT         reduce using rule 58 (estatuto -> asignacion .)
     ID              reduce using rule 58 (estatuto -> asignacion .)
     IF              reduce using rule 58 (estatuto -> asignacion .)
     SWITCH          reduce using rule 58 (estatuto -> asignacion .)
@@ -2416,8 +2562,6 @@ state 106
     PRINT           reduce using rule 58 (estatuto -> asignacion .)
     INPUT           reduce using rule 58 (estatuto -> asignacion .)
     RCURL           reduce using rule 58 (estatuto -> asignacion .)
-    CASE            reduce using rule 58 (estatuto -> asignacion .)
-    DEFAULT         reduce using rule 58 (estatuto -> asignacion .)
     RETURN          reduce using rule 58 (estatuto -> asignacion .)
 
 
@@ -2425,6 +2569,8 @@ state 107
 
     (61) estatuto -> switch .
 
+    CASE            reduce using rule 61 (estatuto -> switch .)
+    DEFAULT         reduce using rule 61 (estatuto -> switch .)
     ID              reduce using rule 61 (estatuto -> switch .)
     IF              reduce using rule 61 (estatuto -> switch .)
     SWITCH          reduce using rule 61 (estatuto -> switch .)
@@ -2433,8 +2579,6 @@ state 107
     PRINT           reduce using rule 61 (estatuto -> switch .)
     INPUT           reduce using rule 61 (estatuto -> switch .)
     RCURL           reduce using rule 61 (estatuto -> switch .)
-    CASE            reduce using rule 61 (estatuto -> switch .)
-    DEFAULT         reduce using rule 61 (estatuto -> switch .)
     RETURN          reduce using rule 61 (estatuto -> switch .)
 
 
@@ -2442,6 +2586,8 @@ state 108
 
     (62) estatuto -> while .
 
+    CASE            reduce using rule 62 (estatuto -> while .)
+    DEFAULT         reduce using rule 62 (estatuto -> while .)
     ID              reduce using rule 62 (estatuto -> while .)
     IF              reduce using rule 62 (estatuto -> while .)
     SWITCH          reduce using rule 62 (estatuto -> while .)
@@ -2450,8 +2596,6 @@ state 108
     PRINT           reduce using rule 62 (estatuto -> while .)
     INPUT           reduce using rule 62 (estatuto -> while .)
     RCURL           reduce using rule 62 (estatuto -> while .)
-    CASE            reduce using rule 62 (estatuto -> while .)
-    DEFAULT         reduce using rule 62 (estatuto -> while .)
     RETURN          reduce using rule 62 (estatuto -> while .)
 
 
@@ -2520,6 +2664,12 @@ state 113
     RETURN          reduce using rule 32 (exp1 -> PLUS exp .)
     CASE            reduce using rule 32 (exp1 -> PLUS exp .)
     DEFAULT         reduce using rule 32 (exp1 -> PLUS exp .)
+    AND             reduce using rule 32 (exp1 -> PLUS exp .)
+    OR              reduce using rule 32 (exp1 -> PLUS exp .)
+    LESS            reduce using rule 32 (exp1 -> PLUS exp .)
+    GREATER         reduce using rule 32 (exp1 -> PLUS exp .)
+    DOUBLE_EQUAL    reduce using rule 32 (exp1 -> PLUS exp .)
+    DIFF            reduce using rule 32 (exp1 -> PLUS exp .)
 
 
 state 114
@@ -2547,6 +2697,12 @@ state 114
     RETURN          reduce using rule 33 (exp1 -> MINUS exp .)
     CASE            reduce using rule 33 (exp1 -> MINUS exp .)
     DEFAULT         reduce using rule 33 (exp1 -> MINUS exp .)
+    AND             reduce using rule 33 (exp1 -> MINUS exp .)
+    OR              reduce using rule 33 (exp1 -> MINUS exp .)
+    LESS            reduce using rule 33 (exp1 -> MINUS exp .)
+    GREATER         reduce using rule 33 (exp1 -> MINUS exp .)
+    DOUBLE_EQUAL    reduce using rule 33 (exp1 -> MINUS exp .)
+    DIFF            reduce using rule 33 (exp1 -> MINUS exp .)
 
 
 state 115
@@ -2576,6 +2732,12 @@ state 115
     RETURN          reduce using rule 38 (termino1 -> DIVIDE termino .)
     CASE            reduce using rule 38 (termino1 -> DIVIDE termino .)
     DEFAULT         reduce using rule 38 (termino1 -> DIVIDE termino .)
+    AND             reduce using rule 38 (termino1 -> DIVIDE termino .)
+    OR              reduce using rule 38 (termino1 -> DIVIDE termino .)
+    LESS            reduce using rule 38 (termino1 -> DIVIDE termino .)
+    GREATER         reduce using rule 38 (termino1 -> DIVIDE termino .)
+    DOUBLE_EQUAL    reduce using rule 38 (termino1 -> DIVIDE termino .)
+    DIFF            reduce using rule 38 (termino1 -> DIVIDE termino .)
 
 
 state 116
@@ -2605,6 +2767,12 @@ state 116
     RETURN          reduce using rule 37 (termino1 -> TIMES termino .)
     CASE            reduce using rule 37 (termino1 -> TIMES termino .)
     DEFAULT         reduce using rule 37 (termino1 -> TIMES termino .)
+    AND             reduce using rule 37 (termino1 -> TIMES termino .)
+    OR              reduce using rule 37 (termino1 -> TIMES termino .)
+    LESS            reduce using rule 37 (termino1 -> TIMES termino .)
+    GREATER         reduce using rule 37 (termino1 -> TIMES termino .)
+    DOUBLE_EQUAL    reduce using rule 37 (termino1 -> TIMES termino .)
+    DIFF            reduce using rule 37 (termino1 -> TIMES termino .)
 
 
 state 117
@@ -2636,6 +2804,12 @@ state 117
     RETURN          reduce using rule 52 (factor -> LPAREN factorAddFakeCover exp RPAREN .)
     CASE            reduce using rule 52 (factor -> LPAREN factorAddFakeCover exp RPAREN .)
     DEFAULT         reduce using rule 52 (factor -> LPAREN factorAddFakeCover exp RPAREN .)
+    AND             reduce using rule 52 (factor -> LPAREN factorAddFakeCover exp RPAREN .)
+    OR              reduce using rule 52 (factor -> LPAREN factorAddFakeCover exp RPAREN .)
+    LESS            reduce using rule 52 (factor -> LPAREN factorAddFakeCover exp RPAREN .)
+    GREATER         reduce using rule 52 (factor -> LPAREN factorAddFakeCover exp RPAREN .)
+    DOUBLE_EQUAL    reduce using rule 52 (factor -> LPAREN factorAddFakeCover exp RPAREN .)
+    DIFF            reduce using rule 52 (factor -> LPAREN factorAddFakeCover exp RPAREN .)
 
 
 state 118
@@ -2716,6 +2890,12 @@ state 121
     RETURN          reduce using rule 95 (varcte1 -> LBRACKET exp RBRACKET .)
     CASE            reduce using rule 95 (varcte1 -> LBRACKET exp RBRACKET .)
     DEFAULT         reduce using rule 95 (varcte1 -> LBRACKET exp RBRACKET .)
+    AND             reduce using rule 95 (varcte1 -> LBRACKET exp RBRACKET .)
+    OR              reduce using rule 95 (varcte1 -> LBRACKET exp RBRACKET .)
+    LESS            reduce using rule 95 (varcte1 -> LBRACKET exp RBRACKET .)
+    GREATER         reduce using rule 95 (varcte1 -> LBRACKET exp RBRACKET .)
+    DOUBLE_EQUAL    reduce using rule 95 (varcte1 -> LBRACKET exp RBRACKET .)
+    DIFF            reduce using rule 95 (varcte1 -> LBRACKET exp RBRACKET .)
     COLON           reduce using rule 95 (varcte1 -> LBRACKET exp RBRACKET .)
 
 
@@ -2810,7 +2990,7 @@ state 129
     (78) llamada -> . ID LPAREN llamada1 RPAREN
     (79) llamada -> . print
     (80) llamada -> . input
-    (105) condicion -> . IF LPAREN expresion RPAREN condicion1 condicion2 condicion3
+    (105) condicion -> . IF LPAREN expresion_logica RPAREN condicion1 condicion2 condicion3
     (133) switch -> . SWITCH ID switch1 LCURL switch2 switch3 RCURL
     (51) while -> . WHILE LPAREN expresion RPAREN bloque
     (115) for -> . FOR CTE_INT TO CTE_INT BY LPAREN for1 CTE_INT RPAREN bloque
@@ -2976,26 +3156,40 @@ state 136
 
 state 137
 
-    (105) condicion -> IF LPAREN . expresion RPAREN condicion1 condicion2 condicion3
-    (67) expresion -> . expresion1
-    (68) expresion1 -> . epsilon
-    (69) expresion1 -> . expresion2 exp
-    (141) epsilon -> .
-    (70) expresion2 -> . LESS
-    (71) expresion2 -> . GREATER
-    (72) expresion2 -> . DOUBLE_EQUAL
-    (73) expresion2 -> . DIFF
+    (105) condicion -> IF LPAREN . expresion_logica RPAREN condicion1 condicion2 condicion3
+    (74) expresion_logica -> . exp expresion_logica1 expresion
+    (30) exp -> . termino checkEXPPOper exp1
+    (35) termino -> . factor checkTERMPOper termino1
+    (52) factor -> . LPAREN factorAddFakeCover exp RPAREN
+    (53) factor -> . factor1
+    (55) factor1 -> . PLUS varcte
+    (56) factor1 -> . MINUS varcte
+    (57) factor1 -> . varcte
+    (85) varcte -> . ID varcte1
+    (86) varcte -> . CTE_INT tipoINT
+    (87) varcte -> . CTE_FLOAT tipoFLOAT
+    (88) varcte -> . CTE_STRING tipoSTRING
+    (89) varcte -> . cte_bool
+    (98) cte_bool -> . TRUE
+    (99) cte_bool -> . FALSE
 
-    RPAREN          reduce using rule 141 (epsilon -> .)
-    LESS            shift and go to state 150
-    GREATER         shift and go to state 154
-    DOUBLE_EQUAL    shift and go to state 152
-    DIFF            shift and go to state 153
+    LPAREN          shift and go to state 47
+    PLUS            shift and go to state 44
+    MINUS           shift and go to state 42
+    ID              shift and go to state 49
+    CTE_INT         shift and go to state 48
+    CTE_FLOAT       shift and go to state 52
+    CTE_STRING      shift and go to state 46
+    TRUE            shift and go to state 41
+    FALSE           shift and go to state 50
 
-    expresion                      shift and go to state 174
-    expresion1                     shift and go to state 148
-    expresion2                     shift and go to state 149
-    epsilon                        shift and go to state 151
+    varcte                         shift and go to state 43
+    expresion_logica               shift and go to state 174
+    factor                         shift and go to state 45
+    factor1                        shift and go to state 51
+    exp                            shift and go to state 175
+    cte_bool                       shift and go to state 39
+    termino                        shift and go to state 40
 
 state 138
 
@@ -3029,7 +3223,7 @@ state 140
     TRUE            shift and go to state 41
     FALSE           shift and go to state 50
 
-    varcte                         shift and go to state 175
+    varcte                         shift and go to state 176
     cte_bool                       shift and go to state 39
 
 state 141
@@ -3063,7 +3257,7 @@ state 142
     RPAREN          reduce using rule 141 (epsilon -> .)
 
     epsilon                        shift and go to state 118
-    varcte2                        shift and go to state 176
+    varcte2                        shift and go to state 177
 
 state 143
 
@@ -3094,6 +3288,12 @@ state 143
     RETURN          reduce using rule 94 (varcte1 -> LPAREN exp varcte2 RPAREN .)
     CASE            reduce using rule 94 (varcte1 -> LPAREN exp varcte2 RPAREN .)
     DEFAULT         reduce using rule 94 (varcte1 -> LPAREN exp varcte2 RPAREN .)
+    AND             reduce using rule 94 (varcte1 -> LPAREN exp varcte2 RPAREN .)
+    OR              reduce using rule 94 (varcte1 -> LPAREN exp varcte2 RPAREN .)
+    LESS            reduce using rule 94 (varcte1 -> LPAREN exp varcte2 RPAREN .)
+    GREATER         reduce using rule 94 (varcte1 -> LPAREN exp varcte2 RPAREN .)
+    DOUBLE_EQUAL    reduce using rule 94 (varcte1 -> LPAREN exp varcte2 RPAREN .)
+    DIFF            reduce using rule 94 (varcte1 -> LPAREN exp varcte2 RPAREN .)
     COLON           reduce using rule 94 (varcte1 -> LPAREN exp varcte2 RPAREN .)
 
 
@@ -3104,11 +3304,11 @@ state 144
     (21) parametros2 -> . epsilon
     (141) epsilon -> .
 
-    COMMA           shift and go to state 178
+    COMMA           shift and go to state 179
     RPAREN          reduce using rule 141 (epsilon -> .)
 
-    parametros2                    shift and go to state 177
-    epsilon                        shift and go to state 179
+    parametros2                    shift and go to state 178
+    epsilon                        shift and go to state 180
 
 state 145
 
@@ -3137,22 +3337,22 @@ state 145
     STRING          shift and go to state 4
 
     tipo                           shift and go to state 5
-    epsilon                        shift and go to state 180
-    var_declaracion                shift and go to state 181
-    funcion1                       shift and go to state 182
+    epsilon                        shift and go to state 181
+    var_declaracion                shift and go to state 182
+    funcion1                       shift and go to state 183
 
 state 146
 
     (17) parametros -> VECTOR tipo parametros1 . ID parametros2
 
-    ID              shift and go to state 183
+    ID              shift and go to state 184
 
 
 state 147
 
     (51) while -> WHILE LPAREN expresion . RPAREN bloque
 
-    RPAREN          shift and go to state 184
+    RPAREN          shift and go to state 185
 
 
 state 148
@@ -3193,7 +3393,7 @@ state 149
     factor1                        shift and go to state 51
     cte_bool                       shift and go to state 39
     termino                        shift and go to state 40
-    exp                            shift and go to state 185
+    exp                            shift and go to state 186
     factor                         shift and go to state 45
     varcte                         shift and go to state 43
 
@@ -3268,7 +3468,7 @@ state 155
 
     (100) print -> PRINT LPAREN print1 . RPAREN
 
-    RPAREN          shift and go to state 186
+    RPAREN          shift and go to state 187
 
 
 state 156
@@ -3278,11 +3478,11 @@ state 156
     (104) print2 -> . PLUS print1
     (141) epsilon -> .
 
-    PLUS            shift and go to state 189
+    PLUS            shift and go to state 190
     RPAREN          reduce using rule 141 (epsilon -> .)
 
-    epsilon                        shift and go to state 187
-    print2                         shift and go to state 188
+    epsilon                        shift and go to state 188
+    print2                         shift and go to state 189
 
 state 157
 
@@ -3291,11 +3491,11 @@ state 157
     (104) print2 -> . PLUS print1
     (141) epsilon -> .
 
-    PLUS            shift and go to state 189
+    PLUS            shift and go to state 190
     RPAREN          reduce using rule 141 (epsilon -> .)
 
-    epsilon                        shift and go to state 187
-    print2                         shift and go to state 190
+    epsilon                        shift and go to state 188
+    print2                         shift and go to state 191
 
 state 158
 
@@ -3315,7 +3515,7 @@ state 160
 
     (133) switch -> SWITCH ID switch1 . LCURL switch2 switch3 RCURL
 
-    LCURL           shift and go to state 191
+    LCURL           shift and go to state 192
 
 
 state 161
@@ -3349,7 +3549,7 @@ state 161
     factor1                        shift and go to state 51
     cte_bool                       shift and go to state 39
     termino                        shift and go to state 40
-    exp                            shift and go to state 192
+    exp                            shift and go to state 193
     factor                         shift and go to state 45
     varcte                         shift and go to state 43
 
@@ -3364,7 +3564,7 @@ state 163
 
     (115) for -> FOR CTE_INT TO . CTE_INT BY LPAREN for1 CTE_INT RPAREN bloque
 
-    CTE_INT         shift and go to state 193
+    CTE_INT         shift and go to state 194
 
 
 state 164
@@ -3378,7 +3578,7 @@ state 165
 
     (112) input -> INPUT LPAREN input1 . RPAREN
 
-    RPAREN          shift and go to state 194
+    RPAREN          shift and go to state 195
 
 
 state 166
@@ -3414,7 +3614,7 @@ state 168
     (95) varcte1 -> . LBRACKET exp RBRACKET
     (141) epsilon -> .
 
-    LPAREN          shift and go to state 195
+    LPAREN          shift and go to state 196
     LBRACKET        shift and go to state 69
     TIMES           reduce using rule 141 (epsilon -> .)
     DIVIDE          reduce using rule 141 (epsilon -> .)
@@ -3456,6 +3656,8 @@ state 170
 
     (64) asignacion -> ID EQUALS asignacion1 .
 
+    CASE            reduce using rule 64 (asignacion -> ID EQUALS asignacion1 .)
+    DEFAULT         reduce using rule 64 (asignacion -> ID EQUALS asignacion1 .)
     ID              reduce using rule 64 (asignacion -> ID EQUALS asignacion1 .)
     IF              reduce using rule 64 (asignacion -> ID EQUALS asignacion1 .)
     SWITCH          reduce using rule 64 (asignacion -> ID EQUALS asignacion1 .)
@@ -3465,15 +3667,13 @@ state 170
     INPUT           reduce using rule 64 (asignacion -> ID EQUALS asignacion1 .)
     RCURL           reduce using rule 64 (asignacion -> ID EQUALS asignacion1 .)
     RETURN          reduce using rule 64 (asignacion -> ID EQUALS asignacion1 .)
-    CASE            reduce using rule 64 (asignacion -> ID EQUALS asignacion1 .)
-    DEFAULT         reduce using rule 64 (asignacion -> ID EQUALS asignacion1 .)
 
 
 state 171
 
     (78) llamada -> ID LPAREN llamada1 . RPAREN
 
-    RPAREN          shift and go to state 196
+    RPAREN          shift and go to state 197
 
 
 state 172
@@ -3490,20 +3690,39 @@ state 173
     (84) llamada2 -> . COMMA exp llamada2
     (141) epsilon -> .
 
-    COMMA           shift and go to state 199
+    COMMA           shift and go to state 200
     RPAREN          reduce using rule 141 (epsilon -> .)
 
-    llamada2                       shift and go to state 197
-    epsilon                        shift and go to state 198
+    llamada2                       shift and go to state 198
+    epsilon                        shift and go to state 199
 
 state 174
 
-    (105) condicion -> IF LPAREN expresion . RPAREN condicion1 condicion2 condicion3
+    (105) condicion -> IF LPAREN expresion_logica . RPAREN condicion1 condicion2 condicion3
 
-    RPAREN          shift and go to state 200
+    RPAREN          shift and go to state 201
 
 
 state 175
+
+    (74) expresion_logica -> exp . expresion_logica1 expresion
+    (75) expresion_logica1 -> . AND exp
+    (76) expresion_logica1 -> . epsilon
+    (77) expresion_logica1 -> . OR exp
+    (141) epsilon -> .
+
+    AND             shift and go to state 202
+    OR              shift and go to state 205
+    LESS            reduce using rule 141 (epsilon -> .)
+    GREATER         reduce using rule 141 (epsilon -> .)
+    DOUBLE_EQUAL    reduce using rule 141 (epsilon -> .)
+    DIFF            reduce using rule 141 (epsilon -> .)
+    RPAREN          reduce using rule 141 (epsilon -> .)
+
+    expresion_logica1              shift and go to state 204
+    epsilon                        shift and go to state 203
+
+state 176
 
     (43) inicializacion_vector2 -> COMMA varcte . inicializacion_vector2
     (43) inicializacion_vector2 -> . COMMA varcte inicializacion_vector2
@@ -3513,24 +3732,24 @@ state 175
     COMMA           shift and go to state 140
     RBRACKET        reduce using rule 141 (epsilon -> .)
 
-    inicializacion_vector2         shift and go to state 201
+    inicializacion_vector2         shift and go to state 206
     epsilon                        shift and go to state 139
 
-state 176
+state 177
 
     (97) varcte2 -> COMMA exp varcte2 .
 
     RPAREN          reduce using rule 97 (varcte2 -> COMMA exp varcte2 .)
 
 
-state 177
+state 178
 
     (16) parametros -> tipo parametros1 ID parametros2 .
 
     RPAREN          reduce using rule 16 (parametros -> tipo parametros1 ID parametros2 .)
 
 
-state 178
+state 179
 
     (20) parametros2 -> COMMA . parametros
     (16) parametros -> . tipo parametros1 ID parametros2
@@ -3546,17 +3765,17 @@ state 178
     BOOL            shift and go to state 9
     STRING          shift and go to state 4
 
-    parametros                     shift and go to state 202
+    parametros                     shift and go to state 207
     tipo                           shift and go to state 88
 
-state 179
+state 180
 
     (21) parametros2 -> epsilon .
 
     RPAREN          reduce using rule 21 (parametros2 -> epsilon .)
 
 
-state 180
+state 181
 
     (121) funcion1 -> epsilon .
 
@@ -3569,7 +3788,7 @@ state 180
     INPUT           reduce using rule 121 (funcion1 -> epsilon .)
 
 
-state 181
+state 182
 
     (122) funcion1 -> var_declaracion . funcion1
     (121) funcion1 -> . epsilon
@@ -3596,11 +3815,11 @@ state 181
     STRING          shift and go to state 4
 
     tipo                           shift and go to state 5
-    epsilon                        shift and go to state 180
-    var_declaracion                shift and go to state 181
-    funcion1                       shift and go to state 203
+    epsilon                        shift and go to state 181
+    var_declaracion                shift and go to state 182
+    funcion1                       shift and go to state 208
 
-state 182
+state 183
 
     (129) funcion5 -> ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 . estatuto funcion2 funcion6
     (58) estatuto -> . asignacion
@@ -3613,7 +3832,7 @@ state 182
     (78) llamada -> . ID LPAREN llamada1 RPAREN
     (79) llamada -> . print
     (80) llamada -> . input
-    (105) condicion -> . IF LPAREN expresion RPAREN condicion1 condicion2 condicion3
+    (105) condicion -> . IF LPAREN expresion_logica RPAREN condicion1 condicion2 condicion3
     (133) switch -> . SWITCH ID switch1 LCURL switch2 switch3 RCURL
     (51) while -> . WHILE LPAREN expresion RPAREN bloque
     (115) for -> . FOR CTE_INT TO CTE_INT BY LPAREN for1 CTE_INT RPAREN bloque
@@ -3629,7 +3848,7 @@ state 182
     INPUT           shift and go to state 103
 
     for                            shift and go to state 95
-    estatuto                       shift and go to state 204
+    estatuto                       shift and go to state 209
     while                          shift and go to state 108
     llamada                        shift and go to state 97
     condicion                      shift and go to state 99
@@ -3638,36 +3857,36 @@ state 182
     asignacion                     shift and go to state 106
     switch                         shift and go to state 107
 
-state 183
+state 184
 
     (17) parametros -> VECTOR tipo parametros1 ID . parametros2
     (20) parametros2 -> . COMMA parametros
     (21) parametros2 -> . epsilon
     (141) epsilon -> .
 
-    COMMA           shift and go to state 178
+    COMMA           shift and go to state 179
     RPAREN          reduce using rule 141 (epsilon -> .)
 
-    parametros2                    shift and go to state 205
-    epsilon                        shift and go to state 179
+    parametros2                    shift and go to state 210
+    epsilon                        shift and go to state 180
 
-state 184
+state 185
 
     (51) while -> WHILE LPAREN expresion RPAREN . bloque
     (27) bloque -> . LCURL estatuto bloque1 RCURL
 
-    LCURL           shift and go to state 207
+    LCURL           shift and go to state 212
 
-    bloque                         shift and go to state 206
+    bloque                         shift and go to state 211
 
-state 185
+state 186
 
     (69) expresion1 -> expresion2 exp .
 
     RPAREN          reduce using rule 69 (expresion1 -> expresion2 exp .)
 
 
-state 186
+state 187
 
     (100) print -> PRINT LPAREN print1 RPAREN .
 
@@ -3684,21 +3903,21 @@ state 186
     DEFAULT         reduce using rule 100 (print -> PRINT LPAREN print1 RPAREN .)
 
 
-state 187
+state 188
 
     (103) print2 -> epsilon .
 
     RPAREN          reduce using rule 103 (print2 -> epsilon .)
 
 
-state 188
+state 189
 
     (101) print1 -> CTE_STRING print2 .
 
     RPAREN          reduce using rule 101 (print1 -> CTE_STRING print2 .)
 
 
-state 189
+state 190
 
     (104) print2 -> PLUS . print1
     (101) print1 -> . CTE_STRING print2
@@ -3707,43 +3926,43 @@ state 189
     CTE_STRING      shift and go to state 156
     ID              shift and go to state 157
 
-    print1                         shift and go to state 208
+    print1                         shift and go to state 213
 
-state 190
+state 191
 
     (102) print1 -> ID print2 .
 
     RPAREN          reduce using rule 102 (print1 -> ID print2 .)
 
 
-state 191
+state 192
 
     (133) switch -> SWITCH ID switch1 LCURL . switch2 switch3 RCURL
     (136) switch2 -> . epsilon
     (137) switch2 -> . CASE varcte COLON switch4 switch2
     (141) epsilon -> .
 
-    CASE            shift and go to state 209
+    CASE            shift and go to state 214
     DEFAULT         reduce using rule 141 (epsilon -> .)
 
-    switch2                        shift and go to state 210
-    epsilon                        shift and go to state 211
-
-state 192
-
-    (135) switch1 -> LBRACKET exp . RBRACKET
-
-    RBRACKET        shift and go to state 212
-
+    switch2                        shift and go to state 215
+    epsilon                        shift and go to state 216
 
 state 193
 
-    (115) for -> FOR CTE_INT TO CTE_INT . BY LPAREN for1 CTE_INT RPAREN bloque
+    (135) switch1 -> LBRACKET exp . RBRACKET
 
-    BY              shift and go to state 213
+    RBRACKET        shift and go to state 217
 
 
 state 194
+
+    (115) for -> FOR CTE_INT TO CTE_INT . BY LPAREN for1 CTE_INT RPAREN bloque
+
+    BY              shift and go to state 218
+
+
+state 195
 
     (112) input -> INPUT LPAREN input1 RPAREN .
 
@@ -3760,7 +3979,7 @@ state 194
     DEFAULT         reduce using rule 112 (input -> INPUT LPAREN input1 RPAREN .)
 
 
-state 195
+state 196
 
     (78) llamada -> ID LPAREN . llamada1 RPAREN
     (94) varcte1 -> LPAREN . exp varcte2 RPAREN
@@ -3797,12 +4016,12 @@ state 195
     epsilon                        shift and go to state 172
     cte_bool                       shift and go to state 39
     termino                        shift and go to state 40
-    exp                            shift and go to state 214
+    exp                            shift and go to state 219
     factor                         shift and go to state 45
     llamada1                       shift and go to state 171
     varcte                         shift and go to state 43
 
-state 196
+state 197
 
     (78) llamada -> ID LPAREN llamada1 RPAREN .
 
@@ -3819,21 +4038,21 @@ state 196
     DEFAULT         reduce using rule 78 (llamada -> ID LPAREN llamada1 RPAREN .)
 
 
-state 197
+state 198
 
     (82) llamada1 -> exp llamada2 .
 
     RPAREN          reduce using rule 82 (llamada1 -> exp llamada2 .)
 
 
-state 198
+state 199
 
     (83) llamada2 -> epsilon .
 
     RPAREN          reduce using rule 83 (llamada2 -> epsilon .)
 
 
-state 199
+state 200
 
     (84) llamada2 -> COMMA . exp llamada2
     (30) exp -> . termino checkEXPPOper exp1
@@ -3864,37 +4083,141 @@ state 199
     factor1                        shift and go to state 51
     cte_bool                       shift and go to state 39
     termino                        shift and go to state 40
-    exp                            shift and go to state 215
+    exp                            shift and go to state 220
     factor                         shift and go to state 45
     varcte                         shift and go to state 43
 
-state 200
+state 201
 
-    (105) condicion -> IF LPAREN expresion RPAREN . condicion1 condicion2 condicion3
+    (105) condicion -> IF LPAREN expresion_logica RPAREN . condicion1 condicion2 condicion3
     (106) condicion1 -> . bloque
     (107) condicion1 -> . LCURL bloque RCURL
     (27) bloque -> . LCURL estatuto bloque1 RCURL
 
-    LCURL           shift and go to state 218
+    LCURL           shift and go to state 223
 
-    condicion1                     shift and go to state 216
-    bloque                         shift and go to state 217
+    condicion1                     shift and go to state 221
+    bloque                         shift and go to state 222
 
-state 201
+state 202
+
+    (75) expresion_logica1 -> AND . exp
+    (30) exp -> . termino checkEXPPOper exp1
+    (35) termino -> . factor checkTERMPOper termino1
+    (52) factor -> . LPAREN factorAddFakeCover exp RPAREN
+    (53) factor -> . factor1
+    (55) factor1 -> . PLUS varcte
+    (56) factor1 -> . MINUS varcte
+    (57) factor1 -> . varcte
+    (85) varcte -> . ID varcte1
+    (86) varcte -> . CTE_INT tipoINT
+    (87) varcte -> . CTE_FLOAT tipoFLOAT
+    (88) varcte -> . CTE_STRING tipoSTRING
+    (89) varcte -> . cte_bool
+    (98) cte_bool -> . TRUE
+    (99) cte_bool -> . FALSE
+
+    LPAREN          shift and go to state 47
+    PLUS            shift and go to state 44
+    MINUS           shift and go to state 42
+    ID              shift and go to state 49
+    CTE_INT         shift and go to state 48
+    CTE_FLOAT       shift and go to state 52
+    CTE_STRING      shift and go to state 46
+    TRUE            shift and go to state 41
+    FALSE           shift and go to state 50
+
+    factor1                        shift and go to state 51
+    cte_bool                       shift and go to state 39
+    termino                        shift and go to state 40
+    exp                            shift and go to state 224
+    factor                         shift and go to state 45
+    varcte                         shift and go to state 43
+
+state 203
+
+    (76) expresion_logica1 -> epsilon .
+
+    LESS            reduce using rule 76 (expresion_logica1 -> epsilon .)
+    GREATER         reduce using rule 76 (expresion_logica1 -> epsilon .)
+    DOUBLE_EQUAL    reduce using rule 76 (expresion_logica1 -> epsilon .)
+    DIFF            reduce using rule 76 (expresion_logica1 -> epsilon .)
+    RPAREN          reduce using rule 76 (expresion_logica1 -> epsilon .)
+
+
+state 204
+
+    (74) expresion_logica -> exp expresion_logica1 . expresion
+    (67) expresion -> . expresion1
+    (68) expresion1 -> . epsilon
+    (69) expresion1 -> . expresion2 exp
+    (141) epsilon -> .
+    (70) expresion2 -> . LESS
+    (71) expresion2 -> . GREATER
+    (72) expresion2 -> . DOUBLE_EQUAL
+    (73) expresion2 -> . DIFF
+
+    RPAREN          reduce using rule 141 (epsilon -> .)
+    LESS            shift and go to state 150
+    GREATER         shift and go to state 154
+    DOUBLE_EQUAL    shift and go to state 152
+    DIFF            shift and go to state 153
+
+    expresion                      shift and go to state 225
+    expresion1                     shift and go to state 148
+    expresion2                     shift and go to state 149
+    epsilon                        shift and go to state 151
+
+state 205
+
+    (77) expresion_logica1 -> OR . exp
+    (30) exp -> . termino checkEXPPOper exp1
+    (35) termino -> . factor checkTERMPOper termino1
+    (52) factor -> . LPAREN factorAddFakeCover exp RPAREN
+    (53) factor -> . factor1
+    (55) factor1 -> . PLUS varcte
+    (56) factor1 -> . MINUS varcte
+    (57) factor1 -> . varcte
+    (85) varcte -> . ID varcte1
+    (86) varcte -> . CTE_INT tipoINT
+    (87) varcte -> . CTE_FLOAT tipoFLOAT
+    (88) varcte -> . CTE_STRING tipoSTRING
+    (89) varcte -> . cte_bool
+    (98) cte_bool -> . TRUE
+    (99) cte_bool -> . FALSE
+
+    LPAREN          shift and go to state 47
+    PLUS            shift and go to state 44
+    MINUS           shift and go to state 42
+    ID              shift and go to state 49
+    CTE_INT         shift and go to state 48
+    CTE_FLOAT       shift and go to state 52
+    CTE_STRING      shift and go to state 46
+    TRUE            shift and go to state 41
+    FALSE           shift and go to state 50
+
+    factor1                        shift and go to state 51
+    cte_bool                       shift and go to state 39
+    termino                        shift and go to state 40
+    exp                            shift and go to state 226
+    factor                         shift and go to state 45
+    varcte                         shift and go to state 43
+
+state 206
 
     (43) inicializacion_vector2 -> COMMA varcte inicializacion_vector2 .
 
     RBRACKET        reduce using rule 43 (inicializacion_vector2 -> COMMA varcte inicializacion_vector2 .)
 
 
-state 202
+state 207
 
     (20) parametros2 -> COMMA parametros .
 
     RPAREN          reduce using rule 20 (parametros2 -> COMMA parametros .)
 
 
-state 203
+state 208
 
     (122) funcion1 -> var_declaracion funcion1 .
 
@@ -3907,7 +4230,7 @@ state 203
     INPUT           reduce using rule 122 (funcion1 -> var_declaracion funcion1 .)
 
 
-state 204
+state 209
 
     (129) funcion5 -> ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto . funcion2 funcion6
     (123) funcion2 -> . epsilon
@@ -3923,7 +4246,7 @@ state 204
     (78) llamada -> . ID LPAREN llamada1 RPAREN
     (79) llamada -> . print
     (80) llamada -> . input
-    (105) condicion -> . IF LPAREN expresion RPAREN condicion1 condicion2 condicion3
+    (105) condicion -> . IF LPAREN expresion_logica RPAREN condicion1 condicion2 condicion3
     (133) switch -> . SWITCH ID switch1 LCURL switch2 switch3 RCURL
     (51) while -> . WHILE LPAREN expresion RPAREN bloque
     (115) for -> . FOR CTE_INT TO CTE_INT BY LPAREN for1 CTE_INT RPAREN bloque
@@ -3940,29 +4263,30 @@ state 204
     PRINT           shift and go to state 94
     INPUT           shift and go to state 103
 
-    funcion2                       shift and go to state 219
+    funcion2                       shift and go to state 227
     for                            shift and go to state 95
-    estatuto                       shift and go to state 220
+    estatuto                       shift and go to state 228
     while                          shift and go to state 108
     llamada                        shift and go to state 97
     condicion                      shift and go to state 99
     print                          shift and go to state 100
     input                          shift and go to state 101
-    epsilon                        shift and go to state 221
+    epsilon                        shift and go to state 229
     asignacion                     shift and go to state 106
     switch                         shift and go to state 107
 
-state 205
+state 210
 
     (17) parametros -> VECTOR tipo parametros1 ID parametros2 .
 
     RPAREN          reduce using rule 17 (parametros -> VECTOR tipo parametros1 ID parametros2 .)
 
 
-state 206
+state 211
 
     (51) while -> WHILE LPAREN expresion RPAREN bloque .
 
+    RCURL           reduce using rule 51 (while -> WHILE LPAREN expresion RPAREN bloque .)
     ID              reduce using rule 51 (while -> WHILE LPAREN expresion RPAREN bloque .)
     IF              reduce using rule 51 (while -> WHILE LPAREN expresion RPAREN bloque .)
     SWITCH          reduce using rule 51 (while -> WHILE LPAREN expresion RPAREN bloque .)
@@ -3970,13 +4294,12 @@ state 206
     FOR             reduce using rule 51 (while -> WHILE LPAREN expresion RPAREN bloque .)
     PRINT           reduce using rule 51 (while -> WHILE LPAREN expresion RPAREN bloque .)
     INPUT           reduce using rule 51 (while -> WHILE LPAREN expresion RPAREN bloque .)
-    RCURL           reduce using rule 51 (while -> WHILE LPAREN expresion RPAREN bloque .)
     RETURN          reduce using rule 51 (while -> WHILE LPAREN expresion RPAREN bloque .)
     CASE            reduce using rule 51 (while -> WHILE LPAREN expresion RPAREN bloque .)
     DEFAULT         reduce using rule 51 (while -> WHILE LPAREN expresion RPAREN bloque .)
 
 
-state 207
+state 212
 
     (27) bloque -> LCURL . estatuto bloque1 RCURL
     (58) estatuto -> . asignacion
@@ -3989,7 +4312,7 @@ state 207
     (78) llamada -> . ID LPAREN llamada1 RPAREN
     (79) llamada -> . print
     (80) llamada -> . input
-    (105) condicion -> . IF LPAREN expresion RPAREN condicion1 condicion2 condicion3
+    (105) condicion -> . IF LPAREN expresion_logica RPAREN condicion1 condicion2 condicion3
     (133) switch -> . SWITCH ID switch1 LCURL switch2 switch3 RCURL
     (51) while -> . WHILE LPAREN expresion RPAREN bloque
     (115) for -> . FOR CTE_INT TO CTE_INT BY LPAREN for1 CTE_INT RPAREN bloque
@@ -4005,7 +4328,7 @@ state 207
     INPUT           shift and go to state 103
 
     for                            shift and go to state 95
-    estatuto                       shift and go to state 222
+    estatuto                       shift and go to state 230
     switch                         shift and go to state 107
     llamada                        shift and go to state 97
     condicion                      shift and go to state 99
@@ -4014,14 +4337,14 @@ state 207
     asignacion                     shift and go to state 106
     while                          shift and go to state 108
 
-state 208
+state 213
 
     (104) print2 -> PLUS print1 .
 
     RPAREN          reduce using rule 104 (print2 -> PLUS print1 .)
 
 
-state 209
+state 214
 
     (137) switch2 -> CASE . varcte COLON switch4 switch2
     (85) varcte -> . ID varcte1
@@ -4039,40 +4362,40 @@ state 209
     TRUE            shift and go to state 41
     FALSE           shift and go to state 50
 
-    varcte                         shift and go to state 223
+    varcte                         shift and go to state 231
     cte_bool                       shift and go to state 39
 
-state 210
+state 215
 
     (133) switch -> SWITCH ID switch1 LCURL switch2 . switch3 RCURL
     (138) switch3 -> . DEFAULT COLON switch4
 
-    DEFAULT         shift and go to state 225
+    DEFAULT         shift and go to state 233
 
-    switch3                        shift and go to state 224
+    switch3                        shift and go to state 232
 
-state 211
+state 216
 
     (136) switch2 -> epsilon .
 
     DEFAULT         reduce using rule 136 (switch2 -> epsilon .)
 
 
-state 212
+state 217
 
     (135) switch1 -> LBRACKET exp RBRACKET .
 
     LCURL           reduce using rule 135 (switch1 -> LBRACKET exp RBRACKET .)
 
 
-state 213
+state 218
 
     (115) for -> FOR CTE_INT TO CTE_INT BY . LPAREN for1 CTE_INT RPAREN bloque
 
-    LPAREN          shift and go to state 226
+    LPAREN          shift and go to state 234
 
 
-state 214
+state 219
 
     (94) varcte1 -> LPAREN exp . varcte2 RPAREN
     (82) llamada1 -> exp . llamada2
@@ -4082,34 +4405,34 @@ state 214
     (84) llamada2 -> . COMMA exp llamada2
     (141) epsilon -> .
 
-    COMMA           shift and go to state 228
+    COMMA           shift and go to state 236
     RPAREN          reduce using rule 141 (epsilon -> .)
 
-    llamada2                       shift and go to state 197
-    epsilon                        shift and go to state 227
+    llamada2                       shift and go to state 198
+    epsilon                        shift and go to state 235
     varcte2                        shift and go to state 120
 
-state 215
+state 220
 
     (84) llamada2 -> COMMA exp . llamada2
     (83) llamada2 -> . epsilon
     (84) llamada2 -> . COMMA exp llamada2
     (141) epsilon -> .
 
-    COMMA           shift and go to state 199
+    COMMA           shift and go to state 200
     RPAREN          reduce using rule 141 (epsilon -> .)
 
-    llamada2                       shift and go to state 229
-    epsilon                        shift and go to state 198
+    llamada2                       shift and go to state 237
+    epsilon                        shift and go to state 199
 
-state 216
+state 221
 
-    (105) condicion -> IF LPAREN expresion RPAREN condicion1 . condicion2 condicion3
+    (105) condicion -> IF LPAREN expresion_logica RPAREN condicion1 . condicion2 condicion3
     (108) condicion2 -> . ELSEIF condicion1 condicion2
     (109) condicion2 -> . epsilon
     (141) epsilon -> .
 
-    ELSEIF          shift and go to state 232
+    ELSEIF          shift and go to state 240
     ELSE            reduce using rule 141 (epsilon -> .)
     ID              reduce using rule 141 (epsilon -> .)
     IF              reduce using rule 141 (epsilon -> .)
@@ -4123,10 +4446,10 @@ state 216
     CASE            reduce using rule 141 (epsilon -> .)
     DEFAULT         reduce using rule 141 (epsilon -> .)
 
-    epsilon                        shift and go to state 230
-    condicion2                     shift and go to state 231
+    epsilon                        shift and go to state 238
+    condicion2                     shift and go to state 239
 
-state 217
+state 222
 
     (106) condicion1 -> bloque .
 
@@ -4145,7 +4468,7 @@ state 217
     DEFAULT         reduce using rule 106 (condicion1 -> bloque .)
 
 
-state 218
+state 223
 
     (107) condicion1 -> LCURL . bloque RCURL
     (27) bloque -> LCURL . estatuto bloque1 RCURL
@@ -4160,14 +4483,14 @@ state 218
     (78) llamada -> . ID LPAREN llamada1 RPAREN
     (79) llamada -> . print
     (80) llamada -> . input
-    (105) condicion -> . IF LPAREN expresion RPAREN condicion1 condicion2 condicion3
+    (105) condicion -> . IF LPAREN expresion_logica RPAREN condicion1 condicion2 condicion3
     (133) switch -> . SWITCH ID switch1 LCURL switch2 switch3 RCURL
     (51) while -> . WHILE LPAREN expresion RPAREN bloque
     (115) for -> . FOR CTE_INT TO CTE_INT BY LPAREN for1 CTE_INT RPAREN bloque
     (100) print -> . PRINT LPAREN print1 RPAREN
     (112) input -> . INPUT LPAREN input1 RPAREN
 
-    LCURL           shift and go to state 207
+    LCURL           shift and go to state 212
     ID              shift and go to state 104
     IF              shift and go to state 105
     SWITCH          shift and go to state 98
@@ -4176,9 +4499,9 @@ state 218
     PRINT           shift and go to state 94
     INPUT           shift and go to state 103
 
-    bloque                         shift and go to state 233
+    bloque                         shift and go to state 241
     for                            shift and go to state 95
-    estatuto                       shift and go to state 222
+    estatuto                       shift and go to state 230
     switch                         shift and go to state 107
     llamada                        shift and go to state 97
     condicion                      shift and go to state 99
@@ -4187,18 +4510,47 @@ state 218
     asignacion                     shift and go to state 106
     while                          shift and go to state 108
 
-state 219
+state 224
+
+    (75) expresion_logica1 -> AND exp .
+
+    LESS            reduce using rule 75 (expresion_logica1 -> AND exp .)
+    GREATER         reduce using rule 75 (expresion_logica1 -> AND exp .)
+    DOUBLE_EQUAL    reduce using rule 75 (expresion_logica1 -> AND exp .)
+    DIFF            reduce using rule 75 (expresion_logica1 -> AND exp .)
+    RPAREN          reduce using rule 75 (expresion_logica1 -> AND exp .)
+
+
+state 225
+
+    (74) expresion_logica -> exp expresion_logica1 expresion .
+
+    RPAREN          reduce using rule 74 (expresion_logica -> exp expresion_logica1 expresion .)
+
+
+state 226
+
+    (77) expresion_logica1 -> OR exp .
+
+    LESS            reduce using rule 77 (expresion_logica1 -> OR exp .)
+    GREATER         reduce using rule 77 (expresion_logica1 -> OR exp .)
+    DOUBLE_EQUAL    reduce using rule 77 (expresion_logica1 -> OR exp .)
+    DIFF            reduce using rule 77 (expresion_logica1 -> OR exp .)
+    RPAREN          reduce using rule 77 (expresion_logica1 -> OR exp .)
+
+
+state 227
 
     (129) funcion5 -> ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 . funcion6
     (131) funcion6 -> . RCURL
     (132) funcion6 -> . RETURN ID RCURL
 
-    RCURL           shift and go to state 235
-    RETURN          shift and go to state 236
+    RCURL           shift and go to state 243
+    RETURN          shift and go to state 244
 
-    funcion6                       shift and go to state 234
+    funcion6                       shift and go to state 242
 
-state 220
+state 228
 
     (124) funcion2 -> estatuto . funcion2
     (123) funcion2 -> . epsilon
@@ -4214,7 +4566,7 @@ state 220
     (78) llamada -> . ID LPAREN llamada1 RPAREN
     (79) llamada -> . print
     (80) llamada -> . input
-    (105) condicion -> . IF LPAREN expresion RPAREN condicion1 condicion2 condicion3
+    (105) condicion -> . IF LPAREN expresion_logica RPAREN condicion1 condicion2 condicion3
     (133) switch -> . SWITCH ID switch1 LCURL switch2 switch3 RCURL
     (51) while -> . WHILE LPAREN expresion RPAREN bloque
     (115) for -> . FOR CTE_INT TO CTE_INT BY LPAREN for1 CTE_INT RPAREN bloque
@@ -4231,19 +4583,19 @@ state 220
     PRINT           shift and go to state 94
     INPUT           shift and go to state 103
 
-    funcion2                       shift and go to state 237
+    funcion2                       shift and go to state 245
     for                            shift and go to state 95
-    estatuto                       shift and go to state 220
+    estatuto                       shift and go to state 228
     while                          shift and go to state 108
     llamada                        shift and go to state 97
     condicion                      shift and go to state 99
     print                          shift and go to state 100
     input                          shift and go to state 101
-    epsilon                        shift and go to state 221
+    epsilon                        shift and go to state 229
     asignacion                     shift and go to state 106
     switch                         shift and go to state 107
 
-state 221
+state 229
 
     (123) funcion2 -> epsilon .
 
@@ -4251,7 +4603,7 @@ state 221
     RETURN          reduce using rule 123 (funcion2 -> epsilon .)
 
 
-state 222
+state 230
 
     (27) bloque -> LCURL estatuto . bloque1 RCURL
     (28) bloque1 -> . estatuto bloque1
@@ -4267,7 +4619,7 @@ state 222
     (78) llamada -> . ID LPAREN llamada1 RPAREN
     (79) llamada -> . print
     (80) llamada -> . input
-    (105) condicion -> . IF LPAREN expresion RPAREN condicion1 condicion2 condicion3
+    (105) condicion -> . IF LPAREN expresion_logica RPAREN condicion1 condicion2 condicion3
     (133) switch -> . SWITCH ID switch1 LCURL switch2 switch3 RCURL
     (51) while -> . WHILE LPAREN expresion RPAREN bloque
     (115) for -> . FOR CTE_INT TO CTE_INT BY LPAREN for1 CTE_INT RPAREN bloque
@@ -4284,39 +4636,39 @@ state 222
     INPUT           shift and go to state 103
 
     for                            shift and go to state 95
-    estatuto                       shift and go to state 238
+    estatuto                       shift and go to state 246
     switch                         shift and go to state 107
     llamada                        shift and go to state 97
     condicion                      shift and go to state 99
     print                          shift and go to state 100
     input                          shift and go to state 101
-    epsilon                        shift and go to state 239
-    bloque1                        shift and go to state 240
+    epsilon                        shift and go to state 247
+    bloque1                        shift and go to state 248
     asignacion                     shift and go to state 106
     while                          shift and go to state 108
 
-state 223
+state 231
 
     (137) switch2 -> CASE varcte . COLON switch4 switch2
 
-    COLON           shift and go to state 241
+    COLON           shift and go to state 249
 
 
-state 224
+state 232
 
     (133) switch -> SWITCH ID switch1 LCURL switch2 switch3 . RCURL
 
-    RCURL           shift and go to state 242
+    RCURL           shift and go to state 250
 
 
-state 225
+state 233
 
     (138) switch3 -> DEFAULT . COLON switch4
 
-    COLON           shift and go to state 243
+    COLON           shift and go to state 251
 
 
-state 226
+state 234
 
     (115) for -> FOR CTE_INT TO CTE_INT BY LPAREN . for1 CTE_INT RPAREN bloque
     (116) for1 -> . PLUS
@@ -4324,14 +4676,14 @@ state 226
     (118) for1 -> . DIVIDE
     (119) for1 -> . MINUS
 
-    PLUS            shift and go to state 246
-    TIMES           shift and go to state 245
-    DIVIDE          shift and go to state 244
-    MINUS           shift and go to state 248
+    PLUS            shift and go to state 254
+    TIMES           shift and go to state 253
+    DIVIDE          shift and go to state 252
+    MINUS           shift and go to state 256
 
-    for1                           shift and go to state 247
+    for1                           shift and go to state 255
 
-state 227
+state 235
 
     (96) varcte2 -> epsilon .
     (83) llamada2 -> epsilon .
@@ -4342,7 +4694,7 @@ state 227
   ! RPAREN          [ reduce using rule 96 (varcte2 -> epsilon .) ]
 
 
-state 228
+state 236
 
     (97) varcte2 -> COMMA . exp varcte2
     (84) llamada2 -> COMMA . exp llamada2
@@ -4374,18 +4726,18 @@ state 228
     factor1                        shift and go to state 51
     cte_bool                       shift and go to state 39
     termino                        shift and go to state 40
-    exp                            shift and go to state 249
+    exp                            shift and go to state 257
     factor                         shift and go to state 45
     varcte                         shift and go to state 43
 
-state 229
+state 237
 
     (84) llamada2 -> COMMA exp llamada2 .
 
     RPAREN          reduce using rule 84 (llamada2 -> COMMA exp llamada2 .)
 
 
-state 230
+state 238
 
     (109) condicion2 -> epsilon .
 
@@ -4403,14 +4755,14 @@ state 230
     DEFAULT         reduce using rule 109 (condicion2 -> epsilon .)
 
 
-state 231
+state 239
 
-    (105) condicion -> IF LPAREN expresion RPAREN condicion1 condicion2 . condicion3
+    (105) condicion -> IF LPAREN expresion_logica RPAREN condicion1 condicion2 . condicion3
     (110) condicion3 -> . ELSE condicion1
     (111) condicion3 -> . epsilon
     (141) epsilon -> .
 
-    ELSE            shift and go to state 251
+    ELSE            shift and go to state 259
     ID              reduce using rule 141 (epsilon -> .)
     IF              reduce using rule 141 (epsilon -> .)
     SWITCH          reduce using rule 141 (epsilon -> .)
@@ -4423,29 +4775,29 @@ state 231
     CASE            reduce using rule 141 (epsilon -> .)
     DEFAULT         reduce using rule 141 (epsilon -> .)
 
-    epsilon                        shift and go to state 250
-    condicion3                     shift and go to state 252
+    epsilon                        shift and go to state 258
+    condicion3                     shift and go to state 260
 
-state 232
+state 240
 
     (108) condicion2 -> ELSEIF . condicion1 condicion2
     (106) condicion1 -> . bloque
     (107) condicion1 -> . LCURL bloque RCURL
     (27) bloque -> . LCURL estatuto bloque1 RCURL
 
-    LCURL           shift and go to state 218
+    LCURL           shift and go to state 223
 
-    bloque                         shift and go to state 217
-    condicion1                     shift and go to state 253
+    bloque                         shift and go to state 222
+    condicion1                     shift and go to state 261
 
-state 233
+state 241
 
     (107) condicion1 -> LCURL bloque . RCURL
 
-    RCURL           shift and go to state 254
+    RCURL           shift and go to state 262
 
 
-state 234
+state 242
 
     (129) funcion5 -> ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 funcion6 .
 
@@ -4453,7 +4805,7 @@ state 234
     MAIN            reduce using rule 129 (funcion5 -> ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 funcion6 .)
 
 
-state 235
+state 243
 
     (131) funcion6 -> RCURL .
 
@@ -4461,14 +4813,14 @@ state 235
     MAIN            reduce using rule 131 (funcion6 -> RCURL .)
 
 
-state 236
+state 244
 
     (132) funcion6 -> RETURN . ID RCURL
 
-    ID              shift and go to state 255
+    ID              shift and go to state 263
 
 
-state 237
+state 245
 
     (124) funcion2 -> estatuto funcion2 .
 
@@ -4476,7 +4828,7 @@ state 237
     RETURN          reduce using rule 124 (funcion2 -> estatuto funcion2 .)
 
 
-state 238
+state 246
 
     (28) bloque1 -> estatuto . bloque1
     (28) bloque1 -> . estatuto bloque1
@@ -4492,7 +4844,7 @@ state 238
     (78) llamada -> . ID LPAREN llamada1 RPAREN
     (79) llamada -> . print
     (80) llamada -> . input
-    (105) condicion -> . IF LPAREN expresion RPAREN condicion1 condicion2 condicion3
+    (105) condicion -> . IF LPAREN expresion_logica RPAREN condicion1 condicion2 condicion3
     (133) switch -> . SWITCH ID switch1 LCURL switch2 switch3 RCURL
     (51) while -> . WHILE LPAREN expresion RPAREN bloque
     (115) for -> . FOR CTE_INT TO CTE_INT BY LPAREN for1 CTE_INT RPAREN bloque
@@ -4509,32 +4861,32 @@ state 238
     INPUT           shift and go to state 103
 
     for                            shift and go to state 95
-    estatuto                       shift and go to state 238
+    estatuto                       shift and go to state 246
     switch                         shift and go to state 107
     llamada                        shift and go to state 97
     condicion                      shift and go to state 99
     print                          shift and go to state 100
     input                          shift and go to state 101
-    epsilon                        shift and go to state 239
-    bloque1                        shift and go to state 256
+    epsilon                        shift and go to state 247
+    bloque1                        shift and go to state 264
     asignacion                     shift and go to state 106
     while                          shift and go to state 108
 
-state 239
+state 247
 
     (29) bloque1 -> epsilon .
 
     RCURL           reduce using rule 29 (bloque1 -> epsilon .)
 
 
-state 240
+state 248
 
     (27) bloque -> LCURL estatuto bloque1 . RCURL
 
-    RCURL           shift and go to state 257
+    RCURL           shift and go to state 265
 
 
-state 241
+state 249
 
     (137) switch2 -> CASE varcte COLON . switch4 switch2
     (139) switch4 -> . LCURL PASS RCURL
@@ -4549,14 +4901,14 @@ state 241
     (78) llamada -> . ID LPAREN llamada1 RPAREN
     (79) llamada -> . print
     (80) llamada -> . input
-    (105) condicion -> . IF LPAREN expresion RPAREN condicion1 condicion2 condicion3
+    (105) condicion -> . IF LPAREN expresion_logica RPAREN condicion1 condicion2 condicion3
     (133) switch -> . SWITCH ID switch1 LCURL switch2 switch3 RCURL
     (51) while -> . WHILE LPAREN expresion RPAREN bloque
     (115) for -> . FOR CTE_INT TO CTE_INT BY LPAREN for1 CTE_INT RPAREN bloque
     (100) print -> . PRINT LPAREN print1 RPAREN
     (112) input -> . INPUT LPAREN input1 RPAREN
 
-    LCURL           shift and go to state 258
+    LCURL           shift and go to state 266
     ID              shift and go to state 104
     IF              shift and go to state 105
     SWITCH          shift and go to state 98
@@ -4566,22 +4918,20 @@ state 241
     INPUT           shift and go to state 103
 
     for                            shift and go to state 95
-    estatuto                       shift and go to state 259
+    estatuto                       shift and go to state 267
     switch                         shift and go to state 107
     llamada                        shift and go to state 97
     condicion                      shift and go to state 99
     print                          shift and go to state 100
     input                          shift and go to state 101
     asignacion                     shift and go to state 106
-    switch4                        shift and go to state 260
+    switch4                        shift and go to state 268
     while                          shift and go to state 108
 
-state 242
+state 250
 
     (133) switch -> SWITCH ID switch1 LCURL switch2 switch3 RCURL .
 
-    CASE            reduce using rule 133 (switch -> SWITCH ID switch1 LCURL switch2 switch3 RCURL .)
-    DEFAULT         reduce using rule 133 (switch -> SWITCH ID switch1 LCURL switch2 switch3 RCURL .)
     ID              reduce using rule 133 (switch -> SWITCH ID switch1 LCURL switch2 switch3 RCURL .)
     IF              reduce using rule 133 (switch -> SWITCH ID switch1 LCURL switch2 switch3 RCURL .)
     SWITCH          reduce using rule 133 (switch -> SWITCH ID switch1 LCURL switch2 switch3 RCURL .)
@@ -4591,9 +4941,11 @@ state 242
     INPUT           reduce using rule 133 (switch -> SWITCH ID switch1 LCURL switch2 switch3 RCURL .)
     RCURL           reduce using rule 133 (switch -> SWITCH ID switch1 LCURL switch2 switch3 RCURL .)
     RETURN          reduce using rule 133 (switch -> SWITCH ID switch1 LCURL switch2 switch3 RCURL .)
+    CASE            reduce using rule 133 (switch -> SWITCH ID switch1 LCURL switch2 switch3 RCURL .)
+    DEFAULT         reduce using rule 133 (switch -> SWITCH ID switch1 LCURL switch2 switch3 RCURL .)
 
 
-state 243
+state 251
 
     (138) switch3 -> DEFAULT COLON . switch4
     (139) switch4 -> . LCURL PASS RCURL
@@ -4608,14 +4960,14 @@ state 243
     (78) llamada -> . ID LPAREN llamada1 RPAREN
     (79) llamada -> . print
     (80) llamada -> . input
-    (105) condicion -> . IF LPAREN expresion RPAREN condicion1 condicion2 condicion3
+    (105) condicion -> . IF LPAREN expresion_logica RPAREN condicion1 condicion2 condicion3
     (133) switch -> . SWITCH ID switch1 LCURL switch2 switch3 RCURL
     (51) while -> . WHILE LPAREN expresion RPAREN bloque
     (115) for -> . FOR CTE_INT TO CTE_INT BY LPAREN for1 CTE_INT RPAREN bloque
     (100) print -> . PRINT LPAREN print1 RPAREN
     (112) input -> . INPUT LPAREN input1 RPAREN
 
-    LCURL           shift and go to state 258
+    LCURL           shift and go to state 266
     ID              shift and go to state 104
     IF              shift and go to state 105
     SWITCH          shift and go to state 98
@@ -4625,52 +4977,52 @@ state 243
     INPUT           shift and go to state 103
 
     for                            shift and go to state 95
-    estatuto                       shift and go to state 259
+    estatuto                       shift and go to state 267
     switch                         shift and go to state 107
     llamada                        shift and go to state 97
     condicion                      shift and go to state 99
     print                          shift and go to state 100
     input                          shift and go to state 101
     asignacion                     shift and go to state 106
-    switch4                        shift and go to state 261
+    switch4                        shift and go to state 269
     while                          shift and go to state 108
 
-state 244
+state 252
 
     (118) for1 -> DIVIDE .
 
     CTE_INT         reduce using rule 118 (for1 -> DIVIDE .)
 
 
-state 245
+state 253
 
     (117) for1 -> TIMES .
 
     CTE_INT         reduce using rule 117 (for1 -> TIMES .)
 
 
-state 246
+state 254
 
     (116) for1 -> PLUS .
 
     CTE_INT         reduce using rule 116 (for1 -> PLUS .)
 
 
-state 247
+state 255
 
     (115) for -> FOR CTE_INT TO CTE_INT BY LPAREN for1 . CTE_INT RPAREN bloque
 
-    CTE_INT         shift and go to state 262
+    CTE_INT         shift and go to state 270
 
 
-state 248
+state 256
 
     (119) for1 -> MINUS .
 
     CTE_INT         reduce using rule 119 (for1 -> MINUS .)
 
 
-state 249
+state 257
 
     (97) varcte2 -> COMMA exp . varcte2
     (84) llamada2 -> COMMA exp . llamada2
@@ -4680,14 +5032,14 @@ state 249
     (84) llamada2 -> . COMMA exp llamada2
     (141) epsilon -> .
 
-    COMMA           shift and go to state 228
+    COMMA           shift and go to state 236
     RPAREN          reduce using rule 141 (epsilon -> .)
 
-    llamada2                       shift and go to state 229
-    epsilon                        shift and go to state 227
-    varcte2                        shift and go to state 176
+    llamada2                       shift and go to state 237
+    epsilon                        shift and go to state 235
+    varcte2                        shift and go to state 177
 
-state 250
+state 258
 
     (111) condicion3 -> epsilon .
 
@@ -4704,43 +5056,43 @@ state 250
     DEFAULT         reduce using rule 111 (condicion3 -> epsilon .)
 
 
-state 251
+state 259
 
     (110) condicion3 -> ELSE . condicion1
     (106) condicion1 -> . bloque
     (107) condicion1 -> . LCURL bloque RCURL
     (27) bloque -> . LCURL estatuto bloque1 RCURL
 
-    LCURL           shift and go to state 218
+    LCURL           shift and go to state 223
 
-    bloque                         shift and go to state 217
-    condicion1                     shift and go to state 263
+    bloque                         shift and go to state 222
+    condicion1                     shift and go to state 271
 
-state 252
+state 260
 
-    (105) condicion -> IF LPAREN expresion RPAREN condicion1 condicion2 condicion3 .
+    (105) condicion -> IF LPAREN expresion_logica RPAREN condicion1 condicion2 condicion3 .
 
-    ID              reduce using rule 105 (condicion -> IF LPAREN expresion RPAREN condicion1 condicion2 condicion3 .)
-    IF              reduce using rule 105 (condicion -> IF LPAREN expresion RPAREN condicion1 condicion2 condicion3 .)
-    SWITCH          reduce using rule 105 (condicion -> IF LPAREN expresion RPAREN condicion1 condicion2 condicion3 .)
-    WHILE           reduce using rule 105 (condicion -> IF LPAREN expresion RPAREN condicion1 condicion2 condicion3 .)
-    FOR             reduce using rule 105 (condicion -> IF LPAREN expresion RPAREN condicion1 condicion2 condicion3 .)
-    PRINT           reduce using rule 105 (condicion -> IF LPAREN expresion RPAREN condicion1 condicion2 condicion3 .)
-    INPUT           reduce using rule 105 (condicion -> IF LPAREN expresion RPAREN condicion1 condicion2 condicion3 .)
-    RCURL           reduce using rule 105 (condicion -> IF LPAREN expresion RPAREN condicion1 condicion2 condicion3 .)
-    RETURN          reduce using rule 105 (condicion -> IF LPAREN expresion RPAREN condicion1 condicion2 condicion3 .)
-    CASE            reduce using rule 105 (condicion -> IF LPAREN expresion RPAREN condicion1 condicion2 condicion3 .)
-    DEFAULT         reduce using rule 105 (condicion -> IF LPAREN expresion RPAREN condicion1 condicion2 condicion3 .)
+    ID              reduce using rule 105 (condicion -> IF LPAREN expresion_logica RPAREN condicion1 condicion2 condicion3 .)
+    IF              reduce using rule 105 (condicion -> IF LPAREN expresion_logica RPAREN condicion1 condicion2 condicion3 .)
+    SWITCH          reduce using rule 105 (condicion -> IF LPAREN expresion_logica RPAREN condicion1 condicion2 condicion3 .)
+    WHILE           reduce using rule 105 (condicion -> IF LPAREN expresion_logica RPAREN condicion1 condicion2 condicion3 .)
+    FOR             reduce using rule 105 (condicion -> IF LPAREN expresion_logica RPAREN condicion1 condicion2 condicion3 .)
+    PRINT           reduce using rule 105 (condicion -> IF LPAREN expresion_logica RPAREN condicion1 condicion2 condicion3 .)
+    INPUT           reduce using rule 105 (condicion -> IF LPAREN expresion_logica RPAREN condicion1 condicion2 condicion3 .)
+    RCURL           reduce using rule 105 (condicion -> IF LPAREN expresion_logica RPAREN condicion1 condicion2 condicion3 .)
+    RETURN          reduce using rule 105 (condicion -> IF LPAREN expresion_logica RPAREN condicion1 condicion2 condicion3 .)
+    CASE            reduce using rule 105 (condicion -> IF LPAREN expresion_logica RPAREN condicion1 condicion2 condicion3 .)
+    DEFAULT         reduce using rule 105 (condicion -> IF LPAREN expresion_logica RPAREN condicion1 condicion2 condicion3 .)
 
 
-state 253
+state 261
 
     (108) condicion2 -> ELSEIF condicion1 . condicion2
     (108) condicion2 -> . ELSEIF condicion1 condicion2
     (109) condicion2 -> . epsilon
     (141) epsilon -> .
 
-    ELSEIF          shift and go to state 232
+    ELSEIF          shift and go to state 240
     ELSE            reduce using rule 141 (epsilon -> .)
     ID              reduce using rule 141 (epsilon -> .)
     IF              reduce using rule 141 (epsilon -> .)
@@ -4754,10 +5106,10 @@ state 253
     CASE            reduce using rule 141 (epsilon -> .)
     DEFAULT         reduce using rule 141 (epsilon -> .)
 
-    epsilon                        shift and go to state 230
-    condicion2                     shift and go to state 264
+    epsilon                        shift and go to state 238
+    condicion2                     shift and go to state 272
 
-state 254
+state 262
 
     (107) condicion1 -> LCURL bloque RCURL .
 
@@ -4776,24 +5128,26 @@ state 254
     DEFAULT         reduce using rule 107 (condicion1 -> LCURL bloque RCURL .)
 
 
-state 255
+state 263
 
     (132) funcion6 -> RETURN ID . RCURL
 
-    RCURL           shift and go to state 265
+    RCURL           shift and go to state 273
 
 
-state 256
+state 264
 
     (28) bloque1 -> estatuto bloque1 .
 
     RCURL           reduce using rule 28 (bloque1 -> estatuto bloque1 .)
 
 
-state 257
+state 265
 
     (27) bloque -> LCURL estatuto bloque1 RCURL .
 
+    ELSEIF          reduce using rule 27 (bloque -> LCURL estatuto bloque1 RCURL .)
+    ELSE            reduce using rule 27 (bloque -> LCURL estatuto bloque1 RCURL .)
     ID              reduce using rule 27 (bloque -> LCURL estatuto bloque1 RCURL .)
     IF              reduce using rule 27 (bloque -> LCURL estatuto bloque1 RCURL .)
     SWITCH          reduce using rule 27 (bloque -> LCURL estatuto bloque1 RCURL .)
@@ -4805,18 +5159,16 @@ state 257
     RETURN          reduce using rule 27 (bloque -> LCURL estatuto bloque1 RCURL .)
     CASE            reduce using rule 27 (bloque -> LCURL estatuto bloque1 RCURL .)
     DEFAULT         reduce using rule 27 (bloque -> LCURL estatuto bloque1 RCURL .)
-    ELSEIF          reduce using rule 27 (bloque -> LCURL estatuto bloque1 RCURL .)
-    ELSE            reduce using rule 27 (bloque -> LCURL estatuto bloque1 RCURL .)
 
 
-state 258
+state 266
 
     (139) switch4 -> LCURL . PASS RCURL
 
-    PASS            shift and go to state 266
+    PASS            shift and go to state 274
 
 
-state 259
+state 267
 
     (140) switch4 -> estatuto .
 
@@ -4825,34 +5177,34 @@ state 259
     DEFAULT         reduce using rule 140 (switch4 -> estatuto .)
 
 
-state 260
+state 268
 
     (137) switch2 -> CASE varcte COLON switch4 . switch2
     (136) switch2 -> . epsilon
     (137) switch2 -> . CASE varcte COLON switch4 switch2
     (141) epsilon -> .
 
-    CASE            shift and go to state 209
+    CASE            shift and go to state 214
     DEFAULT         reduce using rule 141 (epsilon -> .)
 
-    switch2                        shift and go to state 267
-    epsilon                        shift and go to state 211
+    switch2                        shift and go to state 275
+    epsilon                        shift and go to state 216
 
-state 261
+state 269
 
     (138) switch3 -> DEFAULT COLON switch4 .
 
     RCURL           reduce using rule 138 (switch3 -> DEFAULT COLON switch4 .)
 
 
-state 262
+state 270
 
     (115) for -> FOR CTE_INT TO CTE_INT BY LPAREN for1 CTE_INT . RPAREN bloque
 
-    RPAREN          shift and go to state 268
+    RPAREN          shift and go to state 276
 
 
-state 263
+state 271
 
     (110) condicion3 -> ELSE condicion1 .
 
@@ -4869,7 +5221,7 @@ state 263
     DEFAULT         reduce using rule 110 (condicion3 -> ELSE condicion1 .)
 
 
-state 264
+state 272
 
     (108) condicion2 -> ELSEIF condicion1 condicion2 .
 
@@ -4887,7 +5239,7 @@ state 264
     DEFAULT         reduce using rule 108 (condicion2 -> ELSEIF condicion1 condicion2 .)
 
 
-state 265
+state 273
 
     (132) funcion6 -> RETURN ID RCURL .
 
@@ -4895,30 +5247,30 @@ state 265
     MAIN            reduce using rule 132 (funcion6 -> RETURN ID RCURL .)
 
 
-state 266
+state 274
 
     (139) switch4 -> LCURL PASS . RCURL
 
-    RCURL           shift and go to state 269
+    RCURL           shift and go to state 277
 
 
-state 267
+state 275
 
     (137) switch2 -> CASE varcte COLON switch4 switch2 .
 
     DEFAULT         reduce using rule 137 (switch2 -> CASE varcte COLON switch4 switch2 .)
 
 
-state 268
+state 276
 
     (115) for -> FOR CTE_INT TO CTE_INT BY LPAREN for1 CTE_INT RPAREN . bloque
     (27) bloque -> . LCURL estatuto bloque1 RCURL
 
-    LCURL           shift and go to state 207
+    LCURL           shift and go to state 212
 
-    bloque                         shift and go to state 270
+    bloque                         shift and go to state 278
 
-state 269
+state 277
 
     (139) switch4 -> LCURL PASS RCURL .
 
@@ -4927,10 +5279,11 @@ state 269
     DEFAULT         reduce using rule 139 (switch4 -> LCURL PASS RCURL .)
 
 
-state 270
+state 278
 
     (115) for -> FOR CTE_INT TO CTE_INT BY LPAREN for1 CTE_INT RPAREN bloque .
 
+    RCURL           reduce using rule 115 (for -> FOR CTE_INT TO CTE_INT BY LPAREN for1 CTE_INT RPAREN bloque .)
     ID              reduce using rule 115 (for -> FOR CTE_INT TO CTE_INT BY LPAREN for1 CTE_INT RPAREN bloque .)
     IF              reduce using rule 115 (for -> FOR CTE_INT TO CTE_INT BY LPAREN for1 CTE_INT RPAREN bloque .)
     SWITCH          reduce using rule 115 (for -> FOR CTE_INT TO CTE_INT BY LPAREN for1 CTE_INT RPAREN bloque .)
@@ -4938,7 +5291,6 @@ state 270
     FOR             reduce using rule 115 (for -> FOR CTE_INT TO CTE_INT BY LPAREN for1 CTE_INT RPAREN bloque .)
     PRINT           reduce using rule 115 (for -> FOR CTE_INT TO CTE_INT BY LPAREN for1 CTE_INT RPAREN bloque .)
     INPUT           reduce using rule 115 (for -> FOR CTE_INT TO CTE_INT BY LPAREN for1 CTE_INT RPAREN bloque .)
-    RCURL           reduce using rule 115 (for -> FOR CTE_INT TO CTE_INT BY LPAREN for1 CTE_INT RPAREN bloque .)
     RETURN          reduce using rule 115 (for -> FOR CTE_INT TO CTE_INT BY LPAREN for1 CTE_INT RPAREN bloque .)
     CASE            reduce using rule 115 (for -> FOR CTE_INT TO CTE_INT BY LPAREN for1 CTE_INT RPAREN bloque .)
     DEFAULT         reduce using rule 115 (for -> FOR CTE_INT TO CTE_INT BY LPAREN for1 CTE_INT RPAREN bloque .)
@@ -4946,5 +5298,5 @@ state 270
 WARNING: 
 WARNING: Conflicts:
 WARNING: 
-WARNING: reduce/reduce conflict in state 227 resolved using rule (llamada2 -> epsilon)
-WARNING: rejected rule (varcte2 -> epsilon) in state 227
+WARNING: reduce/reduce conflict in state 235 resolved using rule (llamada2 -> epsilon)
+WARNING: rejected rule (varcte2 -> epsilon) in state 235
