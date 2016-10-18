@@ -6,15 +6,12 @@ semantica: funcion llamada comparar el fnctpointer vs id llamada haciendo (evita
 ** actualizar diagramas y gramatica REGEX
 ** comentar
 ** reemplazar valores en cuadruplos por direccion de memoria
-** error pop empty list
-** constantes de tipos de datos y operadores para cubo semantico en "main"
-** inicializacion vector 2 checar si p[3] es none para no sumar
-** Diagramas de expresiones logicas
-** Errores Detallados
-** checar tipo de asignacion con tipo de vector 
+** error pop empty list x
+** constantes de tipos de datos y operadores para cubo semantico en "main" x
+** print Errores Detallados
+** checar tipo de asignacion con tipo de vector
 
 Avance 3:
 ** Cubo semantico X
 ** getType del cubo semantico X
-** operaciones aritmeticas basicas (cuadruplo)
-** ERROR gramatica factor con ( espera expresion que se usa para condiciones
+** operaciones aritmeticas basicas (cuadruplo) --checar bien si ya jala

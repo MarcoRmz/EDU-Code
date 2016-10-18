@@ -416,7 +416,7 @@ def p_asignacion(p):
 	print "\nacabo asignacion"
 	if globalVars.has_key(p[1]):
 		asignacionType = cuadruplos.cubo.getResultType(globalVars[p[1]][0], cuadruplos.pTipos[-1], EQUALS)
-		if asignacionType != -1:
+		if asignacionType != ERROR:
 			globalVars[p[1]][0] = asignacionType
 			globalVars[p[1]][1] = cuadruplos.pOperandos.pop()
 			cuadruplos.dirCuadruplos.append((EQUALS, globalVars[p[1]][1], None, p[1]))
@@ -430,7 +430,7 @@ def p_asignacion(p):
 		if functionsDir[function_ptr][1].has_key(p[1]):
 			print("asdjlfhasdljfh %s" %(str(cuadruplos.pOperandos)))
 			asignacionType = cuadruplos.cubo.getResultType(functionsDir[function_ptr][1][p[1]][0], cuadruplos.pTipos[-1], EQUALS)
-			if asignacionType != -1:
+			if asignacionType != ERROR:
 				print "SI ENTRO"
 				functionsDir[function_ptr][1][p[1]][0] = asignacionType
 				functionsDir[function_ptr][1][p[1]][1] = cuadruplos.pOperandos.pop()
