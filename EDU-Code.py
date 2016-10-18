@@ -343,7 +343,7 @@ def p_factor1(p):
 				| varcte'''
 	# Insert varcte to pOperandos
 	if len(p) == 3:
-		p[0] = p[1] + p[2]
+		p[0] = p[1] + str(p[2])
 		# Verify PLUS & MINUS are used only on INT & FLOATS
 		if ((isinstance(p[2], int)) or (isinstance(p[2], float))):
 			if (p[1] == '-'):
@@ -372,21 +372,19 @@ def p_factor1(p):
 			cuadruplos.pTipos.append(BOOL)
 		else:
 			if globalVars.has_key(p[1]):
-					print("tip$$$$")
-					print(globalVars)
 		  			cuadruplos.pTipos.append(globalVars[p[1]][0])
-			elif functionsDir[function_ptr][1].has_key(p[1]):
-					print(functionsDir[function_ptr][1][p[1]][0])
+			elif function_ptr != "GLOBAL" and functionsDir[function_ptr][1].has_key(p[1]):
 			  		cuadruplos.pTipos.append(functionsDir[function_ptr][1][p[1]][0])
 			else:
 				cuadruplos.pTipos.append(STRING)
-
+	print("-----------------")
 	print("valor: %s  tipo: %s  line: %s" %(p[1], type(p[1]), lexer.lineno))
 	print("tipos:")
 	print(cuadruplos.pTipos)
-	print("")
+	print("---")
 	print("operandos:")
 	print(cuadruplos.pOperandos)
+	print("-----------------")
 	print("")
 
 def p_estatuto(p):
