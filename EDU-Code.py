@@ -186,21 +186,21 @@ def p_checkEXPPOper(p):
 			operandType1 = cuadruplos.pTipos.pop()
 
 			operationType = cuadruplos.cubo.getResultType(operandType1, operandType2, operator)
-			
+
 			if(operationType != ERROR):
 				if(operator == PLUS):
-					result = operand1+operand2
-					cuadruplos.dirCuadruplos[cuadruplos.indexCuadruplos] = (operator, operand1, operand2, result)
+					#result = operand1+operand2
+					cuadruplos.dirCuadruplos.append((operator, operand1, operand2, "result"))
 				else:
-					result = operand1-operand2
-					cuadruplos.dirCuadruplos[cuadruplos.indexCuadruplos] = (operator, operand1, operand2, result)
+					#result = operand1-operand2
+					cuadruplos.dirCuadruplos.append((operator, operand1, operand2, "result"))
 				#cuadruplos.pOperandos.append(result)
-				#cuadruplos.pTipos.append(operationType)
+				#cuadruplos.pTipos.append(operationType)\
 				cuadruplos.indexCuadruplos += 1
 			else:
 				print("Type mismatch between operand type: %s and %s while trying to %s at line: %s" %(operand1, operand2, operator, lexer.lineno))
 				exit(1)
-	
+
 def p_exp1(p):
 	''' exp1 	: PLUS exp
 				| MINUS exp
@@ -230,16 +230,19 @@ def p_checkTERMPOper(p):
 			operandType2 = cuadruplos.pTipos.pop()
 			operandType1 = cuadruplos.pTipos.pop()
 
+			print "index cuadruplos %d" % cuadruplos.indexCuadruplos
+
 			operationType = cuadruplos.cubo.getResultType(operandType1, operandType2, operator)
 			if(operationType != ERROR):
 				if(operator == PLUS):
-					result = operand1*operand2
-					cuadruplos.dirCuadruplos[cuadruplos.indexCuadruplos] = (operator, operand1, operand2, result)
+					#result = operand1*operand2
+					cuadruplos.dirCuadruplos.append( (operator, operand1, operand2, "result"))
 				else:
-					result = operand1/operand2
-					cuadruplos.dirCuadruplos[cuadruplos.indexCuadruplos] = (operator, operand1, operand2, result)
+					#result = operand1/operand2
+					cuadruplos.dirCuadruplos.append((operator, operand1, operand2, "result"))
 				#cuadruplos.pOperandos.append(result)
 				#cuadruplos.pTipos.append(operationType)
+				cuadruplos.indexCuadruplos += 1
 			else:
 				print("Type mismatch between operand type: %s and %s while trying to %s at line: %s" %(operand1, operand2, operator, lexer.lineno))
 				exit(1)
@@ -250,7 +253,7 @@ def p_termino1(p):
 				| epsilon'''
 	if len(p) == 3:
 		p[0] = str(p[-1]) + str(p[1]) + str(p[2])
-		
+
 		if p[1] == '*':
 			cuadruplos.pOper.append(MULT)
 		else:
@@ -519,7 +522,7 @@ def p_print2(p):
                     | PLUS print1'''
 
 def p_condicion(p):
-	'condicion 	: IF LPAREN expresion RPAREN condicion1 condicion2 condicion3'
+	'condicion 	: IF LPAREN expresion_logica RPAREN condicion1 condicion2 condicion3'
 
 def p_condicion1(p):
 	'''condicion1	: bloque
@@ -566,7 +569,7 @@ def p_funcion3(p):
                 | epsilon'''
 
 def p_funcion4(p):
-	'''funcion4	: VOID funcion5 
+	'''funcion4	: VOID funcion5
 				| tipo funcion5'''
 
 def p_funcion5(p):
@@ -652,5 +655,7 @@ if __name__ == '__main__':
 	print("cuadruplos: ")
 	print(cuadruplos.dirCuadruplos)
 	print(cuadruplos.pOper)
+	print("*****************************************")
+	print(cuadruplos.indexCuadruplos)
 	print("*****************************************")
 	print("Successful")
