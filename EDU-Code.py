@@ -182,8 +182,8 @@ def p_bloque1(p):
 
 def p_exp(p):
 	'exp 	: termino checkEXPPOper exp1'
+	print "acabo exp"
 	print("-----------------")
-	print("valor: %s  tipo: %s  line: %s" %(p[1], type(p[1]), lexer.lineno))
 	print("tipos:")
 	print(cuadruplos.pTipos)
 	print("---")
@@ -197,17 +197,21 @@ def p_exp(p):
 
 def p_checkEXPPOper(p):
 	'checkEXPPOper : '
+	print "\ncheckEXPPOper"
 	if (len(cuadruplos.pOper) != 0):
 		if ((cuadruplos.pOper[-1] == PLUS) or (cuadruplos.pOper[-1] == MINUS)):
+			print "CHECK POPER L201 %s " % str(cuadruplos.pOperandos)
 			operator = cuadruplos.pOper.pop()
 			operand2 = cuadruplos.pOperandos.pop()
 			operand1 = cuadruplos.pOperandos.pop()
 			operandType2 = cuadruplos.pTipos.pop()
 			operandType1 = cuadruplos.pTipos.pop()
+			print "CHECK POPER L207 %s " % str(cuadruplos.pOperandos)
 
 			operationType = cuadruplos.cubo.getResultType(operandType1, operandType2, operator)
 
 			if(operationType != ERROR):
+				print "OPERATOR: %s OPERAND1: %s OPERAND2: %s L212  " % (str(operator), str(operand1), str(operand2))
 				if(operator == PLUS):
 					#result = operand1+operand2
 					cuadruplos.dirCuadruplos.append((operator, operand1, operand2, "t"+str(cuadruplos.countT)))
@@ -224,20 +228,19 @@ def p_checkEXPPOper(p):
 	print ("index cuadruplos %d \n cuadruplos: %s\n" %(cuadruplos.indexCuadruplos, str(cuadruplos.dirCuadruplos)))
 
 def p_exp1(p):
-	''' exp1 	: PLUS exp
-				| MINUS exp
+	''' exp1 	: PLUS addOperator exp
+				| MINUS addOperator exp
 				| epsilon'''
-	if len(p) == 3:
-		if p[1] == '+':
-			cuadruplos.pOper.append(PLUS)
-		else:
-			cuadruplos.pOper.append(MINUS)
+
 
 def p_termino(p):
 	'termino 	: factor checkTERMPOper termino1'
 
 def p_checkTERMPOper(p):
 	'checkTERMPOper : '
+
+	print "\n checkTERMPOper"
+	print "operadores: %s" % str(cuadruplos.pOper)
 	if (len(cuadruplos.pOper) != 0):
 		if ((cuadruplos.pOper[-1] == MULT) or (cuadruplos.pOper[-1] == DIVIDE)):
 			print("operandos: %s" %(str(cuadruplos.pOper)))
@@ -267,14 +270,20 @@ def p_checkTERMPOper(p):
 	print ("index cuadruplos %d \n cuadruplos: %s" %(cuadruplos.indexCuadruplos, str(cuadruplos.dirCuadruplos)))
 
 def p_termino1(p):
-	'''termino1 : TIMES termino
-				| DIVIDE termino
+	'''termino1 : TIMES addOperator termino
+				| DIVIDE addOperator termino
 				| epsilon'''
-	if len(p) == 3:
-		if p[1] == '*':
-			cuadruplos.pOper.append(MULT)
-		else:
-			cuadruplos.pOper.append(DIVIDE)
+
+def p_addOperator(p):
+	'''addOperator : '''
+	if p[-1] == '*':
+		cuadruplos.pOper.append(MULT)
+	elif p[-1] == '/':
+		cuadruplos.pOper.append(DIVIDE)
+	elif p[-1] == '+':
+		cuadruplos.pOper.append(PLUS)
+	else:
+		cuadruplos.pOper.append(MINUS)
 
 def p_inicializacion_vector(p):
 	'inicializacion_vector : EQUALS LBRACKET inicializacion_vector1 RBRACKET'
@@ -354,6 +363,8 @@ def p_factor1(p):
 	''' factor1 : PLUS varcte
 				| MINUS varcte
 				| varcte'''
+
+	print "\n factor1"
 	# Insert varcte to pOperandos
 	if len(p) == 3:
 		p[0] = p[1] + str(p[2])
@@ -402,6 +413,7 @@ def p_estatuto(p):
 
 def p_asignacion(p):
 	'''asignacion : ID EQUALS asignacion1'''
+	print "\nacabo asignacion"
 	if globalVars.has_key(p[1]):
 		asignacionType = cuadruplos.cubo.getResultType(globalVars[p[1]][0], cuadruplos.pTipos[-1], EQUALS)
 		if asignacionType != -1:
@@ -419,11 +431,13 @@ def p_asignacion(p):
 			print("asdjlfhasdljfh %s" %(str(cuadruplos.pOperandos)))
 			asignacionType = cuadruplos.cubo.getResultType(functionsDir[function_ptr][1][p[1]][0], cuadruplos.pTipos[-1], EQUALS)
 			if asignacionType != -1:
+				print "SI ENTRO"
 				functionsDir[function_ptr][1][p[1]][0] = asignacionType
 				functionsDir[function_ptr][1][p[1]][1] = cuadruplos.pOperandos.pop()
 				cuadruplos.dirCuadruplos.append((EQUALS, functionsDir[function_ptr][1][p[1]][1], None, p[1]))
 				cuadruplos.pTipos.pop()
 				cuadruplos.indexCuadruplos += 1
+				print "PILA DE OPERANDOS L430 %s" % str(cuadruplos.pOperandos)
 			else:
 				# Error
 				print("Type mismatch var: %s of type: %s and %s! Line: %s" %(p[1], parseType(functionsDir[function_ptr][1][p[1]][0]), parseType(cuadruplos.pTipos[-1]),lexer.lineno))
