@@ -43,18 +43,18 @@ cubo_sem[0,0,4] =  3
 cubo_sem[0,0,5] =  3
 cubo_sem[0,0,6] =  3
 cubo_sem[0,0,7] =  0
-cubo_sem[0,0,8] =  1 
+cubo_sem[0,0,8] =  0
 
 #Entero Float
-cubo_sem[0,1,0] =  1
-cubo_sem[0,1,1] =  1
-cubo_sem[0,1,2] =  1
+cubo_sem[0,1,0] = -1
+cubo_sem[0,1,1] = -1
+cubo_sem[0,1,2] = -1
 cubo_sem[0,1,3] = -1
-cubo_sem[0,1,4] =  3
-cubo_sem[0,1,5] =  3
-cubo_sem[0,1,6] =  3
+cubo_sem[0,1,4] = -1
+cubo_sem[0,1,5] = -1
+cubo_sem[0,1,6] = -1
 cubo_sem[0,1,7] = -1
-cubo_sem[0,1,8] =  1 
+cubo_sem[0,1,8] = -1
 
 #Entero String
 cubo_sem[0,2,0] = -1
@@ -79,15 +79,15 @@ cubo_sem[0,3,7] = -1
 cubo_sem[0,3,8] = -1
 
 #Float int
-cubo_sem[1,0,0] =  1
-cubo_sem[1,0,1] =  1
-cubo_sem[1,0,2] =  1
+cubo_sem[1,0,0] = -1
+cubo_sem[1,0,1] = -1
+cubo_sem[1,0,2] = -1
 cubo_sem[1,0,3] = -1
-cubo_sem[1,0,4] =  3
-cubo_sem[1,0,5] =  3
-cubo_sem[1,0,6] =  3
+cubo_sem[1,0,4] = -1
+cubo_sem[1,0,5] = -1
+cubo_sem[1,0,6] = -1
 cubo_sem[1,0,7] = -1
-cubo_sem[1,0,8] =  1
+cubo_sem[1,0,8] = -1
 
 #Float Float
 cubo_sem[1,1,0] =  1

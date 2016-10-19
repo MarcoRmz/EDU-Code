@@ -11,6 +11,8 @@ semantica: funcion llamada comparar el fnctpointer vs id llamada haciendo (evita
 ** print Errores Detallados
 ** checar tipo de asignacion con tipo de vector
 
+** multiplicacion y division de ints hacer floor
+
 Avance 3:
 ** Cubo semantico X
 ** getType del cubo semantico X

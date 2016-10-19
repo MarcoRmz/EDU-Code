@@ -21,7 +21,7 @@ main {
 		count = count + 1
 	}
 
-	sum = increase(count)
+	sum = count
 
 	count = count / 2 * 3 - sum
 
