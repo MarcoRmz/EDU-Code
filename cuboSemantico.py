@@ -50,9 +50,9 @@ cubo_sem[0,1,0] = -1
 cubo_sem[0,1,1] = -1
 cubo_sem[0,1,2] = -1
 cubo_sem[0,1,3] = -1
-cubo_sem[0,1,4] = -1
-cubo_sem[0,1,5] = -1
-cubo_sem[0,1,6] = -1
+cubo_sem[0,1,4] =  3
+cubo_sem[0,1,5] =  3
+cubo_sem[0,1,6] =  3
 cubo_sem[0,1,7] = -1
 cubo_sem[0,1,8] = -1
 
@@ -83,9 +83,9 @@ cubo_sem[1,0,0] = -1
 cubo_sem[1,0,1] = -1
 cubo_sem[1,0,2] = -1
 cubo_sem[1,0,3] = -1
-cubo_sem[1,0,4] = -1
-cubo_sem[1,0,5] = -1
-cubo_sem[1,0,6] = -1
+cubo_sem[1,0,4] =  3
+cubo_sem[1,0,5] =  3
+cubo_sem[1,0,6] =  3
 cubo_sem[1,0,7] = -1
 cubo_sem[1,0,8] = -1
 
@@ -151,7 +151,7 @@ cubo_sem[2,2,2] = -1
 cubo_sem[2,2,3] = -1
 cubo_sem[2,2,4] = -1
 cubo_sem[2,2,5] = -1
-cubo_sem[2,2,6] = -1
+cubo_sem[2,2,6] =  3
 cubo_sem[2,2,7] =  2
 cubo_sem[2,2,8] = -1
 

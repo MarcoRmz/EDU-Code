@@ -3,6 +3,7 @@ porque guardar variables en el parser cuando la maquina lo almacenara
 
 semantica: funcion llamada comparar el fnctpointer vs id llamada haciendo (evitar recursion)
 
+**diagrama asignacion
 ** actualizar diagramas y gramatica REGEX
 ** comentar
 ** reemplazar valores en cuadruplos por direccion de memoria
@@ -12,6 +13,9 @@ semantica: funcion llamada comparar el fnctpointer vs id llamada haciendo (evita
 ** checar tipo de asignacion con tipo de vector
 
 ** multiplicacion y division de ints hacer floor
+
+**checar sintaxis expresion logica
+
 
 Avance 3:
 ** Cubo semantico X

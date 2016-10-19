@@ -62,6 +62,8 @@ tokens = [
 	'DIFF',
 	'LESS',
 	'GREATER',
+	'LESSEQUAL',
+	'GREATEREQUAL',
 	'AMPERSON',
 	'LBRACKET',
 	'RBRACKET',
@@ -81,10 +83,12 @@ t_RBRACKET  = r'\]'
 t_COLON 	= r':'
 t_COMMA		= r','
 t_DOUBLE_EQUAL = r'=='
-t_EQUALS	= r'='
 t_DIFF		= r'!='
+t_LESSEQUAL = r'<='
+t_GREATEREQUAL	= r'>='
 t_LESS 		= r'<'
 t_GREATER	= r'>'
+t_EQUALS	= r'='
 t_AMPERSON	= r'&'
 t_ignore    = ' \t'
 
