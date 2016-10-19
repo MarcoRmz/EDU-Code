@@ -18,6 +18,9 @@ pOperandos = []
 # Pila de Tipos
 pTipos = []
 
+# Pila de Saltos
+pSaltos = []
+
 # Index for Cuadruplos
 indexCuadruplos = 0
 

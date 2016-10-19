@@ -566,7 +566,7 @@ def p_condicion(p):
 
 def p_condicion1(p):
 	'''condicion1	: bloque
-                    | LCURL bloque RCURL'''
+                    | LCURL PASS RCURL'''
 
 def p_condicion2(p):
 	'''condicion2 	: ELSEIF condicion1 condicion2
