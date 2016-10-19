@@ -1,3 +1,7 @@
+ASIGNACION ::= ID '=' (EXP | LLAMADA | ASIGNACION_VECTOR)
+
+ASIGNACION_VECTOR ::= '[' (VAR_CTE | ( VAR_CTE ',')+)? ']'
+
 BLOQUE ::= '{' estatuto+ '}'
 
 CONDICION  ::= IF '(' expresion_logica ')' ('{' PASS '}' | bloque) (((ELSEIF ('{' PASS '}' | bloque))+)? (ELSE (bloque | ('{' PASS '}'))?))?
