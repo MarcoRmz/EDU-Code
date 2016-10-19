@@ -23,7 +23,7 @@ main {
 
 	sum = count
 
-	count = count / 2 * 3 - sum
+	count = (count / (2 * (4 + 1)) * (3 - sum)) * 8
 
 	if (sum < 4) {
 		if(x > 2){
