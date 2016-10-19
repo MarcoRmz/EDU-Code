@@ -35,6 +35,9 @@ main {
 		sum = count+1
 		count = 2
 	}
+	if(true) {
+		pass
+	}
 	print(sum)
 }
 end
