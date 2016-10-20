@@ -1,24 +1,22 @@
 que es la maquina virtual?
 porque guardar variables en el parser cuando la maquina lo almacenara
 
-semantica: funcion llamada comparar el fnctpointer vs id llamada haciendo (evitar recursion)
-
-**diagrama asignacion
+General:
+** diagrama asignacion
+** checar tipo de asignacion con tipo de vector
+** semantica: funcion llamada comparar el fnctpointer vs id llamada haciendo (evitar recursion)
+** print Errores Detallados
+** diagrama condicion elseif
+** diagrama do while
 ** actualizar diagramas y gramatica REGEX
 ** comentar
-** reemplazar valores en cuadruplos por direccion de memoria
-** error pop empty list x
-** constantes de tipos de datos y operadores para cubo semantico en "main" x
-** print Errores Detallados
-** checar tipo de asignacion con tipo de vector
-** diagrama condicion elseif
 
+Maquina virtual:
 ** multiplicacion y division de ints hacer floor
+** reemplazar valores en cuadruplos por direccion de memoria
 
-**checar sintaxis expresion logica
-
-
-Avance 3:
-** Cubo semantico X
-** getType del cubo semantico X
-** operaciones aritmeticas basicas (cuadruplo) --checar bien si ya jala
+Avance 4:
+** Ciclos cuadruplos
+** Condiciones cuadruplos
+** Saltos
+** Agregar Do-while
