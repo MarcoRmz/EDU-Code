@@ -19,7 +19,7 @@ reserved = {
 	'string' : 'STRING',
 	'for' : 'FOR',
 	'while' : 'WHILE',
-	'else if' : 'ELSEIF',
+	'elseif' : 'ELSEIF',
 	'if' : 'IF',
 	'else' : 'ELSE',
 	'switch' : 'SWITCH',
@@ -116,7 +116,7 @@ def t_CTE_INT(t):
 	return t
 
 def t_CTE_STRING(t):
-	r'\".*\"'
+	r'\"[a-zA-Z0-9!@#$%^&*()_+\-=\[\]{};\':"\\|,.<>\/?]*\"'
 	# try:
 	# 	t.value = string(t.value)
 	# except ValueError:

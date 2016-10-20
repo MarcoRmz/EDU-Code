@@ -66,6 +66,17 @@ def parseType(type):
 		return 'STRING'
 
 # Parser
+def p_programa(p):
+	'programa 	: START programa1 programa2 main END'
+
+def p_programa1(p):
+	'''programa1 : var_declaracion programa1
+				| epsilon'''
+
+def p_programa2(p):
+	'''programa2 : funcion programa2
+				| epsilon'''
+
 def p_asignacion(p):
 	'''asignacion : ID EQUALS asignacion1'''
 	print "\nacabo asignacion"
@@ -83,7 +94,7 @@ def p_asignacion(p):
 			exit(1)
 	else:
 		if functionsDir[function_ptr][1].has_key(p[1]):
-			print("asdjlfhasdljfh %s" %(str(cuadruplos.pOperandos)))
+			print("pila operandos %s" %(str(cuadruplos.pOperandos)))
 			asignacionType = cuadruplos.cubo.getResultType(functionsDir[function_ptr][1][p[1]][0], cuadruplos.pTipos[-1], EQUALS)
 			if asignacionType != ERROR:
 				print "SI ENTRO"
@@ -127,7 +138,7 @@ def p_condicion1(p):
                     | LCURL PASS RCURL'''
 
 def p_condicion2(p):
-	'''condicion2 	: ELSEIF condicion1 condicion2
+	'''condicion2 	: ELSEIF LPAREN expresion_logica RPAREN condicion1 condicion2
                     | epsilon'''
 
 def p_condicion3(p):
@@ -226,32 +237,27 @@ def p_addOperator(p):
 		cuadruplos.pOper.append(MINUS)
 
 def p_expresion(p):
-	'expresion 	: expresion1'
+	'expresion 	: exp expresion1'
 
 def p_expresion1(p):
-	'''expresion1 	: epsilon
-					| expresion2 exp'''
-
-def p_expresion2(p):
-	'''expresion2 	: LESS addOperator
-					| LESSEQUAL addOperator
-					| GREATER addOperator
-					| GREATEREQUAL addOperator
-					| DOUBLE_EQUAL addOperator
-					| DIFF addOperator'''
+	'''expresion1 	: LESS addOperator expresion
+					| LESSEQUAL addOperator expresion
+					| GREATER addOperator expresion
+					| GREATEREQUAL addOperator expresion
+					| DOUBLE_EQUAL addOperator expresion
+					| epsilon
+					| DIFF addOperator expresion'''
 
 def p_expresion_logica(p):
-	'expresion_logica 	: exp expresion_logica1 expresion'
+	'expresion_logica 	: expresion expresion_logica1'
 
 def p_expresion_logica1(p):
-	'''expresion_logica1 	: AND addOperator exp
+	'''expresion_logica1 	: AND addOperator expresion_logica
 					| epsilon
-					| OR addOperator exp'''
-
-
+					| OR addOperator expresion_logica'''
 
 def p_factor(p):
-	''' factor	: LPAREN factorAddFakeCover exp RPAREN
+	''' factor	: LPAREN factorAddFakeCover expresion_logica RPAREN
 				| factor1'''
 	if len(p) == 5:
 		print("REMOVE COVER: " + str(cuadruplos.pOper[-1]))
@@ -305,13 +311,6 @@ def p_factor1(p):
 			else:
 				cuadruplos.pTipos.append(STRING)
 
-def p_factor_logico(p):
-	''' factor_logico	: LPAREN factorAddFakeCover expresion_logica RPAREN
-				| factor1'''
-	if len(p) == 5:
-		print("REMOVE COVER: " + str(cuadruplos.pOper[-1]))
-		cuadruplos.pOper.pop()
-
 def p_for(p):
 	'for : FOR CTE_INT TO CTE_INT BY LPAREN for1 CTE_INT RPAREN bloque'
 
@@ -359,7 +358,7 @@ def p_funcion6(p):
 				| RETURN ID RCURL'''
 
 def p_inicializacion(p):
-	'inicializacion : EQUALS exp'
+	'inicializacion : EQUALS expresion_logica'
   	# Save ID key with typeTmp and value as tuple
 	if function_ptr == 'GLOBAL':
 		if globalVars.has_key(p[-1]):
@@ -437,11 +436,11 @@ def p_llamada(p):
 
 def p_llamada1(p):
 	'''llamada1 	: epsilon
-					| exp llamada2'''
+					| expresion_logica llamada2'''
 
 def p_llamada2(p):
 	'''llamada2 	: epsilon
-					| COMMA exp llamada2'''
+					| COMMA expresion_logica llamada2'''
 
 def p_main(p):
 	'main : MAIN declareMain LCURL main1 estatuto main2 RCURL'
@@ -489,23 +488,12 @@ def p_print2(p):
 	'''print2 		: epsilon
                     | PLUS print1'''
 
-def p_programa(p):
-	'programa 	: START programa1 programa2 main END'
-
-def p_programa1(p):
-	'''programa1 : var_declaracion programa1
-				| epsilon'''
-
-def p_programa2(p):
-	'''programa2 : funcion programa2
-				| epsilon'''
-
 def p_switch(p):
     'switch     : SWITCH ID switch1 LCURL switch2 switch3 RCURL'
 
 def p_switch1(p):
 	'''switch1  : epsilon
-	            | LBRACKET exp RBRACKET'''
+	            | LBRACKET expresion_logica RBRACKET'''
 
 def p_switch2(p):
 	'''switch2  : epsilon
@@ -576,7 +564,7 @@ def p_varcte(p):
 
 def p_varcte1(p):
 	''' varcte1 	: epsilon
-				| LPAREN exp varcte2 RPAREN
+				| LPAREN expresion_logica varcte2 RPAREN
 				| LBRACKET exp RBRACKET'''
 	if len(p) == 2:
 		p[0] = p[1]
@@ -587,7 +575,7 @@ def p_varcte1(p):
 
 def p_varcte2(p):
 	'''varcte2 	: epsilon
-					| COMMA exp varcte2'''
+					| COMMA expresion_logica varcte2'''
 	if len(p) == 2:
 		p[0] = p[1]
 	else:
@@ -688,10 +676,10 @@ if __name__ == '__main__':
 	f = open(fin, 'r')
 	data = f.read()
 
-	# Print Tokens
-	# lexer.input(data)
-	# for tok in lexer:
-	# 	print(tok)
+	#Print Tokens
+	lexer.input(data)
+	for tok in lexer:
+		print(tok)
 
 	parser.parse(data, tracking=True)
 

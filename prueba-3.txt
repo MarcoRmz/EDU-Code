@@ -1,1 +1,29 @@
-prueba3
+start
+
+int count
+int sum
+
+function int increase(int sum) {
+	int x
+	int y
+
+	x = count * 5
+	sum = 3 + 1
+
+	return sum
+}
+
+main {
+	int x
+	int y
+	string hola
+
+	hola = "ho" + "la"
+	x = 1
+	y = 3
+	count = 1
+	sum = count * 4
+
+	print(sum)
+}
+end
