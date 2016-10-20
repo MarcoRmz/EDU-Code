@@ -43,6 +43,8 @@ EQUALS = 7
 
 GOTO = 9
 GOTOF = 10
+PRINT = 11
+INPUT = 12
 
 # Function to parse token type values to equivalent numeric constant
 def parseTypeIndex(type):
@@ -415,10 +417,18 @@ def p_inicializacion_vector2(p):
 
 def p_input(p):
 	'''input	: INPUT LPAREN input1 RPAREN'''
-	p[0] = p[1]
+	# METE mensaje a memoria
+	cuadruplos.pTipos.pop()
+	cuadruplos.countT += 1
+	cuadruplos.dirCuadruplos.append((INPUT, cuadruplos.pOperandos.pop(), None, "t"+str(cuadruplos.countT)))
+	cuadruplos.indexCuadruplos += 1
+	# METE input a memoria
+	cuadruplos.pOperandos.append("t"+str(cuadruplos.countT))
+	cuadruplos.pTipos.append(STRING)
+	cuadruplos.countT += 1
 
 def p_input1(p):
-	'''input1	: CTE_STRING
+	'''input1	: expresion_logica
 				| epsilon'''
 
 def p_llamada(p):
@@ -477,16 +487,14 @@ def p_parametros2(p):
 				| epsilon'''
 
 def p_print(p):
-	'print 		    : PRINT LPAREN print1 RPAREN'
-	p[0] = p[1]
-
-def p_print1(p):
-	'''print1 		: CTE_STRING print2
-                    | ID print2'''
-
-def p_print2(p):
-	'''print2 		: epsilon
-                    | PLUS print1'''
+	'print 		    : PRINT LPAREN expresion_logica RPAREN'
+	printValue = cuadruplos.pOperandos.pop()
+	if cuadruplos.pTipos.pop() == STRING and printValue[0] == '\"':
+		# METE printValue a memoria
+		cuadruplos.countT += 1
+		pass
+	cuadruplos.dirCuadruplos.append((PRINT, None, None, "t"+str(cuadruplos.countT)))
+	cuadruplos.indexCuadruplos += 1
 
 def p_switch(p):
     'switch     : SWITCH ID switch1 LCURL switch2 switch3 RCURL'

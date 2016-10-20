@@ -44,6 +44,7 @@ main {
 	} elseif (true) {
 		pass
 	}
-	print(sum)
+	hola = input(3 * 3)
+	print(hola)
 }
 end
