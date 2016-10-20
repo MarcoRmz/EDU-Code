@@ -677,9 +677,9 @@ if __name__ == '__main__':
 	data = f.read()
 
 	#Print Tokens
-	lexer.input(data)
-	for tok in lexer:
-		print(tok)
+	# lexer.input(data)
+	# for tok in lexer:
+	# 	print(tok)
 
 	parser.parse(data, tracking=True)
 
