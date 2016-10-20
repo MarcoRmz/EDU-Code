@@ -20,13 +20,16 @@ globalVars = {}
 # Functions Directory
 functionsDir = {}
 
-# Constants
+### Constants
 ERROR = -1
+
+# TYPES
 INT = 0
 FLOAT = 1
 STRING = 2
 BOOL = 3
 
+# OPERATORS
 PLUS = 0
 MINUS = 1
 MULT = 2
@@ -41,10 +44,14 @@ DOUBLE_EQUAL = 6
 DIFF = 6
 EQUALS = 7
 
+# JUMPS
 GOTO = 9
 GOTOF = 10
-PRINT = 11
-INPUT = 12
+GOTOT = 11
+
+# SYSTEM FUNCTIONS
+PRINT = 12
+INPUT = 13
 
 # Function to parse token type values to equivalent numeric constant
 def parseTypeIndex(type):
