@@ -33,25 +33,25 @@ BOOL = 3
 PLUS = 0
 MINUS = 1
 MULT = 2
-DIVIDE = 8
-AND = 3
-OR = 3
-LESS = 4
-GREATER = 4
-LESSEQUAL = 5
-GREATEREQUAL = 5
-DOUBLE_EQUAL = 6
-DIFF = 6
-EQUALS = 7
+DIVIDE = 3
+AND = 4
+OR = 5
+LESS = 6
+GREATER = 7
+LESSEQUAL = 8
+GREATEREQUAL = 9
+DOUBLE_EQUAL = 10
+DIFF = 11
+EQUALS = 12
 
 # JUMPS
-GOTO = 9
-GOTOF = 10
-GOTOT = 11
+GOTO = 13
+GOTOF = 14
+GOTOT = 15
 
 # SYSTEM FUNCTIONS
-PRINT = 12
-INPUT = 13
+PRINT = 16
+INPUT = 17
 
 # Function to parse token type values to equivalent numeric constant
 def parseTypeIndex(type):
@@ -88,7 +88,7 @@ def p_programa2(p):
 
 def p_asignacion(p):
 	'''asignacion : ID EQUALS asignacion1'''
-	print "\nacabo asignacion"
+	print "\nacabo asignacion L91"
 	if globalVars.has_key(p[1]):
 		asignacionType = cuadruplos.cubo.getResultType(globalVars[p[1]][0], cuadruplos.pTipos[-1], EQUALS)
 		if asignacionType != ERROR:
@@ -103,16 +103,16 @@ def p_asignacion(p):
 			exit(1)
 	else:
 		if functionsDir[function_ptr][1].has_key(p[1]):
-			print("pila operandos %s" %(str(cuadruplos.pOperandos)))
+			print("L106 pila operandos %s" %(str(cuadruplos.pOperandos)))
 			asignacionType = cuadruplos.cubo.getResultType(functionsDir[function_ptr][1][p[1]][0], cuadruplos.pTipos[-1], EQUALS)
 			if asignacionType != ERROR:
-				print "SI ENTRO"
+				print "L109 SI ENTRO"
 				functionsDir[function_ptr][1][p[1]][0] = asignacionType
 				functionsDir[function_ptr][1][p[1]][1] = cuadruplos.pOperandos.pop()
 				cuadruplos.dirCuadruplos.append((EQUALS, functionsDir[function_ptr][1][p[1]][1], None, p[1]))
 				cuadruplos.pTipos.pop()
 				cuadruplos.indexCuadruplos += 1
-				print "PILA DE OPERANDOS L430 %s" % str(cuadruplos.pOperandos)
+				print "PILA DE OPERANDOS L115 %s" % str(cuadruplos.pOperandos)
 			else:
 				# Error
 				print("Type mismatch var: %s of type: %s and %s! Line: %s" %(p[1], parseType(functionsDir[function_ptr][1][p[1]][0]), parseType(cuadruplos.pTipos[-1]),lexer.lineno))
@@ -140,7 +140,7 @@ def p_bloque1(p):
 				| epsilon'''
 
 def p_condicion(p):
-	'condicion 	: IF LPAREN expresion_logica RPAREN condicion1 condicion2 condicion3'
+	'condicion 	: IF LPAREN expresion_logica RPAREN checkCondicion condicion1 condicion2 condicion3'
 
 def p_condicion1(p):
 	'''condicion1	: bloque
@@ -153,6 +153,17 @@ def p_condicion2(p):
 def p_condicion3(p):
 	'''condicion3	: ELSE condicion1
 					| epsilon'''
+
+def p_checkCondicion(p):
+	'''checkCondicion : '''
+	aux = cuadruplos.pTipos.pop()
+	if aux == BOOL:
+		# generate GOTO
+		print("L162 evaluated if")
+	else:
+		# Error
+		print("Evaluated expresion %s is not a bool! Line: %s" %(aux, lexer.lineno))
+		exit(1)
 
 def p_cte_bool(p):
 	''' cte_bool : TRUE
@@ -169,41 +180,25 @@ def p_estatuto(p):
 
 def p_exp(p):
 	'exp 	: termino checkEXPPOper exp1'
-	print "acabo exp"
-	print("-----------------")
-	print("tipos:")
-	print(cuadruplos.pTipos)
-	print("---")
-	print("operandos:")
-	print(cuadruplos.pOperandos)
-	print("---")
-	print("operadores:")
-	print(cuadruplos.pOper)
-	print("-----------------\n")
 
 def p_checkEXPPOper(p):
 	'checkEXPPOper : '
-	print "\ncheckEXPPOper"
+	print "\nL197 checkEXPPOper"
 	if (len(cuadruplos.pOper) != 0):
 		if ((cuadruplos.pOper[-1] == PLUS) or (cuadruplos.pOper[-1] == MINUS)):
-			print "CHECK POPER L201 %s " % str(cuadruplos.pOperandos)
+			print "CHECK POPER L200 %s " % str(cuadruplos.pOperandos)
 			operator = cuadruplos.pOper.pop()
 			operand2 = cuadruplos.pOperandos.pop()
 			operand1 = cuadruplos.pOperandos.pop()
 			operandType2 = cuadruplos.pTipos.pop()
 			operandType1 = cuadruplos.pTipos.pop()
-			print "CHECK POPER L207 %s " % str(cuadruplos.pOperandos)
+			print "CHECK POPER L206 %s " % str(cuadruplos.pOperandos)
 
 			operationType = cuadruplos.cubo.getResultType(operandType1, operandType2, operator)
 
 			if(operationType != ERROR):
-				print "OPERATOR: %s OPERAND1: %s OPERAND2: %s L212  " % (str(operator), str(operand1), str(operand2))
-				if(operator == PLUS):
-					#result = operand1+operand2
-					cuadruplos.dirCuadruplos.append((operator, operand1, operand2, "t"+str(cuadruplos.countT)))
-				else:
-					#result = operand1-operand2
-					cuadruplos.dirCuadruplos.append((operator, operand1, operand2, "t"+str(cuadruplos.countT)))
+				print "OPERATOR: %s OPERAND1: %s OPERAND2: %s L211  " % (str(operator), str(operand1), str(operand2))
+				cuadruplos.dirCuadruplos.append((operator, operand1, operand2, "t"+str(cuadruplos.countT)))
 				cuadruplos.pOperandos.append("t"+str(cuadruplos.countT))
 				cuadruplos.pTipos.append(operationType)
 				cuadruplos.indexCuadruplos += 1
@@ -211,7 +206,7 @@ def p_checkEXPPOper(p):
 			else:
 				print("Type mismatch between operand type: %s and %s while trying to %s at line: %s" %(operand1, operand2, operator, lexer.lineno))
 				exit(1)
-	print ("index cuadruplos %d \n cuadruplos: %s\n" %(cuadruplos.indexCuadruplos, str(cuadruplos.dirCuadruplos)))
+	print ("L220 index cuadruplos %d \n cuadruplos: %s\n" %(cuadruplos.indexCuadruplos, str(cuadruplos.dirCuadruplos)))
 
 def p_exp1(p):
 	''' exp1 	: PLUS addOperator exp
@@ -246,7 +241,34 @@ def p_addOperator(p):
 		cuadruplos.pOper.append(MINUS)
 
 def p_expresion(p):
-	'expresion 	: exp expresion1'
+	'expresion 	: exp checkEXPRESIONPOper expresion1'
+
+def p_checkEXPRESIONPOper(p):
+	'checkEXPRESIONPOper : '
+	print "\nL259 checkEXPRESIONPOper"
+	if (len(cuadruplos.pOper) != 0):
+		if ((cuadruplos.pOper[-1] == LESS) or (cuadruplos.pOper[-1] == LESSEQUAL) or (cuadruplos.pOper[-1] == GREATER) or (cuadruplos.pOper[-1] == GREATEREQUAL) or (cuadruplos.pOper[-1] == DOUBLE_EQUAL) or (cuadruplos.pOper[-1] == DIFF)):
+			print "CHECK POPER L262 %s " % str(cuadruplos.pOperandos)
+			operator = cuadruplos.pOper.pop()
+			operand2 = cuadruplos.pOperandos.pop()
+			operand1 = cuadruplos.pOperandos.pop()
+			operandType2 = cuadruplos.pTipos.pop()
+			operandType1 = cuadruplos.pTipos.pop()
+			print "CHECK POPER L268 %s " % str(cuadruplos.pOperandos)
+
+			operationType = cuadruplos.cubo.getResultType(operandType1, operandType2, operator)
+
+			if(operationType != ERROR):
+				print "OPERATOR: %s OPERAND1: %s OPERAND2: %s L273  " % (str(operator), str(operand1), str(operand2))
+				cuadruplos.dirCuadruplos.append((operator, operand1, operand2, "t"+str(cuadruplos.countT)))
+				cuadruplos.pOperandos.append("t"+str(cuadruplos.countT))
+				cuadruplos.pTipos.append(operationType)
+				cuadruplos.indexCuadruplos += 1
+				cuadruplos.countT += 1
+			else:
+				print("Type mismatch between operand type: %s and %s while trying to %s at line: %s" %(operand1, operand2, operator, lexer.lineno))
+				exit(1)
+	print ("L282 index cuadruplos %d \n cuadruplos: %s\n" %(cuadruplos.indexCuadruplos, str(cuadruplos.dirCuadruplos)))
 
 def p_expresion1(p):
 	'''expresion1 	: LESS addOperator expresion
@@ -258,7 +280,45 @@ def p_expresion1(p):
 					| DIFF addOperator expresion'''
 
 def p_expresion_logica(p):
-	'expresion_logica 	: expresion expresion_logica1'
+	'expresion_logica 	: expresion checkEXPRESIONLOGICAPOper expresion_logica1'
+	print "L284 acabo expresionlogica"
+	print("-----------------")
+	print("tipos:")
+	print(cuadruplos.pTipos)
+	print("---")
+	print("operandos:")
+	print(cuadruplos.pOperandos)
+	print("---")
+	print("operadores:")
+	print(cuadruplos.pOper)
+	print("-----------------\n")
+
+def p_checkEXPRESIONLOGICAPOper(p):
+	'checkEXPRESIONLOGICAPOper : '
+	print "\nL298 checkEXPRESIONLOGICAPOper"
+	if (len(cuadruplos.pOper) != 0):
+		if ((cuadruplos.pOper[-1] == AND) or (cuadruplos.pOper[-1] == OR)):
+			print "CHECK POPER L301 %s " % str(cuadruplos.pOperandos)
+			operator = cuadruplos.pOper.pop()
+			operand2 = cuadruplos.pOperandos.pop()
+			operand1 = cuadruplos.pOperandos.pop()
+			operandType2 = cuadruplos.pTipos.pop()
+			operandType1 = cuadruplos.pTipos.pop()
+			print "CHECK POPER L307 %s " % str(cuadruplos.pOperandos)
+
+			operationType = cuadruplos.cubo.getResultType(operandType1, operandType2, operator)
+
+			if(operationType != ERROR):
+				print "OPERATOR: %s OPERAND1: %s OPERAND2: %s L312  " % (str(operator), str(operand1), str(operand2))
+				cuadruplos.dirCuadruplos.append((operator, operand1, operand2, "t"+str(cuadruplos.countT)))
+				cuadruplos.pOperandos.append("t"+str(cuadruplos.countT))
+				cuadruplos.pTipos.append(operationType)
+				cuadruplos.indexCuadruplos += 1
+				cuadruplos.countT += 1
+			else:
+				print("Type mismatch between operand type: %s and %s while trying to %s at line: %s" %(operand1, operand2, operator, lexer.lineno))
+				exit(1)
+	print ("L321 index cuadruplos %d \n cuadruplos: %s\n" %(cuadruplos.indexCuadruplos, str(cuadruplos.dirCuadruplos)))
 
 def p_expresion_logica1(p):
 	'''expresion_logica1 	: AND addOperator expresion_logica
@@ -269,7 +329,7 @@ def p_factor(p):
 	''' factor	: LPAREN factorAddFakeCover expresion_logica RPAREN
 				| factor1'''
 	if len(p) == 5:
-		print("REMOVE COVER: " + str(cuadruplos.pOper[-1]))
+		print("L332 REMOVE COVER: " + str(cuadruplos.pOper[-1]))
 		cuadruplos.pOper.pop()
 
 def p_factorAddFakeCover(p):
@@ -281,7 +341,7 @@ def p_factor1(p):
 				| MINUS varcte
 				| varcte'''
 
-	print "\n factor1"
+	print "\nfactor1 L344"
 	# Insert varcte to pOperandos
 	if len(p) == 3:
 		p[0] = p[1] + str(p[2])
@@ -302,15 +362,15 @@ def p_factor1(p):
 			exit(1)
 	else:
 		p[0] = p[1]
-		print("VARCTE operando: %s" %(str(p[1])))
+		print("L365 VARCTE operando: %s" %(str(p[1])))
 		cuadruplos.pOperandos.append(p[1])
-		print("operadores VARCTE encontrada: %s" %(str(cuadruplos.pOperandos)))
+		print("L367 operandos VARCTE encontrada: %s" %(str(cuadruplos.pOperandos)))
 		# Insert Type of varcte to pTipos
 		if isinstance(p[1], int):
 			cuadruplos.pTipos.append(INT)
 		elif isinstance(p[1], float):
 			cuadruplos.pTipos.append(FLOAT)
-		elif isinstance(p[1], bool):
+		elif p[1] == 'true' or p[1] == 'false':
 			cuadruplos.pTipos.append(BOOL)
 		else:
 			if globalVars.has_key(p[1]):
@@ -494,7 +554,7 @@ def p_parametros2(p):
 				| epsilon'''
 
 def p_print(p):
-	'print 		    : PRINT LPAREN expresion_logica RPAREN'
+	'print : PRINT LPAREN expresion_logica RPAREN'
 	printValue = cuadruplos.pOperandos.pop()
 	if cuadruplos.pTipos.pop() == STRING and printValue[0] == '\"':
 		# METE printValue a memoria
@@ -527,27 +587,22 @@ def p_termino(p):
 def p_checkTERMPOper(p):
 	'checkTERMPOper : '
 
-	print "\n checkTERMPOper"
-	print "operadores: %s" % str(cuadruplos.pOper)
+	print "\n L590 checkTERMPOper"
+	print "L591 operadores: %s" % str(cuadruplos.pOper)
 	if (len(cuadruplos.pOper) != 0):
 		if ((cuadruplos.pOper[-1] == MULT) or (cuadruplos.pOper[-1] == DIVIDE)):
-			print("operandos: %s" %(str(cuadruplos.pOper)))
-			print("operadores: %s" %(str(cuadruplos.pOperandos)))
+			print("L594 operadores: %s" %(str(cuadruplos.pOper)))
+			print("L595 operandos: %s" %(str(cuadruplos.pOperandos)))
 			operator = cuadruplos.pOper.pop()
 			operand2 = cuadruplos.pOperandos.pop()
 			operand1 = cuadruplos.pOperandos.pop()
-			print("operadores con pop: %s" %(str(cuadruplos.pOperandos)))
+			print("L599 operandos con pop: %s" %(str(cuadruplos.pOperandos)))
 			operandType2 = cuadruplos.pTipos.pop()
 			operandType1 = cuadruplos.pTipos.pop()
 
 			operationType = cuadruplos.cubo.getResultType(operandType1, operandType2, operator)
 			if(operationType != ERROR):
-				if(operator == PLUS):
-					#result = operand1*operand2
-					cuadruplos.dirCuadruplos.append( (operator, operand1, operand2, "t"+str(cuadruplos.countT)))
-				else:
-					#result = operand1/operand2
-					cuadruplos.dirCuadruplos.append((operator, operand1, operand2, "t"+str(cuadruplos.countT)))
+				cuadruplos.dirCuadruplos.append((operator, operand1, operand2, "t"+str(cuadruplos.countT)))
 				cuadruplos.pOperandos.append("t"+str(cuadruplos.countT))
 				cuadruplos.pTipos.append(operationType)
 				cuadruplos.indexCuadruplos += 1
@@ -555,7 +610,7 @@ def p_checkTERMPOper(p):
 			else:
 				print("Type mismatch between operand type: %s and %s while trying to %s at line: %s" %(operand1, operand2, operator, lexer.lineno))
 				exit(1)
-	print ("index cuadruplos %d \n cuadruplos: %s" %(cuadruplos.indexCuadruplos, str(cuadruplos.dirCuadruplos)))
+	print ("L613 index cuadruplos %d \n cuadruplos: %s" %(cuadruplos.indexCuadruplos, str(cuadruplos.dirCuadruplos)))
 
 def p_termino1(p):
 	'''termino1 : TIMES addOperator termino
