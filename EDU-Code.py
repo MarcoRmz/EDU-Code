@@ -180,12 +180,26 @@ def p_cte_bool(p):
 				 | FALSE'''
 	p[0] = p[1]
 
+def p_do_while(p):
+	''' do_while : DO metePSaltos bloque WHILE LPAREN expresion_logica RPAREN '''
+	#meter gotov
+	aux = cuadruplos.pTipos.pop()
+	if aux == BOOL:
+		# generate GOTO
+		cuadruplos.dirCuadruplos.append((GOTOT, cuadruplos.pOperandos.pop(), None, cuadruplos.pSaltos.pop()))
+		cuadruplos.indexCuadruplos += 1
+	else:
+		# Error
+		print("Evaluated expresion %s is not a bool! Line: %s" %(aux, lexer.lineno))
+		exit(1)
+
 def p_estatuto(p):
 	'''estatuto : asignacion
 				| llamada
 				| condicion
 				| switch
 				| while
+				| do_while
 				| for'''
 
 def p_exp(p):

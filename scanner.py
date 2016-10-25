@@ -38,7 +38,8 @@ reserved = {
 	'by' : 'BY',
 	'to' : 'TO',
 	'pass' : 'PASS',
-	'default' : 'DEFAULT'
+	'default' : 'DEFAULT',
+	'do' :  'DO'
 }
 
 # List of tokens
