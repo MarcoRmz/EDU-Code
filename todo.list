@@ -10,13 +10,15 @@ General:
 ** diagrama do while
 ** actualizar diagramas y gramatica REGEX
 ** comentar
+** checar que variables tengan valor al ser usadas en expresiones
 
 Maquina virtual:
 ** multiplicacion y division de ints hacer floor
 ** reemplazar valores en cuadruplos por direccion de memoria
 
 Avance 4:
-** Ciclos cuadruplos
-** Condiciones cuadruplos
-** Saltos
-** Agregar Do-while
+** While cuadruplos - X
+** Condiciones cuadruplos - X
+** Switch cuadruplos
+** For cuadruplos
+** Agregar Do-while diagrama, gramatica, cuadruplos

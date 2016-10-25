@@ -1,7 +1,7 @@
 start
 
 int count
-int sum = 0
+int sum
 
 function int increase(int sum) {
 	sum = sum + 1
@@ -9,11 +9,25 @@ function int increase(int sum) {
 }
 
 main {
+	int x
+	int y
+
+	sum = 0
 	count = 1
 
-	if (sum < 4) {
+	if (x > 3) {
+		if(x > 2){
+			count = count + 1
+		}
+		else{
+			count = count - 1
+		}
 		sum = count+1
 		count = 2
+	} elseif (true) {
+		while (x < 5) {
+			x = count + sum
+		}
 	}
 	print(sum)
 }

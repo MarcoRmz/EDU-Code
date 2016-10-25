@@ -140,30 +140,40 @@ def p_bloque1(p):
 				| epsilon'''
 
 def p_condicion(p):
-	'condicion 	: IF LPAREN expresion_logica RPAREN checkCondicion condicion1 condicion2 condicion3'
+	'condicion 	: IF LPAREN expresion_logica RPAREN checkEvaluacionLogica condicion1 checkPSaltos condicion2 condicion3'
 
 def p_condicion1(p):
 	'''condicion1	: bloque
                     | LCURL PASS RCURL'''
 
 def p_condicion2(p):
-	'''condicion2 	: ELSEIF LPAREN expresion_logica RPAREN condicion1 condicion2
+	'''condicion2 	: ELSEIF LPAREN expresion_logica RPAREN checkEvaluacionLogica condicion1 checkPSaltos condicion2
                     | epsilon'''
 
 def p_condicion3(p):
 	'''condicion3	: ELSE condicion1
 					| epsilon'''
 
-def p_checkCondicion(p):
-	'''checkCondicion : '''
+def p_checkEvaluacionLogica(p):
+	'''checkEvaluacionLogica : '''
 	aux = cuadruplos.pTipos.pop()
 	if aux == BOOL:
 		# generate GOTO
-		print("L162 evaluated if")
+		cuadruplos.dirCuadruplos.append((GOTOF, cuadruplos.pOperandos.pop(), None, None))
+		cuadruplos.pSaltos.append(cuadruplos.indexCuadruplos)
+		cuadruplos.indexCuadruplos += 1
 	else:
 		# Error
 		print("Evaluated expresion %s is not a bool! Line: %s" %(aux, lexer.lineno))
 		exit(1)
+
+def p_checkPSaltos(p):
+	'''checkPSaltos : '''
+	if (len(cuadruplos.pSaltos) != 0):
+		gotoIndex = cuadruplos.pSaltos.pop()
+		t = cuadruplos.dirCuadruplos[gotoIndex]
+		t = t[:3] + (cuadruplos.indexCuadruplos,)
+		cuadruplos.dirCuadruplos[gotoIndex] = t
 
 def p_cte_bool(p):
 	''' cte_bool : TRUE
@@ -714,7 +724,19 @@ def p_declareVar2(p):
 	p[0] = p[-1]
 
 def p_while(p):
-	'while : WHILE LPAREN expresion RPAREN bloque'
+	'while : WHILE metePSaltos LPAREN expresion_logica RPAREN checkEvaluacionLogica bloque'
+	if (len(cuadruplos.pSaltos) != 0):
+		gotoFIndex = cuadruplos.pSaltos.pop()
+		cuadruplos.dirCuadruplos.append((GOTO, None, None, cuadruplos.pSaltos.pop()))
+		cuadruplos.indexCuadruplos += 1
+		t = cuadruplos.dirCuadruplos[gotoFIndex]
+		t = t[:3] + (cuadruplos.indexCuadruplos,)
+		cuadruplos.dirCuadruplos[gotoFIndex] = t
+
+
+def p_metePSaltos(p):
+	'metePSaltos :'
+	cuadruplos.pSaltos.append(cuadruplos.indexCuadruplos)
 
 def p_epsilon(p):
 	'epsilon :'
