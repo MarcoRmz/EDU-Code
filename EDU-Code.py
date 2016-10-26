@@ -53,6 +53,7 @@ GOTOT = 15
 PRINT = 16
 INPUT = 17
 
+
 # Function to parse token type values to equivalent numeric constant
 def parseTypeIndex(type):
 	if type == 'int':
@@ -77,6 +78,10 @@ def parseType(type):
 # Parser
 def p_programa(p):
 	'programa 	: START programa1 programa2 main END'
+	#agregar cuadruplo de end of file
+	cuadruplos.dirCuadruplos.append(("EOF", None, None, None))
+	cuadruplos.indexCuadruplos += 1
+
 
 def p_programa1(p):
 	'''programa1 : var_declaracion programa1
@@ -141,6 +146,13 @@ def p_bloque1(p):
 
 def p_condicion(p):
 	'condicion 	: IF LPAREN expresion_logica RPAREN checkEvaluacionLogica condicion1 checkPSaltos condicion2 condicion3'
+	#rellenar goto's de condicion
+	while(len(cuadruplos.pSaltos)!=0):
+		gotoIndex = cuadruplos.pSaltos.pop()
+		t = cuadruplos.dirCuadruplos[gotoIndex]
+		t = t[:3] + (cuadruplos.indexCuadruplos,)
+		cuadruplos.dirCuadruplos[gotoIndex] = t
+
 
 def p_condicion1(p):
 	'''condicion1	: bloque
@@ -169,11 +181,19 @@ def p_checkEvaluacionLogica(p):
 
 def p_checkPSaltos(p):
 	'''checkPSaltos : '''
+	#generar goto
+	cuadruplos.dirCuadruplos.append((GOTO, None, None, None))
+	cuadruplos.indexCuadruplos += 1
+
 	if (len(cuadruplos.pSaltos) != 0):
 		gotoIndex = cuadruplos.pSaltos.pop()
 		t = cuadruplos.dirCuadruplos[gotoIndex]
 		t = t[:3] + (cuadruplos.indexCuadruplos,)
 		cuadruplos.dirCuadruplos[gotoIndex] = t
+
+	cuadruplos.pSaltos.append(cuadruplos.indexCuadruplos-1)
+
+
 
 def p_cte_bool(p):
 	''' cte_bool : TRUE
@@ -592,6 +612,14 @@ def p_switch(p):
 	cuadruplos.pOperandos.pop()
 	cuadruplos.pTipos.pop()
 
+	#rellenar goto's de switch
+	while(len(cuadruplos.pSaltos)!=0):
+		gotoIndex = cuadruplos.pSaltos.pop()
+		t = cuadruplos.dirCuadruplos[gotoIndex]
+		t = t[:3] + (cuadruplos.indexCuadruplos,)
+		cuadruplos.dirCuadruplos[gotoIndex] = t
+
+
 def p_switch1(p):
 	'''switch1  : epsilon
 	            | LBRACKET expresion_logica RBRACKET'''
@@ -804,6 +832,7 @@ def p_while(p):
 		t = cuadruplos.dirCuadruplos[gotoFIndex]
 		t = t[:3] + (cuadruplos.indexCuadruplos,)
 		cuadruplos.dirCuadruplos[gotoFIndex] = t
+
 
 
 def p_metePSaltos(p):
