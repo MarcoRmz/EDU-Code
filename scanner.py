@@ -17,7 +17,7 @@ reserved = {
 	'int' : 'INT',
 	'float' : 'FLOAT',
 	'string' : 'STRING',
-	'for' : 'FOR',
+	'from' : 'FROM',
 	'while' : 'WHILE',
 	'elseif' : 'ELSEIF',
 	'if' : 'IF',

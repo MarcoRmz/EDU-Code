@@ -17,6 +17,8 @@ Maquina virtual:
 ** reemplazar valores en cuadruplos por direccion de memoria
 
 Avance 4:
+** token start GOTO main
+** token main rellenar GOTO start
 ** While cuadruplos GOTOF - X
 ** Condiciones cuadruplos GOTOF - X
 ** Switch cuadruplos GOTOF - X

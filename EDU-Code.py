@@ -20,6 +20,9 @@ globalVars = {}
 # Functions Directory
 functionsDir = {}
 
+# Pila Temp FROM
+pTempFrom = []
+
 ### Constants
 ERROR = -1
 
@@ -52,7 +55,6 @@ GOTOT = 15
 # SYSTEM FUNCTIONS
 PRINT = 16
 INPUT = 17
-
 
 # Function to parse token type values to equivalent numeric constant
 def parseTypeIndex(type):
@@ -220,7 +222,7 @@ def p_estatuto(p):
 				| switch
 				| while
 				| do_while
-				| for'''
+				| from'''
 
 def p_exp(p):
 	'exp 	: termino checkEXPPOper exp1'
@@ -424,14 +426,71 @@ def p_factor1(p):
 			else:
 				cuadruplos.pTipos.append(STRING)
 
-def p_for(p):
-	'for : FOR CTE_INT TO CTE_INT BY LPAREN for1 CTE_INT RPAREN bloque'
+def p_cteFrom(p):
+	''' cteFrom : PLUS CTE_INT
+				| MINUS CTE_INT
+				| CTE_INT'''
+	if len(p) == 3:
+		# Verify PLUS & MINUS are used only on INT & FLOATS
+		if ((isinstance(p[2], int)) or (isinstance(p[2], float))):
+			if (p[1] == '-'):
+				p[0] = p[2] * -1
+			else:
+				p[0] = p[2]
+	else:
+		p[0] = p[1]
 
-def p_for1(p):
-	'''for1	: PLUS
+def p_from(p):
+	'from : FROM cteFrom creaVarTemp TO cteFrom crearComparacion BY LPAREN from1 cteFrom RPAREN bloque'
+	# Actualiza valor en pTempFrom
+	if p[9] == '+':
+		pTempFrom[p[-1]] = pTempFrom[p[-1]] + p[10]
+	elif p[9] == '-':
+		pTempFrom[p[-1]] = pTempFrom[p[-1]] - p[10]
+	elif p[9] == '*':
+		pTempFrom[p[-1]] = pTempFrom[p[-1]] * p[10]
+	elif p[9] == '/':
+		pTempFrom[p[-1]] = pTempFrom[p[-1]] / p[10]
+
+	# Genera GOTO
+	gotoFIndex = cuadruplos.pSaltos.pop()
+	cuadruplos.dirCuadruplos.append((GOTO, None, None, cuadruplos.pSaltos.pop()))
+	cuadruplos.indexCuadruplos += 1
+	t = cuadruplos.dirCuadruplos[gotoFIndex]
+	t = t[:3] + (cuadruplos.indexCuadruplos,)
+	cuadruplos.dirCuadruplos[gotoFIndex] = t
+
+	# Pop pTempFrom
+	pTempFrom.pop()
+
+def p_from1(p):
+	'''from1	: PLUS
 			| TIMES
 			| DIVIDE
 			| MINUS'''
+
+def p_creaVarTemp(p):
+	'creaVarTemp : '
+	pTempFrom.append(p[-1])
+
+def p_crearComparacion(p):
+	'crearComparacion : '
+	cuadruplos.pSaltos.append(cuadruplos.indexCuadruplos)
+
+	if pTempFrom[-1] >= p[-1]:
+		# comparacion >=
+		cuadruplos.dirCuadruplos.append((GREATEREQUAL, pTempFrom[-1], p[-1], "t"+str(cuadruplos.countT)))
+		cuadruplos.indexCuadruplos += 1
+		cuadruplos.countT += 1
+	else:
+		# comparacion <=
+		cuadruplos.dirCuadruplos.append((LESSEQUAL, pTempFrom[-1], p[-1], "t"+str(cuadruplos.countT)))
+		cuadruplos.indexCuadruplos += 1
+		cuadruplos.countT += 1
+
+	cuadruplos.dirCuadruplos.append((GOTOF, "t"+str(cuadruplos.countT-1), None, None))
+	cuadruplos.pSaltos.append(cuadruplos.indexCuadruplos)
+	cuadruplos.indexCuadruplos += 1
 
 def p_funcion(p):
 	'funcion	: FUNCTION funcion4'
@@ -871,7 +930,7 @@ if __name__ == '__main__':
 
 	#Print Tokens
 	# lexer.input(data)
-	# for tok in lexer:
+	# from tok in lexer:
 	# 	print(tok)
 
 	parser.parse(data, tracking=True)
