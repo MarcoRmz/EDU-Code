@@ -11,27 +11,23 @@ function int increase(int sum) {
 main {
 	int x
 	int y
-
+	string ho
 	sum = 0
 	count = 1
 	x = 99
 	y = -5
 
-	switch x {
-		case 7:
-		{
-			count = count + 1
-		}
-		case 8:
-		{
-			pass
-		}
-		default:
-		{
-			do{
-				x = x +9
-			}while(x>0)
-		}
+	while(x < 0) {
+		x = 0
+		do {
+			print(x)
+			count = sum +1
+			from 2 to 10 by (+2) {
+				ho = input("hola")
+			}
+		} while(y > 1)
+		y = 3
 	}
+	x = y
 }
 end
