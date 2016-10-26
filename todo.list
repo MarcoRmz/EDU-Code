@@ -19,9 +19,9 @@ Maquina virtual:
 Avance 4:
 ** While cuadruplos GOTOF - X
 ** Condiciones cuadruplos GOTOF - X
-** Switch cuadruplos GOTOF
+** Switch cuadruplos GOTOF - X
 ** Actualizar diagrama de Switch
 ** varcte sacar valor de tabla de var para ID e igualar en p[0]
-** Generar GOTOs en condicion, switch y while
+** Generar GOTOs en condicion, switch y while - X
 ** For cuadruplos GOTOF GOTO
 ** Agregar Do-while diagrama, gramatica, cuadruplos x

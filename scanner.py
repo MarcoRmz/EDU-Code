@@ -117,7 +117,7 @@ def t_CTE_INT(t):
 	return t
 
 def t_CTE_STRING(t):
-	r'\"[a-zA-Z0-9!@#$%^&*()_+\-=\[\]{};\':"\\|,.<>\/?]*\"'
+	r'\"[a-zA-Z0-9!@#$%^&*()_+\-=\[\]{};\':"\\|,.<>\/? X]*\"'
 	# try:
 	# 	t.value = string(t.value)
 	# except ValueError:

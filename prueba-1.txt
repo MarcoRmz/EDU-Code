@@ -45,6 +45,8 @@ main {
 		count = 2
 	} elseif (true) {
 		pass
+	} else {
+		x = 0
 	}
 	hola = input(3 * 3)
 	print(hola)

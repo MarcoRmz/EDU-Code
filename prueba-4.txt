@@ -1,15 +1,13 @@
 start
 
 int count
-int sum = 0
+int sum
 
 function int increase(int sum) {
 	sum = sum + 1
 	return sum
 }
-main {
-	a = 1
-}
+
 main {
 	count = 1
 
