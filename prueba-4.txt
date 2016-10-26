@@ -14,6 +14,12 @@ main {
 	if (sum < 4) {
 		sum = count+1
 		count = 2
+	}elseif(sum > 5){
+		sum = sum + 1
+	}elseif(sum == 5){
+	  sum = sum + 2
+	}else{
+	  sum = sum + 3
 	}
 	print(sum)
 }
