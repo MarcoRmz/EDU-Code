@@ -17,8 +17,11 @@ Maquina virtual:
 ** reemplazar valores en cuadruplos por direccion de memoria
 
 Avance 4:
-** While cuadruplos - X
-** Condiciones cuadruplos - X
-** Switch cuadruplos
-** For cuadruplos
+** While cuadruplos GOTOF - X
+** Condiciones cuadruplos GOTOF - X
+** Switch cuadruplos GOTOF
+** Actualizar diagrama de Switch
+** varcte sacar valor de tabla de var para ID e igualar en p[0]
+** Generar GOTOs en condicion, switch y while
+** For cuadruplos GOTOF GOTO
 ** Agregar Do-while diagrama, gramatica, cuadruplos x

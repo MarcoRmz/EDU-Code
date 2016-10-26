@@ -588,7 +588,9 @@ def p_print(p):
 	cuadruplos.indexCuadruplos += 1
 
 def p_switch(p):
-    'switch     : SWITCH ID switch1 LCURL switch2 switch3 RCURL'
+	'switch     : SWITCH ID meterIDPOper switch1 LCURL switch2 switch3 RCURL'
+	cuadruplos.pOperandos.pop()
+	cuadruplos.pTipos.pop()
 
 def p_switch1(p):
 	'''switch1  : epsilon
@@ -596,14 +598,68 @@ def p_switch1(p):
 
 def p_switch2(p):
 	'''switch2  : epsilon
-	            | CASE varcte COLON switch4 switch2'''
+	            | CASE varcte compararConID checkEvaluacionLogica COLON switch4 checkPSaltos switch2'''
 
 def p_switch3(p):
 	'switch3  : DEFAULT COLON switch4'
 
 def p_switch4(p):
 	'''switch4  : LCURL PASS RCURL
-				| estatuto'''
+				| bloque'''
+
+def p_meterIDPOper(p):
+	'meterIDPOper : '
+	# Checa que ID exista y saca tipo de tabla de Var
+	# Si existe mete valor a pOperandos y tipo a pTipos
+	if globalVars.has_key(p[-1]):
+		cuadruplos.pTipos.append(globalVars[p[-1]][0])
+		cuadruplos.pOperandos.append(globalVars[p[-1]][1])
+	elif functionsDir[function_ptr][1].has_key(p[-1]):
+		cuadruplos.pTipos.append(functionsDir[function_ptr][1][p[-1]][0])
+		cuadruplos.pOperandos.append(functionsDir[function_ptr][1][p[-1]][1])
+	else:
+		# Error
+		print("Variable %s isn't declared! Line: %s" %(p[-1], lexer.lineno))
+		exit(1)
+
+def p_compararConID(p):
+	'compararConID : '
+	# Checa tipo de varcte
+	if isinstance(p[-1], int):
+		operandType2 = INT
+		operand2 = p[-1]
+	elif isinstance(p[-1], float):
+		operandType2 = FLOAT
+		operand2 = p[-1]
+	elif p[-1] == 'true' or p[-1] == 'false':
+		operandType2 = BOOL
+		operand2 = p[-1]
+	else:
+		if globalVars.has_key(p[-1]):
+	  			operandType2 = globalVars[p[-1]][0]
+	  			operand2 = globalVars[p[-1]][1]
+		elif function_ptr != "GLOBAL" and functionsDir[function_ptr][1].has_key(p[-1]):
+		  		operandType2 = functionsDir[function_ptr][1][p[-1]][0]
+		  		operand2 = functionsDir[function_ptr][1][p[-1]][1]
+		else:
+			operandType2 = STRING
+			operand2 = p[-1]
+	operator = DOUBLE_EQUAL
+	operand1 = cuadruplos.pOperandos[-1]
+	operandType1 = cuadruplos.pTipos[-1]
+
+	operationType = cuadruplos.cubo.getResultType(operandType1, operandType2, operator)
+
+	if(operationType == BOOL):
+		cuadruplos.dirCuadruplos.append((operator, operand1, operand2, "t"+str(cuadruplos.countT)))
+		cuadruplos.pOperandos.append("t"+str(cuadruplos.countT))
+		cuadruplos.pTipos.append(operationType)
+		cuadruplos.indexCuadruplos += 1
+		cuadruplos.countT += 1
+
+	else:
+		print("Type mismatch between operand type: %s and %s while trying to %s at line: %s" %(operand1, operand2, operator, lexer.lineno))
+		exit(1)
 
 def p_termino(p):
 	'termino 	: factor checkTERMPOper termino1'
@@ -654,7 +710,9 @@ def p_varcte(p):
 				| CTE_FLOAT
                 | CTE_STRING
                 | cte_bool'''
-        p[0] = p[1]
+	# si len(p) == 3 sacar valor de ID para p[0]
+	p[0] = p[1]
+
 
 def p_varcte1(p):
 	''' varcte1 	: epsilon

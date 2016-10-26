@@ -37,7 +37,9 @@ main {
 			count = count + 1
 		}
 		else{
-			count = count - 1
+			while (x < 5) {
+				x = count + sum
+			}
 		}
 		sum = count+1
 		count = 2
