@@ -79,11 +79,10 @@ def parseType(type):
 
 # Parser
 def p_programa(p):
-	'programa 	: START programa1 programa2 main END'
+	'programa 	: START gotoMAIN programa1 programa2 main END'
 	#agregar cuadruplo de end of file
 	cuadruplos.dirCuadruplos.append(("EOF", None, None, None))
 	cuadruplos.indexCuadruplos += 1
-
 
 def p_programa1(p):
 	'''programa1 : var_declaracion programa1
@@ -92,6 +91,12 @@ def p_programa1(p):
 def p_programa2(p):
 	'''programa2 : funcion programa2
 				| epsilon'''
+
+def p_gotoMAIN(p):
+	'gotoMAIN : '
+	# Generate GOTO MAIN
+	cuadruplos.dirCuadruplos.append((GOTO, None, None, None))
+	cuadruplos.indexCuadruplos += 1
 
 def p_asignacion(p):
 	'''asignacion : ID EQUALS asignacion1'''
@@ -631,6 +636,9 @@ def p_declareMain(p):
 	function_ptr = p[-1]
 	if functionsDir.has_key(p[-1]) == False:
 		functionsDir[p[-1]] = ['main', {}]
+		t = cuadruplos.dirCuadruplos[0]
+		t = t[:3] + (cuadruplos.indexCuadruplos,)
+		cuadruplos.dirCuadruplos[0] = t
 	else:
 		# Error
 		print("Main %s already declared! Line: %s" %(p[-1], lexer.lineno))
@@ -797,28 +805,22 @@ def p_varcte(p):
 				| CTE_FLOAT
                 | CTE_STRING
                 | cte_bool'''
-	# si len(p) == 3 sacar valor de ID para p[0]
-	p[0] = p[1]
+	# si len(p) == 3 ID es vector
+	if len(p) == 3:
+		# sacar valor de vector en posicion varcte1
+		p[0] = p[1]
+	else:
+		p[0] = p[1]
 
 
 def p_varcte1(p):
 	''' varcte1 	: epsilon
 				| LPAREN expresion_logica varcte2 RPAREN
-				| LBRACKET exp RBRACKET'''
-	if len(p) == 2:
-		p[0] = p[1]
-	elif len(p) == 4:
-		p[0] = p[1] + p[2] + p[3]
-	else:
-		p[0] = p[1] + p[2] + p[3] + p[4]
+				| LBRACKET expresion_logica RBRACKET'''
 
 def p_varcte2(p):
 	'''varcte2 	: epsilon
 					| COMMA expresion_logica varcte2'''
-	if len(p) == 2:
-		p[0] = p[1]
-	else:
-		p[0] = p[1] + p[2] + p[3]
 
 def p_var_declaracion(p):
 	'''var_declaracion : tipo var_declaracion1

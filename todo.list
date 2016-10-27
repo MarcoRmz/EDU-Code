@@ -1,29 +1,26 @@
-que es la maquina virtual?
-porque guardar variables en el parser cuando la maquina lo almacenara
-
 General:
 ** diagrama asignacion
 ** checar tipo de asignacion con tipo de vector
-** semantica: funcion llamada comparar el fnctpointer vs id llamada haciendo (evitar recursion)
 ** print Errores Detallados
 ** diagrama condicion elseif
 ** diagrama do while
 ** actualizar diagramas y gramatica REGEX
 ** comentar
-** checar que variables tengan valor al ser usadas en expresiones
+** Actualizar diagrama de Switch
+** Bitacoras
 
 Maquina virtual:
 ** multiplicacion y division de ints hacer floor
 ** reemplazar valores en cuadruplos por direccion de memoria
+** checar que variables tengan valor al ser usadas, marcar erros si no
 
-Avance 4:
-** token start GOTO main
-** token main rellenar GOTO start
-** While cuadruplos GOTOF - X
-** Condiciones cuadruplos GOTOF - X
-** Switch cuadruplos GOTOF - X
-** Actualizar diagrama de Switch
-** varcte sacar valor de tabla de var para ID e igualar en p[0]
-** Generar GOTOs en condicion, switch y while - X
-** For cuadruplos GOTOF GOTO
-** Agregar Do-while diagrama, gramatica, cuadruplos x
+Avance 5:
+** token start GOTO main - X
+** token main rellenar GOTO start - X
+** cuadruplos funciones
+** parametros funciones
+** return funciones
+** memoria virtual
+
+Avance 7:
+** sacar valor de vector[x] e igualar el valor en varcte con len(p) == 3 para p[0]
