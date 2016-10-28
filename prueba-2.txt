@@ -15,7 +15,8 @@ main {
 	sum = 0
 	count = 1
 	x = 99
-	y = -5
+
+	y = increase(2)
 
 	while(x < 0) {
 		x = 0

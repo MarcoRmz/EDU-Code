@@ -23,6 +23,9 @@ functionsDir = {}
 # Pila Temp FROM
 pTempFrom = []
 
+# Contador de parametros
+countParam = 0
+
 ### Constants
 ERROR = -1
 
@@ -51,10 +54,15 @@ EQUALS = 12
 GOTO = 13
 GOTOF = 14
 GOTOT = 15
+GOSUB = 16
+RETURN = 17
 
 # SYSTEM FUNCTIONS
-PRINT = 16
-INPUT = 17
+PRINT = 18
+INPUT = 19
+ERA = 20
+ENDPROC = 21
+PARAM = 22
 
 # Function to parse token type values to equivalent numeric constant
 def parseTypeIndex(type):
@@ -523,8 +531,10 @@ def p_declareFunc(p):
 	'''declareFunc : '''
 	global function_ptr
 	function_ptr = p[-1]
+	cuadruplos.countT = 0
 	if functionsDir.has_key(p[-1]) == False:
-		functionsDir[p[-1]] = [p[-2], {}]
+		# [Tipo, DictVar, ListaParam, CantVarTemp, indexCuadruplo]
+		functionsDir[p[-1]] = [parseTypeIndex(p[-2]), {}, [], 0, cuadruplos.indexCuadruplos]
 	else:
 		# Error
 		print("Function %s already declared!" %(p[-1]))
@@ -532,7 +542,18 @@ def p_declareFunc(p):
 
 def p_funcion6(p):
 	'''funcion6	: RCURL
-				| RETURN ID RCURL'''
+				| RETURN expresion_logica RCURL'''
+	# Verifica tipo de funcion
+	if functionsDir[function_ptr][0] != 'void':
+		# Generar RETURN
+		cuadruplos.dirCuadruplos.append((RETURN, None, None, cuadruplos.pOperandos.pop()))
+		cuadruplos.indexCuadruplos += 1
+	# Asignar valores de referencias
+	# Liberar Tabla de variables locales de memoria
+	# Generar ENDPROC
+	functionsDir[function_ptr][3] = cuadruplos.countT
+	cuadruplos.dirCuadruplos.append((ENDPROC, None, None, None))
+	cuadruplos.indexCuadruplos += 1
 
 def p_inicializacion(p):
 	'inicializacion : EQUALS expresion_logica'
@@ -607,25 +628,59 @@ def p_input1(p):
 				| epsilon'''
 
 def p_llamada(p):
-	'''llamada 	: ID LPAREN llamada1 RPAREN
+	'''llamada 	: ID crearMemoria LPAREN llamada1 RPAREN
 				| print
 				| input'''
 	if len(p) > 2:
-		if functionsDir.has_key(p[1]):
-			global function_ptr
-			function_ptr = p[1]
+		global function_ptr
+		function_ptr = p[1]
+		p[3] = p[1]
+		# Verificar que countParam == len(parametros) de la funcion
+		print('################ %s' %str(functionsDir[function_ptr]))
+		if len(functionsDir[function_ptr][2]) == countParam:
+			# Genera cuadruplo GOSUB
+			cuadruplos.dirCuadruplos.append((GOSUB, function_ptr, functionsDir[function_ptr][4], None))
+			cuadruplos.indexCuadruplos += 1
 		else:
 			# Error
-			print("Function %s is not declared!" %(p[1]))
+			print("Function expected %d parameters, recieved %d!" %(len(functionsDir[function_ptr][2]), countParam))
 			exit(1)
 
 def p_llamada1(p):
 	'''llamada1 	: epsilon
-					| expresion_logica llamada2'''
+					| expresion_logica checaParam llamada2'''
 
 def p_llamada2(p):
 	'''llamada2 	: epsilon
-					| COMMA expresion_logica llamada2'''
+					| COMMA expresion_logica checaParam llamada2'''
+
+def p_crearMemoria(p):
+	'crearMemoria : '
+	# Pedir memoria para funcion
+	# [Tipo, DictVar, ListaParam, CantVarTemp, indexCuadruplo]
+	if functionsDir.has_key(p[1]):
+		cuadruplos.dirCuadruplos.append((ERA, len(functionsDir[p[1]][1]), functionsDir[p[1]][3], None))
+		cuadruplos.indexCuadruplos += 1
+		global countParam
+		countParam = 0
+	else:
+		# Error
+		print("Function %s is not declared!" %(p[1]))
+		exit(1)
+
+def p_checaParam(p):
+	'checaParam : '
+	p[0] = p[-2]
+	parametro = cuadruplos.pOperandos.pop()
+	parametroTipo = cuadruplos.pTipos.pop()
+	if functionsDir[p[-2]][2][countParam] != parametroTipo:
+		# Error
+		print("Function parameter %s type mismatch, expected %s!" %(parseType(parametroTipo), parseType(functionsDir[p[-2]][2][countParam])))
+		exit(1)
+	else:
+		cuadruplos.dirCuadruplos.append(PARAM, parametro, parametroTipo, None)
+		cuadruplos.indexCuadruplos += 1
+		countParam += 1
 
 def p_main(p):
 	'main : MAIN declareMain LCURL main1 estatuto main2 RCURL'
@@ -635,7 +690,8 @@ def p_declareMain(p):
 	global function_ptr
 	function_ptr = p[-1]
 	if functionsDir.has_key(p[-1]) == False:
-		functionsDir[p[-1]] = ['main', {}]
+		# [Tipo, DictVar, ListaParam, CantVarTemp, indexCuadruplo]
+		functionsDir[p[-1]] = ['main', {}, [], 0, cuadruplos.indexCuadruplos]
 		t = cuadruplos.dirCuadruplos[0]
 		t = t[:3] + (cuadruplos.indexCuadruplos,)
 		cuadruplos.dirCuadruplos[0] = t
@@ -653,8 +709,8 @@ def p_main2(p):
 				| epsilon'''
 
 def p_parametros(p):
-	'''parametros : tipo parametros1 ID parametros2
-				| VECTOR tipo parametros1 ID parametros2'''
+	'''parametros : tipo meteParam parametros1 ID parametros2
+				| VECTOR tipo meteParamVect parametros1 ID parametros2'''
 
 def p_parametros1(p):
 	'''parametros1 : AMPERSON
@@ -663,6 +719,16 @@ def p_parametros1(p):
 def p_parametros2(p):
 	'''parametros2 : COMMA parametros
 				| epsilon'''
+
+def p_meteParam(p):
+	'meteParam : '
+	# Mete parametro a lista de parametros de la funcion
+	functionsDir[function_ptr][2].append(p[-1])
+
+def p_meteParamVect(p):
+	'meteParamVect : '
+	# Mete parametro vector a lista de parametros de la funcion
+	functionsDir[function_ptr][2].append(p[-1])
 
 def p_print(p):
 	'print : PRINT LPAREN expresion_logica RPAREN'

@@ -1,6 +1,5 @@
 General:
 ** diagrama asignacion
-** checar tipo de asignacion con tipo de vector
 ** print Errores Detallados
 ** diagrama condicion elseif
 ** diagrama do while
@@ -9,6 +8,8 @@ General:
 ** Actualizar diagrama de Switch
 ** Bitacoras
 ** Agregar diagrama ctefor y modificar for(from) acorde
+** DOCUMENTACION
+** BLOCKLY
 
 Maquina virtual:
 ** multiplicacion y division de ints hacer floor
@@ -22,6 +23,10 @@ Avance 5:
 ** parametros funciones
 ** return funciones
 ** memoria virtual
+** Cambiar return de funciones, mover return a bloque
 
 Avance 7:
 ** sacar valor de vector[x] e igualar el valor en varcte con len(p) == 3 para p[0]
+** checar tipo de asignacion con tipo de vector
+** Agregar tipos para vectores
+** Cambiar diagrama de vectores para declarar tamaños
