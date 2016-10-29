@@ -19,8 +19,9 @@ Maquina virtual:
 Avance 5:
 ** token start GOTO main - X
 ** token main rellenar GOTO start - X
-** cuadruplos funciones
-** parametros funciones
+** cuadruplos funciones VOID - X
+** cuadruplos funciones TIPO
+** parametros funciones - X
 ** return funciones
 ** memoria virtual
 ** Cambiar return de funciones, mover return a bloque
