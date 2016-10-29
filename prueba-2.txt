@@ -8,6 +8,10 @@ function int increase(int sum) {
 	return sum
 }
 
+function void test(string t) {
+	print(t)
+}
+
 main {
 	int x
 	int y
@@ -15,6 +19,8 @@ main {
 	sum = 0
 	count = 1
 	x = 99
+
+	test(ho)
 
 	y = increase(5)
 

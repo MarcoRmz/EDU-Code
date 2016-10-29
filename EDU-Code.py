@@ -13,6 +13,7 @@ import ply.yacc as yacc
 
 #Function pointer variable
 function_ptr = "GLOBAL"
+prev_Fuction_ptr = 'None'
 
 # Global Variables
 globalVars = {}
@@ -26,6 +27,9 @@ pTempFrom = []
 # Contador de parametros
 countParam = 0
 
+# Function ID
+functionID = 'None'
+
 ### Constants
 ERROR = -1
 
@@ -34,6 +38,7 @@ INT = 0
 FLOAT = 1
 STRING = 2
 BOOL = 3
+VOID = 23
 
 # OPERATORS
 PLUS = 0
@@ -72,6 +77,8 @@ def parseTypeIndex(type):
 		return FLOAT
 	elif type == 'bool':
 		return BOOL
+	elif type == 'void':
+		return VOID
 	else:
 		return STRING
 
@@ -143,10 +150,14 @@ def p_asignacion(p):
 			exit(1)
 
 def p_asignacion1(p):
-	'''asignacion1 : llamada
+	'''asignacion1 : che llamada
 				| expresion_logica
 				| asignacion_vector'''
 	p[0] = p[1]
+
+def p_che(p):
+	'che : '
+	print("/////////////////////////// HOOOOLAAA")
 
 def p_asignacion_vector(p):
 	'''asignacion_vector : LBRACKET inicializacion_vector1 RBRACKET'''
@@ -432,6 +443,7 @@ def p_factor1(p):
 		elif p[1] == 'true' or p[1] == 'false':
 			cuadruplos.pTipos.append(BOOL)
 		else:
+			print("FUNCTION POINTER FOR ID FOUND: " + function_ptr)
 			if globalVars.has_key(p[1]):
 		  			cuadruplos.pTipos.append(globalVars[p[1]][0])
 			elif function_ptr != "GLOBAL" and functionsDir[function_ptr][1].has_key(p[1]):
@@ -544,7 +556,7 @@ def p_funcion6(p):
 	'''funcion6	: RCURL
 				| RETURN expresion_logica RCURL'''
 	# Verifica tipo de funcion
-	if functionsDir[function_ptr][0] != 'void':
+	if functionsDir[function_ptr][0] != VOID:
 		# Generar RETURN
 		cuadruplos.dirCuadruplos.append((RETURN, None, None, cuadruplos.pOperandos.pop()))
 		cuadruplos.pTipos.pop()
@@ -552,9 +564,10 @@ def p_funcion6(p):
 	# Asignar valores de referencias
 	# Liberar Tabla de variables locales de memoria
 	# Generar ENDPROC
-	functionsDir[function_ptr][3] = cuadruplos.countT
+	functionsDir[function_ptr][3] = cuadruplos.countT +1
 	cuadruplos.dirCuadruplos.append((ENDPROC, None, None, None))
 	cuadruplos.indexCuadruplos += 1
+	print functionsDir
 
 def p_inicializacion(p):
 	'inicializacion : EQUALS expresion_logica'
@@ -633,15 +646,15 @@ def p_llamada(p):
 				| print
 				| input'''
 	if len(p) > 2:
-		global function_ptr
-		function_ptr = p[1]
-		p[3] = p[1]
 		# Verificar que countParam == len(parametros) de la funcion
 		print('################ %s' %str(functionsDir[function_ptr]))
 		if len(functionsDir[function_ptr][2]) == countParam:
 			# Genera cuadruplo GOSUB
-			cuadruplos.dirCuadruplos.append((GOSUB, function_ptr, functionsDir[function_ptr][4], None))
+			cuadruplos.dirCuadruplos.append((GOSUB, function_ptr, None, functionsDir[function_ptr][4]))
 			cuadruplos.indexCuadruplos += 1
+			print("PILA OPERANDOS: %s   PILA TIPOS: %s   PILA OPERADORES: %s" %(str(cuadruplos.pOperandos), str(cuadruplos.pTipos), str(cuadruplos.pOper)))
+			global function_ptr
+			function_ptr = prev_Fuction_ptr
 		else:
 			# Error
 			print("Function expected %d parameters, recieved %d!" %(len(functionsDir[function_ptr][2]), countParam))
@@ -665,7 +678,12 @@ def p_crearMemoria(p):
 		cuadruplos.indexCuadruplos += 1
 		global countParam
 		countParam = 0
-		
+		global prev_Fuction_ptr
+		prev_Fuction_ptr = function_ptr
+		global function_ptr
+		function_ptr = p[-1]
+		global functionID
+		functionID = p[-1]
 	else:
 		# Error
 		print("Function %s is not declared!" %(p[-1]))
@@ -673,25 +691,29 @@ def p_crearMemoria(p):
 
 def p_checaParam(p):
 	'checaParam : '
-	p[0] = p[-2]
 	parametro = cuadruplos.pOperandos.pop()
 	parametroTipo = cuadruplos.pTipos.pop()
-	if functionsDir[p[-2]][2][countParam] != parametroTipo:
+	print("-------PARAMETROS  : %s  tipo: %s" %(str(parametro), str(parseType(parametroTipo))))
+	print(functionsDir[functionID])
+	if (functionsDir[functionID][2][countParam] != parametroTipo):
 		# Error
-		print("Function parameter %s type mismatch, expected %s!" %(parseType(parametroTipo), parseType(functionsDir[p[-2]][2][countParam])))
+		print("Function parameter %s type mismatch, expected %s!" %(parseType(parametroTipo), parseType(functionsDir[functionID][2][countParam])))
 		exit(1)
 	else:
-		cuadruplos.dirCuadruplos.append(PARAM, parametro, parametroTipo, None)
+		cuadruplos.dirCuadruplos.append((PARAM, parametro, parametroTipo, None))
 		cuadruplos.indexCuadruplos += 1
+		global countParam
 		countParam += 1
 
 def p_main(p):
 	'main : MAIN declareMain LCURL main1 estatuto main2 RCURL'
+	functionsDir[p[1]][3] = cuadruplos.countT
 
 def p_declareMain(p):
 	'''declareMain : '''
 	global function_ptr
 	function_ptr = p[-1]
+	cuadruplos.countT = 0
 	if functionsDir.has_key(p[-1]) == False:
 		# [Tipo, DictVar, ListaParam, CantVarTemp, indexCuadruplo]
 		functionsDir[p[-1]] = ['main', {}, [], 0, cuadruplos.indexCuadruplos]
@@ -726,12 +748,12 @@ def p_parametros2(p):
 def p_meteParam(p):
 	'meteParam : '
 	# Mete parametro a lista de parametros de la funcion
-	functionsDir[function_ptr][2].append(p[-1])
+	functionsDir[function_ptr][2].append(parseTypeIndex(p[-1]))
 
 def p_meteParamVect(p):
 	'meteParamVect : '
 	# Mete parametro vector a lista de parametros de la funcion
-	functionsDir[function_ptr][2].append(p[-1])
+	functionsDir[function_ptr][2].append(parseTypeIndex(p[-1]))
 
 def p_print(p):
 	'print : PRINT LPAREN expresion_logica RPAREN'
@@ -739,7 +761,6 @@ def p_print(p):
 	if cuadruplos.pTipos.pop() == STRING and printValue[0] == '\"':
 		# METE printValue a memoria
 		cuadruplos.countT += 1
-		pass
 	cuadruplos.dirCuadruplos.append((PRINT, None, None, "t"+str(cuadruplos.countT)))
 	cuadruplos.indexCuadruplos += 1
 
