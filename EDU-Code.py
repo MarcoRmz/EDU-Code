@@ -143,8 +143,8 @@ def p_asignacion(p):
 			exit(1)
 
 def p_asignacion1(p):
-	'''asignacion1 : exp
-				| llamada
+	'''asignacion1 : llamada
+				| expresion_logica
 				| asignacion_vector'''
 	p[0] = p[1]
 
@@ -547,6 +547,7 @@ def p_funcion6(p):
 	if functionsDir[function_ptr][0] != 'void':
 		# Generar RETURN
 		cuadruplos.dirCuadruplos.append((RETURN, None, None, cuadruplos.pOperandos.pop()))
+		cuadruplos.pTipos.pop()
 		cuadruplos.indexCuadruplos += 1
 	# Asignar valores de referencias
 	# Liberar Tabla de variables locales de memoria
@@ -658,14 +659,16 @@ def p_crearMemoria(p):
 	'crearMemoria : '
 	# Pedir memoria para funcion
 	# [Tipo, DictVar, ListaParam, CantVarTemp, indexCuadruplo]
-	if functionsDir.has_key(p[1]):
-		cuadruplos.dirCuadruplos.append((ERA, len(functionsDir[p[1]][1]), functionsDir[p[1]][3], None))
+	print("*************MEMORY CREATED FOR FUNCTION")
+	if functionsDir.has_key(p[-1]):
+		cuadruplos.dirCuadruplos.append((ERA, len(functionsDir[p[-1]][1]), functionsDir[p[-1]][3], None))
 		cuadruplos.indexCuadruplos += 1
 		global countParam
 		countParam = 0
+		
 	else:
 		# Error
-		print("Function %s is not declared!" %(p[1]))
+		print("Function %s is not declared!" %(p[-1]))
 		exit(1)
 
 def p_checaParam(p):

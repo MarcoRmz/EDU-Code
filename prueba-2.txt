@@ -5,7 +5,7 @@ int sum
 
 function int increase(int sum) {
 	sum = sum + 1
-	return sum;
+	return sum
 }
 
 main {
@@ -16,7 +16,7 @@ main {
 	count = 1
 	x = 99
 
-	y = increase(2)
+	y = increase(5)
 
 	while(x < 0) {
 		x = 0
