@@ -150,14 +150,10 @@ def p_asignacion(p):
 			exit(1)
 
 def p_asignacion1(p):
-	'''asignacion1 : che llamada
+	'''asignacion1 : llamada
 				| expresion_logica
 				| asignacion_vector'''
 	p[0] = p[1]
-
-def p_che(p):
-	'che : '
-	print("/////////////////////////// HOOOOLAAA")
 
 def p_asignacion_vector(p):
 	'''asignacion_vector : LBRACKET inicializacion_vector1 RBRACKET'''
@@ -397,10 +393,13 @@ def p_expresion_logica1(p):
 
 def p_factor(p):
 	''' factor	: LPAREN factorAddFakeCover expresion_logica RPAREN
-				| factor1'''
+				| moveToken factor1'''
 	if len(p) == 5:
 		print("L332 REMOVE COVER: " + str(cuadruplos.pOper[-1]))
 		cuadruplos.pOper.pop()
+
+def p_moveToken(p):
+	'moveToken : '
 
 def p_factorAddFakeCover(p):
 	'factorAddFakeCover : '
@@ -691,8 +690,8 @@ def p_crearMemoria(p):
 
 def p_checaParam(p):
 	'checaParam : '
-	parametro = cuadruplos.pOperandos.pop()
-	parametroTipo = cuadruplos.pTipos.pop()
+	parametro = cuadruplos.pOperandos[-1]
+	parametroTipo = cuadruplos.pTipos[-1]
 	print("-------PARAMETROS  : %s  tipo: %s" %(str(parametro), str(parseType(parametroTipo))))
 	print(functionsDir[functionID])
 	if (functionsDir[functionID][2][countParam] != parametroTipo):

@@ -3,12 +3,12 @@ start
 int count
 int sum
 
-function int increase(int sum) {
-	sum = sum + 1
+function int increase(int sum, int x) {
+	sum = 2 + 1
 	return sum
 }
 
-function void test(string t) {
+function void test(string t, bool s) {
 	print(t)
 }
 
@@ -18,23 +18,23 @@ main {
 	string ho
 	sum = 0
 	count = 1
-	x = 99
+	x = -99
 
-	test(ho)
+	test(ho, true)
 
-	y = increase(5)
+	y = increase(5, 0)
 
 	while(x < 0) {
 		x = 0
 		do {
 			print(x)
-			count = sum +1
+			count = 3 +1
 			from 2 to 10 by (+2) {
 				ho = input("hola")
 			}
 		} while(y > 1)
 		y = 3
 	}
-	x = y
+	x = 0
 }
 end
