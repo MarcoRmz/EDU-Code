@@ -28,13 +28,13 @@ main {
 		x = 0
 		do {
 			print(x)
-			count = 3 +1
+			count = sum +1
 			from 2 to 10 by (+2) {
 				ho = input("hola")
 			}
 		} while(y > 1)
 		y = 3
 	}
-	x = 0
+	x = y
 }
 end
