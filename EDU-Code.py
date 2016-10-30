@@ -652,12 +652,13 @@ def p_llamada(p):
 			# Error
 			print("Function %s is not declared!" %(p[-1]))
 			exit(1)
-		parametro = cuadruplos.pOperandos[-1]
-		parametroTipo = cuadruplos.pTipos[-1]
 		print("@@@@@@@@@@@@@@@@ countParam: " + str(countParam))
 		# Verificar que countParam == len(parametros) de la funcion
 		print('################ %s' %str(functionsDir[function_ptr]))
 		if len(functionsDir[function_ptr][2]) == countParam:
+			# Pila temporal para invertir orden de parametros
+			pTempParam = []
+
 			# Verifica que parametros recibidos sean del tipo que se espera en el mismo orden
 			while (countParam > 0):
 				if (functionsDir[function_ptr][2][countParam-1] != cuadruplos.pTipos[-1]):
@@ -665,10 +666,16 @@ def p_llamada(p):
 					print("Function: %s parameter %s type mismatch, expected %s!" %(p[1], parseType(cuadruplos.pTipos[-1]), parseType(functionsDir[function_ptr][2][countParam-1])))
 					exit(1)
 				else:
-					cuadruplos.dirCuadruplos.append((PARAM, cuadruplos.pOperandos.pop(), cuadruplos.pTipos.pop(), None))
-					cuadruplos.indexCuadruplos += 1
+					pTempParam.append((cuadruplos.pTipos.pop(), cuadruplos.pOperandos.pop()))
 				global countParam
 				countParam -= 1
+
+			# Genera cuadruplos de parametros
+			while (len(pTempParam) > 0):
+				cuadruplos.dirCuadruplos.append((PARAM, pTempParam[-1][1], pTempParam[-1][0], None))
+				pTempParam.pop()
+				cuadruplos.indexCuadruplos += 1
+
 			# Genera cuadruplo GOSUB
 			cuadruplos.dirCuadruplos.append((GOSUB, function_ptr, None, functionsDir[function_ptr][4]))
 			cuadruplos.indexCuadruplos += 1
@@ -682,7 +689,6 @@ def p_llamada(p):
 		countParam = 0
 		global function_ptr
 		function_ptr = prev_Fuction_ptr
-		print(cuadruplos.dirCuadruplos)
 
 def p_llamada1(p):
 	'''llamada1 	: epsilon

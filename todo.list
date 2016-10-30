@@ -12,6 +12,7 @@ Diagramas:
 ** diagrama condicion elseif
 ** diagrama do while
 ** diagrama asignacion
+** diagrama bloque(return) y funcion(return)
 
 Maquina virtual:
 ** multiplicacion y division de ints hacer floor
@@ -27,7 +28,7 @@ Avance 5:
 ** return funciones - X
 ** memoria virtual
 ** Cambiar return de funciones, mover return a bloque
-** Invertir order de cuadruplos de parametros
+** Invertir order de cuadruplos de parametros - X
 
 Avance 7:
 ** sacar valor de vector[x] e igualar el valor en varcte con len(p) == 3 para p[0]
