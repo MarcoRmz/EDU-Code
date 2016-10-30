@@ -551,8 +551,7 @@ def p_funcion6(p):
 	# Verifica tipo de funcion
 	if functionsDir[function_ptr][0] != VOID:
 		# Generar RETURN
-		cuadruplos.dirCuadruplos.append((RETURN, None, None, cuadruplos.pOperandos.pop()))
-		cuadruplos.pTipos.pop()
+		cuadruplos.dirCuadruplos.append((RETURN, None, None, cuadruplos.pOperandos[-1]))
 		cuadruplos.indexCuadruplos += 1
 	# Asignar valores de referencias
 	# Liberar Tabla de variables locales de memoria
