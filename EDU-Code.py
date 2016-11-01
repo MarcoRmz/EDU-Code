@@ -406,6 +406,8 @@ def p_factor1(p):
 
 	print "\nfactor1 L344"
 	# Insert varcte to pOperandos
+	#CAMBIO: agregar cte al diccionario correspondiente y regresar en p[0] la direccion de la cte.
+	#CAMBIO: mover de varcte el id varcte1 a factor1, checar si es un id no agregar a ctes.
 	if len(p) == 3:
 		p[0] = p[1] + str(p[2])
 		# Verify PLUS & MINUS are used only on INT & FLOATS
@@ -536,6 +538,10 @@ def p_declareFunc(p):
 	'''declareFunc : '''
 	global function_ptr
 	function_ptr = p[-1]
+	#CAMBIO: Eliminar count t
+	#CAMBIO: Partir el contador de variables temporales y poner uno para cada tipo, agregar cantidad de locales de cada tipo
+	#CAMBIO: Contabilizar los parametros por tipo.
+	#Todo 2 y 3:
 	cuadruplos.countT = 0
 	if functionsDir.has_key(p[-1]) == False:
 		# [Tipo, DictVar, ListaParam, CantVarTemp, indexCuadruplo]
@@ -736,6 +742,8 @@ def p_parametros(p):
 	'''parametros : tipo meteParam parametros1 ID parametros2
 				| VECTOR tipo meteParamVect parametros1 ID parametros2'''
 
+	#CAMBIO: agregar sacaParam si parametros 1 es por referencia y sacaParam mete el id a la pila de referencia de la funcion
+
 def p_parametros1(p):
 	'''parametros1 : AMPERSON
 				| epsilon'''
@@ -743,11 +751,13 @@ def p_parametros1(p):
 def p_parametros2(p):
 	'''parametros2 : COMMA parametros
 				| epsilon'''
+	#CAMBIO: checar que el id del parametro no sea una var global.
 
 def p_meteParam(p):
 	'meteParam : '
 	# Mete parametro a lista de parametros de la funcion
 	functionsDir[function_ptr][2].append(parseTypeIndex(p[-1]))
+
 
 def p_meteParamVect(p):
 	'meteParamVect : '
@@ -937,6 +947,8 @@ def p_declareVar(p):
   			print("Variable %s already declared! Line: %s" %(p[-1], lexer.lineno))
   			exit(1)
   		vartype = parseTypeIndex(p[-2])
+		#CAMBIO: usar vartype para meter la direccion real a la tabla de variable.
+		#todo: 1
   		globalVars[p[-1]] = [vartype, 'ValueNone']
 	else:
 		if globalVars.has_key(p[-1]):
