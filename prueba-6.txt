@@ -5,7 +5,7 @@ int sum
 
 function int increase(int sum, int x) {
 	sum = sum + 1
-	return increase(5, 0) + print("s")
+	return increase(5, 0) + test("s", false)
 }
 
 function void test(string t, bool s) {
@@ -18,7 +18,5 @@ main {
 	count = 1
 
 	test(ho, true)
-
-	
 }
 end

@@ -908,17 +908,19 @@ def p_varcte(p):
                 | cte_bool'''
 	p[0] = p[1]
 
-
 def p_varcte1(p):
-	''' varcte1 : ID
+	''' varcte1 : ID checaID
 				| llamada
 				| cteVector'''
-	# Check if ID exists
 	p[0] = p[1]
+
+def p_checaID(p):
+	'''checaID : '''
+	# Checa si ID existe
 
 def p_cteVector(p):
 	'''cteVector 	: ID LBRACKET expresion_logica RBRACKET'''
-	# Evalua valor de vector
+	# Evalua valor de vector y checa si existe vector
 	p[0] = p[1]
 
 def p_var_declaracion(p):
