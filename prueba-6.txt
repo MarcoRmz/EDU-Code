@@ -1,0 +1,24 @@
+start
+
+int count
+int sum
+
+function int increase(int sum, int x) {
+	sum = sum + 1
+	return increase(5, 0) + print("s")
+}
+
+function void test(string t, bool s) {
+	print(t)
+}
+
+main {
+	string ho
+	sum = 0
+	count = 1
+
+	test(ho, true)
+
+	
+}
+end

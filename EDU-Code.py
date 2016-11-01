@@ -147,8 +147,7 @@ def p_asignacion(p):
 			exit(1)
 
 def p_asignacion1(p):
-	'''asignacion1 : llamada
-				| expresion_logica
+	'''asignacion1 : expresion_logica
 				| asignacion_vector'''
 	p[0] = p[1]
 
@@ -634,6 +633,7 @@ def p_input(p):
 	cuadruplos.pOperandos.append("t"+str(cuadruplos.countT))
 	cuadruplos.pTipos.append(STRING)
 	cuadruplos.countT += 1
+	p[0] = 'input'
 
 def p_input1(p):
 	'''input1	: expresion_logica
@@ -650,8 +650,6 @@ def p_llamada(p):
 		if functionsDir.has_key(p[1]):
 			cuadruplos.dirCuadruplos.append((ERA, len(functionsDir[p[1]][1]), functionsDir[p[1]][3], None))
 			cuadruplos.indexCuadruplos += 1
-			global prev_Fuction_ptr
-			prev_Fuction_ptr = function_ptr
 			global function_ptr
 			function_ptr = p[1]
 		else:
@@ -695,6 +693,7 @@ def p_llamada(p):
 		countParam = 0
 		global function_ptr
 		function_ptr = prev_Fuction_ptr
+	p[0] = p[1]
 
 def p_llamada1(p):
 	'''llamada1 	: epsilon
@@ -702,6 +701,8 @@ def p_llamada1(p):
 	if len(p) > 2:
 		global countParam
 		countParam += 1
+	global prev_Fuction_ptr
+	prev_Fuction_ptr = function_ptr
 
 def p_llamada2(p):
 	'''llamada2 	: epsilon
@@ -772,6 +773,7 @@ def p_print(p):
 		cuadruplos.countT += 1
 	cuadruplos.dirCuadruplos.append((PRINT, None, None, "t"+str(cuadruplos.countT)))
 	cuadruplos.indexCuadruplos += 1
+	p[0] = 'print'
 
 def p_switch(p):
 	'switch     : SWITCH ID meterIDPOper switch1 LCURL switch2 switch3 RCURL'
@@ -899,27 +901,25 @@ def p_tipo(p):
 	p[0] = p[1]
 
 def p_varcte(p):
-	''' varcte 	: ID varcte1
+	''' varcte 	: varcte1
 				| CTE_INT
 				| CTE_FLOAT
                 | CTE_STRING
                 | cte_bool'''
-	# si len(p) == 3 ID es vector
-	if len(p) == 3:
-		# sacar valor de vector en posicion varcte1
-		p[0] = p[1]
-	else:
-		p[0] = p[1]
+	p[0] = p[1]
 
 
 def p_varcte1(p):
-	''' varcte1 	: epsilon
-				| LPAREN expresion_logica varcte2 RPAREN
-				| LBRACKET expresion_logica RBRACKET'''
+	''' varcte1 : ID
+				| llamada
+				| cteVector'''
+	# Check if ID exists
+	p[0] = p[1]
 
-def p_varcte2(p):
-	'''varcte2 	: epsilon
-					| COMMA expresion_logica varcte2'''
+def p_cteVector(p):
+	'''cteVector 	: ID LBRACKET expresion_logica RBRACKET'''
+	# Evalua valor de vector
+	p[0] = p[1]
 
 def p_var_declaracion(p):
 	'''var_declaracion : tipo var_declaracion1
@@ -995,8 +995,6 @@ def p_while(p):
 		t = t[:3] + (cuadruplos.indexCuadruplos,)
 		cuadruplos.dirCuadruplos[gotoFIndex] = t
 
-
-
 def p_metePSaltos(p):
 	'metePSaltos :'
 	cuadruplos.pSaltos.append(cuadruplos.indexCuadruplos)
@@ -1015,7 +1013,6 @@ def p_error(p):
 	exit(1)
 
 parser = yacc.yacc()
-
 
 # Main
 import sys
