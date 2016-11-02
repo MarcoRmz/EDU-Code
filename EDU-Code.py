@@ -238,6 +238,8 @@ def p_estatuto(p):
 				| switch
 				| while
 				| do_while
+				| print
+				| input
 				| from'''
 
 def p_exp(p):
@@ -245,7 +247,7 @@ def p_exp(p):
 
 def p_checkEXPPOper(p):
 	'checkEXPPOper : '
-	print "\nL197 checkEXPPOper"
+	print("\nL197 checkEXPPOper %s" %(str(p.lineno(0))))
 	if (len(cuadruplos.pOper) != 0):
 		if ((cuadruplos.pOper[-1] == PLUS) or (cuadruplos.pOper[-1] == MINUS)):
 			print "CHECK POPER L200 %s " % str(cuadruplos.pOperandos)
@@ -425,10 +427,11 @@ def p_factor1(p):
 			print("Operator mismatch you have a %s before a type: %s at line: %s" %(p[1], type(p[2]), lexer.lineno))
 			exit(1)
 	else:
+		# CAMBIO: checar si varcte es una llamada
 		p[0] = p[1]
-		print("L365 VARCTE operando: %s" %(str(p[1])))
+		print("L365 factor1 -> VARCTE: %s" %(str(p[1])))
 		cuadruplos.pOperandos.append(p[1])
-		print("L367 operandos VARCTE encontrada: %s" %(str(cuadruplos.pOperandos)))
+		print("L367 factor1 -> operandos encontrados: %s" %(str(cuadruplos.pOperandos)))
 		# Insert Type of varcte to pTipos
 		if isinstance(p[1], int):
 			cuadruplos.pTipos.append(INT)
@@ -535,6 +538,7 @@ def p_funcion5(p):
 
 def p_declareFunc(p):
 	'''declareFunc : '''
+	print("ENTRO A declareFunc L540")
 	global function_ptr
 	function_ptr = p[-1]
 	#CAMBIO: Eliminar count t
@@ -554,6 +558,7 @@ def p_funcion6(p):
 	'''funcion6	: RCURL
 				| RETURN expresion_logica RCURL'''
 	# Verifica tipo de funcion
+	print("L560 acabo funcion")
 	if functionsDir[function_ptr][0] != VOID:
 		# Generar RETURN
 		cuadruplos.dirCuadruplos.append((RETURN, None, None, cuadruplos.pOperandos[-1]))
@@ -640,9 +645,7 @@ def p_input1(p):
 				| epsilon'''
 
 def p_llamada(p):
-	'''llamada 	: ID LPAREN llamada1 RPAREN
-				| print
-				| input'''
+	'''llamada 	: ID LPAREN llamada1 RPAREN'''
 	if len(p) > 2:
 		# Pedir memoria para funcion
 		# [Tipo, DictVar, ListaParam, CantVarTemp, indexCuadruplo]
@@ -693,7 +696,8 @@ def p_llamada(p):
 		countParam = 0
 		global function_ptr
 		function_ptr = prev_Fuction_ptr
-	p[0] = p[1]
+	p[0] = 'Llamada ' + str(p[1])
+	print("ACABA LLAMDA")
 
 def p_llamada1(p):
 	'''llamada1 	: epsilon
@@ -703,6 +707,7 @@ def p_llamada1(p):
 		countParam += 1
 	global prev_Fuction_ptr
 	prev_Fuction_ptr = function_ptr
+	print("Acaba parametros LLAMADA L706")
 
 def p_llamada2(p):
 	'''llamada2 	: epsilon
@@ -717,6 +722,7 @@ def p_main(p):
 
 def p_declareMain(p):
 	'''declareMain : '''
+	print("ENTRO A declareMain L722")
 	global function_ptr
 	function_ptr = p[-1]
 	cuadruplos.countT = 0
@@ -753,12 +759,13 @@ def p_parametros2(p):
 	'''parametros2 : COMMA parametros
 				| epsilon'''
 	#CAMBIO: checar que el id del parametro no sea una var global.
+	print("ENTRO A parametros2 con %s L760" %(str(p[-1])))
 
 def p_meteParam(p):
 	'meteParam : '
+	print("ENTRO A meteParam L762 con %s" %(str(p[-1])))
 	# Mete parametro a lista de parametros de la funcion
 	functionsDir[function_ptr][2].append(parseTypeIndex(p[-1]))
-
 
 def p_meteParamVect(p):
 	'meteParamVect : '
@@ -906,17 +913,21 @@ def p_varcte(p):
 				| CTE_FLOAT
                 | CTE_STRING
                 | cte_bool'''
+	print("L915 Salio de varcte")
 	p[0] = p[1]
 
 def p_varcte1(p):
 	''' varcte1 : ID checaID
 				| llamada
 				| cteVector'''
+	print("Salio de varcte1!!!")
+	# checa si fue llamada
 	p[0] = p[1]
 
 def p_checaID(p):
 	'''checaID : '''
 	# Checa si ID existe
+	print("Salio de checar ID!!!!!")
 
 def p_cteVector(p):
 	'''cteVector 	: ID LBRACKET expresion_logica RBRACKET'''
@@ -1014,7 +1025,17 @@ def p_error(p):
 		print("Syntax error at EOF")
 	exit(1)
 
-parser = yacc.yacc()
+# Set up a logging object
+import logging
+logging.basicConfig(
+    level = logging.DEBUG,
+    filename = "parselog.txt",
+    filemode = "w",
+    format = "%(filename)10s:%(lineno)4d:%(message)s"
+)
+log = logging.getLogger()
+
+parser = yacc.yacc(debug=True)
 
 # Main
 import sys
@@ -1035,7 +1056,7 @@ if __name__ == '__main__':
 	# from tok in lexer:
 	# 	print(tok)
 
-	parser.parse(data, tracking=True)
+	parser.parse(data, tracking=True, debug=log)
 
 	print("*****************************************")
 	print("globalVars: ")
