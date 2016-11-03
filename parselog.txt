@@ -1,0 +1,979 @@
+   yacc.py: 360:PLY: PARSE DEBUG START
+   yacc.py: 408:
+   yacc.py: 409:State  : 0
+   yacc.py: 433:Stack  : . LexToken(START,'start',1,0)
+   yacc.py: 443:Action : Shift and goto state 1
+   yacc.py: 408:
+   yacc.py: 409:State  : 1
+   yacc.py: 433:Stack  : START . LexToken(INT,'int',3,7)
+   yacc.py: 472:Action : Reduce rule [gotoMAIN -> <empty>] with [] and goto state 3
+   yacc.py: 546:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 3
+   yacc.py: 433:Stack  : START gotoMAIN . LexToken(INT,'int',3,7)
+   yacc.py: 443:Action : Shift and goto state 12
+   yacc.py: 408:
+   yacc.py: 409:State  : 12
+   yacc.py: 433:Stack  : START gotoMAIN INT . LexToken(ID,'count',3,11)
+   yacc.py: 469:Action : Reduce rule [tipo -> INT] with ['int'] and goto state 6
+   yacc.py: 504:Result : <str @ 0x104e9fa80> ('int')
+   yacc.py: 408:
+   yacc.py: 409:State  : 6
+   yacc.py: 433:Stack  : START gotoMAIN tipo . LexToken(ID,'count',3,11)
+   yacc.py: 443:Action : Shift and goto state 14
+   yacc.py: 408:
+   yacc.py: 409:State  : 14
+   yacc.py: 433:Stack  : START gotoMAIN tipo ID . LexToken(INT,'int',4,17)
+   yacc.py: 472:Action : Reduce rule [declareVar -> <empty>] with [] and goto state 21
+   yacc.py: 546:Result : <str @ 0x104f02d50> ('count')
+   yacc.py: 408:
+   yacc.py: 409:State  : 21
+   yacc.py: 433:Stack  : START gotoMAIN tipo ID declareVar . LexToken(INT,'int',4,17)
+   yacc.py: 469:Action : Reduce rule [var_declaracion1 -> ID declareVar] with ['count','count'] and goto state 13
+   yacc.py: 504:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 13
+   yacc.py: 433:Stack  : START gotoMAIN tipo var_declaracion1 . LexToken(INT,'int',4,17)
+   yacc.py: 469:Action : Reduce rule [var_declaracion -> tipo var_declaracion1] with ['int',None] and goto state 7
+   yacc.py: 504:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 7
+   yacc.py: 433:Stack  : START gotoMAIN var_declaracion . LexToken(INT,'int',4,17)
+   yacc.py: 443:Action : Shift and goto state 12
+   yacc.py: 408:
+   yacc.py: 409:State  : 12
+   yacc.py: 433:Stack  : START gotoMAIN var_declaracion INT . LexToken(ID,'sum',4,21)
+   yacc.py: 469:Action : Reduce rule [tipo -> INT] with ['int'] and goto state 6
+   yacc.py: 504:Result : <str @ 0x104e9fdc8> ('int')
+   yacc.py: 408:
+   yacc.py: 409:State  : 6
+   yacc.py: 433:Stack  : START gotoMAIN var_declaracion tipo . LexToken(ID,'sum',4,21)
+   yacc.py: 443:Action : Shift and goto state 14
+   yacc.py: 408:
+   yacc.py: 409:State  : 14
+   yacc.py: 433:Stack  : START gotoMAIN var_declaracion tipo ID . LexToken(FUNCTION,'function',6,26)
+   yacc.py: 472:Action : Reduce rule [declareVar -> <empty>] with [] and goto state 21
+   yacc.py: 546:Result : <str @ 0x104e9fcb0> ('sum')
+   yacc.py: 408:
+   yacc.py: 409:State  : 21
+   yacc.py: 433:Stack  : START gotoMAIN var_declaracion tipo ID declareVar . LexToken(FUNCTION,'function',6,26)
+   yacc.py: 469:Action : Reduce rule [var_declaracion1 -> ID declareVar] with ['sum','sum'] and goto state 13
+   yacc.py: 504:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 13
+   yacc.py: 433:Stack  : START gotoMAIN var_declaracion tipo var_declaracion1 . LexToken(FUNCTION,'function',6,26)
+   yacc.py: 469:Action : Reduce rule [var_declaracion -> tipo var_declaracion1] with ['int',None] and goto state 7
+   yacc.py: 504:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 7
+   yacc.py: 433:Stack  : START gotoMAIN var_declaracion var_declaracion . LexToken(FUNCTION,'function',6,26)
+   yacc.py: 472:Action : Reduce rule [epsilon -> <empty>] with [] and goto state 11
+   yacc.py: 546:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 11
+   yacc.py: 433:Stack  : START gotoMAIN var_declaracion var_declaracion epsilon . LexToken(FUNCTION,'function',6,26)
+   yacc.py: 469:Action : Reduce rule [programa1 -> epsilon] with [None] and goto state 15
+   yacc.py: 504:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 15
+   yacc.py: 433:Stack  : START gotoMAIN var_declaracion var_declaracion programa1 . LexToken(FUNCTION,'function',6,26)
+   yacc.py: 469:Action : Reduce rule [programa1 -> var_declaracion programa1] with [None,None] and goto state 15
+   yacc.py: 504:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 15
+   yacc.py: 433:Stack  : START gotoMAIN var_declaracion programa1 . LexToken(FUNCTION,'function',6,26)
+   yacc.py: 469:Action : Reduce rule [programa1 -> var_declaracion programa1] with [None,None] and goto state 8
+   yacc.py: 504:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 8
+   yacc.py: 433:Stack  : START gotoMAIN programa1 . LexToken(FUNCTION,'function',6,26)
+   yacc.py: 443:Action : Shift and goto state 16
+   yacc.py: 408:
+   yacc.py: 409:State  : 16
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION . LexToken(INT,'int',6,35)
+   yacc.py: 443:Action : Shift and goto state 12
+   yacc.py: 408:
+   yacc.py: 409:State  : 12
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION INT . LexToken(ID,'increase',6,39)
+   yacc.py: 469:Action : Reduce rule [tipo -> INT] with ['int'] and goto state 22
+   yacc.py: 504:Result : <str @ 0x104e9fdc8> ('int')
+   yacc.py: 408:
+   yacc.py: 409:State  : 22
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo . LexToken(ID,'increase',6,39)
+   yacc.py: 443:Action : Shift and goto state 30
+   yacc.py: 408:
+   yacc.py: 409:State  : 30
+   yacc.py: 428:Defaulted state 30: Reduce using 81
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID . None
+   yacc.py: 472:Action : Reduce rule [declareFunc -> <empty>] with [] and goto state 36
+   yacc.py: 546:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 36
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc . LexToken(LPAREN,'(',6,47)
+   yacc.py: 443:Action : Shift and goto state 38
+   yacc.py: 408:
+   yacc.py: 409:State  : 38
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN . LexToken(INT,'int',6,48)
+   yacc.py: 443:Action : Shift and goto state 12
+   yacc.py: 408:
+   yacc.py: 409:State  : 12
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN INT . LexToken(ID,'sum',6,52)
+   yacc.py: 469:Action : Reduce rule [tipo -> INT] with ['int'] and goto state 43
+   yacc.py: 504:Result : <str @ 0x104e9fa80> ('int')
+   yacc.py: 408:
+   yacc.py: 409:State  : 43
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN tipo . LexToken(ID,'sum',6,52)
+   yacc.py: 472:Action : Reduce rule [meteParam -> <empty>] with [] and goto state 67
+   yacc.py: 546:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 67
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN tipo meteParam . LexToken(ID,'sum',6,52)
+   yacc.py: 472:Action : Reduce rule [epsilon -> <empty>] with [] and goto state 87
+   yacc.py: 546:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 87
+   yacc.py: 428:Defaulted state 87: Reduce using 107
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN tipo meteParam epsilon . LexToken(ID,'sum',6,52)
+   yacc.py: 469:Action : Reduce rule [parametros1 -> epsilon] with [None] and goto state 85
+   yacc.py: 504:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 85
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN tipo meteParam parametros1 . LexToken(ID,'sum',6,52)
+   yacc.py: 443:Action : Shift and goto state 132
+   yacc.py: 408:
+   yacc.py: 409:State  : 132
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN tipo meteParam parametros1 ID . LexToken(COMMA,',',6,55)
+   yacc.py: 443:Action : Shift and goto state 163
+   yacc.py: 408:
+   yacc.py: 409:State  : 163
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN tipo meteParam parametros1 ID COMMA . LexToken(INT,'int',6,57)
+   yacc.py: 443:Action : Shift and goto state 12
+   yacc.py: 408:
+   yacc.py: 409:State  : 12
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN tipo meteParam parametros1 ID COMMA INT . LexToken(ID,'x',6,61)
+   yacc.py: 469:Action : Reduce rule [tipo -> INT] with ['int'] and goto state 43
+   yacc.py: 504:Result : <str @ 0x104e9fdf0> ('int')
+   yacc.py: 408:
+   yacc.py: 409:State  : 43
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN tipo meteParam parametros1 ID COMMA tipo . LexToken(ID,'x',6,61)
+   yacc.py: 472:Action : Reduce rule [meteParam -> <empty>] with [] and goto state 67
+   yacc.py: 546:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 67
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN tipo meteParam parametros1 ID COMMA tipo meteParam . LexToken(ID,'x',6,61)
+   yacc.py: 472:Action : Reduce rule [epsilon -> <empty>] with [] and goto state 87
+   yacc.py: 546:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 87
+   yacc.py: 428:Defaulted state 87: Reduce using 107
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN tipo meteParam parametros1 ID COMMA tipo meteParam epsilon . LexToken(ID,'x',6,61)
+   yacc.py: 469:Action : Reduce rule [parametros1 -> epsilon] with [None] and goto state 85
+   yacc.py: 504:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 85
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN tipo meteParam parametros1 ID COMMA tipo meteParam parametros1 . LexToken(ID,'x',6,61)
+   yacc.py: 443:Action : Shift and goto state 132
+   yacc.py: 408:
+   yacc.py: 409:State  : 132
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN tipo meteParam parametros1 ID COMMA tipo meteParam parametros1 ID . LexToken(RPAREN,')',6,62)
+   yacc.py: 472:Action : Reduce rule [epsilon -> <empty>] with [] and goto state 164
+   yacc.py: 546:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 164
+   yacc.py: 428:Defaulted state 164: Reduce using 109
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN tipo meteParam parametros1 ID COMMA tipo meteParam parametros1 ID epsilon . LexToken(RPAREN,')',6,62)
+   yacc.py: 469:Action : Reduce rule [parametros2 -> epsilon] with [None] and goto state 162
+   yacc.py: 504:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 162
+   yacc.py: 428:Defaulted state 162: Reduce using 104
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN tipo meteParam parametros1 ID COMMA tipo meteParam parametros1 ID parametros2 . LexToken(RPAREN,')',6,62)
+   yacc.py: 469:Action : Reduce rule [parametros -> tipo meteParam parametros1 ID parametros2] with ['int',None,None,'x',None] and goto state 205
+   yacc.py: 504:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 205
+   yacc.py: 428:Defaulted state 205: Reduce using 108
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN tipo meteParam parametros1 ID COMMA parametros . LexToken(RPAREN,')',6,62)
+   yacc.py: 469:Action : Reduce rule [parametros2 -> COMMA parametros] with [',',None] and goto state 162
+   yacc.py: 504:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 162
+   yacc.py: 428:Defaulted state 162: Reduce using 104
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN tipo meteParam parametros1 ID parametros2 . LexToken(RPAREN,')',6,62)
+   yacc.py: 469:Action : Reduce rule [parametros -> tipo meteParam parametros1 ID parametros2] with ['int',None,None,'sum',None] and goto state 46
+   yacc.py: 504:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 46
+   yacc.py: 428:Defaulted state 46: Reduce using 76
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN parametros . LexToken(RPAREN,')',6,62)
+   yacc.py: 469:Action : Reduce rule [funcion3 -> parametros] with [None] and goto state 42
+   yacc.py: 504:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 42
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 . LexToken(RPAREN,')',6,62)
+   yacc.py: 443:Action : Shift and goto state 66
+   yacc.py: 408:
+   yacc.py: 409:State  : 66
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN . LexToken(LCURL,'{',6,64)
+   yacc.py: 443:Action : Shift and goto state 84
+   yacc.py: 408:
+   yacc.py: 409:State  : 84
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL . LexToken(ID,'sum',7,67)
+   yacc.py: 472:Action : Reduce rule [epsilon -> <empty>] with [] and goto state 129
+   yacc.py: 546:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 129
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL epsilon . LexToken(ID,'sum',7,67)
+   yacc.py: 469:Action : Reduce rule [funcion1 -> epsilon] with [None] and goto state 131
+   yacc.py: 504:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 131
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 . LexToken(ID,'sum',7,67)
+   yacc.py: 443:Action : Shift and goto state 57
+   yacc.py: 408:
+   yacc.py: 409:State  : 57
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 ID . LexToken(EQUALS,'=',7,71)
+   yacc.py: 443:Action : Shift and goto state 79
+   yacc.py: 408:
+   yacc.py: 409:State  : 79
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 ID EQUALS . LexToken(ID,'sum',7,73)
+   yacc.py: 443:Action : Shift and goto state 105
+   yacc.py: 408:
+   yacc.py: 409:State  : 105
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 ID EQUALS ID . LexToken(PLUS,'+',7,77)
+   yacc.py: 472:Action : Reduce rule [checaID -> <empty>] with [] and goto state 144
+   yacc.py: 546:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 144
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 ID EQUALS ID checaID . LexToken(PLUS,'+',7,77)
+   yacc.py: 469:Action : Reduce rule [varcte1 -> ID checaID] with ['sum',None] and goto state 98
+   yacc.py: 504:Result : <str @ 0x104e9fd00> ('sum')
+   yacc.py: 408:
+   yacc.py: 409:State  : 98
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 ID EQUALS varcte1 . LexToken(PLUS,'+',7,77)
+   yacc.py: 469:Action : Reduce rule [varcte -> varcte1] with ['sum'] and goto state 99
+   yacc.py: 504:Result : <str @ 0x104e9fd00> ('sum')
+   yacc.py: 408:
+   yacc.py: 409:State  : 99
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 ID EQUALS varcte . LexToken(PLUS,'+',7,77)
+   yacc.py: 469:Action : Reduce rule [factor1 -> varcte] with ['sum'] and goto state 108
+   yacc.py: 504:Result : <str @ 0x104e9fd00> ('sum')
+   yacc.py: 408:
+   yacc.py: 409:State  : 108
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 ID EQUALS factor1 . LexToken(PLUS,'+',7,77)
+   yacc.py: 469:Action : Reduce rule [factor -> factor1] with ['sum'] and goto state 102
+   yacc.py: 504:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 102
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 ID EQUALS factor . LexToken(PLUS,'+',7,77)
+   yacc.py: 472:Action : Reduce rule [checkTERMPOper -> <empty>] with [] and goto state 141
+   yacc.py: 546:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 141
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 ID EQUALS factor checkTERMPOper . LexToken(PLUS,'+',7,77)
+   yacc.py: 472:Action : Reduce rule [epsilon -> <empty>] with [] and goto state 176
+   yacc.py: 546:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 176
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 ID EQUALS factor checkTERMPOper epsilon . LexToken(PLUS,'+',7,77)
+   yacc.py: 469:Action : Reduce rule [termino1 -> epsilon] with [None] and goto state 177
+   yacc.py: 504:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 177
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 ID EQUALS factor checkTERMPOper termino1 . LexToken(PLUS,'+',7,77)
+   yacc.py: 469:Action : Reduce rule [termino -> factor checkTERMPOper termino1] with [None,None,None] and goto state 95
+   yacc.py: 504:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 95
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 ID EQUALS termino . LexToken(PLUS,'+',7,77)
+   yacc.py: 472:Action : Reduce rule [checkEXPPOper -> <empty>] with [] and goto state 138
+   yacc.py: 546:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 138
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 ID EQUALS termino checkEXPPOper . LexToken(PLUS,'+',7,77)
+   yacc.py: 443:Action : Shift and goto state 173
+   yacc.py: 408:
+   yacc.py: 409:State  : 173
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 ID EQUALS termino checkEXPPOper PLUS . LexToken(CTE_INT,1,7,79)
+   yacc.py: 472:Action : Reduce rule [addOperator -> <empty>] with [] and goto state 211
+   yacc.py: 546:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 211
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 ID EQUALS termino checkEXPPOper PLUS addOperator . LexToken(CTE_INT,1,7,79)
+   yacc.py: 443:Action : Shift and goto state 104
+   yacc.py: 408:
+   yacc.py: 409:State  : 104
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 ID EQUALS termino checkEXPPOper PLUS addOperator CTE_INT . LexToken(RETURN,'return',8,82)
+   yacc.py: 469:Action : Reduce rule [varcte -> CTE_INT] with [1] and goto state 99
+   yacc.py: 504:Result : <int @ 0x7fb751e05308> (1)
+   yacc.py: 408:
+   yacc.py: 409:State  : 99
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 ID EQUALS termino checkEXPPOper PLUS addOperator varcte . LexToken(RETURN,'return',8,82)
+   yacc.py: 469:Action : Reduce rule [factor1 -> varcte] with [1] and goto state 108
+   yacc.py: 504:Result : <int @ 0x7fb751e05308> (1)
+   yacc.py: 408:
+   yacc.py: 409:State  : 108
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 ID EQUALS termino checkEXPPOper PLUS addOperator factor1 . LexToken(RETURN,'return',8,82)
+   yacc.py: 469:Action : Reduce rule [factor -> factor1] with [1] and goto state 102
+   yacc.py: 504:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 102
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 ID EQUALS termino checkEXPPOper PLUS addOperator factor . LexToken(RETURN,'return',8,82)
+   yacc.py: 472:Action : Reduce rule [checkTERMPOper -> <empty>] with [] and goto state 141
+   yacc.py: 546:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 141
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 ID EQUALS termino checkEXPPOper PLUS addOperator factor checkTERMPOper . LexToken(RETURN,'return',8,82)
+   yacc.py: 472:Action : Reduce rule [epsilon -> <empty>] with [] and goto state 176
+   yacc.py: 546:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 176
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 ID EQUALS termino checkEXPPOper PLUS addOperator factor checkTERMPOper epsilon . LexToken(RETURN,'return',8,82)
+   yacc.py: 469:Action : Reduce rule [termino1 -> epsilon] with [None] and goto state 177
+   yacc.py: 504:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 177
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 ID EQUALS termino checkEXPPOper PLUS addOperator factor checkTERMPOper termino1 . LexToken(RETURN,'return',8,82)
+   yacc.py: 469:Action : Reduce rule [termino -> factor checkTERMPOper termino1] with [None,None,None] and goto state 95
+   yacc.py: 504:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 95
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 ID EQUALS termino checkEXPPOper PLUS addOperator termino . LexToken(RETURN,'return',8,82)
+   yacc.py: 472:Action : Reduce rule [checkEXPPOper -> <empty>] with [] and goto state 138
+   yacc.py: 546:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 138
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 ID EQUALS termino checkEXPPOper PLUS addOperator termino checkEXPPOper . LexToken(RETURN,'return',8,82)
+   yacc.py: 472:Action : Reduce rule [epsilon -> <empty>] with [] and goto state 171
+   yacc.py: 546:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 171
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 ID EQUALS termino checkEXPPOper PLUS addOperator termino checkEXPPOper epsilon . LexToken(RETURN,'return',8,82)
+   yacc.py: 469:Action : Reduce rule [exp1 -> epsilon] with [None] and goto state 172
+   yacc.py: 504:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 172
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 ID EQUALS termino checkEXPPOper PLUS addOperator termino checkEXPPOper exp1 . LexToken(RETURN,'return',8,82)
+   yacc.py: 469:Action : Reduce rule [exp -> termino checkEXPPOper exp1] with [None,None,None] and goto state 241
+   yacc.py: 504:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 241
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 ID EQUALS termino checkEXPPOper PLUS addOperator exp . LexToken(RETURN,'return',8,82)
+   yacc.py: 469:Action : Reduce rule [exp1 -> PLUS addOperator exp] with ['+',None,None] and goto state 172
+   yacc.py: 504:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 172
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 ID EQUALS termino checkEXPPOper exp1 . LexToken(RETURN,'return',8,82)
+   yacc.py: 469:Action : Reduce rule [exp -> termino checkEXPPOper exp1] with [None,None,None] and goto state 111
+   yacc.py: 504:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 111
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 ID EQUALS exp . LexToken(RETURN,'return',8,82)
+   yacc.py: 472:Action : Reduce rule [checkEXPRESIONPOper -> <empty>] with [] and goto state 146
+   yacc.py: 546:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 146
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 ID EQUALS exp checkEXPRESIONPOper . LexToken(RETURN,'return',8,82)
+   yacc.py: 472:Action : Reduce rule [epsilon -> <empty>] with [] and goto state 189
+   yacc.py: 546:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 189
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 ID EQUALS exp checkEXPRESIONPOper epsilon . LexToken(RETURN,'return',8,82)
+   yacc.py: 469:Action : Reduce rule [expresion1 -> epsilon] with [None] and goto state 185
+   yacc.py: 504:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 185
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 ID EQUALS exp checkEXPRESIONPOper expresion1 . LexToken(RETURN,'return',8,82)
+   yacc.py: 469:Action : Reduce rule [expresion -> exp checkEXPRESIONPOper expresion1] with [None,None,None] and goto state 106
+   yacc.py: 504:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 106
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 ID EQUALS expresion . LexToken(RETURN,'return',8,82)
+   yacc.py: 472:Action : Reduce rule [checkEXPRESIONLOGICAPOper -> <empty>] with [] and goto state 145
+   yacc.py: 546:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 145
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 ID EQUALS expresion checkEXPRESIONLOGICAPOper . LexToken(RETURN,'return',8,82)
+   yacc.py: 472:Action : Reduce rule [epsilon -> <empty>] with [] and goto state 182
+   yacc.py: 546:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 182
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 ID EQUALS expresion checkEXPRESIONLOGICAPOper epsilon . LexToken(RETURN,'return',8,82)
+   yacc.py: 469:Action : Reduce rule [expresion_logica1 -> epsilon] with [None] and goto state 183
+   yacc.py: 504:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 183
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 ID EQUALS expresion checkEXPRESIONLOGICAPOper expresion_logica1 . LexToken(RETURN,'return',8,82)
+   yacc.py: 469:Action : Reduce rule [expresion_logica -> expresion checkEXPRESIONLOGICAPOper expresion_logica1] with [None,None,None] and goto state 117
+   yacc.py: 504:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 117
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 ID EQUALS expresion_logica . LexToken(RETURN,'return',8,82)
+   yacc.py: 469:Action : Reduce rule [asignacion1 -> expresion_logica] with [None] and goto state 120
+   yacc.py: 504:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 120
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 ID EQUALS asignacion1 . LexToken(RETURN,'return',8,82)
+   yacc.py: 469:Action : Reduce rule [asignacion -> ID EQUALS asignacion1] with ['sum','=',None] and goto state 60
+   yacc.py: 504:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 60
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 asignacion . LexToken(RETURN,'return',8,82)
+   yacc.py: 469:Action : Reduce rule [estatuto -> asignacion] with [None] and goto state 161
+   yacc.py: 504:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 161
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto . LexToken(RETURN,'return',8,82)
+   yacc.py: 472:Action : Reduce rule [epsilon -> <empty>] with [] and goto state 204
+   yacc.py: 546:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 204
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto epsilon . LexToken(RETURN,'return',8,82)
+   yacc.py: 469:Action : Reduce rule [funcion2 -> epsilon] with [None] and goto state 202
+   yacc.py: 504:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 202
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 . LexToken(RETURN,'return',8,82)
+   yacc.py: 443:Action : Shift and goto state 237
+   yacc.py: 408:
+   yacc.py: 409:State  : 237
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN . LexToken(ID,'increase',8,89)
+   yacc.py: 443:Action : Shift and goto state 105
+   yacc.py: 408:
+   yacc.py: 409:State  : 105
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN ID . LexToken(LPAREN,'(',8,97)
+   yacc.py: 443:Action : Shift and goto state 80
+   yacc.py: 408:
+   yacc.py: 409:State  : 80
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN ID LPAREN . LexToken(CTE_INT,5,8,98)
+   yacc.py: 443:Action : Shift and goto state 104
+   yacc.py: 408:
+   yacc.py: 409:State  : 104
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN ID LPAREN CTE_INT . LexToken(COMMA,',',8,99)
+   yacc.py: 469:Action : Reduce rule [varcte -> CTE_INT] with [5] and goto state 99
+   yacc.py: 504:Result : <int @ 0x7fb751e052a8> (5)
+   yacc.py: 408:
+   yacc.py: 409:State  : 99
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN ID LPAREN varcte . LexToken(COMMA,',',8,99)
+   yacc.py: 469:Action : Reduce rule [factor1 -> varcte] with [5] and goto state 108
+   yacc.py: 504:Result : <int @ 0x7fb751e052a8> (5)
+   yacc.py: 408:
+   yacc.py: 409:State  : 108
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN ID LPAREN factor1 . LexToken(COMMA,',',8,99)
+   yacc.py: 469:Action : Reduce rule [factor -> factor1] with [5] and goto state 102
+   yacc.py: 504:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 102
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN ID LPAREN factor . LexToken(COMMA,',',8,99)
+   yacc.py: 472:Action : Reduce rule [checkTERMPOper -> <empty>] with [] and goto state 141
+   yacc.py: 546:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 141
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN ID LPAREN factor checkTERMPOper . LexToken(COMMA,',',8,99)
+   yacc.py: 472:Action : Reduce rule [epsilon -> <empty>] with [] and goto state 176
+   yacc.py: 546:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 176
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN ID LPAREN factor checkTERMPOper epsilon . LexToken(COMMA,',',8,99)
+   yacc.py: 469:Action : Reduce rule [termino1 -> epsilon] with [None] and goto state 177
+   yacc.py: 504:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 177
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN ID LPAREN factor checkTERMPOper termino1 . LexToken(COMMA,',',8,99)
+   yacc.py: 469:Action : Reduce rule [termino -> factor checkTERMPOper termino1] with [None,None,None] and goto state 95
+   yacc.py: 504:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 95
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN ID LPAREN termino . LexToken(COMMA,',',8,99)
+   yacc.py: 472:Action : Reduce rule [checkEXPPOper -> <empty>] with [] and goto state 138
+   yacc.py: 546:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 138
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN ID LPAREN termino checkEXPPOper . LexToken(COMMA,',',8,99)
+   yacc.py: 472:Action : Reduce rule [epsilon -> <empty>] with [] and goto state 171
+   yacc.py: 546:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 171
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN ID LPAREN termino checkEXPPOper epsilon . LexToken(COMMA,',',8,99)
+   yacc.py: 469:Action : Reduce rule [exp1 -> epsilon] with [None] and goto state 172
+   yacc.py: 504:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 172
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN ID LPAREN termino checkEXPPOper exp1 . LexToken(COMMA,',',8,99)
+   yacc.py: 469:Action : Reduce rule [exp -> termino checkEXPPOper exp1] with [None,None,None] and goto state 111
+   yacc.py: 504:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 111
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN ID LPAREN exp . LexToken(COMMA,',',8,99)
+   yacc.py: 472:Action : Reduce rule [checkEXPRESIONPOper -> <empty>] with [] and goto state 146
+   yacc.py: 546:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 146
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN ID LPAREN exp checkEXPRESIONPOper . LexToken(COMMA,',',8,99)
+   yacc.py: 472:Action : Reduce rule [epsilon -> <empty>] with [] and goto state 189
+   yacc.py: 546:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 189
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN ID LPAREN exp checkEXPRESIONPOper epsilon . LexToken(COMMA,',',8,99)
+   yacc.py: 469:Action : Reduce rule [expresion1 -> epsilon] with [None] and goto state 185
+   yacc.py: 504:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 185
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN ID LPAREN exp checkEXPRESIONPOper expresion1 . LexToken(COMMA,',',8,99)
+   yacc.py: 469:Action : Reduce rule [expresion -> exp checkEXPRESIONPOper expresion1] with [None,None,None] and goto state 106
+   yacc.py: 504:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 106
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN ID LPAREN expresion . LexToken(COMMA,',',8,99)
+   yacc.py: 472:Action : Reduce rule [checkEXPRESIONLOGICAPOper -> <empty>] with [] and goto state 145
+   yacc.py: 546:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 145
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN ID LPAREN expresion checkEXPRESIONLOGICAPOper . LexToken(COMMA,',',8,99)
+   yacc.py: 472:Action : Reduce rule [epsilon -> <empty>] with [] and goto state 182
+   yacc.py: 546:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 182
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN ID LPAREN expresion checkEXPRESIONLOGICAPOper epsilon . LexToken(COMMA,',',8,99)
+   yacc.py: 469:Action : Reduce rule [expresion_logica1 -> epsilon] with [None] and goto state 183
+   yacc.py: 504:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 183
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN ID LPAREN expresion checkEXPRESIONLOGICAPOper expresion_logica1 . LexToken(COMMA,',',8,99)
+   yacc.py: 469:Action : Reduce rule [expresion_logica -> expresion checkEXPRESIONLOGICAPOper expresion_logica1] with [None,None,None] and goto state 121
+   yacc.py: 504:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 121
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN ID LPAREN expresion_logica . LexToken(COMMA,',',8,99)
+   yacc.py: 443:Action : Shift and goto state 153
+   yacc.py: 408:
+   yacc.py: 409:State  : 153
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN ID LPAREN expresion_logica COMMA . LexToken(CTE_INT,0,8,101)
+   yacc.py: 443:Action : Shift and goto state 104
+   yacc.py: 408:
+   yacc.py: 409:State  : 104
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN ID LPAREN expresion_logica COMMA CTE_INT . LexToken(RPAREN,')',8,102)
+   yacc.py: 469:Action : Reduce rule [varcte -> CTE_INT] with [0] and goto state 99
+   yacc.py: 504:Result : <int @ 0x7fb751e05320> (0)
+   yacc.py: 408:
+   yacc.py: 409:State  : 99
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN ID LPAREN expresion_logica COMMA varcte . LexToken(RPAREN,')',8,102)
+   yacc.py: 469:Action : Reduce rule [factor1 -> varcte] with [0] and goto state 108
+   yacc.py: 504:Result : <int @ 0x7fb751e05320> (0)
+   yacc.py: 408:
+   yacc.py: 409:State  : 108
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN ID LPAREN expresion_logica COMMA factor1 . LexToken(RPAREN,')',8,102)
+   yacc.py: 469:Action : Reduce rule [factor -> factor1] with [0] and goto state 102
+   yacc.py: 504:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 102
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN ID LPAREN expresion_logica COMMA factor . LexToken(RPAREN,')',8,102)
+   yacc.py: 472:Action : Reduce rule [checkTERMPOper -> <empty>] with [] and goto state 141
+   yacc.py: 546:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 141
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN ID LPAREN expresion_logica COMMA factor checkTERMPOper . LexToken(RPAREN,')',8,102)
+   yacc.py: 472:Action : Reduce rule [epsilon -> <empty>] with [] and goto state 176
+   yacc.py: 546:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 176
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN ID LPAREN expresion_logica COMMA factor checkTERMPOper epsilon . LexToken(RPAREN,')',8,102)
+   yacc.py: 469:Action : Reduce rule [termino1 -> epsilon] with [None] and goto state 177
+   yacc.py: 504:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 177
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN ID LPAREN expresion_logica COMMA factor checkTERMPOper termino1 . LexToken(RPAREN,')',8,102)
+   yacc.py: 469:Action : Reduce rule [termino -> factor checkTERMPOper termino1] with [None,None,None] and goto state 95
+   yacc.py: 504:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 95
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN ID LPAREN expresion_logica COMMA termino . LexToken(RPAREN,')',8,102)
+   yacc.py: 472:Action : Reduce rule [checkEXPPOper -> <empty>] with [] and goto state 138
+   yacc.py: 546:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 138
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN ID LPAREN expresion_logica COMMA termino checkEXPPOper . LexToken(RPAREN,')',8,102)
+   yacc.py: 472:Action : Reduce rule [epsilon -> <empty>] with [] and goto state 171
+   yacc.py: 546:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 171
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN ID LPAREN expresion_logica COMMA termino checkEXPPOper epsilon . LexToken(RPAREN,')',8,102)
+   yacc.py: 469:Action : Reduce rule [exp1 -> epsilon] with [None] and goto state 172
+   yacc.py: 504:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 172
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN ID LPAREN expresion_logica COMMA termino checkEXPPOper exp1 . LexToken(RPAREN,')',8,102)
+   yacc.py: 469:Action : Reduce rule [exp -> termino checkEXPPOper exp1] with [None,None,None] and goto state 111
+   yacc.py: 504:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 111
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN ID LPAREN expresion_logica COMMA exp . LexToken(RPAREN,')',8,102)
+   yacc.py: 472:Action : Reduce rule [checkEXPRESIONPOper -> <empty>] with [] and goto state 146
+   yacc.py: 546:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 146
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN ID LPAREN expresion_logica COMMA exp checkEXPRESIONPOper . LexToken(RPAREN,')',8,102)
+   yacc.py: 472:Action : Reduce rule [epsilon -> <empty>] with [] and goto state 189
+   yacc.py: 546:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 189
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN ID LPAREN expresion_logica COMMA exp checkEXPRESIONPOper epsilon . LexToken(RPAREN,')',8,102)
+   yacc.py: 469:Action : Reduce rule [expresion1 -> epsilon] with [None] and goto state 185
+   yacc.py: 504:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 185
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN ID LPAREN expresion_logica COMMA exp checkEXPRESIONPOper expresion1 . LexToken(RPAREN,')',8,102)
+   yacc.py: 469:Action : Reduce rule [expresion -> exp checkEXPRESIONPOper expresion1] with [None,None,None] and goto state 106
+   yacc.py: 504:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 106
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN ID LPAREN expresion_logica COMMA expresion . LexToken(RPAREN,')',8,102)
+   yacc.py: 472:Action : Reduce rule [checkEXPRESIONLOGICAPOper -> <empty>] with [] and goto state 145
+   yacc.py: 546:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 145
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN ID LPAREN expresion_logica COMMA expresion checkEXPRESIONLOGICAPOper . LexToken(RPAREN,')',8,102)
+   yacc.py: 472:Action : Reduce rule [epsilon -> <empty>] with [] and goto state 182
+   yacc.py: 546:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 182
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN ID LPAREN expresion_logica COMMA expresion checkEXPRESIONLOGICAPOper epsilon . LexToken(RPAREN,')',8,102)
+   yacc.py: 469:Action : Reduce rule [expresion_logica1 -> epsilon] with [None] and goto state 183
+   yacc.py: 504:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 183
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN ID LPAREN expresion_logica COMMA expresion checkEXPRESIONLOGICAPOper expresion_logica1 . LexToken(RPAREN,')',8,102)
+   yacc.py: 469:Action : Reduce rule [expresion_logica -> expresion checkEXPRESIONLOGICAPOper expresion_logica1] with [None,None,None] and goto state 198
+   yacc.py: 504:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 198
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN ID LPAREN expresion_logica COMMA expresion_logica . LexToken(RPAREN,')',8,102)
+   yacc.py: 472:Action : Reduce rule [epsilon -> <empty>] with [] and goto state 152
+   yacc.py: 546:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 152
+   yacc.py: 428:Defaulted state 152: Reduce using 96
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN ID LPAREN expresion_logica COMMA expresion_logica epsilon . LexToken(RPAREN,')',8,102)
+   yacc.py: 469:Action : Reduce rule [llamada2 -> epsilon] with [None] and goto state 227
+   yacc.py: 504:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 227
+   yacc.py: 428:Defaulted state 227: Reduce using 97
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN ID LPAREN expresion_logica COMMA expresion_logica llamada2 . LexToken(RPAREN,')',8,102)
+   yacc.py: 469:Action : Reduce rule [llamada2 -> COMMA expresion_logica llamada2] with [',',None,None] and goto state 151
+   yacc.py: 504:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 151
+   yacc.py: 428:Defaulted state 151: Reduce using 95
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN ID LPAREN expresion_logica llamada2 . LexToken(RPAREN,')',8,102)
+   yacc.py: 469:Action : Reduce rule [llamada1 -> expresion_logica llamada2] with [None,None] and goto state 122
+   yacc.py: 504:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 122
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN ID LPAREN llamada1 . LexToken(RPAREN,')',8,102)
+   yacc.py: 443:Action : Shift and goto state 154
+   yacc.py: 408:
+   yacc.py: 409:State  : 154
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN ID LPAREN llamada1 RPAREN . LexToken(PLUS,'+',8,104)
+   yacc.py: 469:Action : Reduce rule [llamada -> ID LPAREN llamada1 RPAREN] with ['increase','(',None,')'] and goto state 100
+   yacc.py: 504:Result : <str @ 0x104e91688> ('Llamada increase')
+   yacc.py: 408:
+   yacc.py: 409:State  : 100
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN llamada . LexToken(PLUS,'+',8,104)
+   yacc.py: 469:Action : Reduce rule [varcte1 -> llamada] with [<str @ 0x104e91688>] and goto state 98
+   yacc.py: 504:Result : <str @ 0x104e91688> ('Llamada increase')
+   yacc.py: 408:
+   yacc.py: 409:State  : 98
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN varcte1 . LexToken(PLUS,'+',8,104)
+   yacc.py: 469:Action : Reduce rule [varcte -> varcte1] with [<str @ 0x104e91688>] and goto state 99
+   yacc.py: 504:Result : <str @ 0x104e91688> ('Llamada increase')
+   yacc.py: 408:
+   yacc.py: 409:State  : 99
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN varcte . LexToken(PLUS,'+',8,104)
+   yacc.py: 469:Action : Reduce rule [factor1 -> varcte] with [<str @ 0x104e91688>] and goto state 108
+   yacc.py: 504:Result : <str @ 0x104e91688> ('Llamada increase')
+   yacc.py: 408:
+   yacc.py: 409:State  : 108
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN factor1 . LexToken(PLUS,'+',8,104)
+   yacc.py: 469:Action : Reduce rule [factor -> factor1] with [<str @ 0x104e91688>] and goto state 102
+   yacc.py: 504:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 102
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN factor . LexToken(PLUS,'+',8,104)
+   yacc.py: 472:Action : Reduce rule [checkTERMPOper -> <empty>] with [] and goto state 141
+   yacc.py: 546:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 141
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN factor checkTERMPOper . LexToken(PLUS,'+',8,104)
+   yacc.py: 472:Action : Reduce rule [epsilon -> <empty>] with [] and goto state 176
+   yacc.py: 546:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 176
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN factor checkTERMPOper epsilon . LexToken(PLUS,'+',8,104)
+   yacc.py: 469:Action : Reduce rule [termino1 -> epsilon] with [None] and goto state 177
+   yacc.py: 504:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 177
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN factor checkTERMPOper termino1 . LexToken(PLUS,'+',8,104)
+   yacc.py: 469:Action : Reduce rule [termino -> factor checkTERMPOper termino1] with [None,None,None] and goto state 95
+   yacc.py: 504:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 95
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN termino . LexToken(PLUS,'+',8,104)
+   yacc.py: 472:Action : Reduce rule [checkEXPPOper -> <empty>] with [] and goto state 138
+   yacc.py: 546:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 138
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN termino checkEXPPOper . LexToken(PLUS,'+',8,104)
+   yacc.py: 443:Action : Shift and goto state 173
+   yacc.py: 408:
+   yacc.py: 409:State  : 173
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN termino checkEXPPOper PLUS . LexToken(ID,'test',8,106)
+   yacc.py: 472:Action : Reduce rule [addOperator -> <empty>] with [] and goto state 211
+   yacc.py: 546:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 211
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN termino checkEXPPOper PLUS addOperator . LexToken(ID,'test',8,106)
+   yacc.py: 443:Action : Shift and goto state 105
+   yacc.py: 408:
+   yacc.py: 409:State  : 105
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN termino checkEXPPOper PLUS addOperator ID . LexToken(LPAREN,'(',8,110)
+   yacc.py: 443:Action : Shift and goto state 80
+   yacc.py: 408:
+   yacc.py: 409:State  : 80
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN termino checkEXPPOper PLUS addOperator ID LPAREN . LexToken(CTE_STRING,'"h"',8,111)
+   yacc.py: 443:Action : Shift and goto state 92
+   yacc.py: 408:
+   yacc.py: 409:State  : 92
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN termino checkEXPPOper PLUS addOperator ID LPAREN CTE_STRING . LexToken(COMMA,',',8,114)
+   yacc.py: 469:Action : Reduce rule [varcte -> CTE_STRING] with ['"h"'] and goto state 99
+   yacc.py: 504:Result : <str @ 0x104e9fe68> ('"h"')
+   yacc.py: 408:
+   yacc.py: 409:State  : 99
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN termino checkEXPPOper PLUS addOperator ID LPAREN varcte . LexToken(COMMA,',',8,114)
+   yacc.py: 469:Action : Reduce rule [factor1 -> varcte] with ['"h"'] and goto state 108
+   yacc.py: 504:Result : <str @ 0x104e9fe68> ('"h"')
+   yacc.py: 408:
+   yacc.py: 409:State  : 108
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN termino checkEXPPOper PLUS addOperator ID LPAREN factor1 . LexToken(COMMA,',',8,114)
+   yacc.py: 469:Action : Reduce rule [factor -> factor1] with ['"h"'] and goto state 102
+   yacc.py: 504:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 102
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN termino checkEXPPOper PLUS addOperator ID LPAREN factor . LexToken(COMMA,',',8,114)
+   yacc.py: 472:Action : Reduce rule [checkTERMPOper -> <empty>] with [] and goto state 141
+   yacc.py: 546:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 141
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN termino checkEXPPOper PLUS addOperator ID LPAREN factor checkTERMPOper . LexToken(COMMA,',',8,114)
+   yacc.py: 472:Action : Reduce rule [epsilon -> <empty>] with [] and goto state 176
+   yacc.py: 546:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 176
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN termino checkEXPPOper PLUS addOperator ID LPAREN factor checkTERMPOper epsilon . LexToken(COMMA,',',8,114)
+   yacc.py: 469:Action : Reduce rule [termino1 -> epsilon] with [None] and goto state 177
+   yacc.py: 504:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 177
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN termino checkEXPPOper PLUS addOperator ID LPAREN factor checkTERMPOper termino1 . LexToken(COMMA,',',8,114)
+   yacc.py: 469:Action : Reduce rule [termino -> factor checkTERMPOper termino1] with [None,None,None] and goto state 95
+   yacc.py: 504:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 95
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN termino checkEXPPOper PLUS addOperator ID LPAREN termino . LexToken(COMMA,',',8,114)
+   yacc.py: 472:Action : Reduce rule [checkEXPPOper -> <empty>] with [] and goto state 138
+   yacc.py: 546:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 138
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN termino checkEXPPOper PLUS addOperator ID LPAREN termino checkEXPPOper . LexToken(COMMA,',',8,114)
+   yacc.py: 472:Action : Reduce rule [epsilon -> <empty>] with [] and goto state 171
+   yacc.py: 546:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 171
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN termino checkEXPPOper PLUS addOperator ID LPAREN termino checkEXPPOper epsilon . LexToken(COMMA,',',8,114)
+   yacc.py: 469:Action : Reduce rule [exp1 -> epsilon] with [None] and goto state 172
+   yacc.py: 504:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 172
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN termino checkEXPPOper PLUS addOperator ID LPAREN termino checkEXPPOper exp1 . LexToken(COMMA,',',8,114)
+   yacc.py: 469:Action : Reduce rule [exp -> termino checkEXPPOper exp1] with [None,None,None] and goto state 111
+   yacc.py: 504:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 111
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN termino checkEXPPOper PLUS addOperator ID LPAREN exp . LexToken(COMMA,',',8,114)
+   yacc.py: 472:Action : Reduce rule [checkEXPRESIONPOper -> <empty>] with [] and goto state 146
+   yacc.py: 546:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 146
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN termino checkEXPPOper PLUS addOperator ID LPAREN exp checkEXPRESIONPOper . LexToken(COMMA,',',8,114)
+   yacc.py: 472:Action : Reduce rule [epsilon -> <empty>] with [] and goto state 189
+   yacc.py: 546:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 189
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN termino checkEXPPOper PLUS addOperator ID LPAREN exp checkEXPRESIONPOper epsilon . LexToken(COMMA,',',8,114)
+   yacc.py: 469:Action : Reduce rule [expresion1 -> epsilon] with [None] and goto state 185
+   yacc.py: 504:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 185
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN termino checkEXPPOper PLUS addOperator ID LPAREN exp checkEXPRESIONPOper expresion1 . LexToken(COMMA,',',8,114)
+   yacc.py: 469:Action : Reduce rule [expresion -> exp checkEXPRESIONPOper expresion1] with [None,None,None] and goto state 106
+   yacc.py: 504:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 106
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN termino checkEXPPOper PLUS addOperator ID LPAREN expresion . LexToken(COMMA,',',8,114)
+   yacc.py: 472:Action : Reduce rule [checkEXPRESIONLOGICAPOper -> <empty>] with [] and goto state 145
+   yacc.py: 546:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 145
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN termino checkEXPPOper PLUS addOperator ID LPAREN expresion checkEXPRESIONLOGICAPOper . LexToken(COMMA,',',8,114)
+   yacc.py: 472:Action : Reduce rule [epsilon -> <empty>] with [] and goto state 182
+   yacc.py: 546:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 182
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN termino checkEXPPOper PLUS addOperator ID LPAREN expresion checkEXPRESIONLOGICAPOper epsilon . LexToken(COMMA,',',8,114)
+   yacc.py: 469:Action : Reduce rule [expresion_logica1 -> epsilon] with [None] and goto state 183
+   yacc.py: 504:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 183
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN termino checkEXPPOper PLUS addOperator ID LPAREN expresion checkEXPRESIONLOGICAPOper expresion_logica1 . LexToken(COMMA,',',8,114)
+   yacc.py: 469:Action : Reduce rule [expresion_logica -> expresion checkEXPRESIONLOGICAPOper expresion_logica1] with [None,None,None] and goto state 121
+   yacc.py: 504:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 121
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN termino checkEXPPOper PLUS addOperator ID LPAREN expresion_logica . LexToken(COMMA,',',8,114)
+   yacc.py: 443:Action : Shift and goto state 153
+   yacc.py: 408:
+   yacc.py: 409:State  : 153
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN termino checkEXPPOper PLUS addOperator ID LPAREN expresion_logica COMMA . LexToken(TRUE,'true',8,116)
+   yacc.py: 443:Action : Shift and goto state 96
+   yacc.py: 408:
+   yacc.py: 409:State  : 96
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN termino checkEXPPOper PLUS addOperator ID LPAREN expresion_logica COMMA TRUE . LexToken(RPAREN,')',8,120)
+   yacc.py: 469:Action : Reduce rule [cte_bool -> TRUE] with ['true'] and goto state 94
+   yacc.py: 504:Result : <str @ 0x104f02ed0> ('true')
+   yacc.py: 408:
+   yacc.py: 409:State  : 94
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN termino checkEXPPOper PLUS addOperator ID LPAREN expresion_logica COMMA cte_bool . LexToken(RPAREN,')',8,120)
+   yacc.py: 469:Action : Reduce rule [varcte -> cte_bool] with ['true'] and goto state 99
+   yacc.py: 504:Result : <str @ 0x104f02ed0> ('true')
+   yacc.py: 408:
+   yacc.py: 409:State  : 99
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN termino checkEXPPOper PLUS addOperator ID LPAREN expresion_logica COMMA varcte . LexToken(RPAREN,')',8,120)
+   yacc.py: 469:Action : Reduce rule [factor1 -> varcte] with ['true'] and goto state 108
+   yacc.py: 504:Result : <str @ 0x104f02ed0> ('true')
+   yacc.py: 408:
+   yacc.py: 409:State  : 108
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN termino checkEXPPOper PLUS addOperator ID LPAREN expresion_logica COMMA factor1 . LexToken(RPAREN,')',8,120)
+   yacc.py: 469:Action : Reduce rule [factor -> factor1] with ['true'] and goto state 102
+   yacc.py: 504:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 102
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN termino checkEXPPOper PLUS addOperator ID LPAREN expresion_logica COMMA factor . LexToken(RPAREN,')',8,120)
+   yacc.py: 472:Action : Reduce rule [checkTERMPOper -> <empty>] with [] and goto state 141
+   yacc.py: 546:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 141
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN termino checkEXPPOper PLUS addOperator ID LPAREN expresion_logica COMMA factor checkTERMPOper . LexToken(RPAREN,')',8,120)
+   yacc.py: 472:Action : Reduce rule [epsilon -> <empty>] with [] and goto state 176
+   yacc.py: 546:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 176
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN termino checkEXPPOper PLUS addOperator ID LPAREN expresion_logica COMMA factor checkTERMPOper epsilon . LexToken(RPAREN,')',8,120)
+   yacc.py: 469:Action : Reduce rule [termino1 -> epsilon] with [None] and goto state 177
+   yacc.py: 504:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 177
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN termino checkEXPPOper PLUS addOperator ID LPAREN expresion_logica COMMA factor checkTERMPOper termino1 . LexToken(RPAREN,')',8,120)
+   yacc.py: 469:Action : Reduce rule [termino -> factor checkTERMPOper termino1] with [None,None,None] and goto state 95
+   yacc.py: 504:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 95
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN termino checkEXPPOper PLUS addOperator ID LPAREN expresion_logica COMMA termino . LexToken(RPAREN,')',8,120)
+   yacc.py: 472:Action : Reduce rule [checkEXPPOper -> <empty>] with [] and goto state 138
+   yacc.py: 546:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 138
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN termino checkEXPPOper PLUS addOperator ID LPAREN expresion_logica COMMA termino checkEXPPOper . LexToken(RPAREN,')',8,120)
+   yacc.py: 472:Action : Reduce rule [epsilon -> <empty>] with [] and goto state 171
+   yacc.py: 546:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 171
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN termino checkEXPPOper PLUS addOperator ID LPAREN expresion_logica COMMA termino checkEXPPOper epsilon . LexToken(RPAREN,')',8,120)
+   yacc.py: 469:Action : Reduce rule [exp1 -> epsilon] with [None] and goto state 172
+   yacc.py: 504:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 172
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN termino checkEXPPOper PLUS addOperator ID LPAREN expresion_logica COMMA termino checkEXPPOper exp1 . LexToken(RPAREN,')',8,120)
+   yacc.py: 469:Action : Reduce rule [exp -> termino checkEXPPOper exp1] with [None,None,None] and goto state 111
+   yacc.py: 504:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 111
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN termino checkEXPPOper PLUS addOperator ID LPAREN expresion_logica COMMA exp . LexToken(RPAREN,')',8,120)
+   yacc.py: 472:Action : Reduce rule [checkEXPRESIONPOper -> <empty>] with [] and goto state 146
+   yacc.py: 546:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 146
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN termino checkEXPPOper PLUS addOperator ID LPAREN expresion_logica COMMA exp checkEXPRESIONPOper . LexToken(RPAREN,')',8,120)
+   yacc.py: 472:Action : Reduce rule [epsilon -> <empty>] with [] and goto state 189
+   yacc.py: 546:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 189
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN termino checkEXPPOper PLUS addOperator ID LPAREN expresion_logica COMMA exp checkEXPRESIONPOper epsilon . LexToken(RPAREN,')',8,120)
+   yacc.py: 469:Action : Reduce rule [expresion1 -> epsilon] with [None] and goto state 185
+   yacc.py: 504:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 185
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN termino checkEXPPOper PLUS addOperator ID LPAREN expresion_logica COMMA exp checkEXPRESIONPOper expresion1 . LexToken(RPAREN,')',8,120)
+   yacc.py: 469:Action : Reduce rule [expresion -> exp checkEXPRESIONPOper expresion1] with [None,None,None] and goto state 106
+   yacc.py: 504:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 106
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN termino checkEXPPOper PLUS addOperator ID LPAREN expresion_logica COMMA expresion . LexToken(RPAREN,')',8,120)
+   yacc.py: 472:Action : Reduce rule [checkEXPRESIONLOGICAPOper -> <empty>] with [] and goto state 145
+   yacc.py: 546:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 145
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN termino checkEXPPOper PLUS addOperator ID LPAREN expresion_logica COMMA expresion checkEXPRESIONLOGICAPOper . LexToken(RPAREN,')',8,120)
+   yacc.py: 472:Action : Reduce rule [epsilon -> <empty>] with [] and goto state 182
+   yacc.py: 546:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 182
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN termino checkEXPPOper PLUS addOperator ID LPAREN expresion_logica COMMA expresion checkEXPRESIONLOGICAPOper epsilon . LexToken(RPAREN,')',8,120)
+   yacc.py: 469:Action : Reduce rule [expresion_logica1 -> epsilon] with [None] and goto state 183
+   yacc.py: 504:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 183
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN termino checkEXPPOper PLUS addOperator ID LPAREN expresion_logica COMMA expresion checkEXPRESIONLOGICAPOper expresion_logica1 . LexToken(RPAREN,')',8,120)
+   yacc.py: 469:Action : Reduce rule [expresion_logica -> expresion checkEXPRESIONLOGICAPOper expresion_logica1] with [None,None,None] and goto state 198
+   yacc.py: 504:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 198
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN termino checkEXPPOper PLUS addOperator ID LPAREN expresion_logica COMMA expresion_logica . LexToken(RPAREN,')',8,120)
+   yacc.py: 472:Action : Reduce rule [epsilon -> <empty>] with [] and goto state 152
+   yacc.py: 546:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 152
+   yacc.py: 428:Defaulted state 152: Reduce using 96
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN termino checkEXPPOper PLUS addOperator ID LPAREN expresion_logica COMMA expresion_logica epsilon . LexToken(RPAREN,')',8,120)
+   yacc.py: 469:Action : Reduce rule [llamada2 -> epsilon] with [None] and goto state 227
+   yacc.py: 504:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 227
+   yacc.py: 428:Defaulted state 227: Reduce using 97
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN termino checkEXPPOper PLUS addOperator ID LPAREN expresion_logica COMMA expresion_logica llamada2 . LexToken(RPAREN,')',8,120)
+   yacc.py: 469:Action : Reduce rule [llamada2 -> COMMA expresion_logica llamada2] with [',',None,None] and goto state 151
+   yacc.py: 504:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 151
+   yacc.py: 428:Defaulted state 151: Reduce using 95
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN termino checkEXPPOper PLUS addOperator ID LPAREN expresion_logica llamada2 . LexToken(RPAREN,')',8,120)
+   yacc.py: 469:Action : Reduce rule [llamada1 -> expresion_logica llamada2] with [None,None] and goto state 122
+   yacc.py: 504:Result : <NoneType @ 0x1049d4658> (None)
+   yacc.py: 408:
+   yacc.py: 409:State  : 122
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN termino checkEXPPOper PLUS addOperator ID LPAREN llamada1 . LexToken(RPAREN,')',8,120)
+   yacc.py: 443:Action : Shift and goto state 154
+   yacc.py: 408:
+   yacc.py: 409:State  : 154
+   yacc.py: 433:Stack  : START gotoMAIN programa1 FUNCTION tipo ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RETURN termino checkEXPPOper PLUS addOperator ID LPAREN llamada1 RPAREN . LexToken(RCURL,'}',9,122)
+   yacc.py: 469:Action : Reduce rule [llamada -> ID LPAREN llamada1 RPAREN] with ['test','(',None,')'] and goto state 100
