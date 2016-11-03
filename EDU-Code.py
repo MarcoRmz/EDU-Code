@@ -65,6 +65,7 @@ INPUT = 19
 ERA = 20
 ENDPROC = 21
 PARAM = 22
+EOF = 99
 
 # Function to parse token type values to equivalent numeric constant
 def parseTypeIndex(type):
@@ -93,7 +94,7 @@ def parseType(type):
 def p_programa(p):
 	'programa 	: START gotoMAIN programa1 programa2 main END'
 	#agregar cuadruplo de end of file
-	cuadruplos.dirCuadruplos.append(("EOF", None, None, None))
+	cuadruplos.dirCuadruplos.append((EOF, None, None, None))
 	cuadruplos.indexCuadruplos += 1
 
 def p_programa1(p):
