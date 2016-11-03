@@ -30,12 +30,12 @@ class Memoria:
         #Hardcode porque son 2 valores
         inv_cte_bool = {True:2000, False:2001}
 
-        #DEFINICION de rangos de memoria
+        #DEFINICION de rangos de tamaño de memoria
         #-----------------
         # RANGOS
         #----------------
         #rango globales
-        global_range = (0,99)
+        global_range = [(0,99),()
         #rango locales
         local_range = (100,399)
         #rango temporales
@@ -58,14 +58,17 @@ class Memoria:
         #----------------
         # INDEX ENTERAS
         #----------------
+        """
+            Rango de espacios para las ints va de la 100
+        """
         #index para globales enteras
-        index_gint = [global_range[0]]
+        index_gint = [global_range[0] + 10000]
         #index para locales enteras
-        index_lint = [local_range[0]]
+        index_lint = [local_range[0] + 10000]
         #index para temporales enteras
-        index_tint = [temp_range[0]]
+        index_tint = [temp_range[0] + 10000]
         #index para ctes enteras
-        index_cint = [cte_int_range[0]]
+        index_cint = [cte_int_range[0] + 10000]
 
         #-----------------
         # INDEX FLOAT
@@ -99,66 +102,67 @@ class Memoria:
         #index para temporales string
         index_tstring = [temp_range[0]]
 
-    #Metodo para obtener el index apropiado para el tipo de memoria (global,local,temporal,cte) a partir del rango
-    def getMemIndex(rango,tipo):
+    #Metodo para obtener el index apropiado para el tipo de memoria
+    #(global,local,temporal,cte) a partir del scope
+    def getMemIndex(scope,tipo):
         #tipo es entero
         if tipo == 0:
-            #si el rango de memoria enviado se encuentra dentro del rango de espacios globales
-            if (rango[0] in range(global_range[0],global_range[1]+1)) and (rango[1] in range(global_range[0],global_range[1]+1)):
+            #si el scope es global
+            if (scope==0):
                 return index_gint
-            #si el rango de memoria enviado se encuentra dentro del rango de espacios locales
-            elif (rango[0] in range(local_range[0],local_range[1]+1)) and (rango[1] in range(local_range[0],local_range[1]+1)):
+            #si el scope es local
+        elif (scope==1):
                 return index_lint
-            #si el rango de memoria enviado se encuentra dentro del rango de espacios temporales
-            elif (rango[0] in range(temp_range[0],temp_range[1]+1)) and (rango[1] in range(temp_range[0],temp_range[1]+1)):
+            #si el scope es temporal
+        elif (scope == 2):
                 return index_tint
-            #si el rango de memoria se encuentra dentro del rango de espacios ctes
-            elif (rango[0] in range(cte_int_range[0],cte_int_range[1]+1)) and (rango[1] in range(cte_int_range[0],cte_int_range[1]+1)):
+            #si el scope es cte
+        elif (scope == 3):
                 return index_cint
             else:
                 print("Error: Segmentation fault")
                 exit(1)
         #tipo es flotante
         elif tipo == 1:
-            #si el rango de memoria enviado se encuentra dentro del rango de espacios globales
-            if (rango[0] in range(global_range[0],global_range[1]+1)) and (rango[1] in range(global_range[0],global_range[1]+1)):
+            #si el scope es global
+            if (scope==0):
                 return index_gfloat
-            #si el rango de memoria enviado se encuentra dentro del rango de espacios locales
-            elif (rango[0] in range(local_range[0],local_range[1]+1)) and (rango[1] in range(local_range[0],local_range[1]+1)):
+            #si el scope es local
+        elif (scope==1):
                 return index_lfloat
-            #si el rango de memoria enviado se encuentra dentro del rango de espacios temporales
-            elif (rango[0] in range(temp_range[0],temp_range[1]+1)) and (rango[1] in range(temp_range[0],temp_range[1]+1)):
+            #si el scope es temporal
+        elif (scope == 2):
                 return index_tfloat
-            #si el rango de memoria se encuentra dentro del rango de espacios ctes
-            elif (rango[0] in range(cte_int_range[0],cte_int_range[1]+1)) and (rango[1] in range(cte_int_range[0],cte_int_range[1]+1)):
+            #si el scope es cte
+        elif (scope == 3):
                 return index_cfloat
             else:
                 print("Error: Segmentation fault")
                 exit(1)
         #tipo es string
         elif tipo == 2:
-            #si el rango de memoria enviado se encuentra dentro del rango de espacios globales
-            if (rango[0] in range(global_range[0],global_range[1]+1)) and (rango[1] in range(global_range[0],global_range[1]+1)):
+            #si el scope es global
+            if (scope==0):
                 return index_gstring
-            #si el rango de memoria enviado se encuentra dentro del rango de espacios locales
-            elif (rango[0] in range(local_range[0],local_range[1]+1)) and (rango[1] in range(local_range[0],local_range[1]+1)):
+            #si el scope es local
+        elif (scope==1):
                 return index_lstring
-            #si el rango de memoria enviado se encuentra dentro del rango de espacios temporales
-            elif (rango[0] in range(temp_range[0],temp_range[1]+1)) and (rango[1] in range(temp_range[0],temp_range[1]+1)):
+            #si el scope es temporal
+        elif (scope == 2):
                 return index_tstring
             else:
                 print("Error: Segmentation fault")
                 exit(1)
         #tipo es bool
         elif tipo == 3:
-            #si el rango de memoria enviado se encuentra dentro del rango de espacios globales
-            if (rango[0] in range(global_range[0],global_range[1]+1)) and (rango[1] in range(global_range[0],global_range[1]+1)):
+            #si el scope es global
+            if (scope==0):
                 return index_gbool
-            #si el rango de memoria enviado se encuentra dentro del rango de espacios locales
-            elif (rango[0] in range(local_range[0],local_range[1]+1)) and (rango[1] in range(local_range[0],local_range[1]+1)):
+            #si el scope es local
+        elif (scope==1):
                 return index_lbool
-            #si el rango de memoria enviado se encuentra dentro del rango de espacios temporales
-            elif (rango[0] in range(temp_range[0],temp_range[1]+1)) and (rango[1] in range(temp_range[0],temp_range[1]+1)):
+            #si el scope es temporal
+        elif (scope == 2):
                 return index_tbool
             else:
                 print("Error: Segmentation fault")
@@ -170,7 +174,7 @@ class Memoria:
 
 
     #Metodo para agregar memoria
-    def agregaMemoria(direccion, valor):
+    def agregaMemoria(tipo, scope, valor):
 
     #Metodo para borrar memoria param1:tuple -> rango, param2:int
     def borrarMemoria(rango,tipo):
