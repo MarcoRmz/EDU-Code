@@ -16,7 +16,8 @@
 #########################################
 
 from scanner import *
-import cuadruplos as cuadruplos
+import cuadruplos
+import memoryHandler
 import ply.yacc as yacc
 
 #########################################
@@ -173,7 +174,7 @@ def p_asignacion(p):
 			print("L106 pila operandos %s" %(str(cuadruplos.pOperandos)))
 			# Check if assignment is valid given the types of the operands
 			asignacionType = cuadruplos.cubo.getResultType(functionsDir[function_ptr][1][p[1]][0], cuadruplos.pTipos[-1], EQUALS)
-			
+
 			if asignacionType != ERROR:
 				print "L109 SI ENTRO"
 				newValueAddress = cuadruplos.pOperandos.pop()
