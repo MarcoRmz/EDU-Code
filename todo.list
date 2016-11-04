@@ -21,6 +21,8 @@ Maquina virtual:
 ** multiplicacion y division de ints hacer floor
 ** reemplazar valores en cuadruplos por direccion de memoria
 ** checar que variables tengan valor al ser usadas, marcar erros si no
+** codigo aritmetica
+** codigo secuenciales
 
 Memoria:
 1) Funcion al mandar tipo de dato y funct_ptr como parametro, crea en el dict correspondiente la dir que sigue con valor None (temporal), despues regresa la dir usada, indexDir tipo y scope correspondiente ++
@@ -30,15 +32,11 @@ Memoria:
 ) LLAMADA verifica con el ERA que exista espacio para variables
 
 Avance 5:
-** token start GOTO main - X
-** token main rellenar GOTO start - X
-** cuadruplos funciones VOID - X
-** cuadruplos funciones TIPO - X
-** parametros funciones - X
-** return funciones - X
 ** memoria virtual
 ** Cambiar return de funciones, mover return a bloque
-** Invertir order de cuadruplos de parametros - X
+
+Avance 6:
+** Maquina virtual
 
 Avance 7:
 ** sacar valor de vector[x] e igualar el valor en varcte con len(p) == 3 para p[0]
