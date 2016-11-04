@@ -1,10 +1,15 @@
+#########################################################
+#                                                       #
+#   maquina.py                                          #
+#                                                       #
+#   Maquina Virtual                                     #
+#                                                       #
+#   Marco Ramirez       A01191344                       #
+#   Andres Gutierrez    A01191581                       #
+#                                                       #
+#########################################################
+
 from memoria import *
-
-
-"""
-Maquina virtual
-
-"""
 
 #ciclo mientras no se encuentre el cuadruplo de EOF
 while(cuadruplos[i][0] != 99){
