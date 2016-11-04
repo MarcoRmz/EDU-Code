@@ -34,7 +34,7 @@ Memoria:
 Avance 5:
 ** memoria virtual
 ** Cambiar return de funciones, mover return a bloque
-
+** Checar que las sumas de funciones sean posibles (no sumar voids!)
 Avance 6:
 ** Maquina virtual
 
