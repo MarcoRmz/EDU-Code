@@ -78,33 +78,33 @@ def createMemory(TotalTypes, SubTypeQty):
 def deleteMemory():
 	del memoryStack[-1]
 
-# Parse Virtual Address to Real Address and set new value
-# Global
-def setGlobalValue(virtualAddress, varValue):
-	varType = virtualAddress // 1000
-	realAddr = virtualAddress % 1000
-	globalMemory[varType[realAddr]] = varValue
 
-# Local
-def setLocalValue(virtualAddress, varValue):
-	varType = (virtualAddress // 1000) - 1
-	realAddr = virtualAddress % 1000
-	memoryStack[-1].memory[varType[realAddr]] = varValue
+# Get value from virtual address
+def getValue(virtualAddress):
+	#Global
+	if(virtualAddress < 4000):
+		varType = virtualAddress // 1000
+		realAddr = virtualAddress % 1000
+		return globalMemory[varType[realAddr]]
+	#constantes
+	elif(virtualAddress < 10000):
+		return constMemory[virtualAddress]
 
-# Parse Virtual Address to Real Address and get value
-# Global
-def getGlobalValue(virtualAddress):
-	varType = virtualAddress // 1000
-	realAddr = virtualAddress % 1000
-	return globalMemory[varType[realAddr]]
+	#locales
+	else:
+		varType = (virtualAddress // 1000) - 1
+		realAddr = virtualAddress % 1000
+		return memoryStack[-1].memory[varType[realAddr]]
 
-# Constants
-def getConstantValue(virtualAddress):
-	return constMemory[virtualAddress]
-
-# Local
-def getLocalValue(virtualAddress):
-	varType = (virtualAddress // 1000) - 1
-	realAddr = virtualAddress % 1000
-	return memoryStack[-1].memory[varType[realAddr]]
-
+#set value from virtual address and value given by the virtual machine
+def setValue(virtualAddress, varValue):
+	#Global
+	if(virtualAddress < 4000):
+		varType = virtualAddress // 1000
+		realAddr = virtualAddress % 1000
+		globalMemory[varType[realAddr]] = varValue
+	#locales
+	elif(virtualAddress >= 10000):
+		varType = (virtualAddress // 1000) - 1
+		realAddr = virtualAddress % 1000
+		memoryStack[-1].memory[varType[realAddr]] = varValue

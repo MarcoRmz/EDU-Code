@@ -1,81 +1,239 @@
-from memoria import *
-
+from memoryHandler import *
+from cuadruplos import *
 
 """
 Maquina virtual
 
 """
+#Count variable for quadruples
+i = 0
 
-#ciclo mientras no se encuentre el cuadruplo de EOF
-while(cuadruplos[i][0] != 99){
-#condiciones con cuadruplos para ver que accion tomar
-    #caso para PLUS (+)
-    if(cuadruplos[i][0] == 0):
+executionStack = []
 
-    #caso para MINUS (-)
-    elif(cuadruplos[i][0] == 1):
+#While the quadruple holds no EOF operation
+while(cuadruplos.dirCuadruplos[i][0] != 99){
+#conditions to determine actions on quadruples
+    #case for PLUS (+)
+    if(cuadruplos.dirCuadruplos[i][0] == 0):
+        #get operands from the memory
+        operand1 = memoryHandler.getValue(cuadruplos.dirCuadruplos[i][1])
+        operand2 = memoryHandler.getValue(cuadruplos.dirCuadruplos[i][2])
 
-    #caso para MULT (*)
-    elif(cuadruplos[i][0] == 2):
+        #apply sum operation to operands
+        result = operand1 + operand2
 
-    #caso para DIVIDE (/)
-    elif(cuadruplos[i][0] == 3):
+        #save the new value for the specified address
+        memoryHandler.setValue(cuadruplos.dirCuadruplos[i][3],result)
 
-    #caso para AND
-    elif(cuadruplos[i][0] == 4):
+        i += 1
 
-    #caso para OR
-    elif(cuadruplos[i][0] == 5):
+    #case for MINUS (-)
+elif(cuadruplos.dirCuadruplos[i][0] == 1):
+            #get operands from the memory
+            operand1 = memoryHandler.getValue(cuadruplos.dirCuadruplos[i][1])
+            operand2 = memoryHandler.getValue(cuadruplos.dirCuadruplos[i][2])
 
-    #caso para LESS than (<)
-    elif(cuadruplos[i][0] == 6):
+            #apply substraction operation to operands
+            result = operand1 - operand2
 
-    #caso para  GREATER than (>)
-    elif(cuadruplos[i][0] == 7):
+            #save the new value for the specified address
+            memoryHandler.setValue(cuadruplos.dirCuadruplos[i][3],result)
 
-    #caso para LESS THAN OR EQUALS (<=)
-    elif(cuadruplos[i][0] == 8):
+            i += 1
 
-    #caso para GREATER THAN OR EQUALS (>=)
-    elif(cuadruplos[i][0] == 9):
+    #case for MULT (*)
+elif(cuadruplos.dirCuadruplos[i][0] == 2):
+            #get operands from the memory
+            operand1 = memoryHandler.getValue(cuadruplos.dirCuadruplos[i][1])
+            operand2 = memoryHandler.getValue(cuadruplos.dirCuadruplos[i][2])
 
-    #caso para DOUBLE EQUALS (==)
-    elif(cuadruplos[i][0] == 10):
+            #apply multiplication operation to operands
+            result = operand1 * operand2
 
-    #caso para DIFFERENT (!=)
-    elif(cuadruplos[i][0] == 11):
+            #save the new value for the specified address
+            memoryHandler.setValue(cuadruplos.dirCuadruplos[i][3],result)
 
-    #caso para ASIGNACION (=)
-    elif(cuadruplos[i][0] == 12):
+            i += 1
 
-    #caso para GOTO
-    elif(cuadruplos[i][0] == 13):
+    #case for DIVIDE (/)
+elif(cuadruplos.dirCuadruplos[i][0] == 3):
+            #get operands from the memory
+            operand1 = memoryHandler.getValue(cuadruplos.dirCuadruplos[i][1])
+            operand2 = memoryHandler.getValue(cuadruplos.dirCuadruplos[i][2])
 
-    #caso para GOTOF
-    elif(cuadruplos[i][0] == 14):
+            #apply divide operation to operands
+            result = operand1 / operand2
 
-    #caso para GOTOT
-    elif(cuadruplos[i][0] == 15):
+            #save the new value for the specified address
+            memoryHandler.setValue(cuadruplos.dirCuadruplos[i][3],result)
 
-    #caso para GOSUB
-    elif(cuadruplos[i][0] == 16):
+            i += 1
 
-    #caso para RETURN
-    elif(cuadruplos[i][0] == 17):
+    #case for AND
+elif(cuadruplos.dirCuadruplos[i][0] == 4):
+            #get operands from the memory
+            operand1 = memoryHandler.getValue(cuadruplos.dirCuadruplos[i][1])
+            operand2 = memoryHandler.getValue(cuadruplos.dirCuadruplos[i][2])
 
-    #caso para PRINT
-    elif(cuadruplos[i][0] == 18):
+            #apply and operation to operands
+            result = operand1 and operand2
 
-    #caso para INPUT
-    elif(cuadruplos[i][0] == 19):
+            #save the new value for the specified address
+            memoryHandler.setValue(cuadruplos.dirCuadruplos[i][3],result)
 
-    #caso para ERA
-    elif(cuadruplos[i][0] == 20):
+            i += 1
+    #case for OR
+elif(cuadruplos.dirCuadruplos[i][0] == 5):
+            #get operands from the memory
+            operand1 = memoryHandler.getValue(cuadruplos.dirCuadruplos[i][1])
+            operand2 = memoryHandler.getValue(cuadruplos.dirCuadruplos[i][2])
 
-    #caso para ENDPROC
-    elif(cuadruplos[i][0] == 21):
+            #apply or operation to operands
+            result = operand1 or operand2
 
-    #caso para PARAM
-    elif(cuadruplos[i][0] == 22):
+            #save the new value for the specified address
+            memoryHandler.setValue(cuadruplos.dirCuadruplos[i][3],result)
+
+            i += 1
+
+    #case for LESS than (<)
+elif(cuadruplos.dirCuadruplos[i][0] == 6):
+        #get operands from the memory
+        operand1 = memoryHandler.getValue(cuadruplos.dirCuadruplos[i][1])
+        operand2 = memoryHandler.getValue(cuadruplos.dirCuadruplos[i][2])
+
+        #apply less than to operands
+        result = operand1 < operand2
+
+        #save the new value for the specified address
+        memoryHandler.setValue(cuadruplos.dirCuadruplos[i][3],result)
+
+        i += 1
+
+    #case for  GREATER than (>)
+elif(cuadruplos.dirCuadruplos[i][0] == 7):
+        #get operands from the memory
+        operand1 = memoryHandler.getValue(cuadruplos.dirCuadruplos[i][1])
+        operand2 = memoryHandler.getValue(cuadruplos.dirCuadruplos[i][2])
+
+        #apply greater than to operands
+        result = operand1 > operand2
+
+        #save the new value for the specified address
+        memoryHandler.setValue(cuadruplos.dirCuadruplos[i][3],result)
+
+        i += 1
+
+    #case for LESS THAN OR EQUALS (<=)
+elif(cuadruplos.dirCuadruplos[i][0] == 8):
+        #get operands from the memory
+        operand1 = memoryHandler.getValue(cuadruplos.dirCuadruplos[i][1])
+        operand2 = memoryHandler.getValue(cuadruplos.dirCuadruplos[i][2])
+
+        ##apply less than equals to operands
+        result = operand1 <= operand2
+
+        #save the new value for the specified address
+        memoryHandler.setValue(cuadruplos.dirCuadruplos[i][3],result)
+
+        i += 1
+    #case for GREATER THAN OR EQUALS (>=)
+elif(cuadruplos.dirCuadruplos[i][0] == 9):
+        #get operands from the memory
+        operand1 = memoryHandler.getValue(cuadruplos.dirCuadruplos[i][1])
+        operand2 = memoryHandler.getValue(cuadruplos.dirCuadruplos[i][2])
+
+        #apply greater than equals to operands
+        result = operand1 >= operand2
+
+        #save the new value for the specified address
+        memoryHandler.setValue(cuadruplos.dirCuadruplos[i][3],result)
+
+        i += 1
+
+    #case for DOUBLE EQUALS (==)
+elif(cuadruplos.dirCuadruplos[i][0] == 10):
+        #get operands from the memory
+        operand1 = memoryHandler.getValue(cuadruplos.dirCuadruplos[i][1])
+        operand2 = memoryHandler.getValue(cuadruplos.dirCuadruplos[i][2])
+
+        #apply double equals to operands
+        result = operand1 == operand2
+
+        #save the new value for the specified address
+        memoryHandler.setValue(cuadruplos.dirCuadruplos[i][3],result)
+
+        i += 1
+    #case for DIFFERENT (!=)
+elif(cuadruplos.dirCuadruplos[i][0] == 11):
+        #get operands from the memory
+        operand1 = memoryHandler.getValue(cuadruplos.dirCuadruplos[i][1])
+        operand2 = memoryHandler.getValue(cuadruplos.dirCuadruplos[i][2])
+
+        #apply not equals to operands
+        result = operand1 != operand2
+
+        #save the new value for the specified address
+        memoryHandler.setValue(cuadruplos.dirCuadruplos[i][3],result)
+
+        i += 1
+    #case for EQUALS (=)
+elif(cuadruplos.dirCuadruplos[i][0] == 12):
+            #get operands from the memory
+            operand1 = memoryHandler.getValue(cuadruplos.dirCuadruplos[i][1])
+
+            #save the new value for the specified address
+            memoryHandler.setValue(cuadruplos.dirCuadruplos[i][3],operand1)
+
+            i += 1
+
+    #case for GOTO
+elif(cuadruplos.dirCuadruplos[i][0] == 13):
+    #obtain the index of the quadruple and jump to it
+    i = cuadruplos.dirCuadruplos[i][3]
+
+    #case for GOTOF
+elif(cuadruplos.dirCuadruplos[i][0] == 14):
+    #if the temporal is false jump to the specified quadruple
+    if(cuadruplos.dirCuadruplos[i][1] == False):
+        i = cuadruplos.dirCuadruplos[i][3]
+
+    #case for GOTOT
+elif(cuadruplos.dirCuadruplos[i][0] == 15):
+    #if the temporal holds a True jump to the specified quadruple
+    if(cuadruplos.dirCuadruplos[i][1] == True):
+        i = cuadruplos.dirCuadruplos[i][3]
+
+    #case for GOSUB
+elif(cuadruplos.dirCuadruplos[i][0] == 16):
+    #append next quadruple to the executionStack
+    executionStack.append(i+1)
+
+    #jump to function quadruple
+    i = cuadruplos.dirCuadruplos[i][3]
+
+    #case for RETURN
+elif(cuadruplos.dirCuadruplos[i][0] == 17):
+
+    #case for PRINT
+elif(cuadruplos.dirCuadruplos[i][0] == 18):
+
+    #case for INPUT
+elif(cuadruplos.dirCuadruplos[i][0] == 19):
+
+    #case for ERA
+elif(cuadruplos.dirCuadruplos[i][0] == 20):
+
+
+    #case for ENDPROC
+elif(cuadruplos.dirCuadruplos[i][0] == 21):
+    #Returns to the next instruction after the function call
+    i = executionStack.pop()
+
+    #deletes memory for the function
+    memoryHandler.deleteMemory()
+
+    #case for PARAM
+elif(cuadruplos.dirCuadruplos[i][0] == 22):
 
 }
