@@ -9,13 +9,33 @@
 #														#
 #########################################################
 
+#########################################
+#										#
+#         		Imports          		#
+#										#
+#########################################
+
 from scanner import *
 import cuadruplos as cuadruplos
 import ply.yacc as yacc
 
-#Function pointer variable
+#########################################
+#										#
+#         		Pointers          		#
+#										#
+#########################################
+
+# Current Function pointer
 function_ptr = "GLOBAL"
+
+# Previous Function pointer
 prev_Fuction_ptr = 'None'
+
+#########################################
+#										#
+#         		Directories          	#
+#										#
+#########################################
 
 # Global Variables
 globalVars = {}
@@ -29,7 +49,12 @@ pTempFrom = []
 # Contador de parametros
 countParam = 0
 
-### Constants
+#########################################
+#										#
+#        Constants for Quadruples       #
+#										#
+#########################################
+
 ERROR = -1
 
 # TYPES
@@ -69,7 +94,13 @@ ENDPROC = 21
 PARAM = 22
 EOF = 99
 
-# Function to parse token type values to equivalent numeric constant
+#########################################
+#										#
+#    	Constants Parse Functions    	#
+#										#
+#########################################
+
+# Function to parse token type value to equivalent numeric constant
 def parseTypeIndex(type):
 	if type == 'int':
 		return INT
@@ -82,6 +113,7 @@ def parseTypeIndex(type):
 	else:
 		return STRING
 
+# Function to parse constant to type value
 def parseType(type):
 	if type == INT:
 		return 'INT'
@@ -92,7 +124,12 @@ def parseType(type):
 	else:
 		return 'STRING'
 
-# Parser
+#########################################
+#										#
+#         	Grammar Rules          		#
+#										#
+#########################################
+
 def p_programa(p):
 	'programa 	: START gotoMAIN programa1 programa2 main END'
 	#agregar cuadruplo de end of file
@@ -173,7 +210,6 @@ def p_condicion(p):
 		t = cuadruplos.dirCuadruplos[gotoIndex]
 		t = t[:3] + (cuadruplos.indexCuadruplos,)
 		cuadruplos.dirCuadruplos[gotoIndex] = t
-
 
 def p_condicion1(p):
 	'''condicion1	: bloque
@@ -1090,7 +1126,12 @@ def p_error(p):
 		print("Syntax error at EOF")
 	exit(1)
 
-# Set up a logging object
+#########################################
+#										#
+#         Logging Object Rules          #
+#										#
+#########################################
+
 import logging
 logging.basicConfig(
     level = logging.DEBUG,
@@ -1102,17 +1143,24 @@ log = logging.getLogger()
 
 parser = yacc.yacc(debug=True)
 
-# Main
+#########################################
+#										#
+#         		Main          			#
+#										#
+#########################################
+
 import sys
 
 if __name__ == '__main__':
 
+	# Check for argument on file name to read
 	if (len(sys.argv) > 1):
 		fin = sys.argv[1]
 	else:
 		print("No file provided!")
 		exit(1)
 
+	# Open and read file
 	f = open(fin, 'r')
 	data = f.read()
 
@@ -1121,6 +1169,7 @@ if __name__ == '__main__':
 	# from tok in lexer:
 	# 	print(tok)
 
+	# Parse tokens read
 	parser.parse(data, tracking=True, debug=log)
 
 	print("*****************************************")
