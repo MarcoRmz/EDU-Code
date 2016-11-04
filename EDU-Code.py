@@ -132,7 +132,7 @@ def parseType(type):
 
 def p_programa(p):
 	'programa 	: START gotoMAIN programa1 programa2 main END'
-	#agregar cuadruplo de end of file
+	# Generate quadruple for END OF FILE
 	cuadruplos.dirCuadruplos.append((EOF, None, None, None))
 	cuadruplos.indexCuadruplos += 1
 
@@ -146,19 +146,21 @@ def p_programa2(p):
 
 def p_gotoMAIN(p):
 	'gotoMAIN : '
-	# Generate GOTO MAIN
+	# Generate quadruple GOTO MAIN
 	cuadruplos.dirCuadruplos.append((GOTO, None, None, None))
 	cuadruplos.indexCuadruplos += 1
 
 def p_asignacion(p):
 	'''asignacion : ID EQUALS asignacion1'''
 	print "\nacabo asignacion L91"
+	# Check if ID is a declared global variable 
 	if globalVars.has_key(p[1]):
+		# Check if assignment is valid given the types of the operands
 		asignacionType = cuadruplos.cubo.getResultType(globalVars[p[1]][0], cuadruplos.pTipos[-1], EQUALS)
+
 		if asignacionType != ERROR:
-			globalVars[p[1]][0] = asignacionType
-			globalVars[p[1]][1] = cuadruplos.pOperandos.pop()
-			cuadruplos.dirCuadruplos.append((EQUALS, globalVars[p[1]][1], None, p[1]))
+			newValueAddress = cuadruplos.pOperandos.pop()
+			cuadruplos.dirCuadruplos.append((EQUALS,newValueAddress, None, globalVars[p[1]][1]))
 			cuadruplos.pTipos.pop()
 			cuadruplos.indexCuadruplos += 1
 		else:
@@ -166,14 +168,16 @@ def p_asignacion(p):
 			print("Type mismatch var: %s of type: %s and %s! Line: %s" %(p[1], parseType(globalVars[p[1]][0]), parseType(cuadruplos.pTipos[-1]),lexer.lineno))
 			exit(1)
 	else:
+		# Check if ID is a declared local variable 
 		if functionsDir[function_ptr][1].has_key(p[1]):
 			print("L106 pila operandos %s" %(str(cuadruplos.pOperandos)))
+			# Check if assignment is valid given the types of the operands
 			asignacionType = cuadruplos.cubo.getResultType(functionsDir[function_ptr][1][p[1]][0], cuadruplos.pTipos[-1], EQUALS)
+			
 			if asignacionType != ERROR:
 				print "L109 SI ENTRO"
-				functionsDir[function_ptr][1][p[1]][0] = asignacionType
-				functionsDir[function_ptr][1][p[1]][1] = cuadruplos.pOperandos.pop()
-				cuadruplos.dirCuadruplos.append((EQUALS, functionsDir[function_ptr][1][p[1]][1], None, p[1]))
+				newValueAddress = cuadruplos.pOperandos.pop()
+				cuadruplos.dirCuadruplos.append((EQUALS, newValueAddress, None, functionsDir[function_ptr][1][p[1]][1]))
 				cuadruplos.pTipos.pop()
 				cuadruplos.indexCuadruplos += 1
 				print "PILA DE OPERANDOS L115 %s" % str(cuadruplos.pOperandos)
@@ -583,10 +587,10 @@ def p_declareFunc(p):
 	#CAMBIO: Partir el contador de variables temporales y poner uno para cada tipo, agregar cantidad de locales de cada tipo
 	#CAMBIO: Contabilizar los parametros por tipo.
 	#Todo 2 y 3:
-	cuadruplos.countT = 0
 	if functionsDir.has_key(p[-1]) == False:
-		# [Tipo, DictVar, ListaParam, CantVarTemp, indexCuadruplo]
-		functionsDir[p[-1]] = [parseTypeIndex(p[-2]), {}, [], 0, cuadruplos.indexCuadruplos]
+		# [Tipo, DictVar, ListaParam, CantVarTemp, indexCuadruplo, FunctionAddress]
+		functionAddress =  getGlobalAddress(parseTypeIndex(p[-2]), 1)
+		functionsDir[p[-1]] = [parseTypeIndex(p[-2]), {}, [], 0, cuadruplos.indexCuadruplos, functionAddress]
 	else:
 		# Error
 		print("Function %s already declared!" %(p[-1]))
@@ -595,16 +599,14 @@ def p_declareFunc(p):
 def p_funcion6(p):
 	'''funcion6	: RCURL
 				| RETURN expresion_logica RCURL'''
-	# Verifica tipo de funcion
+	# Verify type of function
 	print("L560 acabo funcion")
 	if functionsDir[function_ptr][0] != VOID:
-		# Generar RETURN
-		cuadruplos.dirCuadruplos.append((RETURN, None, None, cuadruplos.pOperandos[-1]))
+		# Generate RETURN with value to return and address to return it to
+		cuadruplos.dirCuadruplos.append((RETURN, cuadruplos.pOperandos[-1]), None, functionsDir[p[-1]][5])
 		cuadruplos.indexCuadruplos += 1
-	# Asignar valores de referencias
-	# Liberar Tabla de variables locales de memoria
-	# Generar ENDPROC
-	functionsDir[function_ptr][3] = cuadruplos.countT +1
+	
+	# Generate ENDPROC
 	cuadruplos.dirCuadruplos.append((ENDPROC, None, None, None))
 	cuadruplos.indexCuadruplos += 1
 	print functionsDir
@@ -817,16 +819,17 @@ def p_declareMain(p):
 	print("ENTRO A declareMain L722")
 	global function_ptr
 	function_ptr = p[-1]
-	cuadruplos.countT = 0
+
+	# Check Main function is unique
 	if functionsDir.has_key(p[-1]) == False:
-		# [Tipo, DictVar, ListaParam, CantVarTemp, indexCuadruplo]
-		functionsDir[p[-1]] = ['main', {}, [], 0, cuadruplos.indexCuadruplos]
+		# [Tipo, DictVar, ListaParam, CantVarTemp, indexCuadruplo, FunctionAddress]
+		functionsDir[p[-1]] = ['main', {}, [], 0, cuadruplos.indexCuadruplos, None]
 		t = cuadruplos.dirCuadruplos[0]
-		t = t[:3] + (cuadruplos.indexCuadruplos,)
+		t = t[:3] + (cuadruplos.indexCuadruplos, None)
 		cuadruplos.dirCuadruplos[0] = t
 	else:
 		# Error
-		print("Main %s already declared! Line: %s" %(p[-1], lexer.lineno))
+		print("Main %s already declared! Line: %s" %(p[-1], p.lineno(-1)))
 		exit(1)
 
 def p_main1(p):
@@ -840,8 +843,7 @@ def p_main2(p):
 def p_parametros(p):
 	'''parametros : tipo meteParam parametros1 ID parametros2
 				| VECTOR tipo meteParamVect parametros1 ID parametros2'''
-
-	#CAMBIO: agregar sacaParam si parametros 1 es por referencia y sacaParam mete el id a la pila de referencia de la funcion
+	#CAMBIO: agregar sacaParam si parametros1 es por referencia y sacaParam mete el id a la pila de referencia de la funcion
 
 def p_parametros1(p):
 	'''parametros1 : AMPERSON
@@ -858,11 +860,15 @@ def p_meteParam(p):
 	print("ENTRO A meteParam L762 con %s" %(str(p[-1])))
 	# Mete parametro a lista de parametros de la funcion
 	functionsDir[function_ptr][2].append(parseTypeIndex(p[-1]))
+	# Reserves memory space for parameter
+	varAddress = getLocalAddress(parseTypeIndex(p[-1]), 1)
 
 def p_meteParamVect(p):
 	'meteParamVect : '
 	# Mete parametro vector a lista de parametros de la funcion
 	functionsDir[function_ptr][2].append(parseTypeIndex(p[-1]))
+	# CAMBIO: reservar memoria para parametro arreglo
+	# Reserves memory space for vector parameter
 
 def p_print(p):
 	'print : PRINT LPAREN expresion_logica RPAREN'
@@ -1044,6 +1050,7 @@ def p_var_declaracion1(p):
 
 def p_var_declaracion2(p):
 	'''var_declaracion2 : ID declareVar2'''
+	# CAMBIO: cambiar sintaxis y diagrama para aceptar [tamaño]
 
 def p_var_declaracion3(p):
 	'''var_declaracion3 : epsilon
@@ -1060,10 +1067,9 @@ def p_declareVar(p):
   			# Error
   			print("Variable %s already declared! Line: %s" %(p[-1], lexer.lineno))
   			exit(1)
-  		vartype = parseTypeIndex(p[-2])
-		#CAMBIO: usar vartype para meter la direccion real a la tabla de variable.
-		#todo: 1
-  		globalVars[p[-1]] = [vartype, 'ValueNone']
+  		varType = parseTypeIndex(p[-2])
+		varAddress = getGlobalAddress(varType, 1)
+  		globalVars[p[-1]] = [varType, varAddress]
 	else:
 		if globalVars.has_key(p[-1]):
   			# Error
@@ -1073,19 +1079,21 @@ def p_declareVar(p):
   			# Error
   			print("Variable %s already declared! Line: %s" %(p[-1], lexer.lineno))
   			exit(1)
-  		vartype = parseTypeIndex(p[-2])
-	  	functionsDir[function_ptr][1][p[-1]] = [vartype, 'ValueNone']
+  		varType = parseTypeIndex(p[-2])
+  		varAddress = getLocalAddress(varType, 1)
+	  	functionsDir[function_ptr][1][p[-1]] = [varType, varAddress]
 	p[0] = p[-1]
 
 def p_declareVar2(p):
 	'''declareVar2 :'''
+	# CAMBIO: pedir direccion para vectores usando el tamaño del arreglo para chunkSize
 	if function_ptr == 'GLOBAL':
   		if globalVars.has_key(p[-1]):
   			# Error
   			print("Variable %s already declared! Line: %s" %(p[-1], lexer.lineno))
   			exit(1)
-  		vartype = parseTypeIndex(p[-2])
-  		globalVars[p[-1]] = [vartype, 'ValueNone']
+  		varType = parseTypeIndex(p[-2])
+  		globalVars[p[-1]] = [varType, 'ValueNone']
 	else:
 		if globalVars.has_key(p[-1]):
   			# Error
@@ -1095,8 +1103,8 @@ def p_declareVar2(p):
   			# Error
   			print("Variable %s already declared! Line: %s" %(p[-1], lexer.lineno))
   			exit(1)
-  		vartype = parseTypeIndex(p[-2])
-	  	functionsDir[function_ptr][1][p[-1]] = ['VECTOR ' + str(vartype), 'ValueNone']
+  		varType = parseTypeIndex(p[-2])
+	  	functionsDir[function_ptr][1][p[-1]] = ['VECTOR ' + str(varType), 'ValueNone']
 	p[0] = p[-1]
 
 def p_while(p):
