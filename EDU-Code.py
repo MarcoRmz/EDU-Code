@@ -211,8 +211,6 @@ def p_checkPSaltos(p):
 
 	cuadruplos.pSaltos.append(cuadruplos.indexCuadruplos-1)
 
-
-
 def p_cte_bool(p):
 	''' cte_bool : TRUE
 				 | FALSE'''
@@ -399,6 +397,7 @@ def p_factor(p):
 def p_factorAddFakeCover(p):
 	'factorAddFakeCover : '
 	cuadruplos.pOper.append(p[-1])
+	p[0] = p[-1]
 
 def p_factor1(p):
 	''' factor1 : PLUS varcte
@@ -716,6 +715,60 @@ def p_llamada2(p):
 		global countParam
 		countParam += 1
 
+def p_llamada3(p):
+	'''llamada3 : LPAREN llamada1 RPAREN'''
+	# Pedir memoria para funcion
+	# [Tipo, DictVar, ListaParam, CantVarTemp, indexCuadruplo]
+	print("*************MEMORY CREATED FOR FUNCTION: " + str(p[-1]))
+	if functionsDir.has_key(p[-1]):
+		cuadruplos.dirCuadruplos.append((ERA, len(functionsDir[p[-1]][1]), functionsDir[p[-1]][3], None))
+		cuadruplos.indexCuadruplos += 1
+		global function_ptr
+		function_ptr = p[-1]
+	else:
+		# Error
+		print("Function %s is not declared!" %(p[-1]))
+		exit(1)
+	print("@@@@@@@@@@@@@@@@ countParam: " + str(countParam))
+	# Verificar que countParam == len(parametros) de la funcion
+	print('################ %s' %str(functionsDir[function_ptr]))
+	if len(functionsDir[function_ptr][2]) == countParam:
+		# Pila temporal para invertir orden de parametros
+		pTempParam = []
+
+		# Verifica que parametros recibidos sean del tipo que se espera en el mismo orden
+		while (countParam > 0):
+			if (functionsDir[function_ptr][2][countParam-1] != cuadruplos.pTipos[-1]):
+				# Error
+				print("Function: %s parameter %s type mismatch, expected %s!" %(p[-1], parseType(cuadruplos.pTipos[-1]), parseType(functionsDir[function_ptr][2][countParam-1])))
+				exit(1)
+			else:
+				pTempParam.append((cuadruplos.pTipos.pop(), cuadruplos.pOperandos.pop()))
+			global countParam
+			countParam -= 1
+
+		# Genera cuadruplos de parametros
+		while (len(pTempParam) > 0):
+			cuadruplos.dirCuadruplos.append((PARAM, pTempParam[-1][1], pTempParam[-1][0], None))
+			pTempParam.pop()
+			cuadruplos.indexCuadruplos += 1
+
+		# Genera cuadruplo GOSUB
+		cuadruplos.dirCuadruplos.append((GOSUB, function_ptr, None, functionsDir[function_ptr][4]))
+		cuadruplos.indexCuadruplos += 1
+		print("PILA OPERANDOS: %s   PILA TIPOS: %s   PILA OPERADORES: %s" %(str(cuadruplos.pOperandos), str(cuadruplos.pTipos), str(cuadruplos.pOper)))
+	else:
+		# Error
+		print("Function: %s expected %d parameter(s), recieved %d!" %(p[-1], len(functionsDir[function_ptr][2]), countParam))
+		exit(1)
+
+	global countParam
+	countParam = 0
+	global function_ptr
+	function_ptr = prev_Fuction_ptr
+	p[0] = 'Llamada ' + str(p[-1])
+	print("ACABA LLAMDA")
+
 def p_main(p):
 	'main : MAIN declareMain LCURL main1 estatuto main2 RCURL'
 	functionsDir[p[1]][3] = cuadruplos.countT
@@ -793,7 +846,6 @@ def p_switch(p):
 		t = cuadruplos.dirCuadruplos[gotoIndex]
 		t = t[:3] + (cuadruplos.indexCuadruplos,)
 		cuadruplos.dirCuadruplos[gotoIndex] = t
-
 
 def p_switch1(p):
 	'''switch1  : epsilon
@@ -917,17 +969,27 @@ def p_varcte(p):
 	p[0] = p[1]
 
 def p_varcte1(p):
-	''' varcte1 : ID checaID
-				| llamada
-				| cteVector'''
+	''' varcte1 : ID checaID varcte2'''
 	print("Salio de varcte1!!!")
-	# checa si fue llamada
 	p[0] = p[1]
 
 def p_checaID(p):
 	'''checaID : '''
 	# Checa si ID existe
 	print("Salio de checar ID!!!!!")
+	p[0] = p[-1]
+
+def p_varcte2(p):
+	''' varcte2 : epsilon
+				| factorAddFakeCover llamada3
+				| factorAddFakeCover LBRACKET expresion checarExpresion RBRACKET'''
+	# Remove fake cover
+	if len(p) > 2:
+		cuadruplos.pOper.pop()
+
+def p_checarExpresion(p):
+	'''checarExpresion : '''
+	# Checa si p[-1] es una CTE_INT
 
 def p_cteVector(p):
 	'''cteVector 	: ID LBRACKET expresion_logica RBRACKET'''
