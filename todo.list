@@ -22,13 +22,13 @@ Maquina virtual:
 Memoria:
 1) Funcion al mandar tipo de dato y funct_ptr como parametro, crea en el dict correspondiente la dir que sigue con valor None (temporal), despues regresa la dir usada, indexDir tipo y scope correspondiente ++
 2) Verificar rangos cuando se aumenta el index para verificar que aun hay memoria disponible
+** Crear variables locales para SWITCH y FOR
+** Creacion de variable local para input, que tipo??
+** Crear variable local de print
 
 Avance 5:
 ** Cambiar return de funciones, mover return a bloque
 ** Checar que las sumas de funciones sean posibles (no sumar voids!)
-** Crear variables locales para condiciones y loops
-** Creacion de variable local para input, que tipo??
-** Crear variable local de print
 
 Avance 7:
 ** sacar valor de vector[x] e igualar el valor en varcte con len(p) == 3 para p[0]

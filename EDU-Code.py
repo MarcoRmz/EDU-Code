@@ -1013,6 +1013,10 @@ def p_varcte2(p):
 				cuadruplos.pOperandos.append(varAddress)
 				cuadruplos.pTipos.append(functionsDir[function_ptr][0])
 				p[0] = varAddress
+			else:
+				cuadruplos.pOperandos.append(function_ptr)
+				cuadruplos.pTipos.append(functionsDir[function_ptr][0])
+				p[0] = function_ptr
 		else:
 			# ERROR
 			print("Function: %s is not declared! Line: %s" %(p[-1], p.lineno(-1)))
