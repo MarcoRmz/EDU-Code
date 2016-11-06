@@ -26,6 +26,9 @@ Memoria:
 Avance 5:
 ** Cambiar return de funciones, mover return a bloque
 ** Checar que las sumas de funciones sean posibles (no sumar voids!)
+** Crear variables locales para condiciones y loops
+** Creacion de variable local para input, que tipo??
+** Crear variable local de print
 
 Avance 7:
 ** sacar valor de vector[x] e igualar el valor en varcte con len(p) == 3 para p[0]

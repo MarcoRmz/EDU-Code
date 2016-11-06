@@ -7,7 +7,7 @@ function void test(string t, bool s) {
 	print(t)
 }
 
-function int increase(int sum, int x) {
+function int increase(int y, int x) {
 	sum = sum + 1
 	return increase(5, 0) + test("h", true)
 }

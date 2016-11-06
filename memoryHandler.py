@@ -9,7 +9,7 @@
 #														#
 #########################################################
 
-import memory
+from memory import *
 
 #########################################
 #										#
@@ -26,7 +26,7 @@ currentConstantVirtualAddress = [4000, 5000, 6000, 7000]
 currentLocalVirtualAddress = [10000, 20000, 30000, 40000]
 
 # Memory for global variables
-globalMemory = [[][][][]]
+globalMemory = []
 
 # Dictionary Memory for constants for virtual machine (key: address, value: value)
 constMemory = {}

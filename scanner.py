@@ -48,7 +48,7 @@ reserved = {
 tokens = [
 	'CTE_INT',
 	'CTE_FLOAT',
-	'CTE_STRING',
+	'VARSTRING',
 	'ID',
 	'PLUS',
 	'MINUS',
@@ -118,7 +118,7 @@ def t_CTE_INT(t):
 		t.value = 0
 	return t
 
-def t_CTE_STRING(t):
+def t_VARSTRING(t):
 	r'\"[a-zA-Z0-9!@#$%^&*()_+\-=\[\]{};\':"\\|,.<>\/? X]*\"'
 	# try:
 	# 	t.value = string(t.value)
