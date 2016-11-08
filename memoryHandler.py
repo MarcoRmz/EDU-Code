@@ -43,29 +43,102 @@ memoryStack = []
 #										#
 #########################################
 
+#Checks if there is available memory for type and chunkSize for global memory
+def globalAvailableMemory(varType,chunkSize):
+	if(varType == 0){
+		if currentGlobalVirtualAddress[0] + chunkSize < 2000:
+			return True
+		return False
+	}elif(varType == 1){
+		if currentGlobalVirtualAddress[1] + chunkSize < 3000:
+			return True
+		return False
+	}elif(varType == 2){
+		if currentGlobalVirtualAddress[2] + chunkSize < 4000:
+			return True
+		return False
+	}elif(varType == 3){
+		if currentGlobalVirtualAddress[3] + chunkSize < 5000:
+			return True
+		return False
+	}
+
+#Checks if there is available memory for type and chunkSize for constants memory
+def constantAvailableMemory(varType,chunkSize):
+	if(varType == 0){
+		if currentConstantVirtualAddress[0] + chunkSize < 6000:
+			return True
+		return False
+	}elif(varType == 1){
+		if currentConstantVirtualAddress[1] + chunkSize < 7000:
+			return True
+		return False
+	}elif(varType == 2){
+		if currentConstantVirtualAddress[2] + chunkSize < 8000:
+			return True
+		return False
+	}elif(varType == 3){
+		if currentConstantVirtualAddress[3] + chunkSize < 9000:
+			return True
+		return False
+	}
+
+#Checks if there is available memory for type and chunkSize for local memory
+def localAvailableMemory(varType,chunkSize):
+	if(varType == 0){
+		if currentLocalVirtualAddress[0] + chunkSize < 20000:
+			return True
+		return False
+	}elif(varType == 1){
+		if currentLocalVirtualAddress[1] + chunkSize < 30000:
+			return True
+		return False
+	}elif(varType == 2){
+		if currentLocalVirtualAddress[2] + chunkSize < 40000:
+			return True
+		return False
+	}elif(varType == 3){
+		if currentLocalVirtualAddress[3] + chunkSize < 50000:
+			return True
+		return False
+	}
+
+
 # Ask for next available memory address
 #Global
 def getGlobalAddress(varType, chunkSize):
-	availableAddress = currentGlobalVirtualAddress[varType] + 1000
-	currentGlobalVirtualAddress[varType] += chunkSize
-	return availableAddress
+	if(globalAvailableMemory(varType,chunkSize)):
+		availableAddress = currentGlobalVirtualAddress[varType] + 1000
+		currentGlobalVirtualAddress[varType] += chunkSize
+		return availableAddress
+	else:
+		print("Segmentation fault: out of memory")
+		exit(1)
 
 # Constants
 def setConstantAddress(varType, varValue):
 	if invertedConstMemory.has_key(varValue):
 		return invertedConstMemory[varValue]
 	else:
-		availableAddress = currentConstantVirtualAddress[varType]
-		currentConstantVirtualAddress[varType] += 1
-		invertedConstMemory[varValue] = availableAddress
-		constMemory[availableAddress] = varValue
-		return availableAddress
+		if(constantAvailableMemory(varType,chunkSize)):
+			availableAddress = currentConstantVirtualAddress[varType]
+			currentConstantVirtualAddress[varType] += 1
+			invertedConstMemory[varValue] = availableAddress
+			constMemory[availableAddress] = varValue
+			return availableAddress
+		else:
+			print("Segmentation fault: out of memory")
+			exit(1)
 
 # Local
 def getLocalAddress(varType, chunkSize):
-	availableAddress = currentLocalVirtualAddress[varType]
-	currentLocalVirtualAddress[varType] += chunkSize
-	return availableAddress
+	if(localAvailableMemory(varType,chunkSize)):
+		availableAddress = currentLocalVirtualAddress[varType]
+		currentLocalVirtualAddress[varType] += chunkSize
+		return availableAddress
+	else:
+		print("Segmentation fault: out of memory")
+		exit(1)
 
 #########################################
 #										#
