@@ -10,6 +10,10 @@ function int increase() {
 	x = count * 5
 	sum = 3 + 1
 
+	if(x == 1) {
+		return x
+	}
+	
 	return sum
 }
 
@@ -18,7 +22,6 @@ main {
 	int y
 	string hola
 
-	hola = "ho" + "la"
 	x = 1
 	y = 3
 	count = 1
