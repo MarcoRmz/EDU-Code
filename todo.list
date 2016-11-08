@@ -22,7 +22,7 @@ Maquina:
 Memoria:
 1) Verificar rangos cuando se aumenta el index para verificar que aun hay memoria disponible
 2) Parametros por referencia
-** Crear variables locales para SWITCH y FOR
+** Crear variables locales para SWITCH y FROM
 ** Creacion de variable local para input, que tipo??
 ** Crear variable local de print
 
