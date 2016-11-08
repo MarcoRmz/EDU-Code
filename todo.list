@@ -22,7 +22,6 @@ Maquina:
 ** input
 
 Memoria:
-** Verificar rangos cuando se aumenta el index para verificar que aun hay memoria disponible
 ** Parametros por referencia
 ** Creacion de variable local para input, que tipo??
 
