@@ -225,11 +225,13 @@ while(cuadruplos.dirCuadruplos[i][0] != 99):
     elif(cuadruplos.dirCuadruplos[i][0] == 17):
 
         #get return value from quadruple
-        rtn = cuadruplos.dirCuadruplos[i][3]
-        rtn = memoryHandler.getValue(rtn)
+        rtn = memoryHandler.memoryStack[-1].returnAddress
+        rtn_value = memoryHandler.getValue(cuadruplos.dirCuadruplos[1])
 
         #assign return value to the return address of the function
-        memoryHandler.setValue(memoryHandler.memoryStack[-1].returnAddress, rtn)
+        memoryHandler.delete()
+
+        memoryHandler.setValue(rtn, rtn_value)
 
         #case for PRINT
     elif(cuadruplos.dirCuadruplos[i][0] == 18):
@@ -249,9 +251,6 @@ while(cuadruplos.dirCuadruplos[i][0] != 99):
     elif(cuadruplos.dirCuadruplos[i][0] == 21):
         #Returns to the next instruction after the function call
         i = executionStack.pop()
-
-        #deletes memory for the function
-        memoryHandler.deleteMemory()
 
         #case for PARAM
     elif(cuadruplos.dirCuadruplos[i][0] == 22):
