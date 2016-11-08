@@ -541,11 +541,11 @@ def p_declareFunc(p):
 	#CAMBIO: Contabilizar los parametros por tipo.
 	#Todo 2 y 3:
 	if functionsDir.has_key(p[-1]) == False:
-		# [Tipo, DictVar, ListaParam, CantVarTemp, indexCuadruplo, FunctionAddress]
+		# [Tipo, DictVar, ListaParam, indexCuadruplo, FunctionAddress]
 		functionAddress = None
 		if parseTypeIndex(p[-2]) != 23:
 			functionAddress =  getGlobalAddress(parseTypeIndex(p[-2]), 1)
-		functionsDir[p[-1]] = [parseTypeIndex(p[-2]), {}, [], 0, cuadruplos.indexCuadruplos, functionAddress]
+		functionsDir[p[-1]] = [parseTypeIndex(p[-2]), {}, [], cuadruplos.indexCuadruplos, functionAddress]
 	else:
 		# Error
 		print("Function %s already declared!" %(p[-1]))
@@ -641,56 +641,92 @@ def p_input1(p):
 
 def p_llamada(p):
 	'''llamada 	: ID LPAREN llamada1 RPAREN'''
-	if len(p) > 2:
-		# Pedir memoria para funcion
-		# [Tipo, DictVar, ListaParam, CantVarTemp, indexCuadruplo]
-		print("*************MEMORY CREATED FOR FUNCTION: " + str(p[1]))
-		if functionsDir.has_key(p[1]):
-			cuadruplos.dirCuadruplos.append((ERA, len(functionsDir[p[1]][1]), functionsDir[p[1]][3], None))
-			cuadruplos.indexCuadruplos += 1
-			global function_ptr
-			function_ptr = p[1]
-		else:
-			# Error
-			print("Function %s is not declared!" %(p[-1]))
-			exit(1)
-		print("@@@@@@@@@@@@@@@@ countParam: " + str(countParam))
-		# Verificar que countParam == len(parametros) de la funcion
-		print('################ %s' %str(functionsDir[function_ptr]))
-		if len(functionsDir[function_ptr][2]) == countParam:
-			# Pila temporal para invertir orden de parametros
-			pTempParam = []
+	# Pedir memoria para funcion
+	# [Tipo, DictVar, ListaParam, indexCuadruplo, FunctionAddress]
+	print("*************MEMORY CREATED FOR FUNCTION: " + str(p[1]))
+	if functionsDir.has_key(p[1]):
+		intCounter = 0
+		floatCounter = 0
+		stringCounter = 0
+		boolCounter = 0
 
-			# Verifica que parametros recibidos sean del tipo que se espera en el mismo orden
-			while (countParam > 0):
-				if (functionsDir[function_ptr][2][countParam-1] != cuadruplos.pTipos[-1]):
-					# Error
-					print("Function: %s parameter %s type mismatch, expected %s!" %(p[1], parseType(cuadruplos.pTipos[-1]), parseType(functionsDir[function_ptr][2][countParam-1])))
-					exit(1)
-				else:
-					pTempParam.append((cuadruplos.pTipos.pop(), cuadruplos.pOperandos.pop()))
-				global countParam
-				countParam -= 1
+		# Iterates function dictionary to count how many variables per type
+		for value in functionsDir[p[1]][1].iteritems():
+			if value[0] == INT:
+				intCounter += 1
+			elif value[0] == FLOAT:
+				floatCounter += 1
+			elif value[0] == STRING:
+				stringCounter += 1
+			elif value[0] == BOOL:
+				boolCounter += 1
 
-			# Genera cuadruplos de parametros
-			while (len(pTempParam) > 0):
-				cuadruplos.dirCuadruplos.append((PARAM, pTempParam[-1][1], pTempParam[-1][0], None))
-				pTempParam.pop()
-				cuadruplos.indexCuadruplos += 1
+		# Iterates function parameter list to count how many variables per type
+		for value in functionsDir[p[1]][2]:
+			if value == INT:
+				intCounter += 1
+			elif value == FLOAT:
+				floatCounter += 1
+			elif value == STRING:
+				stringCounter += 1
+			elif value == BOOL:
+				boolCounter += 1
 
-			# Genera cuadruplo GOSUB
-			cuadruplos.dirCuadruplos.append((GOSUB, function_ptr, None, functionsDir[function_ptr][4]))
-			cuadruplos.indexCuadruplos += 1
-			print("PILA OPERANDOS: %s   PILA TIPOS: %s   PILA OPERADORES: %s" %(str(cuadruplos.pOperandos), str(cuadruplos.pTipos), str(cuadruplos.pOper)))
-		else:
-			# Error
-			print("Function: %s expected %d parameter(s), recieved %d!" %(p[1], len(functionsDir[function_ptr][2]), countParam))
-			exit(1)
+		subTypeQty = (intCounter, floatCounter, stringCounter, boolCounter)
+		totalTypes = 0
 
-		global countParam
-		countParam = 0
+		# Iterates subTypeQty to count how many types are used
+		for x in range(0, len(subTypeQty)):
+			if subTypeQty[x] > 0:
+				totalTypes += 1
+
+		cuadruplos.dirCuadruplos.append((ERA, totalTypes, subTypeQty, functionsDir[p[1]][4]))
+		cuadruplos.indexCuadruplos += 1
 		global function_ptr
-		function_ptr = prev_Fuction_ptr
+		function_ptr = p[1]
+	else:
+		# Error
+		print("Function %s is not declared!" %(p[1]))
+		exit(1)
+
+	print("@@@@@@@@@@@@@@@@ countParam: " + str(countParam))
+	# Verificar que countParam == len(parametros) de la funcion
+	print('################ %s' %str(functionsDir[function_ptr]))
+	if len(functionsDir[function_ptr][2]) == countParam:
+		# Pila temporal para invertir orden de parametros
+		pTempParam = []
+
+		# Verifica que parametros recibidos sean del tipo que se espera en el mismo orden
+		while (countParam > 0):
+			if (functionsDir[function_ptr][2][countParam-1] != cuadruplos.pTipos[-1]):
+				# Error
+				print("Function: %s parameter %s type mismatch, expected %s!" %(p[1], parseType(cuadruplos.pTipos[-1]), parseType(functionsDir[function_ptr][2][countParam-1])))
+				exit(1)
+			else:
+				pTempParam.append((cuadruplos.pTipos.pop(), cuadruplos.pOperandos.pop()))
+			global countParam
+			countParam -= 1
+
+		# Genera cuadruplos de parametros
+		while (len(pTempParam) > 0):
+			cuadruplos.dirCuadruplos.append((PARAM, pTempParam[-1][1], pTempParam[-1][0], None))
+			pTempParam.pop()
+			cuadruplos.indexCuadruplos += 1
+
+		# Genera cuadruplo GOSUB
+		cuadruplos.dirCuadruplos.append((GOSUB, function_ptr, None, functionsDir[function_ptr][3]))
+		cuadruplos.indexCuadruplos += 1
+		print("PILA OPERANDOS: %s   PILA TIPOS: %s   PILA OPERADORES: %s" %(str(cuadruplos.pOperandos), str(cuadruplos.pTipos), str(cuadruplos.pOper)))
+	else:
+		# Error
+		print("Function: %s expected %d parameter(s), recieved %d!" %(p[1], len(functionsDir[function_ptr][2]), countParam))
+		exit(1)
+
+	global countParam
+	countParam = 0
+	global function_ptr
+	function_ptr = prev_Fuction_ptr
+		
 	p[0] = 'Llamada ' + str(p[1])
 	print("ACABA LLAMDA")
 
@@ -714,10 +750,45 @@ def p_llamada2(p):
 def p_llamada3(p):
 	'''llamada3 : LPAREN llamada1 RPAREN'''
 	# Pedir memoria para funcion
-	# [Tipo, DictVar, ListaParam, CantVarTemp, indexCuadruplo]
+	# [Tipo, DictVar, ListaParam, indexCuadruplo, FunctionAddress]
 	print("*************MEMORY CREATED FOR FUNCTION: " + str(p[-1]))
 	if functionsDir.has_key(p[-1]):
-		cuadruplos.dirCuadruplos.append((ERA, len(functionsDir[p[-1]][1]), functionsDir[p[-1]][3], None))
+		intCounter = 0
+		floatCounter = 0
+		stringCounter = 0
+		boolCounter = 0
+
+		# Iterates function dictionary to count how many variables per type
+		for value in functionsDir[p[-1]][1].iteritems():
+			if value[0] == INT:
+				intCounter += 1
+			elif value[0] == FLOAT:
+				floatCounter += 1
+			elif value[0] == STRING:
+				stringCounter += 1
+			elif value[0] == BOOL:
+				boolCounter += 1
+
+		# Iterates function parameter list to count how many variables per type
+		for value in functionsDir[p[-1]][2]:
+			if value == INT:
+				intCounter += 1
+			elif value == FLOAT:
+				floatCounter += 1
+			elif value == STRING:
+				stringCounter += 1
+			elif value == BOOL:
+				boolCounter += 1
+
+		subTypeQty = (intCounter, floatCounter, stringCounter, boolCounter)
+		totalTypes = 0
+
+		# Iterates subTypeQty to count how many types are used
+		for x in range(0, len(subTypeQty)):
+			if subTypeQty[x] > 0:
+				totalTypes += 1
+
+		cuadruplos.dirCuadruplos.append((ERA, totalTypes, subTypeQty, functionsDir[p[-1]][4]))
 		cuadruplos.indexCuadruplos += 1
 		global function_ptr
 		function_ptr = p[-1]
@@ -750,7 +821,7 @@ def p_llamada3(p):
 			cuadruplos.indexCuadruplos += 1
 
 		# Genera cuadruplo GOSUB
-		cuadruplos.dirCuadruplos.append((GOSUB, function_ptr, None, functionsDir[function_ptr][4]))
+		cuadruplos.dirCuadruplos.append((GOSUB, function_ptr, None, functionsDir[function_ptr][3]))
 		cuadruplos.indexCuadruplos += 1
 		print("PILA OPERANDOS: %s   PILA TIPOS: %s   PILA OPERADORES: %s" %(str(cuadruplos.pOperandos), str(cuadruplos.pTipos), str(cuadruplos.pOper)))
 	else:
@@ -777,10 +848,10 @@ def p_declareMain(p):
 
 	# Check Main function is unique
 	if functionsDir.has_key(p[-1]) == False:
-		# [Tipo, DictVar, ListaParam, CantVarTemp, indexCuadruplo, FunctionAddress]
-		functionsDir[p[-1]] = ['main', {}, [], 0, cuadruplos.indexCuadruplos, None]
+		# [Tipo, DictVar, ListaParam, indexCuadruplo, FunctionAddress]
+		functionsDir[p[-1]] = ['main', {}, [], cuadruplos.indexCuadruplos, None]
 		t = cuadruplos.dirCuadruplos[0]
-		t = t[:3] + (cuadruplos.indexCuadruplos, None)
+		t = t[:3] + (cuadruplos.indexCuadruplos,)
 		cuadruplos.dirCuadruplos[0] = t
 	else:
 		# Error
