@@ -1,11 +1,15 @@
 start
 
-int sum
 int count
+int sum
 
 function void test(string t, bool s) {
-	int x
 	print(t)
+}
+
+function int increase(int y, int x) {
+	sum = sum + 1
+	return increase(5, 0) + test("h", true)
 }
 
 main {
