@@ -1,0 +1,12 @@
+start
+
+main{
+int x
+x = 1
+from 1 to 10 by(+ 1){
+  x = x + 1
+}
+x = 3
+}
+
+end

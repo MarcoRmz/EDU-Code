@@ -154,7 +154,7 @@ def p_gotoMAIN(p):
 def p_asignacion(p):
 	'''asignacion : ID EQUALS asignacion1'''
 	print "\nacabo asignacion L91"
-	# Check if ID is a declared global variable 
+	# Check if ID is a declared global variable
 	if globalVars.has_key(p[1]):
 		# Check if assignment is valid given the types of the operands
 		asignacionType = cuadruplos.cubo.getResultType(globalVars[p[1]][0], cuadruplos.pTipos[-1], EQUALS)
@@ -169,7 +169,7 @@ def p_asignacion(p):
 			print("Type mismatch var: %s of type: %s and %s! Line: %s" %(p[1], parseType(globalVars[p[1]][0]), parseType(cuadruplos.pTipos[-1]), p.lineno(1)))
 			exit(1)
 	else:
-		# Check if ID is a declared local variable 
+		# Check if ID is a declared local variable
 		if functionsDir[function_ptr][1].has_key(p[1]):
 			print("L106 pila operandos %s" %(str(cuadruplos.pOperandos)))
 			# Check if assignment is valid given the types of the operands
@@ -459,14 +459,16 @@ def p_cteFrom(p):
 def p_from(p):
 	'from : FROM cteFrom creaVarTemp TO cteFrom crearComparacion BY LPAREN from1 cteFrom RPAREN bloque'
 	# Actualiza valor en fromTempStack
+	newAddress= setConstantAddress(INT,p[10])
+	tempAddress= getLocalAddress(INT,1)
 	if p[9] == '+':
-		fromTempStack[p[-1]] = fromTempStack[p[-1]] + p[10]
+		cuadruplos.dirCuadruplos.append(PLUS,fromTempStack[-1],newAddress,tempAddress)
 	elif p[9] == '-':
-		fromTempStack[p[-1]] = fromTempStack[p[-1]] - p[10]
+		cuadruplos.dirCuadruplos.append(MINUS,fromTempStack[-1],newAddress,tempAddress)
 	elif p[9] == '*':
-		fromTempStack[p[-1]] = fromTempStack[p[-1]] * p[10]
+		cuadruplos.dirCuadruplos.append(MULT,fromTempStack[-1],newAddress,tempAddress)
 	elif p[9] == '/':
-		fromTempStack[p[-1]] = fromTempStack[p[-1]] / p[10]
+		cuadruplos.dirCuadruplos.append(DIVIDE,fromTempStack[-1],newAddress,tempAddress)
 
 	# Genera GOTO
 	gotoFIndex = cuadruplos.pSaltos.pop()
@@ -487,25 +489,44 @@ def p_from1(p):
 
 def p_creaVarTemp(p):
 	'creaVarTemp : '
-	fromTempStack.append(p[-1])
+	#add constant to memory
+	newAddress =  setConstantAddress(INT,p[-1])
+
+	#create copy in temporal
+	tempAddress = getLocalAddress(INT,1)
+	cuadruplos.dirCuadruplos.append((EQUALS,newAddress,None,tempAddress))
+	cuadruplos.indexCuadruplos += 1
+	#add to the tempStack
+	fromTempStack.append(tempAddress)
+
+	cuadruplos.pOperandos.append(p[-1])
 
 def p_crearComparacion(p):
 	'crearComparacion : '
-	cuadruplos.pSaltos.append(cuadruplos.indexCuadruplos)
 
-	if fromTempStack[-1] >= p[-1]:
+	#add constant to memory
+	newAddress =  setConstantAddress(INT,p[-1])
+
+
+
+	#Gets bool memory address
+	boolAddress = getLocalAddress(BOOL,1)
+
+
+	if cuadruplos.pOperandos.pop() >= p[-1]:
 		# comparacion >=
-		varAddress = getLocalAddress
-		cuadruplos.dirCuadruplos.append((GREATEREQUAL, fromTempStack[-1], p[-1], "t"+str(cuadruplos.countT)))
+		cuadruplos.dirCuadruplos.append((GREATEREQUAL, fromTempStack[-1], newAddress, boolAddress))
 		cuadruplos.indexCuadruplos += 1
-		cuadruplos.countT += 1
+
 	else:
 		# comparacion <=
-		cuadruplos.dirCuadruplos.append((LESSEQUAL, fromTempStack[-1], p[-1], "t"+str(cuadruplos.countT)))
+		cuadruplos.dirCuadruplos.append((LESSEQUAL, fromTempStack[-1], newAddress, boolAddress))
 		cuadruplos.indexCuadruplos += 1
-		cuadruplos.countT += 1
 
-	cuadruplos.dirCuadruplos.append((GOTOF, "t"+str(cuadruplos.countT-1), None, None))
+	#GOTO
+	cuadruplos.pSaltos.append(cuadruplos.indexCuadruplos)
+
+	cuadruplos.dirCuadruplos.append((GOTOF, boolAddress, None, None))
 	cuadruplos.pSaltos.append(cuadruplos.indexCuadruplos)
 	cuadruplos.indexCuadruplos += 1
 
@@ -557,7 +578,7 @@ def p_funcion6(p):
 		# Generate RETURN with value to return and address to return it to
 		cuadruplos.dirCuadruplos.append((RETURN, cuadruplos.pOperandos[-1], None, functionsDir[function_ptr][4]))
 		cuadruplos.indexCuadruplos += 1
-	
+
 	# Generate ENDPROC
 	cuadruplos.dirCuadruplos.append((ENDPROC, None, None, None))
 	cuadruplos.indexCuadruplos += 1
@@ -706,7 +727,7 @@ def p_llamada(p):
 	countParam = 0
 	global function_ptr
 	function_ptr = prev_Fuction_ptr
-		
+
 	p[0] = 'Llamada ' + str(p[1])
 	print("ACABA LLAMDA")
 
