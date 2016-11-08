@@ -536,10 +536,7 @@ def p_declareFunc(p):
 	print("ENTRO A declareFunc L540")
 	global function_ptr
 	function_ptr = p[-1]
-	#CAMBIO: Eliminar count t
-	#CAMBIO: Partir el contador de variables temporales y poner uno para cada tipo, agregar cantidad de locales de cada tipo
-	#CAMBIO: Contabilizar los parametros por tipo.
-	#Todo 2 y 3:
+	#CAMBIO: Todo 2 y 3
 	if functionsDir.has_key(p[-1]) == False:
 		# [Tipo, DictVar, ListaParam, indexCuadruplo, FunctionAddress]
 		functionAddress = None
@@ -558,7 +555,7 @@ def p_funcion6(p):
 	print("L560 acabo funcion")
 	if functionsDir[function_ptr][0] != VOID:
 		# Generate RETURN with value to return and address to return it to
-		cuadruplos.dirCuadruplos.append((RETURN, cuadruplos.pOperandos[-1], None, functionsDir[function_ptr][5]))
+		cuadruplos.dirCuadruplos.append((RETURN, cuadruplos.pOperandos[-1], None, functionsDir[function_ptr][4]))
 		cuadruplos.indexCuadruplos += 1
 	
 	# Generate ENDPROC
@@ -651,7 +648,7 @@ def p_llamada(p):
 		boolCounter = 0
 
 		# Iterates function dictionary to count how many variables per type
-		for value in functionsDir[p[1]][1].iteritems():
+		for value in functionsDir[p[1]][1].values():
 			if value[0] == INT:
 				intCounter += 1
 			elif value[0] == FLOAT:
@@ -659,17 +656,6 @@ def p_llamada(p):
 			elif value[0] == STRING:
 				stringCounter += 1
 			elif value[0] == BOOL:
-				boolCounter += 1
-
-		# Iterates function parameter list to count how many variables per type
-		for value in functionsDir[p[1]][2]:
-			if value == INT:
-				intCounter += 1
-			elif value == FLOAT:
-				floatCounter += 1
-			elif value == STRING:
-				stringCounter += 1
-			elif value == BOOL:
 				boolCounter += 1
 
 		subTypeQty = (intCounter, floatCounter, stringCounter, boolCounter)
@@ -693,25 +679,19 @@ def p_llamada(p):
 	# Verificar que countParam == len(parametros) de la funcion
 	print('################ %s' %str(functionsDir[function_ptr]))
 	if len(functionsDir[function_ptr][2]) == countParam:
-		# Pila temporal para invertir orden de parametros
-		pTempParam = []
-
 		# Verifica que parametros recibidos sean del tipo que se espera en el mismo orden
 		while (countParam > 0):
-			if (functionsDir[function_ptr][2][countParam-1] != cuadruplos.pTipos[-1]):
+			varID = functionsDir[function_ptr][2][countParam-1]
+			varType = functionsDir[function_ptr][1][varID][0]
+			if (varType != cuadruplos.pTipos[-1]):
 				# Error
-				print("Function: %s parameter %s type mismatch, expected %s!" %(p[1], parseType(cuadruplos.pTipos[-1]), parseType(functionsDir[function_ptr][2][countParam-1])))
+				print("Function: %s parameter %s type mismatch, expected %s!" %(p[1], parseType(cuadruplos.pTipos[-1]), parseType(varType)))
 				exit(1)
 			else:
-				pTempParam.append((cuadruplos.pTipos.pop(), cuadruplos.pOperandos.pop()))
+				cuadruplos.dirCuadruplos.append((PARAM, cuadruplos.pTipos.pop(), cuadruplos.pOperandos.pop(), functionsDir[function_ptr][1][varID][1]))
+				cuadruplos.indexCuadruplos += 1
 			global countParam
 			countParam -= 1
-
-		# Genera cuadruplos de parametros
-		while (len(pTempParam) > 0):
-			cuadruplos.dirCuadruplos.append((PARAM, pTempParam[-1][1], pTempParam[-1][0], None))
-			pTempParam.pop()
-			cuadruplos.indexCuadruplos += 1
 
 		# Genera cuadruplo GOSUB
 		cuadruplos.dirCuadruplos.append((GOSUB, function_ptr, None, functionsDir[function_ptr][3]))
@@ -800,25 +780,19 @@ def p_llamada3(p):
 	# Verificar que countParam == len(parametros) de la funcion
 	print('################ %s' %str(functionsDir[function_ptr]))
 	if len(functionsDir[function_ptr][2]) == countParam:
-		# Pila temporal para invertir orden de parametros
-		pTempParam = []
-
 		# Verifica que parametros recibidos sean del tipo que se espera en el mismo orden
 		while (countParam > 0):
-			if (functionsDir[function_ptr][2][countParam-1] != cuadruplos.pTipos[-1]):
+			varID = functionsDir[function_ptr][2][countParam-1]
+			varType = functionsDir[function_ptr][1][varID][0]
+			if (varType != cuadruplos.pTipos[-1]):
 				# Error
-				print("Function: %s parameter %s type mismatch, expected %s!" %(p[-1], parseType(cuadruplos.pTipos[-1]), parseType(functionsDir[function_ptr][2][countParam-1])))
+				print("Function: %s parameter %s type mismatch, expected %s!" %(p[-1], parseType(cuadruplos.pTipos[-1]), parseType(varType)))
 				exit(1)
 			else:
-				pTempParam.append((cuadruplos.pTipos.pop(), cuadruplos.pOperandos.pop()))
+				cuadruplos.dirCuadruplos.append((PARAM, cuadruplos.pTipos.pop(), cuadruplos.pOperandos.pop(), functionsDir[function_ptr][1][varID][1]))
+				cuadruplos.indexCuadruplos += 1
 			global countParam
 			countParam -= 1
-
-		# Genera cuadruplos de parametros
-		while (len(pTempParam) > 0):
-			cuadruplos.dirCuadruplos.append((PARAM, pTempParam[-1][1], pTempParam[-1][0], None))
-			pTempParam.pop()
-			cuadruplos.indexCuadruplos += 1
 
 		# Genera cuadruplo GOSUB
 		cuadruplos.dirCuadruplos.append((GOSUB, function_ptr, None, functionsDir[function_ptr][3]))
@@ -838,7 +812,6 @@ def p_llamada3(p):
 
 def p_main(p):
 	'main : MAIN declareMain LCURL main1 estatuto main2 RCURL'
-	functionsDir[p[1]][3] = cuadruplos.countT
 
 def p_declareMain(p):
 	'''declareMain : '''
@@ -867,8 +840,8 @@ def p_main2(p):
 				| epsilon'''
 
 def p_parametros(p):
-	''' parametros : tipo meteParam parametros1 ID parametros2
-					| VECTOR tipo meteParamVect parametros1 ID parametros2'''
+	''' parametros : tipo meteParamTipo parametros1 ID meteParam parametros2
+					| VECTOR tipo meteParamTipoVect parametros1 ID meteParamVect parametros2'''
 	#CAMBIO: agregar sacaParam si parametros1 es por referencia y sacaParam mete el id a la pila de referencia de la funcion
 
 def p_parametros1(p):
@@ -878,6 +851,25 @@ def p_parametros1(p):
 def p_parametros2(p):
 	'''parametros2 : COMMA parametros
 				| epsilon'''
+
+def p_meteParamTipo(p):
+	'meteParamTipo : '
+	print("ENTRO A meteParamTipo L762 con %s" %(str(p[-1])))
+	# Mete parametro a lista de parametros de la funcion
+	functionsDir[function_ptr][2].append(parseTypeIndex(p[-1]))
+	print("PARAMETRO TIPO LISTAPARAM %s" %functionsDir[function_ptr][2])
+	# Reserves memory space for parameter
+	#varAddress = getLocalAddress(parseTypeIndex(p[-1]), 1)
+
+def p_meteParamTipoVect(p):
+	'meteParamTipoVect : '
+	# Mete parametro vector a lista de parametros de la funcion
+	functionsDir[function_ptr][2].append(parseTypeIndex(p[-1]))
+	# CAMBIO: reservar memoria para parametro arreglo
+	# Reserves memory space for vector parameter
+
+def p_meteParam(p):
+	'meteParam : '
 	#CAMBIO: checar que el id del parametro no sea una var global.
 	print("ENTRO A parametros2 con %s L760" %(str(p[-1])))
 	# Check if ID exists
@@ -887,32 +879,39 @@ def p_parametros2(p):
 		print("ID: %s is a global variable, can't be used as a parameter. Line: %s" %(p[-1], p.lineno(-1)))
 		exit(1)
 	elif function_ptr != "GLOBAL" and functionsDir[function_ptr][1].has_key(p[-1]):
-		varAddress = functionsDir[function_ptr][1][p[-1]][1]
+		# ERROR
+		print("ID: %s is a duplicate parameter. Line: %s" %(p[-1], p.lineno(-1)))
+		exit(1)
 	else:
 		varAddress = getLocalAddress(functionsDir[function_ptr][2][-1], 1)
-		print(functionsDir[function_ptr][1])
-		functionsDir[function_ptr][1][p[-1]] = [functionsDir[function_ptr][2][-1], varAddress]
+		functionsDir[function_ptr][1][p[-1]] = [functionsDir[function_ptr][2].pop(), varAddress]
+		functionsDir[function_ptr][2].append(p[-1])
+	print("PARAMETRO ID LISTAPARAM %s" %functionsDir[function_ptr][2])
 	p[0] = varAddress
-
-def p_meteParam(p):
-	'meteParam : '
-	print("ENTRO A meteParam L762 con %s" %(str(p[-1])))
-	# Mete parametro a lista de parametros de la funcion
-	functionsDir[function_ptr][2].append(parseTypeIndex(p[-1]))
-	# Reserves memory space for parameter
-	varAddress = getLocalAddress(parseTypeIndex(p[-1]), 1)
 
 def p_meteParamVect(p):
 	'meteParamVect : '
-	# Mete parametro vector a lista de parametros de la funcion
-	functionsDir[function_ptr][2].append(parseTypeIndex(p[-1]))
-	# CAMBIO: reservar memoria para parametro arreglo
-	# Reserves memory space for vector parameter
+	#CAMBIO: checar que el id del parametro no sea una var global.
+	print("ENTRO A parametros2 con %s L760" %(str(p[-1])))
+	# Check if ID exists
+	print("FOUND PARAMETER DECLR AT FUNCTION: " + function_ptr)
+	if globalVars.has_key(p[-1]):
+		# ERROR
+		print("ID: %s is a global variable, can't be used as a parameter. Line: %s" %(p[-1], p.lineno(-1)))
+		exit(1)
+	elif function_ptr != "GLOBAL" and functionsDir[function_ptr][1].has_key(p[-1]):
+		# ERROR
+		print("ID: %s is a duplicate parameter. Line: %s" %(p[-1], p.lineno(-1)))
+		exit(1)
+	else:
+		varAddress = getLocalAddress(functionsDir[function_ptr][2][-1], 1)
+		functionsDir[function_ptr][1][p[-1]] = [functionsDir[function_ptr][2][-1], varAddress]
+	p[0] = varAddress
 
 def p_print(p):
 	'print : PRINT LPAREN expresion_logica RPAREN'
 	printValue = cuadruplos.pOperandos.pop()
-	if cuadruplos.pTipos.pop() == STRING and printValue[0] == '\"':
+	if cuadruplos.pTipos.pop() == STRING or printValue[0] == '\"':
 		# METE printValue a memoria
 		cuadruplos.countT += 1
 	cuadruplos.dirCuadruplos.append((PRINT, None, None, "t"+str(cuadruplos.countT)))
