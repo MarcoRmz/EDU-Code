@@ -81,8 +81,6 @@ def createMemory(TotalTypes, SubTypeQty):
 def deleteMemory():
 	del memoryStack[-1]
 
-
-
 # Get value from virtual address
 def getValue(virtualAddress):
 	#Global
@@ -111,4 +109,5 @@ def setValue(virtualAddress, varValue):
 	elif(virtualAddress >= 10000):
 		varType = (virtualAddress // 1000) - 1
 		realAddr = virtualAddress % 1000
+		print(memoryStack)
 		memoryStack[-1].memory[varType][realAddr] = varValue

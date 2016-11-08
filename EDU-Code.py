@@ -932,10 +932,7 @@ def p_meteParamVect(p):
 def p_print(p):
 	'print : PRINT LPAREN expresion_logica RPAREN'
 	printValue = cuadruplos.pOperandos.pop()
-	if cuadruplos.pTipos.pop() == STRING or printValue[0] == '\"':
-		# METE printValue a memoria
-		cuadruplos.countT += 1
-	cuadruplos.dirCuadruplos.append((PRINT, None, None, "t"+str(cuadruplos.countT)))
+	cuadruplos.dirCuadruplos.append((PRINT, None, None, printValue))
 	cuadruplos.indexCuadruplos += 1
 	p[0] = 'print'
 
@@ -971,14 +968,16 @@ def p_meterIDPOper(p):
 	# Checa que ID exista y saca tipo de tabla de Var
 	# Si existe mete valor a pOperandos y tipo a pTipos
 	if globalVars.has_key(p[-1]):
+		newAddress = getGlobalAddress(globalVars[p[-1]][0], 1)
 		cuadruplos.pTipos.append(globalVars[p[-1]][0])
-		cuadruplos.pOperandos.append(globalVars[p[-1]][1])
+		cuadruplos.pOperandos.append(newAddress)
 	elif functionsDir[function_ptr][1].has_key(p[-1]):
+		newAddress = getLocalAddress(functionsDir[function_ptr][1][p[-1]][0], 1)
 		cuadruplos.pTipos.append(functionsDir[function_ptr][1][p[-1]][0])
-		cuadruplos.pOperandos.append(functionsDir[function_ptr][1][p[-1]][1])
+		cuadruplos.pOperandos.append(newAddress)
 	else:
 		# Error
-		print("Variable %s isn't declared! Line: %s" %(p[-1], lexer.lineno))
+		print("Variable %s isn't declared! Line: %s" %(p[-1], p.lineno(-1)))
 		exit(1)
 
 def p_compararConID(p):
@@ -986,13 +985,13 @@ def p_compararConID(p):
 	# Checa tipo de varcte
 	if isinstance(p[-1], int):
 		operandType2 = INT
-		operand2 = p[-1]
+		operand2 = setConstantAddress(operandType2, p[-1])
 	elif isinstance(p[-1], float):
 		operandType2 = FLOAT
-		operand2 = p[-1]
+		operand2 = setConstantAddress(operandType2, p[-1])
 	elif p[-1] == 'true' or p[-1] == 'false':
 		operandType2 = BOOL
-		operand2 = p[-1]
+		operand2 = setConstantAddress(operandType2, p[-1])
 	else:
 		if globalVars.has_key(p[-1]):
 	  			operandType2 = globalVars[p[-1]][0]
@@ -1002,7 +1001,10 @@ def p_compararConID(p):
 		  		operand2 = functionsDir[function_ptr][1][p[-1]][1]
 		else:
 			operandType2 = STRING
-			operand2 = p[-1]
+			operand2 = getLocalAddress(STRING, 1)
+			# SET VALUE FOR STRING
+			setValue(newValueAddress, p[-1])
+
 	operator = DOUBLE_EQUAL
 	operand1 = cuadruplos.pOperandos[-1]
 	operandType1 = cuadruplos.pTipos[-1]
@@ -1010,11 +1012,11 @@ def p_compararConID(p):
 	operationType = cuadruplos.cubo.getResultType(operandType1, operandType2, operator)
 
 	if(operationType == BOOL):
-		cuadruplos.dirCuadruplos.append((operator, operand1, operand2, "t"+str(cuadruplos.countT)))
-		cuadruplos.pOperandos.append("t"+str(cuadruplos.countT))
+		newAddress = getLocalAddress(operationType, 1)
+		cuadruplos.dirCuadruplos.append((operator, operand1, operand2, newAddress))
+		cuadruplos.pOperandos.append(newAddress)
 		cuadruplos.pTipos.append(operationType)
 		cuadruplos.indexCuadruplos += 1
-		cuadruplos.countT += 1
 
 	else:
 		print("Type mismatch between operand type: %s and %s while trying to %s at line: %s" %(operand1, operand2, operator, lexer.lineno))
@@ -1164,6 +1166,10 @@ def p_varstring1(p):
 	cuadruplos.pTipos.append(STRING)
 	# Insert Value to dictionary and add address to Operands
 	newValueAddress = getLocalAddress(cuadruplos.pTipos[-1], 1)
+
+	# SET VALUE FOR STRINGS
+	setValue(newValueAddress, p[1])
+
 	cuadruplos.pOperandos.append(newValueAddress)
 	p[0] = newValueAddress
 
