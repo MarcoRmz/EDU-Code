@@ -269,6 +269,7 @@ def p_do_while(p):
 def p_estatuto(p):
 	'''estatuto : asignacion
 				| llamada
+				| return
 				| condicion
 				| switch
 				| while
@@ -550,7 +551,7 @@ def p_funcion4(p):
 				| tipo funcion5'''
 
 def p_funcion5(p):
-	'''funcion5	: ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 funcion6'''
+	'''funcion5	: ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RCURL'''
 
 def p_declareFunc(p):
 	'''declareFunc : '''
@@ -569,15 +570,18 @@ def p_declareFunc(p):
 		print("Function %s already declared!" %(p[-1]))
 		exit(1)
 
-def p_funcion6(p):
-	'''funcion6	: RCURL
-				| RETURN expresion_logica RCURL'''
+def p_return(p):
+	'''return	: RETURN expresion_logica'''
 	# Verify type of function
 	print("L560 acabo funcion")
 	if functionsDir[function_ptr][0] != VOID:
 		# Generate RETURN with value to return and address to return it to
 		quadruples.dirQuadruples.append((RETURN, quadruples.pOperandos[-1], None, functionsDir[function_ptr][4]))
 		quadruples.indexQuadruples += 1
+	else:
+		# Error
+		print("Invalid operation RETURN on VOID Function: %s! Line: %s" %(function_ptr, p.lineno(1)))
+		exit(1)
 
 	# Generate ENDPROC
 	quadruples.dirQuadruples.append((ENDPROC, None, None, None))

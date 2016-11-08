@@ -27,7 +27,6 @@ Memoria:
 ** Creacion de variable local para input, que tipo??
 
 Avance 5:
-** Cambiar return de funciones, mover return a bloque
 ** Checar que las sumas de funciones sean posibles (no sumar voids!)
 
 Avance 7:
