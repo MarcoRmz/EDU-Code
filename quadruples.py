@@ -24,10 +24,7 @@ pTipos = []
 pSaltos = []
 
 # Index for Cuadruplos
-indexCuadruplos = 0
-
-# Index T's
-countT = 0
+indexQuadruples = 0
 
 # Directory for Cuadruplos
-dirCuadruplos = []
+dirQuadruples = []

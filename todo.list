@@ -1,6 +1,8 @@
 General:
 ** print Errores Detallados
-** comentar
+** Stack de Errores e imprimir al final (no hacer exit)
+** Comentarios
+** Pasar todo a ingles
 ** Bitacoras
 ** DOCUMENTACION
 ** BLOCKLY
@@ -20,9 +22,8 @@ Maquina:
 ** input
 
 Memoria:
-1) Verificar rangos cuando se aumenta el index para verificar que aun hay memoria disponible
-2) Parametros por referencia
-** Crear variables locales para FROM
+** Verificar rangos cuando se aumenta el index para verificar que aun hay memoria disponible
+** Parametros por referencia
 ** Creacion de variable local para input, que tipo??
 
 Avance 5:
