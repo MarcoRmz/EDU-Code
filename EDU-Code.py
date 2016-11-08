@@ -1088,7 +1088,7 @@ def p_varcte2(p):
 				| factorAddFakeCover LBRACKET expresion checarExpresion RBRACKET'''
 	if len(p) == 2:
 		# Check if ID exists
-		print("FOUND ID AT FUNCTION: " + function_ptr)
+		print("FOUND ID: %s AT FUNCTION: %s" %(str(p[-1]), function_ptr))
 		if globalVars.has_key(p[-1]):
 			varAddress = globalVars[p[-1]][1]
 	  		quadruples.pTipos.append(globalVars[p[-1]][0])
@@ -1103,6 +1103,7 @@ def p_varcte2(p):
 		p[0] = varAddress
 	elif len(p) == 3:
 		# Verify function call exists
+		print("FOUND CALL: %s AT FUNCTION: %s" %(str(p[-1]), function_ptr))
 		if functionsDir.has_key(p[-1]):
 			# Create local variable if function type is != VOID
 			if functionsDir[function_ptr][0] != VOID:

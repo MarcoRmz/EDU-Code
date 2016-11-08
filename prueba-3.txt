@@ -13,8 +13,12 @@ function int increase() {
 	if(x == 1) {
 		return x
 	}
-	
+
 	return sum
+}
+
+function void foo(int &x) {
+	x = 3
 }
 
 main {
@@ -27,6 +31,6 @@ main {
 	count = 1
 	sum = count * 4
 
-	print(sum)
+	foo(sum)
 }
 end
