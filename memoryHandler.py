@@ -79,13 +79,14 @@ def deleteMemory():
 	del memoryStack[-1]
 
 
+
 # Get value from virtual address
 def getValue(virtualAddress):
 	#Global
 	if(virtualAddress < 4000):
 		varType = virtualAddress // 1000
 		realAddr = virtualAddress % 1000
-		return globalMemory[varType[realAddr]]
+		return globalMemory[varType][realAddr]
 	#constantes
 	elif(virtualAddress < 10000):
 		return constMemory[virtualAddress]
@@ -94,7 +95,7 @@ def getValue(virtualAddress):
 	else:
 		varType = (virtualAddress // 1000) - 1
 		realAddr = virtualAddress % 1000
-		return memoryStack[-1].memory[varType[realAddr]]
+		return memoryStack[-1].memory[varType][realAddr]
 
 #set value from virtual address and value given by the virtual machine
 def setValue(virtualAddress, varValue):
@@ -102,9 +103,9 @@ def setValue(virtualAddress, varValue):
 	if(virtualAddress < 4000):
 		varType = virtualAddress // 1000
 		realAddr = virtualAddress % 1000
-		globalMemory[varType[realAddr]] = varValue
+		globalMemory[varType][realAddr] = varValue
 	#locales
 	elif(virtualAddress >= 10000):
 		varType = (virtualAddress // 1000) - 1
 		realAddr = virtualAddress % 1000
-		memoryStack[-1].memory[varType[realAddr]] = varValue
+		memoryStack[-1].memory[varType][realAddr] = varValue

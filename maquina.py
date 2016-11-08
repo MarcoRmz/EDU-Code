@@ -221,8 +221,16 @@ while(cuadruplos.dirCuadruplos[i][0] != 99):
         #jump to function quadruple
         i = cuadruplos.dirCuadruplos[i][3]
 
+
         #case for RETURN
     elif(cuadruplos.dirCuadruplos[i][0] == 17):
+
+        #get return value from quadruple
+        rtn = cuadruplos.dirCuadruplos[i][3]
+        rtn = memoryHandler.getValue(rtn)
+
+        #assign return value to the return address of the function
+        memoryHandler.setValue(memoryHandler.memoryStack[-1].returnAddress, rtn)
 
         #case for PRINT
     elif(cuadruplos.dirCuadruplos[i][0] == 18):
@@ -233,6 +241,10 @@ while(cuadruplos.dirCuadruplos[i][0] != 99):
         #case for ERA
     elif(cuadruplos.dirCuadruplos[i][0] == 20):
 
+        #creates memory for a specific function createMemory(TotalTypes,SubTypeQty,returnAddress)
+        memoryHandler.createMemory(cuadruplos.dirCuadruplos[i][1],cuadruplos.dirCuadruplos[i][2])
+        #assigns return address to memory
+        memoryHandler.memoryStack[-1].returnAddress = cuadruplos.dirCuadruplos[i][3]
 
         #case for ENDPROC
     elif(cuadruplos.dirCuadruplos[i][0] == 21):
@@ -244,3 +256,16 @@ while(cuadruplos.dirCuadruplos[i][0] != 99):
 
         #case for PARAM
     elif(cuadruplos.dirCuadruplos[i][0] == 22):
+        #get param types
+        param_type = cuadruplos.dirCuadruplos[i][1]
+        #get param virtual memory addresses
+        param_vaddress = cuadruplos.dirCuadruplos[i][2]
+
+
+        param_realAddr = param_vaddress % 1000
+        #gets value from previous function (memory object)
+        paramValue = memoryHandler.memoryStack[-2].memory[param_type][param_realAddr]
+        #gets real address
+        realAddr = cuadruplos.dirCuadruplos[i][3]
+        #assigns paramValue to corresponding memory address
+        memoryHandler.memoryStack[-1].memory[param_type][realAddr] = paramValue
