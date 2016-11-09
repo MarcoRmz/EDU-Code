@@ -10,10 +10,9 @@
 #########################################################
 
 class Memory:
-	def __init__(self, TotalTypes, SubTypeQty):
+	def __init__(self, SubTypeQty):
 		self.returnAddress = None
-		self.memory = [[None]] * TotalTypes
-		print(self.memory)
+		self.memory = [[None]] * 4
 		count = 0
 		for i in range(0, 4):
 			if SubTypeQty[i] != 0:

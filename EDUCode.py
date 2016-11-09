@@ -137,6 +137,9 @@ def p_programa(p):
 	# Generate quadruple for END OF FILE
 	quadruples.dirQuadruples.append((EOF, None, None, None))
 	quadruples.indexQuadruples += 1
+	print("\n\n")
+	print(quadruples.dirQuadruples)
+	print(functionsDir)
 
 def p_programa1(p):
 	'''programa1 : var_declaracion programa1
@@ -148,6 +151,10 @@ def p_programa2(p):
 
 def p_gotoMAIN(p):
 	'gotoMAIN : '
+	# Create memory for main
+	quadruples.dirQuadruples.append((ERA, None, None, None))
+	quadruples.indexQuadruples += 1
+
 	# Generate quadruple GOTO MAIN
 	quadruples.dirQuadruples.append((GOTO, None, None, None))
 	quadruples.indexQuadruples += 1
@@ -777,6 +784,33 @@ def p_llamada3(p):
 
 def p_main(p):
 	'main : MAIN declareMain LCURL main1 estatuto main2 RCURL'
+	intCounter = 0
+	floatCounter = 0
+	stringCounter = 0
+	boolCounter = 0
+
+	# Iterates function dictionary to count how many variables per type
+	for value in functionsDir[p[1]][1].values():
+		if value[0] == INT:
+			intCounter += 1
+		elif value[0] == FLOAT:
+			floatCounter += 1
+		elif value[0] == STRING:
+			stringCounter += 1
+		elif value[0] == BOOL:
+			boolCounter += 1
+
+	subTypeQty = (intCounter, floatCounter, stringCounter, boolCounter)
+
+	# Iterates subTypeQty to count how many types are used
+	totalTypes = 0
+	for x in range(0, len(subTypeQty)):
+		if subTypeQty[x] > 0:
+			totalTypes += 1
+
+	t = quadruples.dirQuadruples[0]
+	t = t[:1] + (totalTypes, subTypeQty, functionsDir[p[1]][4],)
+	quadruples.dirQuadruples[0] = t
 
 def p_declareMain(p):
 	'''declareMain : '''
@@ -787,9 +821,9 @@ def p_declareMain(p):
 	if functionsDir.has_key(p[-1]) == False:
 		# [Tipo, DictVar, ListaParam, indexCuadruplo, FunctionAddress]
 		functionsDir[p[-1]] = ['main', {}, [], quadruples.indexQuadruples, None]
-		t = quadruples.dirQuadruples[0]
+		t = quadruples.dirQuadruples[1]
 		t = t[:3] + (quadruples.indexQuadruples,)
-		quadruples.dirQuadruples[0] = t
+		quadruples.dirQuadruples[1] = t
 	else:
 		# Error
 		print("Main %s already declared! Line: %s" %(p[-1], p.lineno(-1)))
@@ -1107,10 +1141,7 @@ def p_varstring1(p):
 	''' varstring1 : VARSTRING'''
 	quadruples.sTypes.append(STRING)
 	# Insert Value to dictionary and add address to Operands
-	newValueAddress = getLocalAddress(quadruples.sTypes[-1], 1)
-
-	# SET VALUE FOR STRINGS
-	setValue(newValueAddress, p[1])
+	newValueAddress = setConstantAddress(quadruples.sTypes[-1], p[1])
 
 	quadruples.sOperands.append(newValueAddress)
 	p[0] = newValueAddress

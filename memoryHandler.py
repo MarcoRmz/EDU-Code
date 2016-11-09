@@ -43,10 +43,10 @@ memoryStack = []
 #										#
 #########################################
 
-def initGlobalMemory(TotalTypes, SubTypeQty):
+def initGlobalMemory(SubTypeQty):
 	global globalMemory
 
-	globalMemory = [[None] * TotalTypes]
+	globalMemory = [[None] * 4]
 	count = 0
 	for i in range(0, 4):
 		if SubTypeQty[i] != 0:
@@ -158,8 +158,8 @@ def getLocalAddress(varType, chunkSize):
 #########################################
 
 # Function to Create Memory for process
-def createMemory(TotalTypes, SubTypeQty):
-	memoryStack.append(Memory(TotalTypes, SubTypeQty))
+def createMemory(SubTypeQty):
+	memoryStack.append(Memory(SubTypeQty))
 
 # Function to Delete process Memory
 def deleteMemory():
@@ -172,14 +172,15 @@ def getValue(virtualAddress):
 		varType = (virtualAddress // 1000) - 1
 		realAddr = virtualAddress % 1000
 		return globalMemory[varType][realAddr]
+
 	#constantes
 	elif(virtualAddress < 10000):
 		return constMemory[virtualAddress]
 
 	#locales
 	else:
-		varType = (virtualAddress // 1000) - 1
-		realAddr = virtualAddress % 1000
+		varType = (virtualAddress // 10000) - 1
+		realAddr = virtualAddress % 10000
 		return memoryStack[-1].memory[varType][realAddr]
 
 #set value from virtual address and value given by the virtual machine
@@ -190,9 +191,10 @@ def setValue(virtualAddress, varValue):
 		varType = (virtualAddress // 1000) - 1
 		realAddr = virtualAddress % 1000
 		globalMemory[varType][realAddr] = varValue
+
 	#locales
 	elif(virtualAddress >= 10000):
-		varType = (virtualAddress // 1000) - 1
-		realAddr = virtualAddress % 1000
-		print(memoryStack)
+		varType = (virtualAddress // 10000) - 1
+		realAddr = virtualAddress % 10000
+		print("type: %s, addr: %s\nmemory: %s" %(str(varType), str(realAddr), str(memoryStack[-1].memory)))
 		memoryStack[-1].memory[varType][realAddr] = varValue

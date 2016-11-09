@@ -181,7 +181,6 @@ def startMachine():
 		elif(quadruples.dirQuadruples[i][0] == 12):
 			#get operands from the memory
 			operand1 = getValue(quadruples.dirQuadruples[i][1])
-			print("operand1 %s, type: %s" %(str(operand1), str(quadruples.dirQuadruples[i][3])))
 			#save the new value for the specified address
 			setValue(quadruples.dirQuadruples[i][3],operand1)
 
@@ -218,7 +217,7 @@ def startMachine():
 			rtn = memoryStack[-1].returnAddress
 			rtn_value = getValue(quadruples.dirQuadruples[1])
 
-			#temporally pop memorystack to assign return value to previous function
+			#temporally pop memoryStack to assign return value to previous function
 			memory_aux = memoryStack.pop()
 
 			#assign return value to the return address of the function
@@ -237,8 +236,8 @@ def startMachine():
 
             #case for ERA
 		elif(quadruples.dirQuadruples[i][0] == 20):
-			#creates memory for a specific function createMemory(TotalTypes,SubTypeQty,returnAddress)
-			createMemory(quadruples.dirQuadruples[i][1],quadruples.dirQuadruples[i][2])
+			#creates memory for a specific function createMemory(SubTypeQty)
+			createMemory(quadruples.dirQuadruples[i][2])
 			#assigns return address to memory
 			memoryStack[-1].returnAddress = quadruples.dirQuadruples[i][3]
 
@@ -256,8 +255,9 @@ def startMachine():
 			param_vaddress = quadruples.dirQuadruples[i][2]
 
 			param_realAddr = param_vaddress % 1000
-			
+
 			#gets value from previous function (memory object)
+			print(memoryStack[-2].memory)
 			paramValue = memoryStack[-2].memory[param_type][param_realAddr]
 			#gets real address
 			realAddr = quadruples.dirQuadruples[i][3]
@@ -311,12 +311,7 @@ if __name__ == '__main__':
 	parser.parse(data, tracking=True, debug=log)
 	
 	# Create Memory for global vars
-	# Iterates subTypeQty to count how many types are used
-	totalTypes = 0
-	for x in range(0, len(globalVarsTypeCounts)):
-		if globalVarsTypeCounts[x] > 0:
-			totalTypes += 1
-	initGlobalMemory(totalTypes, globalVarsTypeCounts)
+	initGlobalMemory(globalVarsTypeCounts)
 
 	# Start machine
 	startMachine()

@@ -9,9 +9,10 @@ function void test(string t, bool s) {
 
 main {
 	string ho
+	string n
 	sum = 0
 	count = 1
-
+	ho = "h"
 	test(ho, true)
 }
 end
