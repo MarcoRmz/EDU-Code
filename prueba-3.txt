@@ -3,22 +3,23 @@ start
 int count
 int sum
 
+function float foo(int &x) {
+	x = 0 + 1.
+	return foo(4) and foo(4)
+}
+
 function int increase() {
 	int x
 	int y
 
 	x = count * 5
-	sum = 3 + 1
+	sum = 3 + 2
 
 	if(x == 1) {
 		return x
 	}
 
-	return sum
-}
-
-function void foo(int &x) {
-	x = 3
+	return increase()
 }
 
 main {
@@ -31,6 +32,6 @@ main {
 	count = 1
 	sum = count * 4
 
-	foo(sum)
+	x = increase()
 }
 end

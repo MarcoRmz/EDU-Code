@@ -9,19 +9,19 @@
 #														#
 #########################################################
 
-import cuboSemantico as cubo
+from semanticCube import *
 
 # Pila de Operadores
-pOper = []
+sOperators = []
 
 # Pila de Operandos
-pOperandos = []
+sOperands = []
 
 # Pila de Tipos
-pTipos = []
+sTypes = []
 
 # Pila de Saltos
-pSaltos = []
+sJumps = []
 
 # Index for Cuadruplos
 indexQuadruples = 0

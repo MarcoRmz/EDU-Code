@@ -1,6 +1,6 @@
 #########################################################
 #                                                       #
-#   cuboSemantico.py                                    #
+#   semanticCube.py                                    #
 #                                                       #
 #   Cubo Semantico                                      #
 #                                                       #
