@@ -153,8 +153,8 @@ def p_gotoMAIN(p):
 
 def p_asignacion(p):
 	'''asignacion : ID EQUALS asignacion1'''
-	print "\nacabo asignacion L91"
 	# Check if ID is a declared global variable
+	print "ASIGNACION PILA DE OPERANDOS %s" % str(quadruples.pOperandos)
 	if globalVars.has_key(p[1]):
 		# Check if assignment is valid given the types of the operands
 		asignacionType = quadruples.cubo.getResultType(globalVars[p[1]][0], quadruples.pTipos[-1], EQUALS)
@@ -171,17 +171,14 @@ def p_asignacion(p):
 	else:
 		# Check if ID is a declared local variable
 		if functionsDir[function_ptr][1].has_key(p[1]):
-			print("L106 pila operandos %s" %(str(quadruples.pOperandos)))
 			# Check if assignment is valid given the types of the operands
 			asignacionType = quadruples.cubo.getResultType(functionsDir[function_ptr][1][p[1]][0], quadruples.pTipos[-1], EQUALS)
 
 			if asignacionType != ERROR:
-				print "L109 SI ENTRO"
 				newValueAddress = quadruples.pOperandos.pop()
 				quadruples.dirQuadruples.append((EQUALS, newValueAddress, None, functionsDir[function_ptr][1][p[1]][1]))
 				quadruples.pTipos.pop()
 				quadruples.indexQuadruples += 1
-				print "PILA DE OPERANDOS L115 %s" % str(quadruples.pOperandos)
 			else:
 				# Error
 				print("Type mismatch var: %s of type: %s and %s! Line: %s" %(p[1], parseType(functionsDir[function_ptr][1][p[1]][0]), parseType(quadruples.pTipos[-1]),p.lineno(1)))
@@ -190,13 +187,14 @@ def p_asignacion(p):
 			# Error
 			print("Variable %s is not declared! Line: %s" %(p[1], p.lineno(1)))
 			exit(1)
+	print "ASIGNACION PILA DE OPERANDOS %s" % str(quadruples.pOperandos)
 
 def p_asignacion1(p):
 	'''asignacion1 : expresion_logica
 				| asignacion_vector'''
 
 def p_asignacion_vector(p):
-	'''asignacion_vector : LBRACKET inicializacion_vector1 RBRACKET'''
+	'''asignacion_vector : LBRACKET expresion_logica RBRACKET'''
 	p[0] = p[1] + p[2] + p[3]
 
 def p_bloque(p):
@@ -280,10 +278,10 @@ def p_estatuto(p):
 
 def p_exp(p):
 	'exp 	: termino checkEXPPOper exp1'
+	p[0] = p[1]
 
 def p_checkEXPPOper(p):
 	'checkEXPPOper : '
-	print("\nL197 checkEXPPOper")
 	if (len(quadruples.pOper) != 0):
 		if ((quadruples.pOper[-1] == PLUS) or (quadruples.pOper[-1] == MINUS)):
 			operator = quadruples.pOper.pop()
@@ -291,7 +289,6 @@ def p_checkEXPPOper(p):
 			operand1 = quadruples.pOperandos.pop()
 			operandType2 = quadruples.pTipos.pop()
 			operandType1 = quadruples.pTipos.pop()
-			print "CHECK POPER L206 %s" % str(quadruples.pOperandos)
 
 			operationType = quadruples.cubo.getResultType(operandType1, operandType2, operator)
 
@@ -305,7 +302,6 @@ def p_checkEXPPOper(p):
 			else:
 				print("Type mismatch between operand type: %s and %s while trying to %s at line: %s" %(operand1, operand2, operator, p.lineno(-1)))
 				exit(1)
-	print ("L220 index quadruples %d \nquadruples: %s\n" %(quadruples.indexQuadruples, str(quadruples.dirQuadruples)))
 
 def p_exp1(p):
 	''' exp1 	: PLUS addOperator exp
@@ -341,19 +337,17 @@ def p_addOperator(p):
 
 def p_expresion(p):
 	'expresion 	: exp checkEXPRESIONPOper expresion1'
+	p[0] = p[1]
 
 def p_checkEXPRESIONPOper(p):
 	'checkEXPRESIONPOper : '
-	print "\nL259 checkEXPRESIONPOper"
 	if (len(quadruples.pOper) != 0):
 		if ((quadruples.pOper[-1] == LESS) or (quadruples.pOper[-1] == LESSEQUAL) or (quadruples.pOper[-1] == GREATER) or (quadruples.pOper[-1] == GREATEREQUAL) or (quadruples.pOper[-1] == DOUBLE_EQUAL) or (quadruples.pOper[-1] == DIFF)):
-			print "CHECK POPER L262 %s " % str(quadruples.pOperandos)
 			operator = quadruples.pOper.pop()
 			operand2 = quadruples.pOperandos.pop()
 			operand1 = quadruples.pOperandos.pop()
 			operandType2 = quadruples.pTipos.pop()
 			operandType1 = quadruples.pTipos.pop()
-			print "CHECK POPER L268 %s " % str(quadruples.pOperandos)
 
 			operationType = quadruples.cubo.getResultType(operandType1, operandType2, operator)
 
@@ -367,7 +361,6 @@ def p_checkEXPRESIONPOper(p):
 			else:
 				print("Type mismatch between operand type: %s and %s while trying to %s at line: %s" %(operand1, operand2, operator, p.lineno(-1)))
 				exit(1)
-	print ("L282 index quadruples %d \nquadruples: %s\n" %(quadruples.indexQuadruples, str(quadruples.dirQuadruples)))
 
 def p_expresion1(p):
 	'''expresion1 	: LESS addOperator expresion
@@ -380,7 +373,6 @@ def p_expresion1(p):
 
 def p_expresion_logica(p):
 	'expresion_logica 	: expresion checkEXPRESIONLOGICAPOper expresion_logica1'
-	print "L284 acabo expresionlogica"
 	print("-----------------")
 	print("tipos:")
 	print(quadruples.pTipos)
@@ -390,20 +382,19 @@ def p_expresion_logica(p):
 	print("---")
 	print("operadores:")
 	print(quadruples.pOper)
+	print ("quadruples:\n%s" %(str(quadruples.dirQuadruples)))
 	print("-----------------\n")
+	p[0] = p[1]
 
 def p_checkEXPRESIONLOGICAPOper(p):
 	'checkEXPRESIONLOGICAPOper : '
-	print "\nL298 checkEXPRESIONLOGICAPOper"
 	if (len(quadruples.pOper) != 0):
 		if ((quadruples.pOper[-1] == AND) or (quadruples.pOper[-1] == OR)):
-			print "CHECK POPER L301 %s " % str(quadruples.pOperandos)
 			operator = quadruples.pOper.pop()
 			operand2 = quadruples.pOperandos.pop()
 			operand1 = quadruples.pOperandos.pop()
 			operandType2 = quadruples.pTipos.pop()
 			operandType1 = quadruples.pTipos.pop()
-			print "CHECK POPER L307 %s " % str(quadruples.pOperandos)
 
 			operationType = quadruples.cubo.getResultType(operandType1, operandType2, operator)
 
@@ -417,7 +408,6 @@ def p_checkEXPRESIONLOGICAPOper(p):
 			else:
 				print("Type mismatch between operand type: %s and %s while trying to %s at line: %s" %(operand1, operand2, operator, p.lineno(-1)))
 				exit(1)
-	print ("L321 index quadruples %d \nquadruples: %s\n" %(quadruples.indexQuadruples, str(quadruples.dirQuadruples)))
 
 def p_expresion_logica1(p):
 	'''expresion_logica1 	: AND addOperator expresion_logica
@@ -428,20 +418,17 @@ def p_factor(p):
 	''' factor	: LPAREN factorAddFakeCover expresion_logica RPAREN
 				| factor1'''
 	if len(p) == 5:
-		print("L332 REMOVE COVER: " + str(quadruples.pOper[-1]))
 		quadruples.pOper.pop()
+	p[0] = p[1]
 
 def p_factorAddFakeCover(p):
 	'factorAddFakeCover : '
-	quadruples.pOper.append(p[-1])
+	quadruples.pOper.append('(')
 	p[0] = p[-1]
 
 def p_factor1(p):
 	''' factor1 : varcte'''
-	print "\nfactor1 L344"
 	p[0] = p[1]
-	print("L365 factor1 -> VARCTE: %s" %(str(p[1])))
-	print("L367 factor1 -> operandos encontrados: %s" %(str(quadruples.pOperandos)))
 
 def p_cteFrom(p):
 	''' cteFrom : PLUS CTE_INT
@@ -552,10 +539,12 @@ def p_funcion4(p):
 
 def p_funcion5(p):
 	'''funcion5	: ID declareFunc LPAREN funcion3 RPAREN LCURL funcion1 estatuto funcion2 RCURL'''
+	# Generate ENDPROC
+	quadruples.dirQuadruples.append((ENDPROC, None, None, None))
+	quadruples.indexQuadruples += 1
 
 def p_declareFunc(p):
 	'''declareFunc : '''
-	print("ENTRO A declareFunc L540")
 	global function_ptr
 	function_ptr = p[-1]
 	#CAMBIO: Todo 2 y 3
@@ -573,76 +562,15 @@ def p_declareFunc(p):
 def p_return(p):
 	'''return	: RETURN expresion_logica'''
 	# Verify type of function
-	print("L560 acabo funcion")
 	if functionsDir[function_ptr][0] != VOID:
 		# Generate RETURN with value to return and address to return it to
-		quadruples.dirQuadruples.append((RETURN, quadruples.pOperandos[-1], None, functionsDir[function_ptr][4]))
+		quadruples.pTipos.pop()
+		quadruples.dirQuadruples.append((RETURN, quadruples.pOperandos.pop(), None, functionsDir[function_ptr][4]))
 		quadruples.indexQuadruples += 1
 	else:
 		# Error
 		print("Invalid operation RETURN on VOID Function: %s! Line: %s" %(function_ptr, p.lineno(1)))
 		exit(1)
-
-	# Generate ENDPROC
-	quadruples.dirQuadruples.append((ENDPROC, None, None, None))
-	quadruples.indexQuadruples += 1
-	print functionsDir
-
-def p_inicializacion(p):
-	'inicializacion : EQUALS expresion_logica'
-  	# Save ID key with typeTmp and value as tuple
-	if function_ptr == 'GLOBAL':
-		if globalVars.has_key(p[-1]):
-			globalVars[p[-1]][1] = p[2]
-		else:
-			# Error
-			print("Variable %s is not declared! Line: %s" %(p[-1], lexer.lineno))
-			exit(1)
-	else:
-		if functionsDir[function_ptr][1].has_key(p[-1]):
-			functionsDir[function_ptr][1][p[-1]][1] = p[2]
-		else:
-			# Error
-			print("Variable %s is not declared! Line: %s" %(p[-1], lexer.lineno))
-			exit(1)
-
-def p_inicializacion_vector(p):
-	'inicializacion_vector : EQUALS LBRACKET inicializacion_vector1 RBRACKET'
-  	# Save ID key with typeTmp and value as tuple
-	if function_ptr == 'GLOBAL':
-		if globalVars.has_key(p[-1]):
-			globalVars[p[-1]][1] = p[2] + str(p[3]) + p[4]
-		else:
-			# Error
-			print("Variable %s is not declared! Line: %s" %(p[-1], lexer.lineno))
-			exit(1)
-	else:
-		if functionsDir[function_ptr][1].has_key(p[-1]):
-			functionsDir[function_ptr][1][p[-1]][1] = p[2] + str(p[3]) + p[4]
-		else:
-			# Error
-			print("Variable %s is not declared! Line: %s" %(p[-1], lexer.lineno))
-			exit(1)
-	p[0] = p[1]
-
-def p_inicializacion_vector1(p):
-	'''inicializacion_vector1 : varcte inicializacion_vector2
-				| epsilon'''
-	if len(p) > 2:
-		p[0] = str(p[1]) + p[2]
-	else:
-		p[0] = p[1]
-
-def p_inicializacion_vector2(p):
-	'''inicializacion_vector2 : COMMA varcte inicializacion_vector2
-				| epsilon'''
-	if len(p) > 2:
-		if p[3]:
-			p[0] = p[1] + str(p[2]) + str(p[3])
-		else:
-			p[0] = p[1] + str(p[2])
-	else:
-		p[0] = p[1]
 
 def p_input(p):
 	'''input	: INPUT LPAREN input1 RPAREN'''
@@ -665,36 +593,41 @@ def p_llamada(p):
 	'''llamada 	: ID LPAREN llamada1 RPAREN'''
 	# Pedir memoria para funcion
 	# [Tipo, DictVar, ListaParam, indexCuadruplo, FunctionAddress]
-	print("*************MEMORY CREATED FOR FUNCTION: " + str(p[1]))
+	print("************* FUNCTION CALL FOR: " + str(p[1]))
 	if functionsDir.has_key(p[1]):
-		intCounter = 0
-		floatCounter = 0
-		stringCounter = 0
-		boolCounter = 0
+		if functionsDir[p[1]][0] == 23:
+			intCounter = 0
+			floatCounter = 0
+			stringCounter = 0
+			boolCounter = 0
 
-		# Iterates function dictionary to count how many variables per type
-		for value in functionsDir[p[1]][1].values():
-			if value[0] == INT:
-				intCounter += 1
-			elif value[0] == FLOAT:
-				floatCounter += 1
-			elif value[0] == STRING:
-				stringCounter += 1
-			elif value[0] == BOOL:
-				boolCounter += 1
+			# Iterates function dictionary to count how many variables per type
+			for value in functionsDir[p[1]][1].values():
+				if value[0] == INT:
+					intCounter += 1
+				elif value[0] == FLOAT:
+					floatCounter += 1
+				elif value[0] == STRING:
+					stringCounter += 1
+				elif value[0] == BOOL:
+					boolCounter += 1
 
-		subTypeQty = (intCounter, floatCounter, stringCounter, boolCounter)
-		totalTypes = 0
+			subTypeQty = (intCounter, floatCounter, stringCounter, boolCounter)
+			totalTypes = 0
 
-		# Iterates subTypeQty to count how many types are used
-		for x in range(0, len(subTypeQty)):
-			if subTypeQty[x] > 0:
-				totalTypes += 1
+			# Iterates subTypeQty to count how many types are used
+			for x in range(0, len(subTypeQty)):
+				if subTypeQty[x] > 0:
+					totalTypes += 1
 
-		quadruples.dirQuadruples.append((ERA, totalTypes, subTypeQty, functionsDir[p[1]][4]))
-		quadruples.indexQuadruples += 1
-		global function_ptr
-		function_ptr = p[1]
+			quadruples.dirQuadruples.append((ERA, totalTypes, subTypeQty, functionsDir[p[1]][4]))
+			quadruples.indexQuadruples += 1
+			global function_ptr
+			function_ptr = p[1]
+		else:
+			# Error
+			print("Function %s is not void, must be assigned for return value!" %(p[1]))
+			exit(1)
 	else:
 		# Error
 		print("Function %s is not declared!" %(p[1]))
@@ -733,7 +666,6 @@ def p_llamada(p):
 	function_ptr = prev_Fuction_ptr
 
 	p[0] = 'Llamada ' + str(p[1])
-	print("ACABA LLAMDA")
 
 def p_llamada1(p):
 	'''llamada1 	: epsilon
@@ -743,7 +675,6 @@ def p_llamada1(p):
 		countParam += 1
 	global prev_Fuction_ptr
 	prev_Fuction_ptr = function_ptr
-	print("Acaba parametros LLAMADA L706")
 
 def p_llamada2(p):
 	'''llamada2 	: epsilon
@@ -756,47 +687,52 @@ def p_llamada3(p):
 	'''llamada3 : LPAREN llamada1 RPAREN'''
 	# Pedir memoria para funcion
 	# [Tipo, DictVar, ListaParam, indexCuadruplo, FunctionAddress]
-	print("*************MEMORY CREATED FOR FUNCTION: " + str(p[-1]))
+	print("************* FUNCTION CALL FOR: " + str(p[-1]))
 	if functionsDir.has_key(p[-1]):
-		intCounter = 0
-		floatCounter = 0
-		stringCounter = 0
-		boolCounter = 0
+		if functionsDir[p[-1]][0] != 23:
+			intCounter = 0
+			floatCounter = 0
+			stringCounter = 0
+			boolCounter = 0
 
-		# Iterates function dictionary to count how many variables per type
-		for value in functionsDir[p[-1]][1].iteritems():
-			if value[0] == INT:
-				intCounter += 1
-			elif value[0] == FLOAT:
-				floatCounter += 1
-			elif value[0] == STRING:
-				stringCounter += 1
-			elif value[0] == BOOL:
-				boolCounter += 1
+			# Iterates function dictionary to count how many variables per type
+			for value in functionsDir[p[-1]][1].iteritems():
+				if value[0] == INT:
+					intCounter += 1
+				elif value[0] == FLOAT:
+					floatCounter += 1
+				elif value[0] == STRING:
+					stringCounter += 1
+				elif value[0] == BOOL:
+					boolCounter += 1
 
-		# Iterates function parameter list to count how many variables per type
-		for value in functionsDir[p[-1]][2]:
-			if value == INT:
-				intCounter += 1
-			elif value == FLOAT:
-				floatCounter += 1
-			elif value == STRING:
-				stringCounter += 1
-			elif value == BOOL:
-				boolCounter += 1
+			# Iterates function parameter list to count how many variables per type
+			for value in functionsDir[p[-1]][2]:
+				if value == INT:
+					intCounter += 1
+				elif value == FLOAT:
+					floatCounter += 1
+				elif value == STRING:
+					stringCounter += 1
+				elif value == BOOL:
+					boolCounter += 1
 
-		subTypeQty = (intCounter, floatCounter, stringCounter, boolCounter)
-		totalTypes = 0
+			subTypeQty = (intCounter, floatCounter, stringCounter, boolCounter)
+			totalTypes = 0
 
-		# Iterates subTypeQty to count how many types are used
-		for x in range(0, len(subTypeQty)):
-			if subTypeQty[x] > 0:
-				totalTypes += 1
+			# Iterates subTypeQty to count how many types are used
+			for x in range(0, len(subTypeQty)):
+				if subTypeQty[x] > 0:
+					totalTypes += 1
 
-		quadruples.dirQuadruples.append((ERA, totalTypes, subTypeQty, functionsDir[p[-1]][4]))
-		quadruples.indexQuadruples += 1
-		global function_ptr
-		function_ptr = p[-1]
+			quadruples.dirQuadruples.append((ERA, totalTypes, subTypeQty, functionsDir[p[-1]][4]))
+			quadruples.indexQuadruples += 1
+			global function_ptr
+			function_ptr = p[-1]
+		else:
+			# Error
+			print("Function %s is void, it can't be assigned!" %(p[-1]))
+			exit(1)
 	else:
 		# Error
 		print("Function %s is not declared!" %(p[-1]))
@@ -833,14 +769,12 @@ def p_llamada3(p):
 	global function_ptr
 	function_ptr = prev_Fuction_ptr
 	p[0] = 'Llamada ' + str(p[-1])
-	print("ACABA LLAMDA")
 
 def p_main(p):
 	'main : MAIN declareMain LCURL main1 estatuto main2 RCURL'
 
 def p_declareMain(p):
 	'''declareMain : '''
-	print("ENTRO A declareMain L722")
 	global function_ptr
 	function_ptr = p[-1]
 
@@ -1023,24 +957,20 @@ def p_compararConID(p):
 		quadruples.indexQuadruples += 1
 
 	else:
-		print("Type mismatch between operand type: %s and %s while trying to %s at line: %s" %(operand1, operand2, operator, lexer.lineno))
+		print("Type mismatch between operand type: %s and %s while trying to %s at line: %s" %(operand1, operand2, operator, p.lineno(-1)))
 		exit(1)
 
 def p_termino(p):
 	'termino 	: factor checkTERMPOper termino1'
+	p[0] = p[1]
 
 def p_checkTERMPOper(p):
 	'checkTERMPOper : '
-	print "\n L590 checkTERMPOper"
-	print "L591 operadores: %s" % str(quadruples.pOper)
 	if (len(quadruples.pOper) != 0):
 		if ((quadruples.pOper[-1] == MULT) or (quadruples.pOper[-1] == DIVIDE)):
-			print("L594 operadores: %s" %(str(quadruples.pOper)))
-			print("L595 operandos: %s" %(str(quadruples.pOperandos)))
 			operator = quadruples.pOper.pop()
 			operand2 = quadruples.pOperandos.pop()
 			operand1 = quadruples.pOperandos.pop()
-			print("L599 operandos con pop: %s" %(str(quadruples.pOperandos)))
 			operandType2 = quadruples.pTipos.pop()
 			operandType1 = quadruples.pTipos.pop()
 
@@ -1052,9 +982,8 @@ def p_checkTERMPOper(p):
 				quadruples.pTipos.append(operationType)
 				quadruples.indexQuadruples += 1
 			else:
-				print("Type mismatch between operand type: %s and %s while trying to %s at line: %s" %(operand1, operand2, operator, lexer.lineno))
+				print("Type mismatch between operand type: %s and %s while trying to %s at line: %s" %(operand1, operand2, operator, p.lineno(-1)))
 				exit(1)
-	print ("L613 index quadruples %d \n quadruples: %s" %(quadruples.indexQuadruples, str(quadruples.dirQuadruples)))
 
 def p_termino1(p):
 	'''termino1 : TIMES addOperator termino
@@ -1074,12 +1003,10 @@ def p_varcte(p):
 				| cte_float1
                 | varstring1
                 | cte_bool'''
-	print("L915 Salio de varcte")
 	p[0] = p[1]
 
 def p_varcte1(p):
 	''' varcte1 : ID varcte2'''
-	print("Salio de varcte1!!!")
 	p[0] = p[2]
 
 def p_varcte2(p):
@@ -1106,15 +1033,18 @@ def p_varcte2(p):
 		print("FOUND CALL: %s AT FUNCTION: %s" %(str(p[-1]), function_ptr))
 		if functionsDir.has_key(p[-1]):
 			# Create local variable if function type is != VOID
-			if functionsDir[function_ptr][0] != VOID:
-				varAddress = getLocalAddress(functionsDir[function_ptr][0], 1)
+			if functionsDir[p[-1]][0] != VOID:
+				varAddress = getLocalAddress(functionsDir[p[-1]][0], 1)
 				quadruples.pOperandos.append(varAddress)
-				quadruples.pTipos.append(functionsDir[function_ptr][0])
+				quadruples.pTipos.append(functionsDir[p[-1]][0])
 				p[0] = varAddress
+				print("%s FUNCTION FOUND" %(parseType(functionsDir[p[-1]][0])))
 			else:
-				quadruples.pOperandos.append(function_ptr)
-				quadruples.pTipos.append(functionsDir[function_ptr][0])
-				p[0] = function_ptr
+				quadruples.pOperandos.append(p[-1])
+				quadruples.pTipos.append(functionsDir[p[-1]][0])
+				p[0] = p[-1]
+				print("VOID FUNCTION FOUND")
+			print("PILA TIPOS DESPUES DE FUNCTION CALL: %s" %(str(quadruples.pTipos)))
 		else:
 			# ERROR
 			print("Function: %s is not declared! Line: %s" %(p[-1], p.lineno(-1)))
@@ -1207,20 +1137,12 @@ def p_var_declaracion2(p):
 	'''var_declaracion2 : ID declareVar2'''
 	# CAMBIO: cambiar sintaxis y diagrama para aceptar [tamano]
 
-def p_var_declaracion3(p):
-	'''var_declaracion3 : epsilon
-				| inicializacion'''
-
-def p_var_declaracion4(p):
-	'''var_declaracion4 : epsilon
-				| inicializacion_vector'''
-
 def p_declareVar(p):
 	'''declareVar :'''
 	if function_ptr == 'GLOBAL':
   		if globalVars.has_key(p[-1]):
   			# Error
-  			print("Variable %s already declared! Line: %s" %(p[-1], lexer.lineno))
+  			print("Variable %s already declared! Line: %s" %(p[-1], p.lineno(-1)))
   			exit(1)
   		varType = parseTypeIndex(p[-2])
 		varAddress = getGlobalAddress(varType, 1)
@@ -1228,11 +1150,11 @@ def p_declareVar(p):
 	else:
 		if globalVars.has_key(p[-1]):
   			# Error
-  			print("Variable %s already declared! Line: %s" %(p[-1], lexer.lineno))
+  			print("Variable %s already declared! Line: %s" %(p[-1], p.lineno(-1)))
   			exit(1)
   		elif functionsDir[function_ptr][1].has_key(p[-1]):
   			# Error
-  			print("Variable %s already declared! Line: %s" %(p[-1], lexer.lineno))
+  			print("Variable %s already declared! Line: %s" %(p[-1], p.lineno(-1)))
   			exit(1)
 		varType = parseTypeIndex(p[-2])
 		varAddress = getLocalAddress(varType, 1)
@@ -1245,18 +1167,18 @@ def p_declareVar2(p):
 	if function_ptr == 'GLOBAL':
   		if globalVars.has_key(p[-1]):
   			# Error
-  			print("Variable %s already declared! Line: %s" %(p[-1], lexer.lineno))
+  			print("Variable %s already declared! Line: %s" %(p[-1], p.lineno(-1)))
   			exit(1)
   		varType = parseTypeIndex(p[-2])
   		globalVars[p[-1]] = [varType, 'ValueNone']
 	else:
 		if globalVars.has_key(p[-1]):
   			# Error
-  			print("Variable %s already declared! Line: %s" %(p[-1], lexer.lineno))
+  			print("Variable %s already declared! Line: %s" %(p[-1], p.lineno(-1)))
   			exit(1)
   		elif functionsDir[function_ptr][1].has_key(p[-1]):
   			# Error
-  			print("Variable %s already declared! Line: %s" %(p[-1], lexer.lineno))
+  			print("Variable %s already declared! Line: %s" %(p[-1], p.lineno(-1)))
   			exit(1)
   		varType = parseTypeIndex(p[-2])
 	  	functionsDir[function_ptr][1][p[-1]] = ['VECTOR ' + str(varType), 'ValueNone']
@@ -1282,7 +1204,7 @@ def p_epsilon(p):
 
 def p_error(p):
 	if p:
-		print("Syntax error at token: '%s' with value: '%s' at line: %d in pos: %d" %(p.type, p.value, p.lineno, p.lexpos))
+		print("Syntax error at token: '%s' with value: '%s' at line: %d" %(p.type, p.value, p.lineno))
 		# Discard the token
 		parser.errok()
 	else:
