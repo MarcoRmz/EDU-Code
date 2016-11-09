@@ -12,11 +12,12 @@
 class Memory:
 	def __init__(self, TotalTypes, SubTypeQty):
 		self.returnAddress = None
-		self.memory = [[None] * TotalTypes]
+		self.memory = [[None]] * TotalTypes
+		print(self.memory)
 		count = 0
 		for i in range(0, 4):
 			if SubTypeQty[i] != 0:
-				self.memory[count] = [None for y in range(0, SubTypeQty[y])]
+				self.memory[count] = [None for y in range(0, SubTypeQty[i])]
 				count += 1
 
 	def __del__(self):

@@ -39,12 +39,30 @@ memoryStack = []
 
 #########################################
 #										#
+#         Functions for Memory          #
+#										#
+#########################################
+
+def initGlobalMemory(TotalTypes, SubTypeQty):
+	global globalMemory
+
+	globalMemory = [[None] * TotalTypes]
+	count = 0
+	for i in range(0, 4):
+		if SubTypeQty[i] != 0:
+			globalMemory[count] = [None for y in range(0, SubTypeQty[i])]
+			count += 1
+
+#########################################
+#										#
 #        Functions for Compiler         #
 #										#
 #########################################
 
 #Checks if there is available memory for type and chunkSize for global memory
 def globalAvailableMemory(varType, chunkSize):
+	if chunkSize != 1:
+		chunkSize = getValue(chunkSize)
 	if(varType == 0):
 		if currentGlobalVirtualAddress[0] + chunkSize < 2000:
 			return True
@@ -60,23 +78,25 @@ def globalAvailableMemory(varType, chunkSize):
 	return False
 
 #Checks if there is available memory for type and chunkSize for constants memory
-def constantAvailableMemory(varType, chunkSize):
+def constantAvailableMemory(varType):
 	if(varType == 0):
-		if currentConstantVirtualAddress[0] + chunkSize < 6000:
+		if currentConstantVirtualAddress[0] + 1 < 6000:
 			return True
 	elif(varType == 1):
-		if currentConstantVirtualAddress[1] + chunkSize < 7000:
+		if currentConstantVirtualAddress[1] + 1 < 7000:
 			return True
 	elif(varType == 2):
-		if currentConstantVirtualAddress[2] + chunkSize < 8000:
+		if currentConstantVirtualAddress[2] + 1 < 8000:
 			return True
 	elif(varType == 3):
-		if currentConstantVirtualAddress[3] + chunkSize < 9000:
+		if currentConstantVirtualAddress[3] + 1 < 9000:
 			return True
 	return False
 
 #Checks if there is available memory for type and chunkSize for local memory
 def localAvailableMemory(varType, chunkSize):
+	if chunkSize != 1:
+		chunkSize = getValue(chunkSize)
 	if(varType == 0):
 		if currentLocalVirtualAddress[0] + chunkSize < 20000:
 			return True
@@ -94,6 +114,8 @@ def localAvailableMemory(varType, chunkSize):
 # Ask for next available memory address
 #Global
 def getGlobalAddress(varType, chunkSize):
+	if chunkSize != 1:
+		chunkSize = getValue(chunkSize)
 	if(globalAvailableMemory(varType,chunkSize)):
 		availableAddress = currentGlobalVirtualAddress[varType] + 1000
 		currentGlobalVirtualAddress[varType] += chunkSize
@@ -107,7 +129,7 @@ def setConstantAddress(varType, varValue):
 	if invertedConstMemory.has_key(varValue):
 		return invertedConstMemory[varValue]
 	else:
-		if(constantAvailableMemory(varType,varValue)):
+		if(constantAvailableMemory(varType)):
 			availableAddress = currentConstantVirtualAddress[varType]
 			currentConstantVirtualAddress[varType] += 1
 			invertedConstMemory[varValue] = availableAddress
@@ -119,6 +141,8 @@ def setConstantAddress(varType, varValue):
 
 # Local
 def getLocalAddress(varType, chunkSize):
+	if chunkSize != 1:
+		chunkSize = getValue(chunkSize)
 	if(localAvailableMemory(varType,chunkSize)):
 		availableAddress = currentLocalVirtualAddress[varType]
 		currentLocalVirtualAddress[varType] += chunkSize
@@ -161,8 +185,9 @@ def getValue(virtualAddress):
 #set value from virtual address and value given by the virtual machine
 def setValue(virtualAddress, varValue):
 	#Global
+	print("virtual %d, value: %s" %(virtualAddress, str(varValue)))
 	if(virtualAddress < 4000):
-		varType = virtualAddress // 1000
+		varType = (virtualAddress // 1000) - 1
 		realAddr = virtualAddress % 1000
 		globalMemory[varType][realAddr] = varValue
 	#locales

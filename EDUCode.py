@@ -40,6 +40,7 @@ prev_Fuction_ptr = 'None'
 
 # Global Variables
 globalVars = {}
+globalVarsTypeCounts = [0,0,0,0]
 
 # Functions Directory
 functionsDir = {}
@@ -157,7 +158,7 @@ def p_asignacion(p):
 	print "ASIGNACION PILA DE OPERANDOS %s" % str(quadruples.sOperands)
 	if globalVars.has_key(p[1]):
 		# Check if assignment is valid given the types of the operands
-		asignacionType = quadruples.cubo.getResultType(globalVars[p[1]][0], quadruples.sTypes[-1], EQUALS)
+		asignacionType = quadruples.getResultType(globalVars[p[1]][0], quadruples.sTypes[-1], EQUALS)
 
 		if asignacionType != ERROR:
 			newValueAddress = quadruples.sOperands.pop()
@@ -172,7 +173,7 @@ def p_asignacion(p):
 		# Check if ID is a declared local variable
 		if functionsDir[function_ptr][1].has_key(p[1]):
 			# Check if assignment is valid given the types of the operands
-			asignacionType = quadruples.cubo.getResultType(functionsDir[function_ptr][1][p[1]][0], quadruples.sTypes[-1], EQUALS)
+			asignacionType = quadruples.getResultType(functionsDir[function_ptr][1][p[1]][0], quadruples.sTypes[-1], EQUALS)
 
 			if asignacionType != ERROR:
 				newValueAddress = quadruples.sOperands.pop()
@@ -291,7 +292,7 @@ def p_checkEXPPOper(p):
 			operandType2 = quadruples.sTypes.pop()
 			operandType1 = quadruples.sTypes.pop()
 
-			operationType = quadruples.cubo.getResultType(operandType1, operandType2, operator)
+			operationType = quadruples.getResultType(operandType1, operandType2, operator)
 
 			if(operationType != ERROR):
 				print "OPERATOR: %s OPERAND1: %s OPERAND2: %s   L211" % (str(operator), str(operand1), str(operand2))
@@ -351,7 +352,7 @@ def p_checkEXPRESIONPOper(p):
 			operandType2 = quadruples.sTypes.pop()
 			operandType1 = quadruples.sTypes.pop()
 
-			operationType = quadruples.cubo.getResultType(operandType1, operandType2, operator)
+			operationType = quadruples.getResultType(operandType1, operandType2, operator)
 
 			if(operationType != ERROR):
 				print "OPERATOR: %s OPERAND1: %s OPERAND2: %s L273  " % (str(operator), str(operand1), str(operand2))
@@ -399,7 +400,7 @@ def p_checkEXPRESIONLOGICAPOper(p):
 			operandType2 = quadruples.sTypes.pop()
 			operandType1 = quadruples.sTypes.pop()
 
-			operationType = quadruples.cubo.getResultType(operandType1, operandType2, operator)
+			operationType = quadruples.getResultType(operandType1, operandType2, operator)
 
 			if(operationType != ERROR):
 				print "OPERATOR: %s OPERAND1: %s OPERAND2: %s L312  " % (str(operator), str(operand1), str(operand2))
@@ -554,7 +555,9 @@ def p_declareFunc(p):
 		# [Tipo, DictVar, ListaParam, indexCuadruplo, FunctionAddress]
 		functionAddress = None
 		if parseTypeIndex(p[-2]) != 23:
-			functionAddress =  getGlobalAddress(parseTypeIndex(p[-2]), 1)
+			varType = parseTypeIndex(p[-2])
+			functionAddress =  getGlobalAddress(varType, 1)
+			globalVarsTypeCounts[varType] += 1
 		functionsDir[p[-1]] = [parseTypeIndex(p[-2]), {}, [], quadruples.indexQuadruples, functionAddress]
 	else:
 		# Error
@@ -909,6 +912,7 @@ def p_meterIDPOper(p):
 	# Si existe mete valor a sOperands y tipo a sTypes
 	if globalVars.has_key(p[-1]):
 		newAddress = getGlobalAddress(globalVars[p[-1]][0], 1)
+		globalVarsTypeCounts[globalVars[p[-1]][0]] += 1
 		quadruples.sTypes.append(globalVars[p[-1]][0])
 		quadruples.sOperands.append(newAddress)
 	elif functionsDir[function_ptr][1].has_key(p[-1]):
@@ -949,7 +953,7 @@ def p_compararConID(p):
 	operand1 = quadruples.sOperands[-1]
 	operandType1 = quadruples.sTypes[-1]
 
-	operationType = quadruples.cubo.getResultType(operandType1, operandType2, operator)
+	operationType = quadruples.getResultType(operandType1, operandType2, operator)
 
 	if(operationType == BOOL):
 		newAddress = getLocalAddress(operationType, 1)
@@ -977,7 +981,7 @@ def p_checkTERMPOper(p):
 			operandType2 = quadruples.sTypes.pop()
 			operandType1 = quadruples.sTypes.pop()
 
-			operationType = quadruples.cubo.getResultType(operandType1, operandType2, operator)
+			operationType = quadruples.getResultType(operandType1, operandType2, operator)
 			if(operationType != ERROR):
 				newValueAddress = getLocalAddress(operationType, 1)
 				quadruples.dirQuadruples.append((operator, operand1, operand2, newValueAddress))
@@ -1130,62 +1134,65 @@ def p_cteVector(p):
 	p[0] = p[1]
 
 def p_var_declaracion(p):
-	'''var_declaracion : tipo var_declaracion1
-				| VECTOR tipo var_declaracion2'''
+	'''var_declaracion : tipo var_declaracion1'''
 
 def p_var_declaracion1(p):
-	'''var_declaracion1 : ID declareVar'''
+	'''var_declaracion1 : ID var_declaracion2'''
 
 def p_var_declaracion2(p):
-	'''var_declaracion2 : ID declareVar2'''
-	# CAMBIO: cambiar sintaxis y diagrama para aceptar [tamano]
-
-def p_declareVar(p):
-	'''declareVar :'''
-	if function_ptr == 'GLOBAL':
-  		if globalVars.has_key(p[-1]):
-  			# Error
-  			print("Variable %s already declared! Line: %s" %(p[-1], p.lineno(-1)))
-  			exit(1)
-  		varType = parseTypeIndex(p[-2])
-		varAddress = getGlobalAddress(varType, 1)
-  		globalVars[p[-1]] = [varType, varAddress]
+	'''var_declaracion2 : epsilon
+						| LBRACKET cte_int1 RBRACKET'''
+	# Check if simple ID or vector
+	if len(p) == 2:
+		# Declare simple ID
+		if function_ptr == 'GLOBAL':
+	  		if globalVars.has_key(p[-1]):
+	  			# Error
+	  			print("Variable %s already declared! Line: %s" %(p[-1], p.lineno(-1)))
+	  			exit(1)
+	  		varType = parseTypeIndex(p[-2])
+			varAddress = getGlobalAddress(varType, 1)
+			globalVarsTypeCounts[varType] += 1
+	  		globalVars[p[-1]] = [varType, varAddress]
+		else:
+			if globalVars.has_key(p[-1]):
+	  			# Error
+	  			print("Variable %s already declared! Line: %s" %(p[-1], p.lineno(-1)))
+	  			exit(1)
+	  		elif functionsDir[function_ptr][1].has_key(p[-1]):
+	  			# Error
+	  			print("Variable %s already declared! Line: %s" %(p[-1], p.lineno(-1)))
+	  			exit(1)
+			varType = parseTypeIndex(p[-2])
+			varAddress = getLocalAddress(varType, 1)
+			functionsDir[function_ptr][1][p[-1]] = [varType, varAddress]
+		p[0] = p[-1]
 	else:
-		if globalVars.has_key(p[-1]):
-  			# Error
-  			print("Variable %s already declared! Line: %s" %(p[-1], p.lineno(-1)))
-  			exit(1)
-  		elif functionsDir[function_ptr][1].has_key(p[-1]):
-  			# Error
-  			print("Variable %s already declared! Line: %s" %(p[-1], p.lineno(-1)))
-  			exit(1)
-		varType = parseTypeIndex(p[-2])
-		varAddress = getLocalAddress(varType, 1)
-		functionsDir[function_ptr][1][p[-1]] = [varType, varAddress]
-	p[0] = p[-1]
-
-def p_declareVar2(p):
-	'''declareVar2 :'''
-	# CAMBIO: pedir direccion para vectores usando el tamano del arreglo para chunkSize
-	if function_ptr == 'GLOBAL':
-  		if globalVars.has_key(p[-1]):
-  			# Error
-  			print("Variable %s already declared! Line: %s" %(p[-1], p.lineno(-1)))
-  			exit(1)
-  		varType = parseTypeIndex(p[-2])
-  		globalVars[p[-1]] = [varType, 'ValueNone']
-	else:
-		if globalVars.has_key(p[-1]):
-  			# Error
-  			print("Variable %s already declared! Line: %s" %(p[-1], p.lineno(-1)))
-  			exit(1)
-  		elif functionsDir[function_ptr][1].has_key(p[-1]):
-  			# Error
-  			print("Variable %s already declared! Line: %s" %(p[-1], p.lineno(-1)))
-  			exit(1)
-  		varType = parseTypeIndex(p[-2])
-	  	functionsDir[function_ptr][1][p[-1]] = ['VECTOR ' + str(varType), 'ValueNone']
-	p[0] = p[-1]
+		# Declare vector
+		quadruples.sTypes.pop();
+		if function_ptr == 'GLOBAL':
+			if globalVars.has_key(p[-1]):
+				# Error
+				print("Variable %s already declared! Line: %s" %(p[-1], p.lineno(1)))
+				exit(1)
+			varType = parseTypeIndex(p[-2])
+			varAddress = getGlobalAddress(varType, quadruples.sOperands.pop())
+			globalVarsTypeCounts[varType] += 1
+	  		globalVars[p[-1]] = [varType, varAddress]
+		else:
+			if globalVars.has_key(p[-1]):
+					# Error
+					print("Variable %s already declared! Line: %s" %(p[-1], p.lineno(1)))
+					exit(1)
+			elif functionsDir[function_ptr][1].has_key(p[-1]):
+				# Error
+				print("Variable %s already declared! Line: %s" %(p[-1], p.lineno(1)))
+				exit(1)
+			varType = parseTypeIndex(p[-2])
+			varAddress = getLocalAddress(varType, quadruples.sOperands.pop())
+			functionsDir[function_ptr][1][p[-1]] = [varType, varAddress]
+		p[0] = p[-1]
+	
 
 def p_while(p):
 	'while : WHILE metePSaltos LPAREN expresion_logica RPAREN checkEvaluacionLogica bloque'
@@ -1214,67 +1221,3 @@ def p_error(p):
 	else:
 		print("Syntax error at EOF")
 	exit(1)
-
-#########################################
-#										#
-#         Logging Object Rules          #
-#										#
-#########################################
-
-import logging
-logging.basicConfig(
-    level = logging.DEBUG,
-    filename = "parselog.txt",
-    filemode = "w",
-    format = "%(filename)10s:%(lineno)4d:%(message)s"
-)
-log = logging.getLogger()
-
-parser = yacc.yacc(debug=True)
-
-#########################################
-#										#
-#         		Main          			#
-#										#
-#########################################
-
-import sys
-
-if __name__ == '__main__':
-
-	# Check for argument on file name to read
-	if (len(sys.argv) > 1):
-		fin = sys.argv[1]
-	else:
-		print("No file provided!")
-		exit(1)
-
-	# Open and read file
-	f = open(fin, 'r')
-	data = f.read()
-
-	#Print Tokens
-	# lexer.input(data)
-	# from tok in lexer:
-	# 	print(tok)
-
-	# Parse tokens read
-	parser.parse(data, tracking=True, debug=log)
-
-	print("*****************************************")
-	print("globalVars: ")
-	print(globalVars)
-	print("*****************************************")
-	print("functionDir: ")
-	print(functionsDir)
-	print("*****************************************")
-	print("quadruples: ")
-	print(quadruples.dirQuadruples)
-	print("operadores: ")
-	print(quadruples.sOperators)
-	print("operandos: ")
-	print(quadruples.sOperands)
-	print("*****************************************")
-	print("Num quadruples: " + str(quadruples.indexQuadruples))
-	print("*****************************************")
-	print("\nSuccessful")
