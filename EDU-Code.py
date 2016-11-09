@@ -154,40 +154,40 @@ def p_gotoMAIN(p):
 def p_asignacion(p):
 	'''asignacion : ID EQUALS asignacion1'''
 	# Check if ID is a declared global variable
-	print "ASIGNACION PILA DE OPERANDOS %s" % str(quadruples.pOperandos)
+	print "ASIGNACION PILA DE OPERANDOS %s" % str(quadruples.sOperands)
 	if globalVars.has_key(p[1]):
 		# Check if assignment is valid given the types of the operands
-		asignacionType = quadruples.cubo.getResultType(globalVars[p[1]][0], quadruples.pTipos[-1], EQUALS)
+		asignacionType = quadruples.cubo.getResultType(globalVars[p[1]][0], quadruples.sTypes[-1], EQUALS)
 
 		if asignacionType != ERROR:
-			newValueAddress = quadruples.pOperandos.pop()
+			newValueAddress = quadruples.sOperands.pop()
 			quadruples.dirQuadruples.append((EQUALS,newValueAddress, None, globalVars[p[1]][1]))
-			quadruples.pTipos.pop()
+			quadruples.sTypes.pop()
 			quadruples.indexQuadruples += 1
 		else:
 			# Error
-			print("Type mismatch var: %s of type: %s and %s! Line: %s" %(p[1], parseType(globalVars[p[1]][0]), parseType(quadruples.pTipos[-1]), p.lineno(1)))
+			print("Type mismatch var: %s of type: %s and %s! Line: %s" %(p[1], parseType(globalVars[p[1]][0]), parseType(quadruples.sTypes[-1]), p.lineno(0)))
 			exit(1)
 	else:
 		# Check if ID is a declared local variable
 		if functionsDir[function_ptr][1].has_key(p[1]):
 			# Check if assignment is valid given the types of the operands
-			asignacionType = quadruples.cubo.getResultType(functionsDir[function_ptr][1][p[1]][0], quadruples.pTipos[-1], EQUALS)
+			asignacionType = quadruples.cubo.getResultType(functionsDir[function_ptr][1][p[1]][0], quadruples.sTypes[-1], EQUALS)
 
 			if asignacionType != ERROR:
-				newValueAddress = quadruples.pOperandos.pop()
+				newValueAddress = quadruples.sOperands.pop()
 				quadruples.dirQuadruples.append((EQUALS, newValueAddress, None, functionsDir[function_ptr][1][p[1]][1]))
-				quadruples.pTipos.pop()
+				quadruples.sTypes.pop()
 				quadruples.indexQuadruples += 1
 			else:
 				# Error
-				print("Type mismatch var: %s of type: %s and %s! Line: %s" %(p[1], parseType(functionsDir[function_ptr][1][p[1]][0]), parseType(quadruples.pTipos[-1]),p.lineno(1)))
+				print("Type mismatch var: %s of type: %s and %s! Line: %s" %(p[1], parseType(functionsDir[function_ptr][1][p[1]][0]), parseType(quadruples.sTypes[-1]),p.lineno(0)))
 				exit(1)
 		else:
 			# Error
-			print("Variable %s is not declared! Line: %s" %(p[1], p.lineno(1)))
+			print("Variable %s is not declared! Line: %s" %(p[1], p.lineno(0)))
 			exit(1)
-	print "ASIGNACION PILA DE OPERANDOS %s" % str(quadruples.pOperandos)
+	print "ASIGNACION PILA DE OPERANDOS %s" % str(quadruples.sOperands)
 
 def p_asignacion1(p):
 	'''asignacion1 : expresion_logica
@@ -207,8 +207,8 @@ def p_bloque1(p):
 def p_condicion(p):
 	'condicion 	: IF LPAREN expresion_logica RPAREN checkEvaluacionLogica condicion1 checkPSaltos condicion2 condicion3'
 	# Fill out GOTO's for each condition
-	while(len(quadruples.pSaltos)!=0):
-		gotoIndex = quadruples.pSaltos.pop()
+	while(len(quadruples.sJumps)!=0):
+		gotoIndex = quadruples.sJumps.pop()
 		t = quadruples.dirQuadruples[gotoIndex]
 		t = t[:3] + (quadruples.indexQuadruples,)
 		quadruples.dirQuadruples[gotoIndex] = t
@@ -227,11 +227,11 @@ def p_condicion3(p):
 
 def p_checkEvaluacionLogica(p):
 	'''checkEvaluacionLogica : '''
-	aux = quadruples.pTipos.pop()
+	aux = quadruples.sTypes.pop()
 	if aux == BOOL:
 		# Generate GOTOF
-		quadruples.dirQuadruples.append((GOTOF, quadruples.pOperandos.pop(), None, None))
-		quadruples.pSaltos.append(quadruples.indexQuadruples)
+		quadruples.dirQuadruples.append((GOTOF, quadruples.sOperands.pop(), None, None))
+		quadruples.sJumps.append(quadruples.indexQuadruples)
 		quadruples.indexQuadruples += 1
 	else:
 		# Error
@@ -244,20 +244,20 @@ def p_checkPSaltos(p):
 	quadruples.dirQuadruples.append((GOTO, None, None, None))
 	quadruples.indexQuadruples += 1
 
-	if (len(quadruples.pSaltos) != 0):
-		gotoIndex = quadruples.pSaltos.pop()
+	if (len(quadruples.sJumps) != 0):
+		gotoIndex = quadruples.sJumps.pop()
 		t = quadruples.dirQuadruples[gotoIndex]
 		t = t[:3] + (quadruples.indexQuadruples,)
 		quadruples.dirQuadruples[gotoIndex] = t
 
-	quadruples.pSaltos.append(quadruples.indexQuadruples-1)
+	quadruples.sJumps.append(quadruples.indexQuadruples-1)
 
 def p_do_while(p):
 	''' do_while : DO metePSaltos bloque WHILE LPAREN expresion_logica RPAREN '''
-	aux = quadruples.pTipos.pop()
+	aux = quadruples.sTypes.pop()
 	if aux == BOOL:
 		# Generate GOTOT
-		quadruples.dirQuadruples.append((GOTOT, quadruples.pOperandos.pop(), None, quadruples.pSaltos.pop()))
+		quadruples.dirQuadruples.append((GOTOT, quadruples.sOperands.pop(), None, quadruples.sJumps.pop()))
 		quadruples.indexQuadruples += 1
 	else:
 		# Error
@@ -282,13 +282,14 @@ def p_exp(p):
 
 def p_checkEXPPOper(p):
 	'checkEXPPOper : '
-	if (len(quadruples.pOper) != 0):
-		if ((quadruples.pOper[-1] == PLUS) or (quadruples.pOper[-1] == MINUS)):
-			operator = quadruples.pOper.pop()
-			operand2 = quadruples.pOperandos.pop()
-			operand1 = quadruples.pOperandos.pop()
-			operandType2 = quadruples.pTipos.pop()
-			operandType1 = quadruples.pTipos.pop()
+	if (len(quadruples.sOperators) != 0):
+		if ((quadruples.sOperators[-1] == PLUS) or (quadruples.sOperators[-1] == MINUS)):
+			
+			operator = quadruples.sOperators.pop()
+			operand2 = quadruples.sOperands.pop()
+			operand1 = quadruples.sOperands.pop()
+			operandType2 = quadruples.sTypes.pop()
+			operandType1 = quadruples.sTypes.pop()
 
 			operationType = quadruples.cubo.getResultType(operandType1, operandType2, operator)
 
@@ -296,11 +297,11 @@ def p_checkEXPPOper(p):
 				print "OPERATOR: %s OPERAND1: %s OPERAND2: %s   L211" % (str(operator), str(operand1), str(operand2))
 				newValueAddress = getLocalAddress(operationType, 1)
 				quadruples.dirQuadruples.append((operator, operand1, operand2, newValueAddress))
-				quadruples.pOperandos.append(newValueAddress)
-				quadruples.pTipos.append(operationType)
+				quadruples.sOperands.append(newValueAddress)
+				quadruples.sTypes.append(operationType)
 				quadruples.indexQuadruples += 1
 			else:
-				print("Type mismatch between operand type: %s and %s while trying to %s at line: %s" %(operand1, operand2, operator, p.lineno(-1)))
+				print("Type mismatch between operand type: %s and %s while trying to %s at line: %d" %(operand1, operand2, operator, p.lineno(0)))
 				exit(1)
 
 def p_exp1(p):
@@ -311,29 +312,29 @@ def p_exp1(p):
 def p_addOperator(p):
 	'''addOperator : '''
 	if p[-1] == '*':
-		quadruples.pOper.append(MULT)
+		quadruples.sOperators.append(MULT)
 	elif p[-1] == '/':
-		quadruples.pOper.append(DIVIDE)
+		quadruples.sOperators.append(DIVIDE)
 	elif p[-1] == '+':
-		quadruples.pOper.append(PLUS)
+		quadruples.sOperators.append(PLUS)
 	elif p[-1] == 'and':
-		quadruples.pOper.append(AND)
+		quadruples.sOperators.append(AND)
 	elif p[-1] == 'or':
-		quadruples.pOper.append(OR)
+		quadruples.sOperators.append(OR)
 	elif p[-1] == '<=':
-		quadruples.pOper.append(LESSEQUAL)
+		quadruples.sOperators.append(LESSEQUAL)
 	elif p[-1] == '>=':
-		quadruples.pOper.append(GREATEREQUAL)
+		quadruples.sOperators.append(GREATEREQUAL)
 	elif p[-1] == '==':
-		quadruples.pOper.append(DOUBLE_EQUAL)
+		quadruples.sOperators.append(DOUBLE_EQUAL)
 	elif p[-1] == '!=':
-		quadruples.pOper.append(DIFF)
+		quadruples.sOperators.append(DIFF)
 	elif p[-1] == '<':
-		quadruples.pOper.append(LESS)
+		quadruples.sOperators.append(LESS)
 	elif p[-1] == '>':
-		quadruples.pOper.append(GREATER)
+		quadruples.sOperators.append(GREATER)
 	else:
-		quadruples.pOper.append(MINUS)
+		quadruples.sOperators.append(MINUS)
 
 def p_expresion(p):
 	'expresion 	: exp checkEXPRESIONPOper expresion1'
@@ -341,13 +342,14 @@ def p_expresion(p):
 
 def p_checkEXPRESIONPOper(p):
 	'checkEXPRESIONPOper : '
-	if (len(quadruples.pOper) != 0):
-		if ((quadruples.pOper[-1] == LESS) or (quadruples.pOper[-1] == LESSEQUAL) or (quadruples.pOper[-1] == GREATER) or (quadruples.pOper[-1] == GREATEREQUAL) or (quadruples.pOper[-1] == DOUBLE_EQUAL) or (quadruples.pOper[-1] == DIFF)):
-			operator = quadruples.pOper.pop()
-			operand2 = quadruples.pOperandos.pop()
-			operand1 = quadruples.pOperandos.pop()
-			operandType2 = quadruples.pTipos.pop()
-			operandType1 = quadruples.pTipos.pop()
+	if (len(quadruples.sOperators) != 0):
+		if ((quadruples.sOperators[-1] == LESS) or (quadruples.sOperators[-1] == LESSEQUAL) or (quadruples.sOperators[-1] == GREATER) or (quadruples.sOperators[-1] == GREATEREQUAL) or (quadruples.sOperators[-1] == DOUBLE_EQUAL) or (quadruples.sOperators[-1] == DIFF)):
+			
+			operator = quadruples.sOperators.pop()
+			operand2 = quadruples.sOperands.pop()
+			operand1 = quadruples.sOperands.pop()
+			operandType2 = quadruples.sTypes.pop()
+			operandType1 = quadruples.sTypes.pop()
 
 			operationType = quadruples.cubo.getResultType(operandType1, operandType2, operator)
 
@@ -355,11 +357,11 @@ def p_checkEXPRESIONPOper(p):
 				print "OPERATOR: %s OPERAND1: %s OPERAND2: %s L273  " % (str(operator), str(operand1), str(operand2))
 				newValueAddress = getLocalAddress(operationType, 1)
 				quadruples.dirQuadruples.append((operator, operand1, operand2, newValueAddress))
-				quadruples.pOperandos.append(newValueAddress)
-				quadruples.pTipos.append(operationType)
+				quadruples.sOperands.append(newValueAddress)
+				quadruples.sTypes.append(operationType)
 				quadruples.indexQuadruples += 1
 			else:
-				print("Type mismatch between operand type: %s and %s while trying to %s at line: %s" %(operand1, operand2, operator, p.lineno(-1)))
+				print("Type mismatch between operand type: %s and %s while trying to %s at line: %s" %(operand1, operand2, operator, p.lineno(0)))
 				exit(1)
 
 def p_expresion1(p):
@@ -375,26 +377,27 @@ def p_expresion_logica(p):
 	'expresion_logica 	: expresion checkEXPRESIONLOGICAPOper expresion_logica1'
 	print("-----------------")
 	print("tipos:")
-	print(quadruples.pTipos)
+	print(quadruples.sTypes)
 	print("---")
 	print("operandos:")
-	print(quadruples.pOperandos)
+	print(quadruples.sOperands)
 	print("---")
 	print("operadores:")
-	print(quadruples.pOper)
+	print(quadruples.sOperators)
 	print ("quadruples:\n%s" %(str(quadruples.dirQuadruples)))
 	print("-----------------\n")
 	p[0] = p[1]
 
 def p_checkEXPRESIONLOGICAPOper(p):
 	'checkEXPRESIONLOGICAPOper : '
-	if (len(quadruples.pOper) != 0):
-		if ((quadruples.pOper[-1] == AND) or (quadruples.pOper[-1] == OR)):
-			operator = quadruples.pOper.pop()
-			operand2 = quadruples.pOperandos.pop()
-			operand1 = quadruples.pOperandos.pop()
-			operandType2 = quadruples.pTipos.pop()
-			operandType1 = quadruples.pTipos.pop()
+	if (len(quadruples.sOperators) != 0):
+		if ((quadruples.sOperators[-1] == AND) or (quadruples.sOperators[-1] == OR)):
+			
+			operator = quadruples.sOperators.pop()
+			operand2 = quadruples.sOperands.pop()
+			operand1 = quadruples.sOperands.pop()
+			operandType2 = quadruples.sTypes.pop()
+			operandType1 = quadruples.sTypes.pop()
 
 			operationType = quadruples.cubo.getResultType(operandType1, operandType2, operator)
 
@@ -402,13 +405,12 @@ def p_checkEXPRESIONLOGICAPOper(p):
 				print "OPERATOR: %s OPERAND1: %s OPERAND2: %s L312  " % (str(operator), str(operand1), str(operand2))
 				newValueAddress = getLocalAddress(operationType, 1)
 				quadruples.dirQuadruples.append((operator, operand1, operand2, newValueAddress))
-				quadruples.pOperandos.append(newValueAddress)
-				quadruples.pTipos.append(operationType)
+				quadruples.sOperands.append(newValueAddress)
+				quadruples.sTypes.append(operationType)
 				quadruples.indexQuadruples += 1
 			else:
-				print("Type mismatch between operand type: %s and %s while trying to %s at line: %s" %(operand1, operand2, operator, p.lineno(-1)))
+				print("Type mismatch between operand type: %s and %s while trying to %s at line: %s" %(operand1, operand2, operator, p.lineno(0)))
 				exit(1)
-
 def p_expresion_logica1(p):
 	'''expresion_logica1 	: AND addOperator expresion_logica
 					| epsilon
@@ -418,12 +420,12 @@ def p_factor(p):
 	''' factor	: LPAREN factorAddFakeCover expresion_logica RPAREN
 				| factor1'''
 	if len(p) == 5:
-		quadruples.pOper.pop()
+		quadruples.sOperators.pop()
 	p[0] = p[1]
 
 def p_factorAddFakeCover(p):
 	'factorAddFakeCover : '
-	quadruples.pOper.append('(')
+	quadruples.sOperators.append('(')
 	p[0] = p[-1]
 
 def p_factor1(p):
@@ -459,8 +461,8 @@ def p_from(p):
 		quadruples.dirQuadruples.append(DIVIDE,fromTempStack[-1],newAddress,tempAddress)
 
 	# Genera GOTO
-	gotoFIndex = quadruples.pSaltos.pop()
-	quadruples.dirQuadruples.append((GOTO, None, None, quadruples.pSaltos.pop()))
+	gotoFIndex = quadruples.sJumps.pop()
+	quadruples.dirQuadruples.append((GOTO, None, None, quadruples.sJumps.pop()))
 	quadruples.indexQuadruples += 1
 	t = quadruples.dirQuadruples[gotoFIndex]
 	t = t[:3] + (quadruples.indexQuadruples,)
@@ -487,7 +489,7 @@ def p_creaVarTemp(p):
 	#add to the tempStack
 	fromTempStack.append(tempAddress)
 
-	quadruples.pOperandos.append(p[-1])
+	quadruples.sOperands.append(p[-1])
 
 def p_crearComparacion(p):
 	'crearComparacion : '
@@ -501,7 +503,7 @@ def p_crearComparacion(p):
 	boolAddress = getLocalAddress(BOOL,1)
 
 
-	if quadruples.pOperandos.pop() >= p[-1]:
+	if quadruples.sOperands.pop() >= p[-1]:
 		# comparacion >=
 		quadruples.dirQuadruples.append((GREATEREQUAL, fromTempStack[-1], newAddress, boolAddress))
 		quadruples.indexQuadruples += 1
@@ -512,10 +514,10 @@ def p_crearComparacion(p):
 		quadruples.indexQuadruples += 1
 
 	#GOTO
-	quadruples.pSaltos.append(quadruples.indexQuadruples)
+	quadruples.sJumps.append(quadruples.indexQuadruples)
 
 	quadruples.dirQuadruples.append((GOTOF, boolAddress, None, None))
-	quadruples.pSaltos.append(quadruples.indexQuadruples)
+	quadruples.sJumps.append(quadruples.indexQuadruples)
 	quadruples.indexQuadruples += 1
 
 def p_funcion(p):
@@ -564,8 +566,8 @@ def p_return(p):
 	# Verify type of function
 	if functionsDir[function_ptr][0] != VOID:
 		# Generate RETURN with value to return and address to return it to
-		quadruples.pTipos.pop()
-		quadruples.dirQuadruples.append((RETURN, quadruples.pOperandos.pop(), None, functionsDir[function_ptr][4]))
+		quadruples.sTypes.pop()
+		quadruples.dirQuadruples.append((RETURN, quadruples.sOperands.pop(), None, functionsDir[function_ptr][4]))
 		quadruples.indexQuadruples += 1
 	else:
 		# Error
@@ -575,13 +577,13 @@ def p_return(p):
 def p_input(p):
 	'''input	: INPUT LPAREN input1 RPAREN'''
 	# METE mensaje a memoria
-	quadruples.pTipos.pop()
+	quadruples.sTypes.pop()
 	quadruples.countT += 1
-	quadruples.dirQuadruples.append((INPUT, quadruples.pOperandos.pop(), None, "t"+str(quadruples.countT)))
+	quadruples.dirQuadruples.append((INPUT, quadruples.sOperands.pop(), None, "t"+str(quadruples.countT)))
 	quadruples.indexQuadruples += 1
 	# METE input a memoria
-	quadruples.pOperandos.append("t"+str(quadruples.countT))
-	quadruples.pTipos.append(STRING)
+	quadruples.sOperands.append("t"+str(quadruples.countT))
+	quadruples.sTypes.append(STRING)
 	quadruples.countT += 1
 	p[0] = 'input'
 
@@ -641,12 +643,12 @@ def p_llamada(p):
 		while (countParam > 0):
 			varID = functionsDir[function_ptr][2][countParam-1]
 			varType = functionsDir[function_ptr][1][varID][0]
-			if (varType != quadruples.pTipos[-1]):
+			if (varType != quadruples.sTypes[-1]):
 				# Error
-				print("Function: %s parameter %s type mismatch, expected %s!" %(p[1], parseType(quadruples.pTipos[-1]), parseType(varType)))
+				print("Function: %s parameter %s type mismatch, expected %s!" %(p[1], parseType(quadruples.sTypes[-1]), parseType(varType)))
 				exit(1)
 			else:
-				quadruples.dirQuadruples.append((PARAM, quadruples.pTipos.pop(), quadruples.pOperandos.pop(), functionsDir[function_ptr][1][varID][1]))
+				quadruples.dirQuadruples.append((PARAM, quadruples.sTypes.pop(), quadruples.sOperands.pop(), functionsDir[function_ptr][1][varID][1]))
 				quadruples.indexQuadruples += 1
 			global countParam
 			countParam -= 1
@@ -654,7 +656,7 @@ def p_llamada(p):
 		# Genera cuadruplo GOSUB
 		quadruples.dirQuadruples.append((GOSUB, function_ptr, None, functionsDir[function_ptr][3]))
 		quadruples.indexQuadruples += 1
-		print("PILA OPERANDOS: %s   PILA TIPOS: %s   PILA OPERADORES: %s" %(str(quadruples.pOperandos), str(quadruples.pTipos), str(quadruples.pOper)))
+		print("PILA OPERANDOS: %s   PILA TIPOS: %s   PILA OPERADORES: %s" %(str(quadruples.sOperands), str(quadruples.sTypes), str(quadruples.sOperators)))
 	else:
 		# Error
 		print("Function: %s expected %d parameter(s), recieved %d!" %(p[1], len(functionsDir[function_ptr][2]), countParam))
@@ -745,12 +747,12 @@ def p_llamada3(p):
 		while (countParam > 0):
 			varID = functionsDir[function_ptr][2][countParam-1]
 			varType = functionsDir[function_ptr][1][varID][0]
-			if (varType != quadruples.pTipos[-1]):
+			if (varType != quadruples.sTypes[-1]):
 				# Error
-				print("Function: %s parameter %s type mismatch, expected %s!" %(p[-1], parseType(quadruples.pTipos[-1]), parseType(varType)))
+				print("Function: %s parameter %s type mismatch, expected %s!" %(p[-1], parseType(quadruples.sTypes[-1]), parseType(varType)))
 				exit(1)
 			else:
-				quadruples.dirQuadruples.append((PARAM, quadruples.pTipos.pop(), quadruples.pOperandos.pop(), functionsDir[function_ptr][1][varID][1]))
+				quadruples.dirQuadruples.append((PARAM, quadruples.sTypes.pop(), quadruples.sOperands.pop(), functionsDir[function_ptr][1][varID][1]))
 				quadruples.indexQuadruples += 1
 			global countParam
 			countParam -= 1
@@ -758,7 +760,7 @@ def p_llamada3(p):
 		# Genera cuadruplo GOSUB
 		quadruples.dirQuadruples.append((GOSUB, function_ptr, None, functionsDir[function_ptr][3]))
 		quadruples.indexQuadruples += 1
-		print("PILA OPERANDOS: %s   PILA TIPOS: %s   PILA OPERADORES: %s" %(str(quadruples.pOperandos), str(quadruples.pTipos), str(quadruples.pOper)))
+		print("PILA OPERANDOS: %s   PILA TIPOS: %s   PILA OPERADORES: %s" %(str(quadruples.sOperands), str(quadruples.sTypes), str(quadruples.sOperators)))
 	else:
 		# Error
 		print("Function: %s expected %d parameter(s), recieved %d!" %(p[-1], len(functionsDir[function_ptr][2]), countParam))
@@ -869,19 +871,19 @@ def p_meteParamVect(p):
 
 def p_print(p):
 	'print : PRINT LPAREN expresion_logica RPAREN'
-	printValue = quadruples.pOperandos.pop()
+	printValue = quadruples.sOperands.pop()
 	quadruples.dirQuadruples.append((PRINT, None, None, printValue))
 	quadruples.indexQuadruples += 1
 	p[0] = 'print'
 
 def p_switch(p):
 	'switch     : SWITCH ID meterIDPOper switch1 LCURL switch2 switch3 RCURL'
-	quadruples.pOperandos.pop()
-	quadruples.pTipos.pop()
+	quadruples.sOperands.pop()
+	quadruples.sTypes.pop()
 
 	#rellenar goto's de switch
-	while(len(quadruples.pSaltos)!=0):
-		gotoIndex = quadruples.pSaltos.pop()
+	while(len(quadruples.sJumps)!=0):
+		gotoIndex = quadruples.sJumps.pop()
 		t = quadruples.dirQuadruples[gotoIndex]
 		t = t[:3] + (quadruples.indexQuadruples,)
 		quadruples.dirQuadruples[gotoIndex] = t
@@ -904,15 +906,15 @@ def p_switch4(p):
 def p_meterIDPOper(p):
 	'meterIDPOper : '
 	# Checa que ID exista y saca tipo de tabla de Var
-	# Si existe mete valor a pOperandos y tipo a pTipos
+	# Si existe mete valor a sOperands y tipo a sTypes
 	if globalVars.has_key(p[-1]):
 		newAddress = getGlobalAddress(globalVars[p[-1]][0], 1)
-		quadruples.pTipos.append(globalVars[p[-1]][0])
-		quadruples.pOperandos.append(newAddress)
+		quadruples.sTypes.append(globalVars[p[-1]][0])
+		quadruples.sOperands.append(newAddress)
 	elif functionsDir[function_ptr][1].has_key(p[-1]):
 		newAddress = getLocalAddress(functionsDir[function_ptr][1][p[-1]][0], 1)
-		quadruples.pTipos.append(functionsDir[function_ptr][1][p[-1]][0])
-		quadruples.pOperandos.append(newAddress)
+		quadruples.sTypes.append(functionsDir[function_ptr][1][p[-1]][0])
+		quadruples.sOperands.append(newAddress)
 	else:
 		# Error
 		print("Variable %s isn't declared! Line: %s" %(p[-1], p.lineno(-1)))
@@ -944,16 +946,16 @@ def p_compararConID(p):
 			setValue(newValueAddress, p[-1])
 
 	operator = DOUBLE_EQUAL
-	operand1 = quadruples.pOperandos[-1]
-	operandType1 = quadruples.pTipos[-1]
+	operand1 = quadruples.sOperands[-1]
+	operandType1 = quadruples.sTypes[-1]
 
 	operationType = quadruples.cubo.getResultType(operandType1, operandType2, operator)
 
 	if(operationType == BOOL):
 		newAddress = getLocalAddress(operationType, 1)
 		quadruples.dirQuadruples.append((operator, operand1, operand2, newAddress))
-		quadruples.pOperandos.append(newAddress)
-		quadruples.pTipos.append(operationType)
+		quadruples.sOperands.append(newAddress)
+		quadruples.sTypes.append(operationType)
 		quadruples.indexQuadruples += 1
 
 	else:
@@ -966,23 +968,24 @@ def p_termino(p):
 
 def p_checkTERMPOper(p):
 	'checkTERMPOper : '
-	if (len(quadruples.pOper) != 0):
-		if ((quadruples.pOper[-1] == MULT) or (quadruples.pOper[-1] == DIVIDE)):
-			operator = quadruples.pOper.pop()
-			operand2 = quadruples.pOperandos.pop()
-			operand1 = quadruples.pOperandos.pop()
-			operandType2 = quadruples.pTipos.pop()
-			operandType1 = quadruples.pTipos.pop()
+	if (len(quadruples.sOperators) != 0):
+		if ((quadruples.sOperators[-1] == MULT) or (quadruples.sOperators[-1] == DIVIDE)):
+			
+			operator = quadruples.sOperators.pop()
+			operand2 = quadruples.sOperands.pop()
+			operand1 = quadruples.sOperands.pop()
+			operandType2 = quadruples.sTypes.pop()
+			operandType1 = quadruples.sTypes.pop()
 
 			operationType = quadruples.cubo.getResultType(operandType1, operandType2, operator)
 			if(operationType != ERROR):
 				newValueAddress = getLocalAddress(operationType, 1)
 				quadruples.dirQuadruples.append((operator, operand1, operand2, newValueAddress))
-				quadruples.pOperandos.append(newValueAddress)
-				quadruples.pTipos.append(operationType)
+				quadruples.sOperands.append(newValueAddress)
+				quadruples.sTypes.append(operationType)
 				quadruples.indexQuadruples += 1
 			else:
-				print("Type mismatch between operand type: %s and %s while trying to %s at line: %s" %(operand1, operand2, operator, p.lineno(-1)))
+				print("Type mismatch between operand type: %s and %s while trying to %s at line: %s" %(operand1, operand2, operator, p.lineno(0)))
 				exit(1)
 
 def p_termino1(p):
@@ -1018,15 +1021,15 @@ def p_varcte2(p):
 		print("FOUND ID: %s AT FUNCTION: %s" %(str(p[-1]), function_ptr))
 		if globalVars.has_key(p[-1]):
 			varAddress = globalVars[p[-1]][1]
-	  		quadruples.pTipos.append(globalVars[p[-1]][0])
+	  		quadruples.sTypes.append(globalVars[p[-1]][0])
 		elif function_ptr != "GLOBAL" and functionsDir[function_ptr][1].has_key(p[-1]):
 			varAddress = functionsDir[function_ptr][1][p[-1]][1]
-		  	quadruples.pTipos.append(functionsDir[function_ptr][1][p[-1]][0])
+		  	quadruples.sTypes.append(functionsDir[function_ptr][1][p[-1]][0])
 		else:
 			# ERROR
 			print("ID: %s not declared at line: %s" %(p[-1], p.lineno(-1)))
 			exit(1)
-		quadruples.pOperandos.append(varAddress)
+		quadruples.sOperands.append(varAddress)
 		p[0] = varAddress
 	elif len(p) == 3:
 		# Verify function call exists
@@ -1035,28 +1038,28 @@ def p_varcte2(p):
 			# Create local variable if function type is != VOID
 			if functionsDir[p[-1]][0] != VOID:
 				varAddress = getLocalAddress(functionsDir[p[-1]][0], 1)
-				quadruples.pOperandos.append(varAddress)
-				quadruples.pTipos.append(functionsDir[p[-1]][0])
+				quadruples.sOperands.append(varAddress)
+				quadruples.sTypes.append(functionsDir[p[-1]][0])
 				p[0] = varAddress
 				print("%s FUNCTION FOUND" %(parseType(functionsDir[p[-1]][0])))
 			else:
-				quadruples.pOperandos.append(p[-1])
-				quadruples.pTipos.append(functionsDir[p[-1]][0])
+				quadruples.sOperands.append(p[-1])
+				quadruples.sTypes.append(functionsDir[p[-1]][0])
 				p[0] = p[-1]
 				print("VOID FUNCTION FOUND")
-			print("PILA TIPOS DESPUES DE FUNCTION CALL: %s" %(str(quadruples.pTipos)))
+			print("PILA TIPOS DESPUES DE FUNCTION CALL: %s" %(str(quadruples.sTypes)))
 		else:
 			# ERROR
 			print("Function: %s is not declared! Line: %s" %(p[-1], p.lineno(-1)))
 			exit(1)
 		# Remove fake cover
-		quadruples.pOper.pop()
+		quadruples.sOperators.pop()
 	else:
 		# Verify Vector exists
 		# Remove fake cover
-		quadruples.pOper.pop()
-		quadruples.pOperandos.append(varAddress)
-		quadruples.pTipos.append()
+		quadruples.sOperators.pop()
+		quadruples.sOperands.append(varAddress)
+		quadruples.sTypes.append()
 		p[0] = varAddress
 
 
@@ -1064,57 +1067,57 @@ def p_cte_int1(p):
 	''' cte_int1 : PLUS CTE_INT
 				| MINUS CTE_INT
 				| CTE_INT'''
-	quadruples.pTipos.append(INT)
+	quadruples.sTypes.append(INT)
 	# Insert Value to dictionary and add address to Operands
 	if len(p) == 3:
 		if (p[1] == '-'):
-			newValueAddress = setConstantAddress(quadruples.pTipos[-1], p[2]*-1)
-			quadruples.pOperandos.append(newValueAddress)
+			newValueAddress = setConstantAddress(quadruples.sTypes[-1], p[2]*-1)
+			quadruples.sOperands.append(newValueAddress)
 		else:
-			newValueAddress = setConstantAddress(quadruples.pTipos[-1], p[2])
-			quadruples.pOperandos.append(newValueAddress)
+			newValueAddress = setConstantAddress(quadruples.sTypes[-1], p[2])
+			quadruples.sOperands.append(newValueAddress)
 	else:
-		newValueAddress = setConstantAddress(quadruples.pTipos[-1], p[1])
-		quadruples.pOperandos.append(newValueAddress)
+		newValueAddress = setConstantAddress(quadruples.sTypes[-1], p[1])
+		quadruples.sOperands.append(newValueAddress)
 	p[0] = newValueAddress
 
 def p_cte_float1(p):
 	''' cte_float1 : PLUS CTE_FLOAT
 				| MINUS CTE_FLOAT
 				| CTE_FLOAT'''
-	quadruples.pTipos.append(FLOAT)
+	quadruples.sTypes.append(FLOAT)
 	# Insert Value to dictionary and add address to Operands
 	if len(p) == 3:
 		if (p[1] == '-'):
-			newValueAddress = setConstantAddress(quadruples.pTipos[-1], p[2]*-1)
-			quadruples.pOperandos.append(newValueAddress)
+			newValueAddress = setConstantAddress(quadruples.sTypes[-1], p[2]*-1)
+			quadruples.sOperands.append(newValueAddress)
 		else:
-			newValueAddress = setConstantAddress(quadruples.pTipos[-1], p[2])
-			quadruples.pOperandos.append(newValueAddress)
+			newValueAddress = setConstantAddress(quadruples.sTypes[-1], p[2])
+			quadruples.sOperands.append(newValueAddress)
 	else:
-		newValueAddress = setConstantAddress(quadruples.pTipos[-1], p[1])
-		quadruples.pOperandos.append(newValueAddress)
+		newValueAddress = setConstantAddress(quadruples.sTypes[-1], p[1])
+		quadruples.sOperands.append(newValueAddress)
 	p[0] = newValueAddress
 
 def p_varstring1(p):
 	''' varstring1 : VARSTRING'''
-	quadruples.pTipos.append(STRING)
+	quadruples.sTypes.append(STRING)
 	# Insert Value to dictionary and add address to Operands
-	newValueAddress = getLocalAddress(quadruples.pTipos[-1], 1)
+	newValueAddress = getLocalAddress(quadruples.sTypes[-1], 1)
 
 	# SET VALUE FOR STRINGS
 	setValue(newValueAddress, p[1])
 
-	quadruples.pOperandos.append(newValueAddress)
+	quadruples.sOperands.append(newValueAddress)
 	p[0] = newValueAddress
 
 def p_cte_bool(p):
 	''' cte_bool : TRUE
 				 | FALSE'''
-	quadruples.pTipos.append(BOOL)
+	quadruples.sTypes.append(BOOL)
 	# Insert Value to dictionary and add address to Operands
-	newValueAddress = setConstantAddress(quadruples.pTipos[-1], p[1])
-	quadruples.pOperandos.append(newValueAddress)
+	newValueAddress = setConstantAddress(quadruples.sTypes[-1], p[1])
+	quadruples.sOperands.append(newValueAddress)
 	p[0] = newValueAddress
 
 def p_checarExpresion(p):
@@ -1186,9 +1189,9 @@ def p_declareVar2(p):
 
 def p_while(p):
 	'while : WHILE metePSaltos LPAREN expresion_logica RPAREN checkEvaluacionLogica bloque'
-	if (len(quadruples.pSaltos) != 0):
-		gotoFIndex = quadruples.pSaltos.pop()
-		quadruples.dirQuadruples.append((GOTO, None, None, quadruples.pSaltos.pop()))
+	if (len(quadruples.sJumps) != 0):
+		gotoFIndex = quadruples.sJumps.pop()
+		quadruples.dirQuadruples.append((GOTO, None, None, quadruples.sJumps.pop()))
 		quadruples.indexQuadruples += 1
 		t = quadruples.dirQuadruples[gotoFIndex]
 		t = t[:3] + (quadruples.indexQuadruples,)
@@ -1196,7 +1199,8 @@ def p_while(p):
 
 def p_metePSaltos(p):
 	'metePSaltos :'
-	quadruples.pSaltos.append(quadruples.indexQuadruples)
+	quadruples.sJumps.append(quadruples.indexQuadruples)
+
 
 def p_epsilon(p):
 	'epsilon :'
@@ -1267,9 +1271,9 @@ if __name__ == '__main__':
 	print("quadruples: ")
 	print(quadruples.dirQuadruples)
 	print("operadores: ")
-	print(quadruples.pOper)
+	print(quadruples.sOperators)
 	print("operandos: ")
-	print(quadruples.pOperandos)
+	print(quadruples.sOperands)
 	print("*****************************************")
 	print("Num quadruples: " + str(quadruples.indexQuadruples))
 	print("*****************************************")
