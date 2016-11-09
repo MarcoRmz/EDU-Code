@@ -21,6 +21,7 @@ def startMachine():
 
     #While the quadruple holds no EOF operation
 	while(quadruples.dirQuadruples[i][0] != 99):
+		print "index %d" % i
     	#conditions to determine actions on quadruples
         #case for PLUS (+)
 		if(quadruples.dirQuadruples[i][0] == 0):
@@ -244,8 +245,9 @@ def startMachine():
             #case for ENDPROC
 		elif(quadruples.dirQuadruples[i][0] == 21):
 			#Returns to the next instruction after the function call
-			i = executionStack.pop()
-			delete()
+			print ("Function MEMORY: %s" % memoryStack[-1].memory)
+			i = executionStack.pop() - 1
+			deleteMemory()
 
             #case for PARAM
 		elif(quadruples.dirQuadruples[i][0] == 22):
@@ -254,16 +256,39 @@ def startMachine():
 			#get param virtual memory addresses
 			param_vaddress = quadruples.dirQuadruples[i][2]
 
-			param_realAddr = param_vaddress % 1000
+			#Global
+			if(param_vaddress < 4000):
+				param_realAddr = param_vaddress % 1000
+				#gets value from previous function (memory object)
+				paramValue = memoryStack[-2].memory[param_type][param_realAddr]
 
-			#gets value from previous function (memory object)
-			print(memoryStack[-2].memory)
-			paramValue = memoryStack[-2].memory[param_type][param_realAddr]
+
+			#constantes
+			elif(param_vaddress < 10000):
+				param_realAddr = param_vaddress
+				paramValue = constMemory[param_realAddr]
+
+			#locales
+			else:
+				param_realAddr = param_vaddress % 10000
+				#gets value from previous function (memory object)
+				paramValue = memoryStack[-2].memory[param_type][param_realAddr]
+
 			#gets real address
 			realAddr = quadruples.dirQuadruples[i][3]
+			#Global
+			if(param_vaddress < 4000):
+				realAddr = realAddr % 1000
+
+			#locales
+			else:
+				realAddr = realAddr % 10000
+
 			#assigns paramValue to corresponding memory address
 			memoryStack[-1].memory[param_type][realAddr] = paramValue
 		i += 1
+
+	print ("FINAL MEMORY: %s" % memoryStack[-1].memory)
 
 #########################################
 #                                       #
@@ -309,7 +334,7 @@ if __name__ == '__main__':
 
 	# Parse tokens read
 	parser.parse(data, tracking=True, debug=log)
-	
+
 	# Create Memory for global vars
 	initGlobalMemory(globalVarsTypeCounts)
 

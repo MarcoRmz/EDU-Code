@@ -292,7 +292,7 @@ def p_checkEXPPOper(p):
 	'checkEXPPOper : '
 	if (len(quadruples.sOperators) != 0):
 		if ((quadruples.sOperators[-1] == PLUS) or (quadruples.sOperators[-1] == MINUS)):
-			
+
 			operator = quadruples.sOperators.pop()
 			operand2 = quadruples.sOperands.pop()
 			operand1 = quadruples.sOperands.pop()
@@ -352,7 +352,7 @@ def p_checkEXPRESIONPOper(p):
 	'checkEXPRESIONPOper : '
 	if (len(quadruples.sOperators) != 0):
 		if ((quadruples.sOperators[-1] == LESS) or (quadruples.sOperators[-1] == LESSEQUAL) or (quadruples.sOperators[-1] == GREATER) or (quadruples.sOperators[-1] == GREATEREQUAL) or (quadruples.sOperators[-1] == DOUBLE_EQUAL) or (quadruples.sOperators[-1] == DIFF)):
-			
+
 			operator = quadruples.sOperators.pop()
 			operand2 = quadruples.sOperands.pop()
 			operand1 = quadruples.sOperands.pop()
@@ -400,7 +400,7 @@ def p_checkEXPRESIONLOGICAPOper(p):
 	'checkEXPRESIONLOGICAPOper : '
 	if (len(quadruples.sOperators) != 0):
 		if ((quadruples.sOperators[-1] == AND) or (quadruples.sOperators[-1] == OR)):
-			
+
 			operator = quadruples.sOperators.pop()
 			operand2 = quadruples.sOperands.pop()
 			operand1 = quadruples.sOperands.pop()
@@ -552,6 +552,7 @@ def p_funcion5(p):
 	# Generate ENDPROC
 	quadruples.dirQuadruples.append((ENDPROC, None, None, None))
 	quadruples.indexQuadruples += 1
+	resetMemoryIndexes()
 
 def p_declareFunc(p):
 	'''declareFunc : '''
@@ -1008,7 +1009,7 @@ def p_checkTERMPOper(p):
 	'checkTERMPOper : '
 	if (len(quadruples.sOperators) != 0):
 		if ((quadruples.sOperators[-1] == MULT) or (quadruples.sOperators[-1] == DIVIDE)):
-			
+
 			operator = quadruples.sOperators.pop()
 			operand2 = quadruples.sOperands.pop()
 			operand1 = quadruples.sOperands.pop()
@@ -1223,7 +1224,7 @@ def p_var_declaracion2(p):
 			varAddress = getLocalAddress(varType, quadruples.sOperands.pop())
 			functionsDir[function_ptr][1][p[-1]] = [varType, varAddress]
 		p[0] = p[-1]
-	
+
 
 def p_while(p):
 	'while : WHILE metePSaltos LPAREN expresion_logica RPAREN checkEvaluacionLogica bloque'

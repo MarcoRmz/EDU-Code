@@ -58,6 +58,19 @@ def initGlobalMemory(SubTypeQty):
 #        Functions for Compiler         #
 #										#
 #########################################
+#Resets memory indexes
+def resetMemoryIndexes():
+	global currentGlobalVirtualAddress
+	global currentConstantVirtualAddress
+	global currentLocalVirtualAddress
+	
+	# Starting Virtual addresses for memory spaces
+	# [INT, FLOAT, STRING, BOOL]
+	currentGlobalVirtualAddress = [0, 1000, 2000, 3000]
+	currentConstantVirtualAddress = [5000, 6000, 7000, 8000]
+
+	# Includes Local and Temporary Variable Addresses
+	currentLocalVirtualAddress = [10000, 20000, 30000, 40000]
 
 #Checks if there is available memory for type and chunkSize for global memory
 def globalAvailableMemory(varType, chunkSize):
@@ -164,6 +177,7 @@ def createMemory(SubTypeQty):
 # Function to Delete process Memory
 def deleteMemory():
 	del memoryStack[-1]
+
 
 # Get value from virtual address
 def getValue(virtualAddress):
