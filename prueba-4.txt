@@ -3,7 +3,7 @@ start
 int count
 int sum
 
-function int increase(int sum) {
+function int increase(int x) {
 	sum = sum + 1
 	return sum
 }
@@ -12,7 +12,7 @@ main {
 	count = 1
 
 	if (sum < 4) {
-		sum = count+1
+		sum = count + 1
 		count = 2
 	}elseif(sum > 5){
 		sum = sum + 1

@@ -19,11 +19,15 @@ Diagramas:
 
 Maquina:
 ** print
-** input
+** input, como se usa, que viene en parentesis?
 
 Memoria:
 ** Parametros por referencia
 ** Creacion de variable local para input, que tipo??
+** checar getValue que en realidad exista un valor si no marcar error (prueba3 count no tiene valor)
+** si getValue falla los que tienen setValue despues fallan
+** prueba4 memoria tiene mismo valor en todas las listas getValue falla
+** prueba5 y 6 falla evaluacion logica
 
 Avance 7:
 ** sacar valor de vector[x] e igualar el valor en varcte con len(p) == 3 para p[0]

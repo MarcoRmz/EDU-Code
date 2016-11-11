@@ -48,7 +48,7 @@ main {
 		x = 0
 	}
 
-	hola = input(3 * 3)
+	hola = input(3 * 1)
 	
 	print(hola)
 }

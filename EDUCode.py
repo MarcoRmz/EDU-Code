@@ -160,7 +160,7 @@ def p_gotoMAIN(p):
 	quadruples.indexQuadruples += 1
 
 def p_asignacion(p):
-	'''asignacion : ID EQUALS asignacion1'''
+	'''asignacion : ID asignacion1 EQUALS asignacion2'''
 	# Check if ID is a declared global variable
 	print "ASIGNACION PILA DE OPERANDOS %s" % str(quadruples.sOperands)
 	if globalVars.has_key(p[1]):
@@ -198,8 +198,12 @@ def p_asignacion(p):
 	print "ASIGNACION PILA DE OPERANDOS %s" % str(quadruples.sOperands)
 
 def p_asignacion1(p):
-	'''asignacion1 : expresion_logica
+	'''asignacion1 : epsilon
 				| asignacion_vector'''
+
+def p_asignacion2(p):
+	'''asignacion2 : expresion_logica
+				| input'''
 
 def p_asignacion_vector(p):
 	'''asignacion_vector : LBRACKET expresion_logica RBRACKET'''
@@ -588,15 +592,10 @@ def p_return(p):
 def p_input(p):
 	'''input	: INPUT LPAREN input1 RPAREN'''
 	# METE mensaje a memoria
-	quadruples.sTypes.pop()
-	quadruples.countT += 1
-	quadruples.dirQuadruples.append((INPUT, quadruples.sOperands.pop(), None, "t"+str(quadruples.countT)))
+	quadruples.dirQuadruples.append((INPUT, quadruples.sOperands[-1], None, None))
 	quadruples.indexQuadruples += 1
 	# METE input a memoria
-	quadruples.sOperands.append("t"+str(quadruples.countT))
-	quadruples.sTypes.append(STRING)
-	quadruples.countT += 1
-	p[0] = 'input'
+	p[0] = p[1]
 
 def p_input1(p):
 	'''input1	: expresion_logica

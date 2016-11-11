@@ -4,7 +4,9 @@ int count
 int sum
 
 function void test(string t, bool s) {
-	test(t,s)
+	if(0 > 10) {
+		test(t,s)
+	}
 	print(t)
 }
 
