@@ -3,7 +3,7 @@ start
 int count
 int sum
 
-function int increase(int sum, int x) {
+function int increase(int y, int x) {
 	sum = sum + 1
 	return sum
 }

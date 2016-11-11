@@ -3,9 +3,8 @@ start
 int count
 int sum
 
-function int increase(int sum) {
+function int increase(int y) {
 	int x
-	int y
 
 	x = count * 5
 	sum = 3 + 1
@@ -24,7 +23,7 @@ main {
 	count = 1
 	sum = count * 4
 
-	for 1 to 3 by(+1){
+	from 1 to 3 by(+1){
 		count = count + 1
 	}
 
@@ -48,7 +47,9 @@ main {
 	} else {
 		x = 0
 	}
+
 	hola = input(3 * 3)
+	
 	print(hola)
 }
 end

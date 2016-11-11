@@ -309,7 +309,7 @@ def p_checkEXPPOper(p):
 				quadruples.sTypes.append(operationType)
 				quadruples.indexQuadruples += 1
 			else:
-				print("Type mismatch between operand type: %s and %s while trying to %s at line: %d" %(operand1, operand2, operator, p.lineno(0)))
+				print("Type mismatch between operand type: %s and %s while trying to %s at line: %d" %(operand1, operand2, operator, p.lineno(1)))
 				exit(1)
 
 def p_exp1(p):
@@ -962,28 +962,8 @@ def p_meterIDPOper(p):
 def p_compararConID(p):
 	'compararConID : '
 	# Checa tipo de varcte
-	if isinstance(p[-1], int):
-		operandType2 = INT
-		operand2 = setConstantAddress(operandType2, p[-1])
-	elif isinstance(p[-1], float):
-		operandType2 = FLOAT
-		operand2 = setConstantAddress(operandType2, p[-1])
-	elif p[-1] == 'true' or p[-1] == 'false':
-		operandType2 = BOOL
-		operand2 = setConstantAddress(operandType2, p[-1])
-	else:
-		if globalVars.has_key(p[-1]):
-	  			operandType2 = globalVars[p[-1]][0]
-	  			operand2 = globalVars[p[-1]][1]
-		elif function_ptr != "GLOBAL" and functionsDir[function_ptr][1].has_key(p[-1]):
-		  		operandType2 = functionsDir[function_ptr][1][p[-1]][0]
-		  		operand2 = functionsDir[function_ptr][1][p[-1]][1]
-		else:
-			operandType2 = STRING
-			operand2 = getLocalAddress(STRING, 1)
-			# SET VALUE FOR STRING
-			setValue(newValueAddress, p[-1])
-
+	operandType2 = quadruples.sTypes.pop()
+	operand2 = quadruples.sOperands.pop()
 	operator = DOUBLE_EQUAL
 	operand1 = quadruples.sOperands[-1]
 	operandType1 = quadruples.sTypes[-1]
@@ -1069,7 +1049,7 @@ def p_varcte2(p):
 			print("ID: %s not declared at line: %s" %(p[-1], p.lineno(-1)))
 			exit(1)
 		quadruples.sOperands.append(varAddress)
-		p[0] = varAddress
+		p[0] = p[-1]
 	elif len(p) == 3:
 		# Verify function call exists
 		print("FOUND CALL: %s AT FUNCTION: %s" %(str(p[-1]), function_ptr))
@@ -1079,7 +1059,7 @@ def p_varcte2(p):
 				varAddress = getLocalAddress(functionsDir[p[-1]][0], 1)
 				quadruples.sOperands.append(varAddress)
 				quadruples.sTypes.append(functionsDir[p[-1]][0])
-				p[0] = varAddress
+				p[0] = p[-1]
 				print("%s FUNCTION FOUND" %(parseType(functionsDir[p[-1]][0])))
 			else:
 				quadruples.sOperands.append(p[-1])
@@ -1099,7 +1079,7 @@ def p_varcte2(p):
 		quadruples.sOperators.pop()
 		quadruples.sOperands.append(varAddress)
 		quadruples.sTypes.append()
-		p[0] = varAddress
+		p[0] = p[-1]
 
 
 def p_cte_int1(p):
@@ -1118,7 +1098,7 @@ def p_cte_int1(p):
 	else:
 		newValueAddress = setConstantAddress(quadruples.sTypes[-1], p[1])
 		quadruples.sOperands.append(newValueAddress)
-	p[0] = newValueAddress
+	p[0] = p[1]
 
 def p_cte_float1(p):
 	''' cte_float1 : PLUS CTE_FLOAT
@@ -1136,7 +1116,7 @@ def p_cte_float1(p):
 	else:
 		newValueAddress = setConstantAddress(quadruples.sTypes[-1], p[1])
 		quadruples.sOperands.append(newValueAddress)
-	p[0] = newValueAddress
+	p[0] = p[1]
 
 def p_varstring1(p):
 	''' varstring1 : VARSTRING'''
@@ -1145,7 +1125,7 @@ def p_varstring1(p):
 	newValueAddress = setConstantAddress(quadruples.sTypes[-1], p[1])
 
 	quadruples.sOperands.append(newValueAddress)
-	p[0] = newValueAddress
+	p[0] = p[1]
 
 def p_cte_bool(p):
 	''' cte_bool : TRUE
@@ -1154,7 +1134,7 @@ def p_cte_bool(p):
 	# Insert Value to dictionary and add address to Operands
 	newValueAddress = setConstantAddress(quadruples.sTypes[-1], p[1])
 	quadruples.sOperands.append(newValueAddress)
-	p[0] = newValueAddress
+	p[0] = p[1]
 
 def p_checarExpresion(p):
 	'''checarExpresion : '''
@@ -1246,6 +1226,7 @@ def p_epsilon(p):
 	pass
 
 def p_error(p):
+	parser = yacc.yacc(debug=True)
 	if p:
 		print("Syntax error at token: '%s' with value: '%s' at line: %d" %(p.type, p.value, p.lineno))
 		# Discard the token
