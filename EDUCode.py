@@ -309,7 +309,7 @@ def p_checkEXPPOper(p):
 				quadruples.sTypes.append(operationType)
 				quadruples.indexQuadruples += 1
 			else:
-				print("Type mismatch between operand type: %s and %s while trying to %s at line: %d" %(operand1, operand2, operator, p.lineno(1)))
+				print("Type mismatch between operand type: %s and %s while trying to %s at line: %d" %(operand1, operand2, operator, p.lineno(-1)))
 				exit(1)
 
 def p_exp1(p):

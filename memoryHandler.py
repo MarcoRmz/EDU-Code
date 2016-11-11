@@ -46,12 +46,13 @@ memoryStack = []
 def initGlobalMemory(SubTypeQty):
 	global globalMemory
 
-	globalMemory = [[None] * 4]
+	globalMemory = [[None]] * 4
 	count = 0
+	print("Global memory: %s, SubTypeQty: %s" %(str(globalMemory), str(SubTypeQty)))
 	for i in range(0, 4):
 		if SubTypeQty[i] != 0:
-			globalMemory[count] = [None for y in range(0, SubTypeQty[i])]
-			count += 1
+			globalMemory[count] = [None] * SubTypeQty[i]
+		count += 1
 
 #########################################
 #										#
