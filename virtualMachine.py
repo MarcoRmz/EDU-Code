@@ -189,19 +189,19 @@ def startMachine():
             #case for GOTO
 		elif(quadruples.dirQuadruples[i][0] == 13):
 			#obtain the index of the quadruple and jump to it
-			i = quadruples.dirQuadruples[i][3]
+			i = quadruples.dirQuadruples[i][3] - 1
 
             #case for GOTOF
 		elif(quadruples.dirQuadruples[i][0] == 14):
 			#if the temporal is false jump to the specified quadruple
 			if(quadruples.dirQuadruples[i][1] == False):
-				i = quadruples.dirQuadruples[i][3]
+				i = quadruples.dirQuadruples[i][3] - 1
 
             #case for GOTOT
 		elif(quadruples.dirQuadruples[i][0] == 15):
 			#if the temporal holds a True jump to the specified quadruple
 			if(quadruples.dirQuadruples[i][1] == True):
-				i = quadruples.dirQuadruples[i][3]
+				i = quadruples.dirQuadruples[i][3] - 1
 
             #case for GOSUB
 		elif(quadruples.dirQuadruples[i][0] == 16):
@@ -209,7 +209,7 @@ def startMachine():
 			executionStack.append(i+1)
 
 			#jump to function quadruple
-			i = quadruples.dirQuadruples[i][3]
+			i = quadruples.dirQuadruples[i][3] - 1
 
             #case for RETURN
 		elif(quadruples.dirQuadruples[i][0] == 17):
@@ -241,6 +241,7 @@ def startMachine():
 			createMemory(quadruples.dirQuadruples[i][2])
 			#assigns return address to memory
 			memoryStack[-1].returnAddress = quadruples.dirQuadruples[i][3]
+			print("Created memory: %s" %str(memoryStack[-1].memory))
 
             #case for ENDPROC
 		elif(quadruples.dirQuadruples[i][0] == 21):
@@ -287,6 +288,7 @@ def startMachine():
 			#assigns paramValue to corresponding memory address
 			memoryStack[-1].memory[param_type][realAddr] = paramValue
 		i += 1
+		print("")
 
 	print ("FINAL MEMORY: %s" % memoryStack[-1].memory)
 

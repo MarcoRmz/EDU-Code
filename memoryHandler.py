@@ -48,7 +48,7 @@ def initGlobalMemory(SubTypeQty):
 
 	globalMemory = [[None]] * 4
 	count = 0
-	print("Global memory: %s, SubTypeQty: %s" %(str(globalMemory), str(SubTypeQty)))
+	print("Init Global memory: %s, SubTypeQty: %s" %(str(globalMemory), str(SubTypeQty)))
 	for i in range(0, 4):
 		if SubTypeQty[i] != 0:
 			globalMemory[count] = [None] * SubTypeQty[i]
@@ -206,10 +206,11 @@ def setValue(virtualAddress, varValue):
 		varType = (virtualAddress // 1000) - 1
 		realAddr = virtualAddress % 1000
 		globalMemory[varType][realAddr] = varValue
+		print("type: %s, addr: %s\nmemory: %s" %(str(varType), str(realAddr), str(globalMemory)))
 
 	#locales
 	elif(virtualAddress >= 10000):
 		varType = (virtualAddress // 10000) - 1
 		realAddr = virtualAddress % 10000
-		print("type: %s, addr: %s\nmemory: %s" %(str(varType), str(realAddr), str(memoryStack[-1].memory)))
 		memoryStack[-1].memory[varType][realAddr] = varValue
+		print("type: %s, addr: %s\nmemory: %s" %(str(varType), str(realAddr), str(memoryStack[-1].memory)))

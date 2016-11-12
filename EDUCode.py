@@ -137,9 +137,17 @@ def p_programa(p):
 	# Generate quadruple for END OF FILE
 	quadruples.dirQuadruples.append((EOF, None, None, None))
 	quadruples.indexQuadruples += 1
-	print("\n\n")
-	print(quadruples.dirQuadruples)
-	print(functionsDir)
+	print("\n\nCompilation Successful!")
+	i = 0
+	while(quadruples.dirQuadruples[i][0] != 99):
+		print("%d) %s" %(i, str(quadruples.dirQuadruples[i])))
+		i += 1
+	i = 0
+	print("")
+	tempFunct = functionsDir.items()
+	while(i < len(functionsDir)):
+		print("function: %s, type: %s\nVars: %s\n" %(tempFunct[i][0], str(tempFunct[i][1][0]), str(tempFunct[i][1][1])))
+		i += 1
 
 def p_programa1(p):
 	'''programa1 : var_declaracion programa1
