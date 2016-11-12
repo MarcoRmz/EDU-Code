@@ -22,7 +22,5 @@ main {
 	  sum = sum + 3
 	}
 	print(sum)
-	print(4)
-	print("HOLA")
 }
 end

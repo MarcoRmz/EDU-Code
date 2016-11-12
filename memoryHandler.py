@@ -200,19 +200,25 @@ def getValue(virtualAddress):
 		varType = (virtualAddress // 1000) - 1
 		realAddr = virtualAddress % 1000
 		print("Type: %d, rAddr: %d" %(varType, realAddr))
-		return globalMemory[varType][realAddr]
+		varValue = globalMemory[varType][realAddr]
 
 	#constantes
 	elif(virtualAddress < 10000):
 		print("vAddr: %d" %(virtualAddress))
-		return constMemory[virtualAddress]
+		varValue = constMemory[virtualAddress]
 
 	#locales
 	else:
 		varType = (virtualAddress // 10000) - 1
 		realAddr = virtualAddress % 10000
 		print("Type: %d, rAddr: %d" %(varType, realAddr))
-		return memoryStack[-1].memory[varType][realAddr]
+		varValue = memoryStack[-1].memory[varType][realAddr]
+
+	if varValue == None:
+		print("Variable has no value!")
+		exit(1)
+	else:
+		return varValue
 
 
 #set value from virtual address and value given by the virtual machine
