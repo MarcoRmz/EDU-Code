@@ -29,9 +29,6 @@ import ply.yacc as yacc
 # Current Function pointer
 function_ptr = "GLOBAL"
 
-# Previous Function pointer
-prev_Fuction_ptr = 'None'
-
 #########################################
 #										#
 #         		Directories          	#
@@ -572,17 +569,17 @@ def p_declareFunc(p):
 	global function_ptr
 	function_ptr = p[-1]
 	#CAMBIO: Todo 2 y 3
-	if functionsDir.has_key(p[-1]) == False:
+	if functionsDir.has_key(function_ptr) == False:
 		# [Tipo, DictVar, ListaParam, indexCuadruplo, FunctionAddress]
 		functionAddress = None
 		if parseTypeIndex(p[-2]) != 23:
 			varType = parseTypeIndex(p[-2])
 			functionAddress =  getGlobalAddress(varType, 1)
 			globalVarsTypeCounts[varType] += 1
-		functionsDir[p[-1]] = [parseTypeIndex(p[-2]), {}, [], quadruples.indexQuadruples, functionAddress]
+		functionsDir[function_ptr] = [parseTypeIndex(p[-2]), {}, [], quadruples.indexQuadruples, functionAddress]
 	else:
 		# Error
-		print("Function %s already declared!" %(p[-1]))
+		print("Function %s already declared!" %(function_ptr))
 		exit(1)
 
 def p_return(p):
@@ -643,8 +640,6 @@ def p_llamada(p):
 
 			quadruples.dirQuadruples.append((ERA, totalTypes, subTypeQty, functionsDir[p[1]][4]))
 			quadruples.indexQuadruples += 1
-			global function_ptr
-			function_ptr = p[1]
 		else:
 			# Error
 			print("Function %s is not void, must be assigned for return value!" %(p[1]))
@@ -656,35 +651,33 @@ def p_llamada(p):
 
 	print("@@@@@@@@@@@@@@@@ countParam: " + str(countParam))
 	# Verificar que countParam == len(parametros) de la funcion
-	print('################ %s' %str(functionsDir[function_ptr]))
-	if len(functionsDir[function_ptr][2]) == countParam:
+	print('################ %s' %str(functionsDir[p[1]]))
+	if len(functionsDir[p[1]][2]) == countParam:
 		# Verifica que parametros recibidos sean del tipo que se espera en el mismo orden
 		while (countParam > 0):
-			varID = functionsDir[function_ptr][2][countParam-1]
-			varType = functionsDir[function_ptr][1][varID][0]
+			varID = functionsDir[p[1]][2][countParam-1]
+			varType = functionsDir[p[1]][1][varID][0]
 			if (varType != quadruples.sTypes[-1]):
 				# Error
 				print("Function: %s parameter %s type mismatch, expected %s!" %(p[1], parseType(quadruples.sTypes[-1]), parseType(varType)))
 				exit(1)
 			else:
-				quadruples.dirQuadruples.append((PARAM, quadruples.sTypes.pop(), quadruples.sOperands.pop(), functionsDir[function_ptr][1][varID][1]))
+				quadruples.dirQuadruples.append((PARAM, quadruples.sTypes.pop(), quadruples.sOperands.pop(), functionsDir[p[1]][1][varID][1]))
 				quadruples.indexQuadruples += 1
 			global countParam
 			countParam -= 1
 
 		# Genera cuadruplo GOSUB
-		quadruples.dirQuadruples.append((GOSUB, function_ptr, None, functionsDir[function_ptr][3]))
+		quadruples.dirQuadruples.append((GOSUB, p[1], None, functionsDir[p[1]][3]))
 		quadruples.indexQuadruples += 1
 		print("PILA OPERANDOS: %s   PILA TIPOS: %s   PILA OPERADORES: %s" %(str(quadruples.sOperands), str(quadruples.sTypes), str(quadruples.sOperators)))
 	else:
 		# Error
-		print("Function: %s expected %d parameter(s), recieved %d!" %(p[1], len(functionsDir[function_ptr][2]), countParam))
+		print("Function: %s expected %d parameter(s), recieved %d!" %(p[1], len(functionsDir[p[1]][2]), countParam))
 		exit(1)
 
 	global countParam
 	countParam = 0
-	global function_ptr
-	function_ptr = prev_Fuction_ptr
 
 	p[0] = 'Llamada ' + str(p[1])
 
@@ -694,8 +687,6 @@ def p_llamada1(p):
 	if len(p) > 2:
 		global countParam
 		countParam += 1
-	global prev_Fuction_ptr
-	prev_Fuction_ptr = function_ptr
 
 def p_llamada2(p):
 	'''llamada2 	: epsilon
@@ -748,8 +739,6 @@ def p_llamada3(p):
 
 			quadruples.dirQuadruples.append((ERA, totalTypes, subTypeQty, functionsDir[p[-1]][4]))
 			quadruples.indexQuadruples += 1
-			global function_ptr
-			function_ptr = p[-1]
 		else:
 			# Error
 			print("Function %s is void, it can't be assigned!" %(p[-1]))
@@ -760,35 +749,33 @@ def p_llamada3(p):
 		exit(1)
 	print("@@@@@@@@@@@@@@@@ countParam: " + str(countParam))
 	# Verificar que countParam == len(parametros) de la funcion
-	print('################ %s' %str(functionsDir[function_ptr]))
-	if len(functionsDir[function_ptr][2]) == countParam:
+	print('################ %s' %str(functionsDir[p[-1]]))
+	if len(functionsDir[p[-1]][2]) == countParam:
 		# Verifica que parametros recibidos sean del tipo que se espera en el mismo orden
 		while (countParam > 0):
-			varID = functionsDir[function_ptr][2][countParam-1]
-			varType = functionsDir[function_ptr][1][varID][0]
+			varID = functionsDir[p[-1]][2][countParam-1]
+			varType = functionsDir[p[-1]][1][varID][0]
 			if (varType != quadruples.sTypes[-1]):
 				# Error
 				print("Function: %s parameter %s type mismatch, expected %s!" %(p[-1], parseType(quadruples.sTypes[-1]), parseType(varType)))
 				exit(1)
 			else:
-				quadruples.dirQuadruples.append((PARAM, quadruples.sTypes.pop(), quadruples.sOperands.pop(), functionsDir[function_ptr][1][varID][1]))
+				quadruples.dirQuadruples.append((PARAM, quadruples.sTypes.pop(), quadruples.sOperands.pop(), functionsDir[p[-1]][1][varID][1]))
 				quadruples.indexQuadruples += 1
 			global countParam
 			countParam -= 1
 
 		# Genera cuadruplo GOSUB
-		quadruples.dirQuadruples.append((GOSUB, function_ptr, None, functionsDir[function_ptr][3]))
+		quadruples.dirQuadruples.append((GOSUB, p[-1], None, functionsDir[p[-1]][3]))
 		quadruples.indexQuadruples += 1
 		print("PILA OPERANDOS: %s   PILA TIPOS: %s   PILA OPERADORES: %s" %(str(quadruples.sOperands), str(quadruples.sTypes), str(quadruples.sOperators)))
 	else:
 		# Error
-		print("Function: %s expected %d parameter(s), recieved %d!" %(p[-1], len(functionsDir[function_ptr][2]), countParam))
+		print("Function: %s expected %d parameter(s), recieved %d!" %(p[-1], len(functionsDir[p[-1]][2]), countParam))
 		exit(1)
 
 	global countParam
 	countParam = 0
-	global function_ptr
-	function_ptr = prev_Fuction_ptr
 	p[0] = 'Llamada ' + str(p[-1])
 
 def p_main(p):
@@ -1089,7 +1076,6 @@ def p_varcte2(p):
 		quadruples.sTypes.append()
 		p[0] = p[-1]
 
-
 def p_cte_int1(p):
 	''' cte_int1 : PLUS CTE_INT
 				| MINUS CTE_INT
@@ -1213,7 +1199,6 @@ def p_var_declaracion2(p):
 			functionsDir[function_ptr][1][p[-1]] = [varType, varAddress]
 		p[0] = p[-1]
 
-
 def p_while(p):
 	'while : WHILE metePSaltos LPAREN expresion_logica RPAREN checkEvaluacionLogica bloque'
 	if (len(quadruples.sJumps) != 0):
@@ -1227,7 +1212,6 @@ def p_while(p):
 def p_metePSaltos(p):
 	'metePSaltos :'
 	quadruples.sJumps.append(quadruples.indexQuadruples)
-
 
 def p_epsilon(p):
 	'epsilon :'
