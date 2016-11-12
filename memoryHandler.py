@@ -48,11 +48,11 @@ def initGlobalMemory(SubTypeQty):
 
 	globalMemory = [[None]] * 4
 	count = 0
-	print("Init Global memory: %s, SubTypeQty: %s" %(str(globalMemory), str(SubTypeQty)))
 	for i in range(0, 4):
 		if SubTypeQty[i] != 0:
 			globalMemory[count] = [None] * SubTypeQty[i]
 		count += 1
+	print("Init Global memory: %s, SubTypeQty: %s" %(str(globalMemory), str(SubTypeQty)))
 
 #########################################
 #										#
@@ -61,16 +61,10 @@ def initGlobalMemory(SubTypeQty):
 #########################################
 #Resets memory indexes
 def resetMemoryIndexes():
-	global currentGlobalVirtualAddress
-	global currentConstantVirtualAddress
 	global currentLocalVirtualAddress
 	
 	# Starting Virtual addresses for memory spaces
 	# [INT, FLOAT, STRING, BOOL]
-	currentGlobalVirtualAddress = [0, 1000, 2000, 3000]
-	currentConstantVirtualAddress = [5000, 6000, 7000, 8000]
-
-	# Includes Local and Temporary Variable Addresses
 	currentLocalVirtualAddress = [10000, 20000, 30000, 40000]
 
 #Checks if there is available memory for type and chunkSize for global memory
@@ -183,34 +177,39 @@ def deleteMemory():
 # Get value from virtual address
 def getValue(virtualAddress):
 	#Global
+	print("GET VALUE\nGlobal mem: %s\nLocal mem: %s\nConstants: %s" %(str(globalMemory), str(memoryStack[-1].memory), str(constMemory)))
 	if(virtualAddress < 4000):
 		varType = (virtualAddress // 1000) - 1
 		realAddr = virtualAddress % 1000
+		print("Type: %d, rAddr: %d" %(varType, realAddr))
 		return globalMemory[varType][realAddr]
 
 	#constantes
 	elif(virtualAddress < 10000):
+		print("vAddr: %d" %(virtualAddress))
 		return constMemory[virtualAddress]
 
 	#locales
 	else:
 		varType = (virtualAddress // 10000) - 1
 		realAddr = virtualAddress % 10000
+		print("Type: %d, rAddr: %d" %(varType, realAddr))
 		return memoryStack[-1].memory[varType][realAddr]
+
 
 #set value from virtual address and value given by the virtual machine
 def setValue(virtualAddress, varValue):
 	#Global
-	print("virtual %d, value: %s" %(virtualAddress, str(varValue)))
+	print("SET VALUE\nvirtual %d, value: %s" %(virtualAddress, str(varValue)))
 	if(virtualAddress < 4000):
 		varType = (virtualAddress // 1000) - 1
 		realAddr = virtualAddress % 1000
 		globalMemory[varType][realAddr] = varValue
-		print("type: %s, addr: %s\nmemory: %s" %(str(varType), str(realAddr), str(globalMemory)))
+		print("type: %s, addr: %s\nGlobal memory: %s" %(str(varType), str(realAddr), str(globalMemory)))
 
 	#locales
 	elif(virtualAddress >= 10000):
 		varType = (virtualAddress // 10000) - 1
 		realAddr = virtualAddress % 10000
 		memoryStack[-1].memory[varType][realAddr] = varValue
-		print("type: %s, addr: %s\nmemory: %s" %(str(varType), str(realAddr), str(memoryStack[-1].memory)))
+		print("type: %s, addr: %s\nFunction memory: %s" %(str(varType), str(realAddr), str(memoryStack[-1].memory)))

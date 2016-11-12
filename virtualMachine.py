@@ -241,12 +241,12 @@ def startMachine():
 			createMemory(quadruples.dirQuadruples[i][2])
 			#assigns return address to memory
 			memoryStack[-1].returnAddress = quadruples.dirQuadruples[i][3]
-			print("Created memory: %s" %str(memoryStack[-1].memory))
+			print("Created Function memory: %s" %str(memoryStack[-1].memory))
 
             #case for ENDPROC
 		elif(quadruples.dirQuadruples[i][0] == 21):
 			#Returns to the next instruction after the function call
-			print ("Function MEMORY: %s" % memoryStack[-1].memory)
+			print ("Delete Function MEMORY: %s" % memoryStack[-1].memory)
 			i = executionStack.pop() - 1
 			deleteMemory()
 

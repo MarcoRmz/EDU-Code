@@ -144,6 +144,7 @@ def p_programa(p):
 		i += 1
 	i = 0
 	print("")
+	print("Global Vars: %s\n" %str(globalVars))
 	tempFunct = functionsDir.items()
 	while(i < len(functionsDir)):
 		print("function: %s, type: %s\nVars: %s\n" %(tempFunct[i][0], str(tempFunct[i][1][0]), str(tempFunct[i][1][1])))
