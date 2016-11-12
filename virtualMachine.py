@@ -194,15 +194,15 @@ def startMachine():
             #case for GOTOF
 		elif(quadruples.dirQuadruples[i][0] == 14):
 			#if the temporal is false jump to the specified quadruple
-			rtn_value = getValue(quadruples.dirQuadruples[i][1])
-			if(rtn_value == False):
+			var_Value = getValue(quadruples.dirQuadruples[i][1])
+			if(var_Value == False):
 				i = quadruples.dirQuadruples[i][3] - 1
 
             #case for GOTOT
 		elif(quadruples.dirQuadruples[i][0] == 15):
 			#if the temporal holds a True jump to the specified quadruple
-			rtn_value = getValue(quadruples.dirQuadruples[i][1])
-			if(rtn_value == True):
+			var_Value = getValue(quadruples.dirQuadruples[i][1])
+			if(var_Value == True):
 				i = quadruples.dirQuadruples[i][3] - 1
 
             #case for GOSUB
@@ -231,7 +231,8 @@ def startMachine():
 
             #case for PRINT
 		elif(quadruples.dirQuadruples[i][0] == 18):
-			pass
+			var_Value = getValue(quadruples.dirQuadruples[i][3])
+			print(var_Value)
 
             #case for INPUT
 		elif(quadruples.dirQuadruples[i][0] == 19):
