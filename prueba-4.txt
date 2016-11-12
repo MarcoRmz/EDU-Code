@@ -9,18 +9,22 @@ function int increase(int x) {
 }
 
 main {
-	count = 1
+	count = -31
 	sum = 3
 
 	if (sum < 4) {
-		sum = count + 1
+		print("Sum es menor a 4")
+		sum = count + -1
 		count = 2
 	}elseif(sum > 5){
-		sum = sum + 1
+		print("Sum es mayor a 5")
+		sum = sum * count
 	}elseif(sum == 5){
-	  sum = sum + 2
+		print("Sum es == a 5")
+		sum = sum + 2
 	}else{
-	  sum = sum + 3
+		print("Sum es otro")
+		sum = sum + 3
 	}
 	print(sum)
 }

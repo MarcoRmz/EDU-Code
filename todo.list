@@ -18,15 +18,13 @@ Diagramas:
 ** Cambiar diagrama de vectores para declarar tamaños
 
 Maquina:
-** print
+** print solo acepta un mismo tipo, print("Sum: " + sum) ERROR
 ** input, como se usa, que viene en parentesis?
 
 Memoria:
 ** Parametros por referencia
 ** Creacion de variable local para input, que tipo??
-** checar getValue que en realidad exista un valor si no marcar error (prueba3 count no tiene valor)
-** si getValue falla los que tienen setValue despues fallan
-** prueba5 y 6 falla evaluacion logica
+** prueba5 falla gotoF
 
 Avance 7:
 ** sacar valor de vector[x] e igualar el valor en varcte con len(p) == 3 para p[0]

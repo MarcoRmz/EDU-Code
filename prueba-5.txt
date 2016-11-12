@@ -12,16 +12,20 @@ main {
 	int x
 	int y
 
-	x= 0
+	x= 5
 	y = 3
 	
 	if (x < 4) {
+		print("Entro primer if")
 		if(x > 2){
+			print("entro if anidado")
 			y = 3 + 1
 		}
 	} else {
+		print("entro else")
 		while (x > 0) {
-			x = y * 2
+			print("entro while")
+			x = x - 2
 		}
 	}
 
