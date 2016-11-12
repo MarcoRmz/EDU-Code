@@ -25,6 +25,13 @@ currentConstantVirtualAddress = [5000, 6000, 7000, 8000]
 # Includes Local and Temporary Variable Addresses
 currentLocalVirtualAddress = [10000, 20000, 30000, 40000]
 
+# Initial Local and Temporary Variable Addresses
+initialtINTVarAddress = 10000
+initialtFLOATVarAddress = 20000
+initialtSTRINGVarAddress = 30000
+initialtBOOLVarAddress = 40000
+initialLocalVirtualAddresses = [10000, 20000, 30000, 40000]
+
 # Memory for global variables
 globalMemory = []
 
@@ -52,6 +59,7 @@ def initGlobalMemory(SubTypeQty):
 		if SubTypeQty[i] != 0:
 			globalMemory[count] = [None] * SubTypeQty[i]
 		count += 1
+
 	print("Init Global memory: %s, SubTypeQty: %s" %(str(globalMemory), str(SubTypeQty)))
 
 #########################################
@@ -65,7 +73,7 @@ def resetMemoryIndexes():
 	
 	# Starting Virtual addresses for memory spaces
 	# [INT, FLOAT, STRING, BOOL]
-	currentLocalVirtualAddress = [10000, 20000, 30000, 40000]
+	currentLocalVirtualAddress = [initialtINTVarAddress, initialtFLOATVarAddress, initialtSTRINGVarAddress, initialtBOOLVarAddress]
 
 #Checks if there is available memory for type and chunkSize for global memory
 def globalAvailableMemory(varType, chunkSize):
@@ -158,6 +166,12 @@ def getLocalAddress(varType, chunkSize):
 	else:
 		print("Segmentation fault: out of memory")
 		exit(1)
+
+def getLocalVarQty():
+	totalVarQyt = [0,0,0,0]
+	for x in xrange(0,4):
+		totalVarQyt[x] = currentLocalVirtualAddress[x] - initialLocalVirtualAddresses[x]
+	return totalVarQyt
 
 #########################################
 #										#

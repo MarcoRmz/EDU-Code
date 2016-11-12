@@ -562,6 +562,8 @@ def p_funcion5(p):
 	# Generate ENDPROC
 	quadruples.dirQuadruples.append((ENDPROC, None, None, None))
 	quadruples.indexQuadruples += 1
+	functionsDir[p[1]][5] = getLocalVarQty()
+	print("memory used in %s: %s" %(p[1], str(functionsDir[p[1]][5])))
 	resetMemoryIndexes()
 
 def p_declareFunc(p):
@@ -570,13 +572,13 @@ def p_declareFunc(p):
 	function_ptr = p[-1]
 	#CAMBIO: Todo 2 y 3
 	if functionsDir.has_key(function_ptr) == False:
-		# [Tipo, DictVar, ListaParam, indexCuadruplo, FunctionAddress]
+		# [Tipo, DictVar, ListaParam, indexCuadruplo, FunctionAddress, SubTypeQyt]
 		functionAddress = None
 		if parseTypeIndex(p[-2]) != 23:
 			varType = parseTypeIndex(p[-2])
 			functionAddress =  getGlobalAddress(varType, 1)
 			globalVarsTypeCounts[varType] += 1
-		functionsDir[function_ptr] = [parseTypeIndex(p[-2]), {}, [], quadruples.indexQuadruples, functionAddress]
+		functionsDir[function_ptr] = [parseTypeIndex(p[-2]), {}, [], quadruples.indexQuadruples, functionAddress, [0,0,0,0]]
 	else:
 		# Error
 		print("Function %s already declared!" %(function_ptr))
@@ -610,7 +612,7 @@ def p_input1(p):
 def p_llamada(p):
 	'''llamada 	: ID LPAREN llamada1 RPAREN'''
 	# Pedir memoria para funcion
-	# [Tipo, DictVar, ListaParam, indexCuadruplo, FunctionAddress]
+	# [Tipo, DictVar, ListaParam, indexCuadruplo, FunctionAddress, SubTypeQyt]
 	print("************* FUNCTION CALL FOR: " + str(p[1]))
 	if functionsDir.has_key(p[1]):
 		if functionsDir[p[1]][0] == 23:
@@ -698,7 +700,7 @@ def p_llamada2(p):
 def p_llamada3(p):
 	'''llamada3 : LPAREN llamada1 RPAREN'''
 	# Pedir memoria para funcion
-	# [Tipo, DictVar, ListaParam, indexCuadruplo, FunctionAddress]
+	# [Tipo, DictVar, ListaParam, indexCuadruplo, FunctionAddress, SubTypeQyt]
 	print("************* FUNCTION CALL FOR: " + str(p[-1]))
 	if functionsDir.has_key(p[-1]):
 		if functionsDir[p[-1]][0] != 23:
@@ -780,23 +782,10 @@ def p_llamada3(p):
 
 def p_main(p):
 	'main : MAIN declareMain LCURL main1 estatuto main2 RCURL'
-	intCounter = 0
-	floatCounter = 0
-	stringCounter = 0
-	boolCounter = 0
+	functionsDir[p[1]][5] = getLocalVarQty()
+	print("memory used in %s: %s" %(p[1], str(functionsDir[p[1]][5])))
 
-	# Iterates function dictionary to count how many variables per type
-	for value in functionsDir[p[1]][1].values():
-		if value[0] == INT:
-			intCounter += 1
-		elif value[0] == FLOAT:
-			floatCounter += 1
-		elif value[0] == STRING:
-			stringCounter += 1
-		elif value[0] == BOOL:
-			boolCounter += 1
-
-	subTypeQty = (intCounter, floatCounter, stringCounter, boolCounter)
+	subTypeQty = functionsDir[p[1]][5]
 
 	# Iterates subTypeQty to count how many types are used
 	totalTypes = 0
@@ -815,10 +804,10 @@ def p_declareMain(p):
 
 	# Check Main function is unique
 	if functionsDir.has_key(p[-1]) == False:
-		# [Tipo, DictVar, ListaParam, indexCuadruplo, FunctionAddress]
-		functionsDir[p[-1]] = ['main', {}, [], quadruples.indexQuadruples, None]
+		# [Tipo, DictVar, ListaParam, indexCuadruplo, FunctionAddress, SubTypeQyt]
+		functionsDir[p[-1]] = ['main', {}, [], quadruples.indexQuadruples, None, [0,0,0,0]]
 		t = quadruples.dirQuadruples[1]
-		t = t[:3] + (quadruples.indexQuadruples,)
+		t = t[:3] + (quadruples.indexQuadruples, None, [0,0,0,0])
 		quadruples.dirQuadruples[1] = t
 	else:
 		# Error
