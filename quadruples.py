@@ -1,8 +1,8 @@
 #########################################################
 #														#
-# 	cuadruplos.py										#
+# 	quadruples.py										#
 #														#
-# 	Cuadruplos											#
+# 	Quadruples											#
 #														#
 # 	Marco Ramirez 		A01191344						#
 # 	Andres Gutierrez	A01191581       				#
@@ -11,20 +11,23 @@
 
 from semanticCube import *
 
-# Pila de Operadores
+# Stack for Operators
 sOperators = []
 
-# Pila de Operandos
+# Stack for Operands
 sOperands = []
 
-# Pila de Tipos
+# Stack for Types
 sTypes = []
 
-# Pila de Saltos
+# Stack for Jumps
 sJumps = []
 
-# Index for Cuadruplos
+# Stack for ERAs
+sERA = []
+
+# Index for Quadruples
 indexQuadruples = 0
 
-# Directory for Cuadruplos
+# Directory for Quadruples
 dirQuadruples = []

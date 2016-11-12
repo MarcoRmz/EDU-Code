@@ -194,13 +194,15 @@ def startMachine():
             #case for GOTOF
 		elif(quadruples.dirQuadruples[i][0] == 14):
 			#if the temporal is false jump to the specified quadruple
-			if(quadruples.dirQuadruples[i][1] == False):
+			rtn_value = getValue(quadruples.dirQuadruples[i][1])
+			if(rtn_value == False):
 				i = quadruples.dirQuadruples[i][3] - 1
 
             #case for GOTOT
 		elif(quadruples.dirQuadruples[i][0] == 15):
 			#if the temporal holds a True jump to the specified quadruple
-			if(quadruples.dirQuadruples[i][1] == True):
+			rtn_value = getValue(quadruples.dirQuadruples[i][1])
+			if(rtn_value == True):
 				i = quadruples.dirQuadruples[i][3] - 1
 
             #case for GOSUB
@@ -216,7 +218,7 @@ def startMachine():
 
 			#get return value from quadruple
 			rtn = memoryStack[-1].returnAddress
-			rtn_value = getValue(quadruples.dirQuadruples[1])
+			rtn_value = getValue(quadruples.dirQuadruples[i][1])
 
 			#temporally pop memoryStack to assign return value to previous function
 			memory_aux = memoryStack.pop()

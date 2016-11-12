@@ -564,6 +564,17 @@ def p_funcion5(p):
 	quadruples.indexQuadruples += 1
 	functionsDir[p[1]][5] = getLocalVarQty()
 	print("memory used in %s: %s" %(p[1], str(functionsDir[p[1]][5])))
+	while len(quadruples.sERA) != 0:
+		# GET ERA index to fill
+		tempERA = quadruples.sERA.pop()
+		print(tempERA)
+		# GET ERA Quadruple
+		t = quadruples.dirQuadruples[tempERA[1]]
+		print(t)
+		# Fill with needed memory from function
+		t = t[:2] + (functionsDir[tempERA[0]][5],) + t[3:]
+		print("%s + %s + %s" %(str(t[:2]), str(functionsDir[tempERA[0]][5]), str(t[3:])))
+		quadruples.dirQuadruples[tempERA[1]] = t
 	resetMemoryIndexes()
 
 def p_declareFunc(p):
@@ -616,31 +627,18 @@ def p_llamada(p):
 	print("************* FUNCTION CALL FOR: " + str(p[1]))
 	if functionsDir.has_key(p[1]):
 		if functionsDir[p[1]][0] == 23:
-			intCounter = 0
-			floatCounter = 0
-			stringCounter = 0
-			boolCounter = 0
-
-			# Iterates function dictionary to count how many variables per type
-			for value in functionsDir[p[1]][1].values():
-				if value[0] == INT:
-					intCounter += 1
-				elif value[0] == FLOAT:
-					floatCounter += 1
-				elif value[0] == STRING:
-					stringCounter += 1
-				elif value[0] == BOOL:
-					boolCounter += 1
-
-			subTypeQty = (intCounter, floatCounter, stringCounter, boolCounter)
-			totalTypes = 0
+			subTypeQty = functionsDir[p[1]][5]
 
 			# Iterates subTypeQty to count how many types are used
+			totalTypes = 0
 			for x in range(0, len(subTypeQty)):
 				if subTypeQty[x] > 0:
 					totalTypes += 1
 
 			quadruples.dirQuadruples.append((ERA, totalTypes, subTypeQty, functionsDir[p[1]][4]))
+			if function_ptr != "main":
+				# Save index to fill out ERA when function ends
+				quadruples.sERA.append((p[1], quadruples.indexQuadruples))
 			quadruples.indexQuadruples += 1
 		else:
 			# Error
@@ -704,42 +702,18 @@ def p_llamada3(p):
 	print("************* FUNCTION CALL FOR: " + str(p[-1]))
 	if functionsDir.has_key(p[-1]):
 		if functionsDir[p[-1]][0] != 23:
-			intCounter = 0
-			floatCounter = 0
-			stringCounter = 0
-			boolCounter = 0
-
-			# Iterates function dictionary to count how many variables per type
-			for value in functionsDir[p[-1]][1].iteritems():
-				if value[0] == INT:
-					intCounter += 1
-				elif value[0] == FLOAT:
-					floatCounter += 1
-				elif value[0] == STRING:
-					stringCounter += 1
-				elif value[0] == BOOL:
-					boolCounter += 1
-
-			# Iterates function parameter list to count how many variables per type
-			for value in functionsDir[p[-1]][2]:
-				if value == INT:
-					intCounter += 1
-				elif value == FLOAT:
-					floatCounter += 1
-				elif value == STRING:
-					stringCounter += 1
-				elif value == BOOL:
-					boolCounter += 1
-
-			subTypeQty = (intCounter, floatCounter, stringCounter, boolCounter)
-			totalTypes = 0
+			subTypeQty = functionsDir[p[-1]][5]
 
 			# Iterates subTypeQty to count how many types are used
+			totalTypes = 0
 			for x in range(0, len(subTypeQty)):
 				if subTypeQty[x] > 0:
 					totalTypes += 1
 
 			quadruples.dirQuadruples.append((ERA, totalTypes, subTypeQty, functionsDir[p[-1]][4]))
+			if function_ptr != "main":
+				# Save index to fill out ERA when function ends
+				quadruples.sERA.append((p[-1], quadruples.indexQuadruples))
 			quadruples.indexQuadruples += 1
 		else:
 			# Error
@@ -807,7 +781,7 @@ def p_declareMain(p):
 		# [Tipo, DictVar, ListaParam, indexCuadruplo, FunctionAddress, SubTypeQyt]
 		functionsDir[p[-1]] = ['main', {}, [], quadruples.indexQuadruples, None, [0,0,0,0]]
 		t = quadruples.dirQuadruples[1]
-		t = t[:3] + (quadruples.indexQuadruples, None, [0,0,0,0])
+		t = t[:3] + (quadruples.indexQuadruples,)
 		quadruples.dirQuadruples[1] = t
 	else:
 		# Error
