@@ -10,6 +10,7 @@ function int increase(int x) {
 
 main {
 	count = 1
+	sum = 3
 
 	if (sum < 4) {
 		sum = count + 1

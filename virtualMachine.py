@@ -345,21 +345,25 @@ if __name__ == '__main__':
 
 	# Start machine
 	startMachine()
+	
+	print("*****************************************")
+	i = 0
+	print("")
+	print("Global Vars: %s\n" %str(globalVars))
+	tempFunct = functionsDir.items()
+	while(i < len(functionsDir)):
+		print("function: %s, type: %s\nVars: %s\n" %(tempFunct[i][0], str(tempFunct[i][1][0]), str(tempFunct[i][1][1])))
+		i += 1
 
 	print("*****************************************")
-	print("globalVars: ")
-	print(globalVars)
-	print("*****************************************")
-	print("functionDir: ")
-	print(functionsDir)
-	print("*****************************************")
 	print("quadruples: ")
-	print(quadruples.dirQuadruples)
-	print("operadores: ")
-	print(quadruples.sOperators)
-	print("operandos: ")
-	print(quadruples.sOperands)
+	i = 0
+	while(quadruples.dirQuadruples[i][0] != 99):
+		print("%d) %s" %(i, str(quadruples.dirQuadruples[i])))
+		i += 1
+	print("%d) %s" %(i, str(quadruples.dirQuadruples[i])))
+
 	print("*****************************************")
 	print("Num quadruples: " + str(quadruples.indexQuadruples))
 	print("*****************************************")
-	print("\nSuccessful")
+	print("\nProgram Successful")
