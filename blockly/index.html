@@ -35,11 +35,8 @@ function start() {
   var rtl = match && match[1] == 'rtl';
   document.forms.options.elements.dir.selectedIndex = Number(rtl);
   var toolbox = getToolboxElement();
-  document.forms.options.elements.toolbox.selectedIndex =
-      Number(toolbox.getElementsByTagName('category').length == 0);
   match = location.search.match(/side=([^&]+)/);
-  var side = match ? match[1] : 'start';
-  document.forms.options.elements.side.value = side;
+  var side = 'start';
   // Create main workspace.
   workspace = Blockly.inject('blocklyDiv',
           {comments: true,
@@ -52,7 +49,7 @@ function start() {
               snap: true},
            horizontalLayout: side == 'top' || side == 'bottom',
            maxBlocks: Infinity,
-           media: '../media/',
+           media: 'blockly/media/',
            readOnly: false,
            rtl: rtl,
            scrollbars: true,
@@ -72,19 +69,13 @@ function start() {
     if (text) {
       document.getElementById('importExport').value = text;
     }
-    // Restore event logging state.
-    var state = sessionStorage.getItem('logEvents');
-    logEvents(Boolean(Number(state)));
-  } else {
-    // MSIE 11 does not support sessionStorage on file:// URLs.
-    logEvents(false);
   }
   taChange();
 }
 
 function getToolboxElement() {
   var match = location.search.match(/toolbox=([^&]+)/);
-  return document.getElementById('toolbox-' + (match ? match[1] : 'categories'));
+  return document.getElementById('toolbox-categories');
 }
 
 function toXml() {
@@ -125,98 +116,8 @@ function taChange() {
   document.getElementById('import').disabled = !valid;
 }
 
-function logEvents(state) {
-  var checkbox = document.getElementById('logCheck');
-  checkbox.checked = state;
-  if (sessionStorage) {
-    sessionStorage.setItem('logEvents', Number(state));
-  }
-  if (state) {
-    workspace.addChangeListener(logger);
-  } else {
-    workspace.removeChangeListener(logger);
-  }
-}
-
 function logger(e) {
   console.log(e);
-}
-
-function airstrike(n) {
-  var prototypes = [];
-  var toolbox = getToolboxElement();
-  var blocks = toolbox.getElementsByTagName('block');
-  for (var i = 0, block; block = blocks[i]; i++) {
-    prototypes.push(block.getAttribute('type'));
-  }
-  for (var i = 0; i < n; i++) {
-    var prototype = prototypes[Math.floor(Math.random() * prototypes.length)];
-    var block = workspace.newBlock(prototype);
-    block.initSvg();
-    block.getSvgRoot().setAttribute('transform', 'translate(' +
-        Math.round(Math.random() * 450 + 40) + ', ' +
-        Math.round(Math.random() * 600 + 40) + ')');
-    block.render();
-  }
-}
-
-function fakeDrag(id, dx, dy, opt_workspace) {
-  var ws = opt_workspace || Blockly.getMainWorkspace();
-  var blockToDrag = ws.getBlockById(id);
-
-  if (!blockToDrag) {
-    fakeDragWrapper();
-    return;
-  }
-  var blockTop = blockToDrag.svgGroup_.getBoundingClientRect().top;
-  var blockLeft = blockToDrag.svgGroup_.getBoundingClientRect().left;
-
-  // Click somewhere on the block.
-  var mouseDownEvent = new MouseEvent('mousedown',
-      {clientX: blockLeft + 5, clientY: blockTop + 5});
-  blockToDrag.onMouseDown_(mouseDownEvent);
-
-  // Throw in a move for good measure.
-  setTimeout(
-    function() {
-      var mouseMoveEvent = new MouseEvent('mousemove',
-          {clientX: blockLeft + dx,
-          clientY: blockTop + dy});
-      blockToDrag.onMouseMove_(mouseMoveEvent);
-
-      // Drop at dx, dy.
-      setTimeout(
-        function() {
-          var mouseUpEvent = new MouseEvent('mouseup',
-              {clientX: blockLeft + dx,
-              clientY: blockTop + dy});
-          blockToDrag.onMouseUp_(mouseUpEvent);
-
-          setTimeout(fakeDragWrapper(), 100);
-        }, 30);
-    }, 30);
-};
-
-function fakeDragWrapper() {
-  var dragInfo = fakeDragStack.pop();
-  if (dragInfo) {
-    fakeDrag(dragInfo.id, dragInfo.dx, dragInfo.dy, dragInfo.workspace);
-  }
-}
-
-function fakeManyDrags() {
-  var blockList = workspace.getAllBlocks();
-  for (var i = 0; i < 2 * blockList.length; i++) {
-    fakeDragStack.push(
-      {
-        id: blockList[Math.round(Math.random() * (blockList.length - 1))].id,
-        // Move some blocks up and to the left, but mostly down and to the right.
-        dx: Math.round((Math.random() - 0.25) * 200),
-        dy: Math.round((Math.random() - 0.25) * 200),
-        workspace: workspace
-      });
-  }
-  fakeDragWrapper();
 }
 
 function spaghetti(n) {
@@ -293,23 +194,10 @@ h1 {
 
   <h1>Edu Code Playground </h1>
 
-  <p><a href="javascript:void(workspace.setVisible(true))">Show</a>
-   - <a href="javascript:void(workspace.setVisible(false))">Hide</a></p>
-
   <form id="options">
     <select name="dir" onchange="document.forms.options.submit()">
       <option value="ltr">LTR</option>
       <option value="rtl">RTL</option>
-    </select>
-    <select name="toolbox" onchange="document.forms.options.submit()">
-      <option value="categories">Categories</option>
-      <option value="simple">Simple</option>
-    </select>
-    <select name="side" onchange="document.forms.options.submit()">
-      <option value="start">Start</option>
-      <option value="end">End</option>
-      <option value="top">Top</option>
-      <option value="bottom">Bottom</option>
     </select>
   </form>
 
@@ -330,13 +218,7 @@ h1 {
 
   <p>
     Stress test: &nbsp;
-    <input type="button" value="Airstrike!" onclick="airstrike(100)">
     <input type="button" value="Spaghetti!" onclick="spaghetti(8)">
-    <input type="button" value="Fake some drags!" onclick="fakeManyDrags()">
-  </p>
-  <p>
-    Log events: &nbsp;
-    <input type="checkbox" onclick="logEvents(this.checked)" id="logCheck">
   </p>
 
   <xml id="toolbox-simple" style="display: none">
