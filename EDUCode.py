@@ -216,13 +216,21 @@ def p_bloque1(p):
 				| epsilon'''
 
 def p_condicion(p):
-	'condicion 	: IF LPAREN expresion_logica RPAREN checkEvaluacionLogica condicion1 checkPSaltos condicion2 condicion3'
+	'condicion 	: IF addConditionFakeCover LPAREN expresion_logica RPAREN checkEvaluacionLogica condicion1 checkPSaltos condicion2 condicion3'
 	# Fill out GOTO's for each condition
-	while(len(quadruples.sJumps)!=0):
+	while(quadruples.sJumps[-1] != '('):
 		gotoIndex = quadruples.sJumps.pop()
 		t = quadruples.dirQuadruples[gotoIndex]
 		t = t[:3] + (quadruples.indexQuadruples,)
 		quadruples.dirQuadruples[gotoIndex] = t
+
+	# Remove cover
+	if quadruples.sJumps[-1] == '(':
+		quadruples.sJumps.pop()
+
+def p_addConditionFakeCover(p):
+	'addConditionFakeCover 	: '
+	quadruples.sJumps.append('(')
 
 def p_condicion1(p):
 	'''condicion1	: bloque

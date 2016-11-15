@@ -24,13 +24,12 @@ Maquina:
 Memoria:
 ** Parametros por referencia
 ** Creacion de variable local para input, que tipo??
-** prueba5 falla gotoF
 
 Avance 7:
 ** sacar valor de vector[x] e igualar el valor en varcte con len(p) == 3 para p[0]
 ** checar tipo de asignacion con tipo de vector
 ** Agregar tipos para vectores
-** hacer goto cuando acabe else
+** from se cicla
 
 Avance 8:
 ** Blockly CSS & tutorials
