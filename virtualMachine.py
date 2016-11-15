@@ -29,6 +29,11 @@ def startMachine():
 			operand1 = getValue(quadruples.dirQuadruples[i][1])
 			operand2 = getValue(quadruples.dirQuadruples[i][2])
 
+			if (operand1 == -1) or (operand2 == -1):
+				# Error no value in address
+				print("Operation failed, variable(s) missing value!")
+				exit(1)
+
 			#apply sum operation to operands
 			result = operand1 + operand2
 
@@ -41,6 +46,11 @@ def startMachine():
 			#get operands from the memory
 			operand1 = getValue(quadruples.dirQuadruples[i][1])
 			operand2 = getValue(quadruples.dirQuadruples[i][2])
+
+			if (operand1 == -1) or (operand2 == -1):
+				# Error no value in address
+				print("Operation failed, variable(s) missing value!")
+				exit(1)
 
 			#apply substraction operation to operands
 			result = operand1 - operand2
@@ -55,6 +65,11 @@ def startMachine():
 			operand1 = getValue(quadruples.dirQuadruples[i][1])
 			operand2 = getValue(quadruples.dirQuadruples[i][2])
 
+			if (operand1 == -1) or (operand2 == -1):
+				# Error no value in address
+				print("Operation failed, variable(s) missing value!")
+				exit(1)
+
 			#apply multiplication operation to operands
 			result = operand1 * operand2
 
@@ -67,6 +82,11 @@ def startMachine():
 			#get operands from the memory
 			operand1 = getValue(quadruples.dirQuadruples[i][1])
 			operand2 = getValue(quadruples.dirQuadruples[i][2])
+
+			if (operand1 == -1) or (operand2 == -1):
+				# Error no value in address
+				print("Operation failed, variable(s) missing value!")
+				exit(1)
 
 			#apply divide operation to operands
 			result = operand1 / operand2
@@ -81,6 +101,11 @@ def startMachine():
 			operand1 = getValue(quadruples.dirQuadruples[i][1])
 			operand2 = getValue(quadruples.dirQuadruples[i][2])
 
+			if (operand1 == -1) or (operand2 == -1):
+				# Error no value in address
+				print("Operation failed, variable(s) missing value!")
+				exit(1)
+
 			#apply and operation to operands
 			result = operand1 and operand2
 
@@ -92,6 +117,11 @@ def startMachine():
 			#get operands from the memory
 			operand1 = getValue(quadruples.dirQuadruples[i][1])
 			operand2 = getValue(quadruples.dirQuadruples[i][2])
+
+			if (operand1 == -1) or (operand2 == -1):
+				# Error no value in address
+				print("Operation failed, variable(s) missing value!")
+				exit(1)
 
 			#apply or operation to operands
 			result = operand1 or operand2
@@ -106,6 +136,11 @@ def startMachine():
 			operand1 = getValue(quadruples.dirQuadruples[i][1])
 			operand2 = getValue(quadruples.dirQuadruples[i][2])
 
+			if (operand1 == -1) or (operand2 == -1):
+				# Error no value in address
+				print("Operation failed, variable(s) missing value!")
+				exit(1)
+
 			#apply less than to operands
 			result = operand1 < operand2
 
@@ -118,6 +153,11 @@ def startMachine():
 			#get operands from the memory
 			operand1 = getValue(quadruples.dirQuadruples[i][1])
 			operand2 = getValue(quadruples.dirQuadruples[i][2])
+
+			if (operand1 == -1) or (operand2 == -1):
+				# Error no value in address
+				print("Operation failed, variable(s) missing value!")
+				exit(1)
 
 			#apply greater than to operands
 			result = operand1 > operand2
@@ -132,6 +172,11 @@ def startMachine():
 			operand1 = getValue(quadruples.dirQuadruples[i][1])
 			operand2 = getValue(quadruples.dirQuadruples[i][2])
 
+			if (operand1 == -1) or (operand2 == -1):
+				# Error no value in address
+				print("Operation failed, variable(s) missing value!")
+				exit(1)
+
 			##apply less than equals to operands
 			result = operand1 <= operand2
 
@@ -144,6 +189,11 @@ def startMachine():
 			#get operands from the memory
 			operand1 = getValue(quadruples.dirQuadruples[i][1])
 			operand2 = getValue(quadruples.dirQuadruples[i][2])
+
+			if (operand1 == -1) or (operand2 == -1):
+				# Error no value in address
+				print("Operation failed, variable(s) missing value!")
+				exit(1)
 
 			#apply greater than equals to operands
 			result = operand1 >= operand2
@@ -158,6 +208,11 @@ def startMachine():
 			operand1 = getValue(quadruples.dirQuadruples[i][1])
 			operand2 = getValue(quadruples.dirQuadruples[i][2])
 
+			if (operand1 == -1) or (operand2 == -1):
+				# Error no value in address
+				print("Operation failed, variable(s) missing value!")
+				exit(1)
+
 			#apply double equals to operands
 			result = operand1 == operand2
 
@@ -171,6 +226,11 @@ def startMachine():
 			operand1 = getValue(quadruples.dirQuadruples[i][1])
 			operand2 = getValue(quadruples.dirQuadruples[i][2])
 
+			if (operand1 == -1) or (operand2 == -1):
+				# Error no value in address
+				print("Operation failed, variable(s) missing value!")
+				exit(1)
+
 			#apply not equals to operands
 			result = operand1 != operand2
 
@@ -182,6 +242,12 @@ def startMachine():
 		elif(quadruples.dirQuadruples[i][0] == 12):
 			#get operands from the memory
 			operand1 = getValue(quadruples.dirQuadruples[i][1])
+
+			if (operand1 == -1):
+				# Error no value in address
+				print("Operation failed, variable(s) missing value!")
+				exit(1)
+
 			#save the new value for the specified address
 			setValue(quadruples.dirQuadruples[i][3],operand1)
 
@@ -195,6 +261,12 @@ def startMachine():
 		elif(quadruples.dirQuadruples[i][0] == 14):
 			#if the temporal is false jump to the specified quadruple
 			var_Value = getValue(quadruples.dirQuadruples[i][1])
+
+			if (var_Value == -1):
+				# Error no value in address
+				print("Operation failed, variable(s) missing value!")
+				exit(1)
+
 			if(var_Value == False):
 				i = quadruples.dirQuadruples[i][3] - 1
 
@@ -202,6 +274,12 @@ def startMachine():
 		elif(quadruples.dirQuadruples[i][0] == 15):
 			#if the temporal holds a True jump to the specified quadruple
 			var_Value = getValue(quadruples.dirQuadruples[i][1])
+
+			if (var_Value == -1):
+				# Error no value in address
+				print("Operation failed, variable(s) missing value!")
+				exit(1)
+
 			if(var_Value == True):
 				i = quadruples.dirQuadruples[i][3] - 1
 
@@ -220,6 +298,11 @@ def startMachine():
 			rtn = memoryStack[-1].returnAddress
 			rtn_value = getValue(quadruples.dirQuadruples[i][1])
 
+			if (rtn_value == -1):
+				# Error no value in address
+				print("Operation failed, variable(s) missing value!")
+				exit(1)
+
 			#temporally pop memoryStack to assign return value to previous function
 			memory_aux = memoryStack.pop()
 
@@ -232,6 +315,12 @@ def startMachine():
             #case for PRINT
 		elif(quadruples.dirQuadruples[i][0] == 18):
 			var_Value = getValue(quadruples.dirQuadruples[i][3])
+
+			if (var_Value == -1):
+				# Error no value in address
+				print("Operation failed, variable(s) missing value!")
+				exit(1)
+
 			print(var_Value)
 
             #case for INPUT

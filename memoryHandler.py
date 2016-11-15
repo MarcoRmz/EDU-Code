@@ -79,8 +79,6 @@ def resetMemoryIndexes():
 
 #Checks if there is available memory for type and chunkSize for global memory
 def globalAvailableMemory(varType, chunkSize):
-	if chunkSize != 1:
-		chunkSize = getValue(chunkSize)
 	if(varType == 0):
 		if currentGlobalVirtualAddress[0] + chunkSize < 2000:
 			return True
@@ -113,8 +111,6 @@ def constantAvailableMemory(varType):
 
 #Checks if there is available memory for type and chunkSize for local memory
 def localAvailableMemory(varType, chunkSize):
-	if chunkSize != 1:
-		chunkSize = getValue(chunkSize)
 	if(varType == 0):
 		if currentLocalVirtualAddress[0] + chunkSize < 20000:
 			return True
@@ -132,8 +128,10 @@ def localAvailableMemory(varType, chunkSize):
 # Ask for next available memory address
 #Global
 def getGlobalAddress(varType, chunkSize):
-	if chunkSize != 1:
+	if chunkSize > 1:
 		chunkSize = getValue(chunkSize)
+		if chunkSize == -1:
+			return -1
 	if(globalAvailableMemory(varType,chunkSize)):
 		availableAddress = currentGlobalVirtualAddress[varType] + 1000
 		currentGlobalVirtualAddress[varType] += chunkSize
@@ -159,8 +157,10 @@ def setConstantAddress(varType, varValue):
 
 # Local
 def getLocalAddress(varType, chunkSize):
-	if chunkSize != 1:
+	if chunkSize > 1:
 		chunkSize = getValue(chunkSize)
+		if chunkSize == -1:
+			return -1
 	if(localAvailableMemory(varType,chunkSize)):
 		availableAddress = currentLocalVirtualAddress[varType]
 		currentLocalVirtualAddress[varType] += chunkSize
@@ -172,8 +172,6 @@ def getLocalAddress(varType, chunkSize):
 def getLocalVarQty():
 	totalVarQyt = [0,0,0,0]
 	for x in xrange(0,4):
-		print("index x: %d" %x)
-		print("currentLocal: %s initial: %s" %(str(currentLocalVirtualAddress[x]), str(initialLocalVirtualAddresses[x])))
 		totalVarQyt[x] = currentLocalVirtualAddress[x] - initialLocalVirtualAddresses[x]
 	return totalVarQyt
 
@@ -191,21 +189,22 @@ def createMemory(SubTypeQty):
 def deleteMemory():
 	del memoryStack[-1]
 
-
 # Get value from virtual address
 def getValue(virtualAddress):
 	#Global
-	print("GET VALUE\nGlobal mem: %s\nLocal mem: %s\nConstants: %s" %(str(globalMemory), str(memoryStack[-1].memory), str(constMemory)))
+	print("GET VALUE")
 	if(virtualAddress < 4000):
 		varType = (virtualAddress // 1000) - 1
 		realAddr = virtualAddress % 1000
 		print("Type: %d, rAddr: %d" %(varType, realAddr))
 		varValue = globalMemory[varType][realAddr]
+		print("\nGlobal mem: %s\n" %(str(globalMemory)))
 
 	#constantes
 	elif(virtualAddress < 10000):
 		print("vAddr: %d" %(virtualAddress))
 		varValue = constMemory[virtualAddress]
+		print("\nConstants: %s" %(str(constMemory)))
 
 	#locales
 	else:
@@ -213,10 +212,10 @@ def getValue(virtualAddress):
 		realAddr = virtualAddress % 10000
 		print("Type: %d, rAddr: %d" %(varType, realAddr))
 		varValue = memoryStack[-1].memory[varType][realAddr]
+		print("\nLocal mem: %s\n" %(str(memoryStack[-1].memory)))
 
 	if varValue == None:
-		print("Variable has no value!")
-		exit(1)
+		return -1
 	else:
 		return varValue
 

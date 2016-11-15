@@ -91,6 +91,7 @@ INPUT = 19
 ERA = 20
 ENDPROC = 21
 PARAM = 22
+VER = 23
 EOF = 99
 
 #########################################
@@ -206,7 +207,22 @@ def p_asignacion2(p):
 
 def p_asignacion_vector(p):
 	'''asignacion_vector : LBRACKET expresion_logica RBRACKET'''
-	p[0] = p[1] + p[2] + p[3]
+	# Check if ID is a declared global
+	if globalVars.has_key(p[-2]):
+		# Check if ID is a vector
+		#if globalVars[p[-2]]
+		pass
+	else:
+		# Check if ID is a declared local variable
+		if functionsDir[function_ptr][1].has_key(p[1]):
+			# Check if ID is a vector
+			pass
+		else:
+			# Error
+			print("Variable %s is not declared! Line: %s" %(p[1], p.lineno(0)))
+			exit(1)
+	# Verify that index value is within vector size
+	quadruples.dirQuadruples.append((VER, quadruples.sOperands[-1], None, ))
 
 def p_bloque(p):
 	'bloque 	: LCURL estatuto bloque1 RCURL'
@@ -430,6 +446,7 @@ def p_checkEXPRESIONLOGICAPOper(p):
 			else:
 				print("Type mismatch between operand type: %s and %s while trying to %s at line: %s" %(operand1, operand2, operator, p.lineno(0)))
 				exit(1)
+
 def p_expresion_logica1(p):
 	'''expresion_logica1 	: AND addOperator expresion_logica
 					| epsilon
@@ -1100,11 +1117,6 @@ def p_checarExpresion(p):
 	'''checarExpresion : '''
 	# Checa si p[-1] es una CTE_INT
 
-def p_cteVector(p):
-	'''cteVector 	: ID LBRACKET expresion_logica RBRACKET'''
-	# Evalua valor de vector y checa si existe vector
-	p[0] = p[1]
-
 def p_var_declaracion(p):
 	'''var_declaracion : tipo var_declaracion1'''
 
@@ -1114,56 +1126,54 @@ def p_var_declaracion1(p):
 def p_var_declaracion2(p):
 	'''var_declaracion2 : epsilon
 						| LBRACKET cte_int1 RBRACKET'''
-	# Check if simple ID or vector
-	if len(p) == 2:
-		# Declare simple ID
-		if function_ptr == 'GLOBAL':
-	  		if globalVars.has_key(p[-1]):
-	  			# Error
-	  			print("Variable %s already declared! Line: %s" %(p[-1], p.lineno(-1)))
-	  			exit(1)
-	  		varType = parseTypeIndex(p[-2])
-			varAddress = getGlobalAddress(varType, 1)
-			globalVarsTypeCounts[varType] += 1
-	  		globalVars[p[-1]] = [varType, varAddress]
-		else:
-			if globalVars.has_key(p[-1]):
-	  			# Error
-	  			print("Variable %s already declared! Line: %s" %(p[-1], p.lineno(-1)))
-	  			exit(1)
-	  		elif functionsDir[function_ptr][1].has_key(p[-1]):
-	  			# Error
-	  			print("Variable %s already declared! Line: %s" %(p[-1], p.lineno(-1)))
-	  			exit(1)
-			varType = parseTypeIndex(p[-2])
-			varAddress = getLocalAddress(varType, 1)
-			functionsDir[function_ptr][1][p[-1]] = [varType, varAddress]
-		p[0] = p[-1]
+	# Declare ID if it doesn't exist
+	if function_ptr == 'GLOBAL':
+		if globalVars.has_key(p[-1]):
+			# Error
+			print("Variable %s already declared! Line: %s" %(p[-1], p.lineno(-1)))
+			exit(1)
+
+		# Asign variable type
+		varType = parseTypeIndex(p[-2])
+		
+		# Asign variable size 1 if simple or cte_int1 if vector
+		varSize = 1
+		if len(p) == 4:
+			varSize = quadruples.sOperands.pop()
+			quadruples.sTypes.pop()
+		
+		# Get address for variable given the type and size
+		varAddress = getGlobalAddress(varType, varSize)
+
+		# Add amount of space used for type
+		globalVarsTypeCounts[varType] += varSize
+
+		# Add variable to globalVars table
+		globalVars[p[-1]] = [varType, varAddress, varSize]
 	else:
-		# Declare vector
-		quadruples.sTypes.pop();
-		if function_ptr == 'GLOBAL':
-			if globalVars.has_key(p[-1]):
-				# Error
-				print("Variable %s already declared! Line: %s" %(p[-1], p.lineno(1)))
-				exit(1)
-			varType = parseTypeIndex(p[-2])
-			varAddress = getGlobalAddress(varType, quadruples.sOperands.pop())
-			globalVarsTypeCounts[varType] += 1
-	  		globalVars[p[-1]] = [varType, varAddress]
-		else:
-			if globalVars.has_key(p[-1]):
-					# Error
-					print("Variable %s already declared! Line: %s" %(p[-1], p.lineno(1)))
-					exit(1)
-			elif functionsDir[function_ptr][1].has_key(p[-1]):
-				# Error
-				print("Variable %s already declared! Line: %s" %(p[-1], p.lineno(1)))
-				exit(1)
-			varType = parseTypeIndex(p[-2])
-			varAddress = getLocalAddress(varType, quadruples.sOperands.pop())
-			functionsDir[function_ptr][1][p[-1]] = [varType, varAddress]
-		p[0] = p[-1]
+		if globalVars.has_key(p[-1]):
+			# Error
+			print("Variable %s already declared! Line: %s" %(p[-1], p.lineno(-1)))
+			exit(1)
+		elif functionsDir[function_ptr][1].has_key(p[-1]):
+			# Error
+			print("Variable %s already declared! Line: %s" %(p[-1], p.lineno(-1)))
+			exit(1)
+
+		# Asign variable type
+		varType = parseTypeIndex(p[-2])
+		
+		# Asign variable size 1 if simple or cte_int1 if vector
+		varSize = 1
+		if len(p) == 4:
+			varSize = quadruples.sOperands.pop()
+			quadruples.sTypes.pop()
+		
+		# Get address for variable given the type and size
+		varAddress = getLocalAddress(varType, varSize)
+
+		# Add variable to globalVars table
+		functionsDir[function_ptr][1][p[-1]] = [varType, varAddress, varSize]
 
 def p_while(p):
 	'while : WHILE metePSaltos LPAREN expresion_logica RPAREN checkEvaluacionLogica bloque'

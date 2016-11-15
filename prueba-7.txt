@@ -1,12 +1,9 @@
 start
 
 main{
-	int x
-	x = 3
+	int a[2]
 
-	from 1 to 10 by(+ 1){
-	  	x = x + 1
-	}
+	print("h")
 }
 
 end
