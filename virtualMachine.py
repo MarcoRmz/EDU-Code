@@ -382,8 +382,6 @@ def startMachine():
 		i += 1
 		print("")
 
-	print ("FINAL MEMORY: %s" % memoryStack[-1].memory)
-
 #########################################
 #                                       #
 #         Logging Object Rules          #
@@ -436,8 +434,9 @@ if __name__ == '__main__':
 	startMachine()
 	
 	print("*****************************************")
-	i = 0
 	print("")
+	print("Constant Vars: %s\n" %str(constMemory))
+	i = 0
 	print("Global Vars: %s\n" %str(globalVars))
 	tempFunct = functionsDir.items()
 	while(i < len(functionsDir)):

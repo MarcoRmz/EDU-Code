@@ -1102,10 +1102,11 @@ def p_cte_int1(p):
 		else:
 			newValueAddress = setConstantAddress(quadruples.sTypes[-1], p[2])
 			quadruples.sOperands.append(newValueAddress)
+		p[0] = p[2]
 	else:
 		newValueAddress = setConstantAddress(quadruples.sTypes[-1], p[1])
 		quadruples.sOperands.append(newValueAddress)
-	p[0] = p[1]
+		p[0] = p[1]
 
 def p_cte_float1(p):
 	''' cte_float1 : PLUS CTE_FLOAT
@@ -1176,8 +1177,11 @@ def p_var_declaracion2(p):
 		# Get address for variable given the type and size
 		varAddress = getGlobalAddress(varType, varSize)
 
-		# Add amount of space used for type
-		globalVarsTypeCounts[varType] += varSize
+		# Add amount of space used for variable in type
+		if len(p) == 4:
+			globalVarsTypeCounts[varType] += p[2]
+		else:
+			globalVarsTypeCounts[varType] += 1
 
 		# Add variable to globalVars table
 		globalVars[p[-1]] = [varType, varAddress, varSize]

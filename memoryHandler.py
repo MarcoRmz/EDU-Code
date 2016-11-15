@@ -128,10 +128,12 @@ def localAvailableMemory(varType, chunkSize):
 # Ask for next available memory address
 #Global
 def getGlobalAddress(varType, chunkSize):
+	# Parse chunkSize if it's an Address
 	if chunkSize > 1:
 		chunkSize = getValue(chunkSize)
 		if chunkSize == -1:
 			return -1
+	# Check if there's memory available for type with chunkSize
 	if(globalAvailableMemory(varType,chunkSize)):
 		availableAddress = currentGlobalVirtualAddress[varType] + 1000
 		currentGlobalVirtualAddress[varType] += chunkSize
@@ -145,6 +147,7 @@ def setConstantAddress(varType, varValue):
 	if invertedConstMemory.has_key(varValue):
 		return invertedConstMemory[varValue]
 	else:
+		# Check if there's memory available for type
 		if(constantAvailableMemory(varType)):
 			availableAddress = currentConstantVirtualAddress[varType]
 			currentConstantVirtualAddress[varType] += 1
@@ -157,10 +160,12 @@ def setConstantAddress(varType, varValue):
 
 # Local
 def getLocalAddress(varType, chunkSize):
+	# Parse chunkSize if it's an Address
 	if chunkSize > 1:
 		chunkSize = getValue(chunkSize)
 		if chunkSize == -1:
 			return -1
+	# Check if there's memory available for type with chunkSize
 	if(localAvailableMemory(varType,chunkSize)):
 		availableAddress = currentLocalVirtualAddress[varType]
 		currentLocalVirtualAddress[varType] += chunkSize
@@ -198,13 +203,13 @@ def getValue(virtualAddress):
 		realAddr = virtualAddress % 1000
 		print("Type: %d, rAddr: %d" %(varType, realAddr))
 		varValue = globalMemory[varType][realAddr]
-		print("\nGlobal mem: %s\n" %(str(globalMemory)))
+		print("Global mem: %s\n" %(str(globalMemory)))
 
 	#constantes
 	elif(virtualAddress < 10000):
 		print("vAddr: %d" %(virtualAddress))
 		varValue = constMemory[virtualAddress]
-		print("\nConstants: %s" %(str(constMemory)))
+		print("Constants: %s\n" %(str(constMemory)))
 
 	#locales
 	else:
@@ -212,7 +217,7 @@ def getValue(virtualAddress):
 		realAddr = virtualAddress % 10000
 		print("Type: %d, rAddr: %d" %(varType, realAddr))
 		varValue = memoryStack[-1].memory[varType][realAddr]
-		print("\nLocal mem: %s\n" %(str(memoryStack[-1].memory)))
+		print("Local mem: %s\n" %(str(memoryStack[-1].memory)))
 
 	if varValue == None:
 		return -1
