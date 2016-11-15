@@ -1,9 +1,15 @@
 start
 
-main{
-	int a[2]
+int a[3]
+int f
 
-	print("h")
+main{
+	int x
+	x = 3
+
+	from 1 to 10 by(+ 1){
+	  	x = x + 1
+	}
 }
 
 end

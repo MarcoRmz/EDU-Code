@@ -330,7 +330,9 @@ def p_checkEXPPOper(p):
 
 			if(operationType != ERROR):
 				print "OPERATOR: %s OPERAND1: %s OPERAND2: %s   L211" % (str(operator), str(operand1), str(operand2))
-				newValueAddress = getLocalAddress(operationType, 1)
+				# Add cteint 1 for varSize for simple IDs
+				varSize = setConstantAddress(INT, 1)
+				newValueAddress = getLocalAddress(operationType, varSize)
 				quadruples.dirQuadruples.append((operator, operand1, operand2, newValueAddress))
 				quadruples.sOperands.append(newValueAddress)
 				quadruples.sTypes.append(operationType)
@@ -390,7 +392,9 @@ def p_checkEXPRESIONPOper(p):
 
 			if(operationType != ERROR):
 				print "OPERATOR: %s OPERAND1: %s OPERAND2: %s L273  " % (str(operator), str(operand1), str(operand2))
-				newValueAddress = getLocalAddress(operationType, 1)
+				# Add cteint 1 for varSize for simple IDs
+				varSize = setConstantAddress(INT, 1)
+				newValueAddress = getLocalAddress(operationType, varSize)
 				quadruples.dirQuadruples.append((operator, operand1, operand2, newValueAddress))
 				quadruples.sOperands.append(newValueAddress)
 				quadruples.sTypes.append(operationType)
@@ -438,7 +442,9 @@ def p_checkEXPRESIONLOGICAPOper(p):
 
 			if(operationType != ERROR):
 				print "OPERATOR: %s OPERAND1: %s OPERAND2: %s L312  " % (str(operator), str(operand1), str(operand2))
-				newValueAddress = getLocalAddress(operationType, 1)
+				# Add cteint 1 for varSize for simple IDs
+				varSize = setConstantAddress(INT, 1)
+				newValueAddress = getLocalAddress(operationType, varSize)
 				quadruples.dirQuadruples.append((operator, operand1, operand2, newValueAddress))
 				quadruples.sOperands.append(newValueAddress)
 				quadruples.sTypes.append(operationType)
@@ -484,9 +490,11 @@ def p_cteFrom(p):
 
 def p_from(p):
 	'from : FROM cteFrom creaVarTemp TO cteFrom crearComparacion BY LPAREN from1 cteFrom RPAREN bloque'
+	# Add cteint 1 for varSize for simple IDs
+	varSize = setConstantAddress(INT, 1)
 	# Actualiza valor en fromTempStack
 	newAddress = setConstantAddress(INT,p[10])
-	tempAddress = getLocalAddress(INT,1)
+	tempAddress = getLocalAddress(INT,varSize)
 	if p[9] == '+':
 		quadruples.dirQuadruples.append((PLUS,fromTempStack[-1],newAddress,tempAddress))
 	elif p[9] == '-':
@@ -523,8 +531,11 @@ def p_creaVarTemp(p):
 	#add constant to memory
 	newAddress =  setConstantAddress(INT,p[-1])
 
+	# Add cteint 1 for varSize for simple IDs
+	varSize = setConstantAddress(INT, 1)
+
 	#create copy in temporal
-	tempAddress = getLocalAddress(INT,1)
+	tempAddress = getLocalAddress(INT,varSize)
 	quadruples.dirQuadruples.append((EQUALS,newAddress,None,tempAddress))
 	quadruples.indexQuadruples += 1
 	#add to the tempStack
@@ -538,8 +549,11 @@ def p_crearComparacion(p):
 	#add constant to memory
 	newAddress =  setConstantAddress(INT,p[-1])
 
+	# Add cteint 1 for varSize for simple IDs
+	varSize = setConstantAddress(INT, 1)
+
 	#Gets bool memory address
-	boolAddress = getLocalAddress(BOOL,1)
+	boolAddress = getLocalAddress(BOOL,varSize)
 
 	#GOTO sJump
 	quadruples.sJumps.append(quadruples.indexQuadruples)
@@ -607,7 +621,9 @@ def p_declareFunc(p):
 		functionAddress = None
 		if parseTypeIndex(p[-2]) != 23:
 			varType = parseTypeIndex(p[-2])
-			functionAddress =  getGlobalAddress(varType, 1)
+			# Add cteint 1 for varSize for ID
+			varSize = setConstantAddress(INT, 1)
+			functionAddress =  getGlobalAddress(varType, varSize)
 			globalVarsTypeCounts[varType] += 1
 		functionsDir[function_ptr] = [parseTypeIndex(p[-2]), {}, [], quadruples.indexQuadruples, functionAddress, [0,0,0,0]]
 	else:
@@ -835,6 +851,8 @@ def p_meteParamTipo(p):
 	# Mete parametro a lista de parametros de la funcion
 	functionsDir[function_ptr][2].append(parseTypeIndex(p[-1]))
 	print("PARAMETRO TIPO LISTAPARAM %s" %functionsDir[function_ptr][2])
+	# Add cteint 1 for varSize for simple IDs
+	#varSize = setConstantAddress(INT, 1)
 	# Reserves memory space for parameter
 	#varAddress = getLocalAddress(parseTypeIndex(p[-1]), 1)
 
@@ -860,7 +878,9 @@ def p_meteParam(p):
 		print("ID: %s is a duplicate parameter. Line: %s" %(p[-1], p.lineno(-1)))
 		exit(1)
 	else:
-		varAddress = getLocalAddress(functionsDir[function_ptr][2][-1], 1)
+		# Add cteint 1 for varSize for simple IDs
+		varSize = setConstantAddress(INT, 1)
+		varAddress = getLocalAddress(functionsDir[function_ptr][2][-1], varSize)
 		functionsDir[function_ptr][1][p[-1]] = [functionsDir[function_ptr][2].pop(), varAddress]
 		functionsDir[function_ptr][2].append(p[-1])
 	print("PARAMETRO ID LISTAPARAM %s" %functionsDir[function_ptr][2])
@@ -881,7 +901,9 @@ def p_meteParamVect(p):
 		print("ID: %s is a duplicate parameter. Line: %s" %(p[-1], p.lineno(-1)))
 		exit(1)
 	else:
-		varAddress = getLocalAddress(functionsDir[function_ptr][2][-1], 1)
+		# Add cteint 1 for varSize for simple IDs
+		varSize = setConstantAddress(INT, 1)
+		varAddress = getLocalAddress(functionsDir[function_ptr][2][-1], varSize)
 		functionsDir[function_ptr][1][p[-1]] = [functionsDir[function_ptr][2][-1], varAddress]
 	p[0] = varAddress
 
@@ -923,13 +945,15 @@ def p_meterIDPOper(p):
 	'meterIDPOper : '
 	# Checa que ID exista y saca tipo de tabla de Var
 	# Si existe mete valor a sOperands y tipo a sTypes
+	varSize = setConstantAddress(INT, 1)
 	if globalVars.has_key(p[-1]):
-		newAddress = getGlobalAddress(globalVars[p[-1]][0], 1)
+		# Add cteint 1 for varSize for ID
+		newAddress = getGlobalAddress(globalVars[p[-1]][0], varSize)
 		globalVarsTypeCounts[globalVars[p[-1]][0]] += 1
 		quadruples.sTypes.append(globalVars[p[-1]][0])
 		quadruples.sOperands.append(newAddress)
 	elif functionsDir[function_ptr][1].has_key(p[-1]):
-		newAddress = getLocalAddress(functionsDir[function_ptr][1][p[-1]][0], 1)
+		newAddress = getLocalAddress(functionsDir[function_ptr][1][p[-1]][0], varSize)
 		quadruples.sTypes.append(functionsDir[function_ptr][1][p[-1]][0])
 		quadruples.sOperands.append(newAddress)
 	else:
@@ -949,7 +973,9 @@ def p_compararConID(p):
 	operationType = quadruples.getResultType(operandType1, operandType2, operator)
 
 	if(operationType == BOOL):
-		newAddress = getLocalAddress(operationType, 1)
+		# Add cteint 1 for varSize for simple IDs
+		varSize = setConstantAddress(INT, 1)
+		newAddress = getLocalAddress(operationType, varSize)
 		quadruples.dirQuadruples.append((operator, operand1, operand2, newAddress))
 		quadruples.sOperands.append(newAddress)
 		quadruples.sTypes.append(operationType)
@@ -976,7 +1002,9 @@ def p_checkTERMPOper(p):
 
 			operationType = quadruples.getResultType(operandType1, operandType2, operator)
 			if(operationType != ERROR):
-				newValueAddress = getLocalAddress(operationType, 1)
+				# Add cteint 1 for varSize for simple IDs
+				varSize = setConstantAddress(INT, 1)
+				newValueAddress = getLocalAddress(operationType, varSize)
 				quadruples.dirQuadruples.append((operator, operand1, operand2, newValueAddress))
 				quadruples.sOperands.append(newValueAddress)
 				quadruples.sTypes.append(operationType)
@@ -1034,7 +1062,9 @@ def p_varcte2(p):
 		if functionsDir.has_key(p[-1]):
 			# Create local variable if function type is != VOID
 			if functionsDir[p[-1]][0] != VOID:
-				varAddress = getLocalAddress(functionsDir[p[-1]][0], 1)
+				# Add cteint 1 for varSize for simple IDs
+				varSize = setConstantAddress(INT, 1)
+				varAddress = getLocalAddress(functionsDir[p[-1]][0], varSize)
 				quadruples.sOperands.append(varAddress)
 				quadruples.sTypes.append(functionsDir[p[-1]][0])
 				p[0] = p[-1]
@@ -1127,6 +1157,8 @@ def p_var_declaracion2(p):
 	'''var_declaracion2 : epsilon
 						| LBRACKET cte_int1 RBRACKET'''
 	# Declare ID if it doesn't exist
+	# Add cteint 1 for varSize for simple IDs
+	varSize = setConstantAddress(INT, 1)
 	if function_ptr == 'GLOBAL':
 		if globalVars.has_key(p[-1]):
 			# Error
@@ -1135,13 +1167,12 @@ def p_var_declaracion2(p):
 
 		# Asign variable type
 		varType = parseTypeIndex(p[-2])
-		
-		# Asign variable size 1 if simple or cte_int1 if vector
-		varSize = 1
+
+		# Asign address to variable size for vector IDs
 		if len(p) == 4:
 			varSize = quadruples.sOperands.pop()
 			quadruples.sTypes.pop()
-		
+
 		# Get address for variable given the type and size
 		varAddress = getGlobalAddress(varType, varSize)
 
@@ -1162,9 +1193,8 @@ def p_var_declaracion2(p):
 
 		# Asign variable type
 		varType = parseTypeIndex(p[-2])
-		
-		# Asign variable size 1 if simple or cte_int1 if vector
-		varSize = 1
+
+		# Asign address to variable size for vector IDs
 		if len(p) == 4:
 			varSize = quadruples.sOperands.pop()
 			quadruples.sTypes.pop()
