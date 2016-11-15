@@ -468,17 +468,21 @@ def p_cteFrom(p):
 def p_from(p):
 	'from : FROM cteFrom creaVarTemp TO cteFrom crearComparacion BY LPAREN from1 cteFrom RPAREN bloque'
 	# Actualiza valor en fromTempStack
-	newAddress= setConstantAddress(INT,p[10])
-	tempAddress= getLocalAddress(INT,1)
+	newAddress = setConstantAddress(INT,p[10])
+	tempAddress = getLocalAddress(INT,1)
 	if p[9] == '+':
-		quadruples.dirQuadruples.append(PLUS,fromTempStack[-1],newAddress,tempAddress)
+		quadruples.dirQuadruples.append((PLUS,fromTempStack[-1],newAddress,tempAddress))
 	elif p[9] == '-':
-		quadruples.dirQuadruples.append(MINUS,fromTempStack[-1],newAddress,tempAddress)
+		quadruples.dirQuadruples.append((MINUS,fromTempStack[-1],newAddress,tempAddress))
 	elif p[9] == '*':
-		quadruples.dirQuadruples.append(MULT,fromTempStack[-1],newAddress,tempAddress)
+		quadruples.dirQuadruples.append((MULT,fromTempStack[-1],newAddress,tempAddress))
 	elif p[9] == '/':
-		quadruples.dirQuadruples.append(DIVIDE,fromTempStack[-1],newAddress,tempAddress)
+		quadruples.dirQuadruples.append((DIVIDE,fromTempStack[-1],newAddress,tempAddress))
+	quadruples.indexQuadruples += 1
 
+	quadruples.dirQuadruples.append((EQUALS,tempAddress, None, fromTempStack[-1]))
+	quadruples.indexQuadruples += 1
+	
 	# Genera GOTO
 	gotoFIndex = quadruples.sJumps.pop()
 	quadruples.dirQuadruples.append((GOTO, None, None, quadruples.sJumps.pop()))
@@ -495,6 +499,7 @@ def p_from1(p):
 			| TIMES
 			| DIVIDE
 			| MINUS'''
+	p[0] = p[1]
 
 def p_creaVarTemp(p):
 	'creaVarTemp : '
@@ -516,11 +521,11 @@ def p_crearComparacion(p):
 	#add constant to memory
 	newAddress =  setConstantAddress(INT,p[-1])
 
-
-
 	#Gets bool memory address
 	boolAddress = getLocalAddress(BOOL,1)
 
+	#GOTO sJump
+	quadruples.sJumps.append(quadruples.indexQuadruples)
 
 	if quadruples.sOperands.pop() >= p[-1]:
 		# comparacion >=
@@ -531,9 +536,6 @@ def p_crearComparacion(p):
 		# comparacion <=
 		quadruples.dirQuadruples.append((LESSEQUAL, fromTempStack[-1], newAddress, boolAddress))
 		quadruples.indexQuadruples += 1
-
-	#GOTO
-	quadruples.sJumps.append(quadruples.indexQuadruples)
 
 	quadruples.dirQuadruples.append((GOTOF, boolAddress, None, None))
 	quadruples.sJumps.append(quadruples.indexQuadruples)
