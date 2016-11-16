@@ -1,7 +1,7 @@
 General:
 ** print Errores Detallados
 ** Stack de Errores e imprimir al final (no hacer exit)
-** Comentarios
+** Checar comentarios
 ** Pasar todo a ingles
 ** Bitacoras
 ** DOCUMENTACION
@@ -23,12 +23,14 @@ Maquina:
 
 Memoria:
 ** Parametros por referencia
+** return funciones
 ** Creacion de variable local para input, que tipo??
 
 Avance 7:
-** agregar vectores a varcte1 para usar en expresion_logica
+** agregar vectores a varcte2 para usar en expresion_logica
 
 Avance 8:
+** Blockly gramatica
 ** Blockly CSS & tutorials
 ** Documentacion
 ** Aplicacion Maquina virtual
