@@ -26,10 +26,7 @@ Memoria:
 ** Creacion de variable local para input, que tipo??
 
 Avance 7:
-** sacar valor de vector[x] e igualar el valor en varcte con len(p) == 3 para p[0]
-** checar tipo de asignacion con tipo de vector
-** Agregar tipos para vectores
-** from gotoF y goto incorrecto
+** agregar vectores a varcte1 para usar en expresion_logica
 
 Avance 8:
 ** Blockly CSS & tutorials

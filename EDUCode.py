@@ -92,6 +92,7 @@ ERA = 20
 ENDPROC = 21
 PARAM = 22
 VER = 23
+PLUS_ADDR = 24
 EOF = 99
 
 #########################################
@@ -161,68 +162,93 @@ def p_gotoMAIN(p):
 
 def p_asignacion(p):
 	'''asignacion : ID asignacion1 EQUALS asignacion2'''
-	# Check if ID is a declared global variable
-	print "ASIGNACION PILA DE OPERANDOS %s" % str(quadruples.sOperands)
-	if globalVars.has_key(p[1]):
-		# Check if assignment is valid given the types of the operands
-		asignacionType = quadruples.getResultType(globalVars[p[1]][0], quadruples.sTypes[-1], EQUALS)
+	operand2 = quadruples.sOperands.pop()
+	operandType2 = quadruples.sTypes.pop()
+	operand1 = quadruples.sOperands.pop()
+	operandType1 = quadruples.sTypes.pop()
+	# Compare if operand1 type and operand2 are compatible
+	asignacionType = quadruples.getResultType(operandType1, operandType2, EQUALS)
 
-		if asignacionType != ERROR:
-			newValueAddress = quadruples.sOperands.pop()
-			quadruples.dirQuadruples.append((EQUALS,newValueAddress, None, globalVars[p[1]][1]))
-			quadruples.sTypes.pop()
-			quadruples.indexQuadruples += 1
-		else:
-			# Error
-			print("Type mismatch var: %s of type: %s and %s! Line: %s" %(p[1], parseType(globalVars[p[1]][0]), parseType(quadruples.sTypes[-1]), p.lineno(0)))
-			exit(1)
+	if asignacionType != ERROR:
+		quadruples.dirQuadruples.append((EQUALS, operand2, None, operand1))
+		quadruples.indexQuadruples += 1
 	else:
-		# Check if ID is a declared local variable
-		if functionsDir[function_ptr][1].has_key(p[1]):
-			# Check if assignment is valid given the types of the operands
-			asignacionType = quadruples.getResultType(functionsDir[function_ptr][1][p[1]][0], quadruples.sTypes[-1], EQUALS)
-
-			if asignacionType != ERROR:
-				newValueAddress = quadruples.sOperands.pop()
-				quadruples.dirQuadruples.append((EQUALS, newValueAddress, None, functionsDir[function_ptr][1][p[1]][1]))
-				quadruples.sTypes.pop()
-				quadruples.indexQuadruples += 1
-			else:
-				# Error
-				print("Type mismatch var: %s of type: %s and %s! Line: %s" %(p[1], parseType(functionsDir[function_ptr][1][p[1]][0]), parseType(quadruples.sTypes[-1]),p.lineno(0)))
-				exit(1)
-		else:
-			# Error
-			print("Variable %s is not declared! Line: %s" %(p[1], p.lineno(0)))
-			exit(1)
-	print "ASIGNACION PILA DE OPERANDOS %s" % str(quadruples.sOperands)
+		# Error
+		print("Type mismatch var: %s of type: %s and %s! Line: %s" %(p[1], parseType(globalVars[p[1]][0]), parseType(quadruples.sTypes[-1]), p.lineno(0)))
+		exit(1)
 
 def p_asignacion1(p):
 	'''asignacion1 : epsilon
-				| asignacion_vector'''
+				| LBRACKET expresion_logica RBRACKET'''
+	# Check if ID exists in global Vars
+	if globalVars.has_key(p[-1]):
+		# If ID is a vector add index address to sOperands
+		if len(p) == 4:
+			# Check if expresion_logica type is INT
+			if quadruples.sTypes.pop() == INT:
+				# Verify index is within vector size
+				quadruples.dirQuadruples.append((VER, quadruples.sOperands[-1], None, globalVars[p[-1]][2]))
+				quadruples.indexQuadruples += 1
+
+				# Get local variable for addition
+				varSize = setConstantAddress(INT, 1)
+				newValueAddress = getLocalAddress(INT, varSize)
+
+				# Add index to vector base address to get index address
+				quadruples.dirQuadruples.append((PLUS_ADDR, quadruples.sOperands.pop(), globalVars[p[-1]][1], newValueAddress))
+				quadruples.indexQuadruples += 1
+
+				# Add index address to sOperands
+				quadruples.sOperands.append([newValueAddress])
+			else:
+				# Error
+				print("Cannot access variable %s with index that's not an INT! Line: %s" %(p[-1], p.lineno(-1)))
+				exit(1)
+		else:
+			# Add ID address to sOperands
+			quadruples.sOperands.append(globalVars[p[-1]][1])
+
+		# Add ID type to sTypes
+		quadruples.sTypes.append(globalVars[p[-1]][0])
+	else:
+		# Check if ID exists in local Vars
+		if functionsDir[function_ptr][1].has_key(p[-1]):
+			# If ID is a vector add index address to sOperands
+			if len(p) == 4:
+				# Check if expresion_logica type is INT
+				if quadruples.sTypes.pop() == INT:
+					# Verify index is within vector size
+					quadruples.dirQuadruples.append((VER, quadruples.sOperands[-1], None, functionsDir[function_ptr][1][p[-1]][2]))
+					quadruples.indexQuadruples += 1
+
+					# Get local variable for addition
+					varSize = setConstantAddress(INT, 1)
+					newValueAddress = getLocalAddress(INT, varSize)
+
+					# Add index to vector base address to get index address
+					quadruples.dirQuadruples.append((PLUS_ADDR, quadruples.sOperands.pop(), functionsDir[function_ptr][1][p[-1]][1], newValueAddress))
+					quadruples.indexQuadruples += 1
+
+					# Add index address to sOperands
+					quadruples.sOperands.append([newValueAddress])
+				else:
+					# Error
+					print("Cannot access variable %s with index that's not an INT! Line: %s" %(p[-1], p.lineno(-1)))
+					exit(1)
+			else:
+				# Add ID address to sOperands
+				quadruples.sOperands.append(functionsDir[function_ptr][1][p[-1]][1])
+
+			# Add ID type to sTypes
+			quadruples.sTypes.append(functionsDir[function_ptr][1][p[-1]][0])
+		else:
+			# Error
+			print("Variable %s is not declared! Line: %s" %(p[-1], p.lineno(-1)))
+			exit(1)
 
 def p_asignacion2(p):
 	'''asignacion2 : expresion_logica
 				| input'''
-
-def p_asignacion_vector(p):
-	'''asignacion_vector : LBRACKET expresion_logica RBRACKET'''
-	# Check if ID is a declared global
-	if globalVars.has_key(p[-2]):
-		# Check if ID is a vector
-		#if globalVars[p[-2]]
-		pass
-	else:
-		# Check if ID is a declared local variable
-		if functionsDir[function_ptr][1].has_key(p[1]):
-			# Check if ID is a vector
-			pass
-		else:
-			# Error
-			print("Variable %s is not declared! Line: %s" %(p[1], p.lineno(0)))
-			exit(1)
-	# Verify that index value is within vector size
-	quadruples.dirQuadruples.append((VER, quadruples.sOperands[-1], None, ))
 
 def p_bloque(p):
 	'bloque 	: LCURL estatuto bloque1 RCURL'
@@ -1083,6 +1109,7 @@ def p_varcte2(p):
 		quadruples.sOperators.pop()
 	else:
 		# Verify Vector exists
+
 		# Remove fake cover
 		quadruples.sOperators.pop()
 		quadruples.sOperands.append(varAddress)

@@ -1,11 +1,18 @@
 start
 
 int a[3]
-int f
+int s
 
 main{
 	int x
 	x = 3
+	a[0] = 2
+	a[2] = 4
+	a[1] = a[0]
+
+	from 1 to 10 by(+ 1){
+	  	x = x + 1
+	}
 }
 
 end

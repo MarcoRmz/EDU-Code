@@ -60,8 +60,6 @@ def initGlobalMemory(SubTypeQty):
 			globalMemory[count] = [None] * SubTypeQty[i]
 		count += 1
 
-	print("Init Global memory: %s, SubTypeQty: %s" %(str(globalMemory), str(SubTypeQty)))
-
 #########################################
 #										#
 #        Functions for Compiler         #
