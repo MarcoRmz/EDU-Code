@@ -8,7 +8,7 @@ goog.require('Blockly.Blocks');
 Blockly.Blocks['start'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("Start");
+        .appendField("start");
     this.setNextStatement(true, null);
     this.setColour(255);
     this.setTooltip('');
@@ -121,6 +121,162 @@ Blockly.Blocks['main'] = {
   }
 };
 
+//if statement definition
+Blockly.Blocks['if_statement'] = {
+  init: function() {
+    this.appendValueInput("if")
+        .setCheck(null)
+        .appendField("if");
+    this.appendStatementInput("if_block")
+        .setCheck(null);
+    this.appendDummyInput()
+        .appendField("}");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(195);
+    this.setTooltip('');
+    this.setHelpUrl('http://www.example.com/');
+  }
+};
+//else if
+Blockly.Blocks['elseif_statement'] = {
+  init: function() {
+    this.appendValueInput("elseif")
+        .setCheck(null)
+        .appendField("elseif ");
+    this.appendStatementInput("bloque")
+        .setCheck(null);
+    this.appendDummyInput()
+        .appendField("}");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(195);
+    this.setTooltip('');
+    this.setHelpUrl('http://www.example.com/');
+  }
+};
+//condicion
+Blockly.Blocks['condicion'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("(")
+        .appendField(new Blockly.FieldTextInput(""), "condicion")
+        .appendField("){");
+    this.setOutput(true, null);
+    this.setColour(195);
+    this.setTooltip('');
+    this.setHelpUrl('http://www.example.com/');
+  }
+};
+//dowhile definition
+Blockly.Blocks['do_while'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("do {");
+    this.appendStatementInput("do_while_bloque")
+        .setCheck(null);
+    this.appendValueInput("d_while")
+        .setCheck(null)
+        .appendField("}while");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip('');
+    this.setHelpUrl('http://www.example.com/');
+  }
+};
+//from to by definition
+Blockly.Blocks['from_to_by'] = {
+  init: function() {
+    this.appendValueInput("from")
+        .setCheck(null)
+        .appendField("from")
+        .appendField(new Blockly.FieldTextInput(""), "from_num")
+        .appendField("to")
+        .appendField(new Blockly.FieldTextInput(""), "to_num")
+        .appendField("by");
+    this.appendStatementInput("from_bloque")
+        .setCheck(null);
+    this.appendDummyInput()
+        .appendField("}");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip('');
+    this.setHelpUrl('http://www.example.com/');
+  }
+};
+
+//by + definition
+Blockly.Blocks['by_plus'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("(+")
+        .appendField(new Blockly.FieldTextInput(""), "bp_num")
+        .appendField("){");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip('');
+    this.setHelpUrl('http://www.example.com/');
+  }
+};
+//by - definition
+Blockly.Blocks['by_minus'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("( -")
+        .appendField(new Blockly.FieldTextInput(""), "bm_num")
+        .appendField("){");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip('');
+    this.setHelpUrl('http://www.example.com/');
+  }
+};
+
+//by * definition
+Blockly.Blocks['by_mult'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("( *")
+        .appendField(new Blockly.FieldTextInput(""), "bmult_num")
+        .appendField("){");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip('');
+    this.setHelpUrl('http://www.example.com/');
+  }
+};
+//by / definition
+Blockly.Blocks['by_div'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("( / ")
+        .appendField(new Blockly.FieldTextInput(""), "bd_num")
+        .appendField("){");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip('');
+    this.setHelpUrl('http://www.example.com/');
+  }
+};
+//while definition
+Blockly.Blocks['while'] = {
+  init: function() {
+    this.appendValueInput("while")
+        .setCheck(null)
+        .appendField("while");
+    this.appendStatementInput("while_bloque")
+        .setCheck(null);
+    this.appendDummyInput()
+        .appendField("}");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip('');
+    this.setHelpUrl('http://www.example.com/');
+  }
+};
 //endline definition
 Blockly.Blocks['endline'] = {
   init: function() {
@@ -128,6 +284,17 @@ Blockly.Blocks['endline'] = {
         .appendField("");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
+    this.setTooltip('');
+    this.setHelpUrl('http://www.example.com/');
+  }
+};
+//end definition
+Blockly.Blocks['end'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("end");
+    this.setPreviousStatement(true, null);
+    this.setColour(255);
     this.setTooltip('');
     this.setHelpUrl('http://www.example.com/');
   }
