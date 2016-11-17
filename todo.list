@@ -27,7 +27,11 @@ Memoria:
 ** Creacion de variable local para input, que tipo??
 
 Avance 7:
-** agregar vectores a varcte2 para usar en expresion_logica
+** En llamada, checar si el parametro que se esta checando esta declarado como referencia en la funcion que se llama y mandar direccion de la variable en tope sOperands
+** En llamada, checar si la variable en tope de pila sOperands es un vector, si si entonces verificar que el parametro en funcion es por referencia, si no marcar error
+** agregar lista en funciones para marcar si variable es por referencia
+** revisar variables por referencia, eliminar tupla que sea como vector [dir]
+** checar era con prueba 7
 
 Avance 8:
 ** Blockly gramatica

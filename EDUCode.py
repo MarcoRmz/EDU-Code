@@ -5,13 +5,13 @@
 # 	Parser												#
 #														#
 # 	Marco Ramirez 		A01191344						#
-# 	Andres Gutierrez	A01191581       				#
+# 	Andres Gutierrez	A01191581						#
 #														#
 #########################################################
 
 #########################################
 #										#
-#         		Imports          		#
+#		 		Imports					#
 #										#
 #########################################
 
@@ -22,7 +22,7 @@ import ply.yacc as yacc
 
 #########################################
 #										#
-#         		Pointers          		#
+#		 		Pointers				#
 #										#
 #########################################
 
@@ -31,7 +31,7 @@ function_ptr = "GLOBAL"
 
 #########################################
 #										#
-#         		Directories          	#
+#		 		Directories				#
 #										#
 #########################################
 
@@ -50,7 +50,7 @@ countParam = 0
 
 #########################################
 #										#
-#        Constants for Quadruples       #
+#		Constants for Quadruples			#
 #										#
 #########################################
 
@@ -97,7 +97,7 @@ EOF = 99
 
 #########################################
 #										#
-#    	Constants Parse Functions    	#
+#		Constants Parse Functions		#
 #										#
 #########################################
 
@@ -127,7 +127,7 @@ def parseType(type):
 
 #########################################
 #										#
-#         	Grammar Rules          		#
+#		 	Grammar Rules				#
 #										#
 #########################################
 
@@ -137,9 +137,9 @@ def p_programa(p):
 	quadruples.dirQuadruples.append((EOF, None, None, None))
 	quadruples.indexQuadruples += 1
 	print('\n\n\n#########################################')
-	print('#                                       #')
-	print('#        Compilation Successful!        #')
-	print('#                                       #')
+	print('#											#')
+	print('#		Compilation Successful!			#')
+	print('#											#')
 	print('#########################################\n\n\n')
 
 def p_programa1(p):
@@ -174,13 +174,14 @@ def p_asignacion(p):
 		quadruples.indexQuadruples += 1
 	else:
 		# Error
-		print("Type mismatch var: %s of type: %s and %s! Line: %s" %(p[1], parseType(globalVars[p[1]][0]), parseType(quadruples.sTypes[-1]), p.lineno(0)))
+		print("Type mismatch var: %s of type: %s and %s! Line: %s" %(p[1], operandType1, operandType2, p.lineno(0)))
 		exit(1)
 
 def p_asignacion1(p):
 	'''asignacion1 : epsilon
 				| LBRACKET expresion_logica RBRACKET'''
 	# Check if ID exists in global Vars
+	varSize = setConstantAddress(INT, 1)
 	if globalVars.has_key(p[-1]):
 		# If ID is a vector add index address to sOperands
 		if len(p) == 4:
@@ -191,7 +192,6 @@ def p_asignacion1(p):
 				quadruples.indexQuadruples += 1
 
 				# Get local variable for addition
-				varSize = setConstantAddress(INT, 1)
 				newValueAddress = getLocalAddress(INT, varSize)
 
 				# Add index to vector base address to get index address
@@ -205,8 +205,14 @@ def p_asignacion1(p):
 				print("Cannot access variable %s with index that's not an INT! Line: %s" %(p[-1], p.lineno(-1)))
 				exit(1)
 		else:
-			# Add ID address to sOperands
-			quadruples.sOperands.append(globalVars[p[-1]][1])
+			# Check id is not a vector
+			if globalVars[p[-1]][2] == varSize:
+				# Add ID address to sOperands
+				quadruples.sOperands.append(globalVars[p[-1]][1])
+			else:
+				# ERROR
+				print("ID: %s is a vector must specify index! Line: %s" %(p[-1], p.lineno(-1)))
+				exit(1)
 
 		# Add ID type to sTypes
 		quadruples.sTypes.append(globalVars[p[-1]][0])
@@ -222,7 +228,6 @@ def p_asignacion1(p):
 					quadruples.indexQuadruples += 1
 
 					# Get local variable for addition
-					varSize = setConstantAddress(INT, 1)
 					newValueAddress = getLocalAddress(INT, varSize)
 
 					# Add index to vector base address to get index address
@@ -236,8 +241,14 @@ def p_asignacion1(p):
 					print("Cannot access variable %s with index that's not an INT! Line: %s" %(p[-1], p.lineno(-1)))
 					exit(1)
 			else:
-				# Add ID address to sOperands
-				quadruples.sOperands.append(functionsDir[function_ptr][1][p[-1]][1])
+				# Check id is not a vector
+				if functionsDir[function_ptr][1][p[-1]][2] == varSize:
+					# Add ID address to sOperands
+					quadruples.sOperands.append(functionsDir[function_ptr][1][p[-1]][1])
+				else:
+					# ERROR
+					print("ID: %s is a vector must specify index! Line: %s" %(p[-1], p.lineno(-1)))
+					exit(1)
 
 			# Add ID type to sTypes
 			quadruples.sTypes.append(functionsDir[function_ptr][1][p[-1]][0])
@@ -276,11 +287,11 @@ def p_addConditionFakeCover(p):
 
 def p_condicion1(p):
 	'''condicion1	: bloque
-                    | LCURL PASS RCURL'''
+					| LCURL PASS RCURL'''
 
 def p_condicion2(p):
 	'''condicion2 	: ELSEIF LPAREN expresion_logica RPAREN checkEvaluacionLogica condicion1 checkPSaltos condicion2
-                    | epsilon'''
+					| epsilon'''
 
 def p_condicion3(p):
 	'''condicion3	: ELSE condicion1
@@ -355,7 +366,7 @@ def p_checkEXPPOper(p):
 			operationType = quadruples.getResultType(operandType1, operandType2, operator)
 
 			if(operationType != ERROR):
-				print "OPERATOR: %s OPERAND1: %s OPERAND2: %s   L211" % (str(operator), str(operand1), str(operand2))
+				print "OPERATOR: %s OPERAND1: %s OPERAND2: %s	L211" % (str(operator), str(operand1), str(operand2))
 				# Add cteint 1 for varSize for simple IDs
 				varSize = setConstantAddress(INT, 1)
 				newValueAddress = getLocalAddress(operationType, varSize)
@@ -602,16 +613,16 @@ def p_funcion(p):
 	'funcion	: FUNCTION funcion4'
 
 def p_funcion1(p):
-    '''funcion1 : epsilon
-                | var_declaracion funcion1'''
+	'''funcion1 : epsilon
+				| var_declaracion funcion1'''
 
 def p_funcion2(p):
-    '''funcion2 : epsilon
-                | estatuto funcion2'''
+	'''funcion2 : epsilon
+				| estatuto funcion2'''
 
 def p_funcion3(p):
-    '''funcion3 : parametros
-                | epsilon'''
+	'''funcion3 : parametros
+				| epsilon'''
 
 def p_funcion4(p):
 	'''funcion4	: VOID funcion5
@@ -732,7 +743,7 @@ def p_llamada(p):
 		# Genera cuadruplo GOSUB
 		quadruples.dirQuadruples.append((GOSUB, p[1], None, functionsDir[p[1]][3]))
 		quadruples.indexQuadruples += 1
-		print("PILA OPERANDOS: %s   PILA TIPOS: %s   PILA OPERADORES: %s" %(str(quadruples.sOperands), str(quadruples.sTypes), str(quadruples.sOperators)))
+		print("PILA OPERANDOS: %s	PILA TIPOS: %s	PILA OPERADORES: %s" %(str(quadruples.sOperands), str(quadruples.sTypes), str(quadruples.sOperators)))
 	else:
 		# Error
 		print("Function: %s expected %d parameter(s), recieved %d!" %(p[1], len(functionsDir[p[1]][2]), countParam))
@@ -745,14 +756,16 @@ def p_llamada(p):
 
 def p_llamada1(p):
 	'''llamada1 	: epsilon
-					| expresion_logica llamada2'''
+					| expresion_logica llamada2
+					| AMPERSON llamada4 llamada2'''
 	if len(p) > 2:
 		global countParam
 		countParam += 1
 
 def p_llamada2(p):
 	'''llamada2 	: epsilon
-					| COMMA expresion_logica llamada2'''
+					| COMMA expresion_logica llamada2
+					| AMPERSON llamada4 llamada2'''
 	if len(p) > 2:
 		global countParam
 		countParam += 1
@@ -806,7 +819,7 @@ def p_llamada3(p):
 		# Genera cuadruplo GOSUB
 		quadruples.dirQuadruples.append((GOSUB, p[-1], None, functionsDir[p[-1]][3]))
 		quadruples.indexQuadruples += 1
-		print("PILA OPERANDOS: %s   PILA TIPOS: %s   PILA OPERADORES: %s" %(str(quadruples.sOperands), str(quadruples.sTypes), str(quadruples.sOperators)))
+		print("PILA OPERANDOS: %s	PILA TIPOS: %s	PILA OPERADORES: %s" %(str(quadruples.sOperands), str(quadruples.sTypes), str(quadruples.sOperators)))
 	else:
 		# Error
 		print("Function: %s expected %d parameter(s), recieved %d!" %(p[-1], len(functionsDir[p[-1]][2]), countParam))
@@ -815,6 +828,9 @@ def p_llamada3(p):
 	global countParam
 	countParam = 0
 	p[0] = 'Llamada ' + str(p[-1])
+
+def p_llamada4(p):
+	'''llamada4 : varcte3'''
 
 def p_main(p):
 	'main : MAIN declareMain LCURL main1 estatuto main2 RCURL'
@@ -859,8 +875,7 @@ def p_main2(p):
 				| epsilon'''
 
 def p_parametros(p):
-	''' parametros : tipo meteParamTipo parametros1 ID meteParam parametros2
-					| VECTOR tipo meteParamTipoVect parametros1 ID meteParamVect parametros2'''
+	''' parametros : tipo meteParamTipo parametros1 ID meteParam parametros2'''
 	#CAMBIO: agregar sacaParam si parametros1 es por referencia y sacaParam mete el id a la pila de referencia de la funcion
 
 def p_parametros1(p):
@@ -882,13 +897,6 @@ def p_meteParamTipo(p):
 	# Reserves memory space for parameter
 	#varAddress = getLocalAddress(parseTypeIndex(p[-1]), 1)
 
-def p_meteParamTipoVect(p):
-	'meteParamTipoVect : '
-	# Mete parametro vector a lista de parametros de la funcion
-	functionsDir[function_ptr][2].append(parseTypeIndex(p[-1]))
-	# CAMBIO: reservar memoria para parametro arreglo
-	# Reserves memory space for vector parameter
-
 def p_meteParam(p):
 	'meteParam : '
 	#CAMBIO: checar que el id del parametro no sea una var global.
@@ -904,33 +912,20 @@ def p_meteParam(p):
 		print("ID: %s is a duplicate parameter. Line: %s" %(p[-1], p.lineno(-1)))
 		exit(1)
 	else:
-		# Add cteint 1 for varSize for simple IDs
+		# All parameters are declared of size 1, vectors will be passed as reference
 		varSize = setConstantAddress(INT, 1)
-		varAddress = getLocalAddress(functionsDir[function_ptr][2][-1], varSize)
-		functionsDir[function_ptr][1][p[-1]] = [functionsDir[function_ptr][2].pop(), varAddress]
+		# Get type from top of parameters list in function -> functionsDir[function_ptr][2][-1]
+		varType = functionsDir[function_ptr][2][-1]
+
+		# Get address for local variable in function
+		varAddress = (varType, varSize)
+
+		# Declare variable in function [Type, Address, Size]
+		functionsDir[function_ptr][1][p[-1]] = [functionsDir[function_ptr][2].pop(), varAddress, varSize]
+		
+		# Append parameter ID to parameter list in function
 		functionsDir[function_ptr][2].append(p[-1])
 	print("PARAMETRO ID LISTAPARAM %s" %functionsDir[function_ptr][2])
-	p[0] = varAddress
-
-def p_meteParamVect(p):
-	'meteParamVect : '
-	#CAMBIO: checar que el id del parametro no sea una var global.
-	print("ENTRO A parametros2 con %s L760" %(str(p[-1])))
-	# Check if ID exists
-	print("FOUND PARAMETER DECLR AT FUNCTION: " + function_ptr)
-	if globalVars.has_key(p[-1]):
-		# ERROR
-		print("ID: %s is a global variable, can't be used as a parameter. Line: %s" %(p[-1], p.lineno(-1)))
-		exit(1)
-	elif function_ptr != "GLOBAL" and functionsDir[function_ptr][1].has_key(p[-1]):
-		# ERROR
-		print("ID: %s is a duplicate parameter. Line: %s" %(p[-1], p.lineno(-1)))
-		exit(1)
-	else:
-		# Add cteint 1 for varSize for simple IDs
-		varSize = setConstantAddress(INT, 1)
-		varAddress = getLocalAddress(functionsDir[function_ptr][2][-1], varSize)
-		functionsDir[function_ptr][1][p[-1]] = [functionsDir[function_ptr][2][-1], varAddress]
 	p[0] = varAddress
 
 def p_print(p):
@@ -941,7 +936,7 @@ def p_print(p):
 	p[0] = 'print'
 
 def p_switch(p):
-	'switch     : SWITCH ID meterIDPOper switch1 LCURL switch2 switch3 RCURL'
+	'switch	 : SWITCH ID meterIDPOper switch1 LCURL switch2 switch3 RCURL'
 	quadruples.sOperands.pop()
 	quadruples.sTypes.pop()
 
@@ -954,11 +949,11 @@ def p_switch(p):
 
 def p_switch1(p):
 	'''switch1  : epsilon
-	            | LBRACKET expresion_logica RBRACKET'''
+				| LBRACKET expresion_logica RBRACKET'''
 
 def p_switch2(p):
 	'''switch2  : epsilon
-	            | CASE varcte compararConID checkEvaluacionLogica COLON switch4 checkPSaltos switch2'''
+				| CASE varcte compararConID checkEvaluacionLogica COLON switch4 checkPSaltos switch2'''
 
 def p_switch3(p):
 	'switch3  : DEFAULT COLON switch4'
@@ -1055,8 +1050,8 @@ def p_varcte(p):
 	''' varcte 	: varcte1
 				| cte_int1
 				| cte_float1
-                | varstring1
-                | cte_bool'''
+				| varstring1
+				| cte_bool'''
 	p[0] = p[1]
 
 def p_varcte1(p):
@@ -1066,16 +1061,30 @@ def p_varcte1(p):
 def p_varcte2(p):
 	''' varcte2 : epsilon
 				| factorAddFakeCover llamada3
-				| factorAddFakeCover LBRACKET expresion checarExpresion RBRACKET'''
+				| factorAddFakeCover LBRACKET expresion_logica checarExpresion RBRACKET'''
 	if len(p) == 2:
 		# Check if ID exists
 		print("FOUND ID: %s AT FUNCTION: %s" %(str(p[-1]), function_ptr))
 		if globalVars.has_key(p[-1]):
-			varAddress = globalVars[p[-1]][1]
-	  		quadruples.sTypes.append(globalVars[p[-1]][0])
+			# Check id is not a vector
+			varSize = setConstantAddress(INT, 1)
+			if globalVars[p[-1]][2] == varSize:
+				varAddress = globalVars[p[-1]][1]
+				quadruples.sTypes.append(globalVars[p[-1]][0])
+			else:
+				# ERROR
+				print("ID: %s is a vector must specify index! Line: %s" %(p[-1], p.lineno(-1)))
+				exit(1)
 		elif function_ptr != "GLOBAL" and functionsDir[function_ptr][1].has_key(p[-1]):
-			varAddress = functionsDir[function_ptr][1][p[-1]][1]
-		  	quadruples.sTypes.append(functionsDir[function_ptr][1][p[-1]][0])
+			# Check id is not a vector
+			varSize = setConstantAddress(INT, 1)
+			if functionsDir[function_ptr][1][p[-1]][2] == varSize:
+				varAddress = functionsDir[function_ptr][1][p[-1]][1]
+				quadruples.sTypes.append(functionsDir[function_ptr][1][p[-1]][0])
+			else:
+				# ERROR
+				print("ID: %s is a vector must specify index! Line: %s" %(p[-1], p.lineno(-1)))
+				exit(1)
 		else:
 			# ERROR
 			print("ID: %s not declared at line: %s" %(p[-1], p.lineno(-1)))
@@ -1108,12 +1117,147 @@ def p_varcte2(p):
 		# Remove fake cover
 		quadruples.sOperators.pop()
 	else:
-		# Verify Vector exists
+		# Verify Vector exists in global Vars
+		if globalVars.has_key(p[-1]):
+			# Check if expresion_logica type is INT
+			if quadruples.sTypes.pop() == INT:
+				# Verify index is within vector size
+				quadruples.dirQuadruples.append((VER, quadruples.sOperands[-1], None, globalVars[p[-1]][2]))
+				quadruples.indexQuadruples += 1
+
+				# Get local variable for addition
+				varSize = setConstantAddress(INT, 1)
+				newValueAddress = getLocalAddress(INT, varSize)
+
+				# Add index to vector base address to get index address
+				quadruples.dirQuadruples.append((PLUS_ADDR, quadruples.sOperands.pop(), globalVars[p[-1]][1], newValueAddress))
+				quadruples.indexQuadruples += 1
+
+				# Add index address to sOperands
+				quadruples.sOperands.append([newValueAddress])
+			else:
+				# Error
+				print("Cannot access variable %s with index that's not an INT! Line: %s" %(p[-1], p.lineno(-1)))
+				exit(1)
+
+			# Add ID type to sTypes
+			quadruples.sTypes.append(globalVars[p[-1]][0])
+		else:
+			# Check if ID exists in local Vars
+			if functionsDir[function_ptr][1].has_key(p[-1]):
+				# Check if expresion_logica type is INT
+				if quadruples.sTypes.pop() == INT:
+					# Verify index is within vector size
+					quadruples.dirQuadruples.append((VER, quadruples.sOperands[-1], None, functionsDir[function_ptr][1][p[-1]][2]))
+					quadruples.indexQuadruples += 1
+
+					# Get local variable for addition
+					varSize = setConstantAddress(INT, 1)
+					newValueAddress = getLocalAddress(INT, varSize)
+
+					# Add index to vector base address to get index address
+					quadruples.dirQuadruples.append((PLUS_ADDR, quadruples.sOperands.pop(), functionsDir[function_ptr][1][p[-1]][1], newValueAddress))
+					quadruples.indexQuadruples += 1
+
+					# Add index address to sOperands
+					quadruples.sOperands.append([newValueAddress])
+				else:
+					# Error
+					print("Cannot access variable %s with index that's not an INT! Line: %s" %(p[-1], p.lineno(-1)))
+					exit(1)
+
+				# Add ID type to sTypes
+				quadruples.sTypes.append(functionsDir[function_ptr][1][p[-1]][0])
+			else:
+				# Error
+				print("Variable %s is not declared! Line: %s" %(p[-1], p.lineno(-1)))
+				exit(1)
 
 		# Remove fake cover
 		quadruples.sOperators.pop()
+		p[0] = p[-1]
+
+def p_varcte3(p):
+	''' varcte3 : ID varcte4'''
+	p[0] = p[2]
+
+def p_varcte4(p):
+	''' varcte4 : epsilon
+				| factorAddFakeCover LBRACKET expresion_logica checarExpresion RBRACKET'''
+	if len(p) == 2:
+		# Check if ID exists
+		print("FOUND ID: %s AT FUNCTION: %s" %(str(p[-1]), function_ptr))
+		if globalVars.has_key(p[-1]):
+			varAddress = globalVars[p[-1]][1]
+			quadruples.sTypes.append(globalVars[p[-1]][0])
+		elif function_ptr != "GLOBAL" and functionsDir[function_ptr][1].has_key(p[-1]):
+			varAddress = functionsDir[function_ptr][1][p[-1]][1]
+			quadruples.sTypes.append(functionsDir[function_ptr][1][p[-1]][0])
+		else:
+			# ERROR
+			print("ID: %s not declared at line: %s" %(p[-1], p.lineno(-1)))
+			exit(1)
 		quadruples.sOperands.append(varAddress)
-		quadruples.sTypes.append()
+		p[0] = p[-1]
+	else:
+		# Verify Vector exists in global Vars
+		if globalVars.has_key(p[-1]):
+			# Check if expresion_logica type is INT
+			if quadruples.sTypes.pop() == INT:
+				# Verify index is within vector size
+				quadruples.dirQuadruples.append((VER, quadruples.sOperands[-1], None, globalVars[p[-1]][2]))
+				quadruples.indexQuadruples += 1
+
+				# Get local variable for addition
+				varSize = setConstantAddress(INT, 1)
+				newValueAddress = getLocalAddress(INT, varSize)
+
+				# Add index to vector base address to get index address
+				quadruples.dirQuadruples.append((PLUS_ADDR, quadruples.sOperands.pop(), globalVars[p[-1]][1], newValueAddress))
+				quadruples.indexQuadruples += 1
+
+				# Add index address to sOperands
+				quadruples.sOperands.append([newValueAddress])
+			else:
+				# Error
+				print("Cannot access variable %s with index that's not an INT! Line: %s" %(p[-1], p.lineno(-1)))
+				exit(1)
+
+			# Add ID type to sTypes
+			quadruples.sTypes.append(globalVars[p[-1]][0])
+		else:
+			# Check if ID exists in local Vars
+			if functionsDir[function_ptr][1].has_key(p[-1]):
+				# Check if expresion_logica type is INT
+				if quadruples.sTypes.pop() == INT:
+					# Verify index is within vector size
+					quadruples.dirQuadruples.append((VER, quadruples.sOperands[-1], None, functionsDir[function_ptr][1][p[-1]][2]))
+					quadruples.indexQuadruples += 1
+
+					# Get local variable for addition
+					varSize = setConstantAddress(INT, 1)
+					newValueAddress = getLocalAddress(INT, varSize)
+
+					# Add index to vector base address to get index address
+					quadruples.dirQuadruples.append((PLUS_ADDR, quadruples.sOperands.pop(), functionsDir[function_ptr][1][p[-1]][1], newValueAddress))
+					quadruples.indexQuadruples += 1
+
+					# Add index address to sOperands
+					quadruples.sOperands.append([newValueAddress])
+				else:
+					# Error
+					print("Cannot access variable %s with index that's not an INT! Line: %s" %(p[-1], p.lineno(-1)))
+					exit(1)
+
+				# Add ID type to sTypes
+				quadruples.sTypes.append(functionsDir[function_ptr][1][p[-1]][0])
+			else:
+				# Error
+				print("Variable %s is not declared! Line: %s" %(p[-1], p.lineno(-1)))
+				exit(1)
+
+		# Remove fake cover
+		quadruples.sOperators.pop()
 		p[0] = p[-1]
 
 def p_cte_int1(p):

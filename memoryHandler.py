@@ -5,7 +5,7 @@
 # 	Memory Handler										#
 #														#
 # 	Marco Ramirez 		A01191344						#
-# 	Andres Gutierrez	A01191581       				#
+# 	Andres Gutierrez	A01191581						#
 #														#
 #########################################################
 
@@ -13,7 +13,7 @@ from memory import *
 
 #########################################
 #										#
-#         Variables for Memory          #
+#		 Variables for Memory			#
 #										#
 #########################################
 
@@ -46,7 +46,7 @@ memoryStack = []
 
 #########################################
 #										#
-#         Functions for Memory          #
+#		 Functions for Memory			#
 #										#
 #########################################
 
@@ -62,7 +62,7 @@ def initGlobalMemory(SubTypeQty):
 
 #########################################
 #										#
-#        Functions for Compiler         #
+#		Functions for Compiler		 	#
 #										#
 #########################################
 #Resets memory indexes
@@ -180,7 +180,7 @@ def getLocalVarQty():
 
 #########################################
 #										#
-#    Functions for Virtual Machine      #
+#	Functions for Virtual Machine		#
 #										#
 #########################################
 
@@ -213,7 +213,7 @@ def getValue(virtualAddress):
 	else:
 		varType = (virtualAddress // 10000) - 1
 		realAddr = virtualAddress % 10000
-		print("Type: %d, rAddr: %d" %(varType, realAddr))
+		print("Type: %d, rAddr: %d, memory-1: %s" %(varType, realAddr, str(memoryStack[-1].memory)))
 		varValue = memoryStack[-1].memory[varType][realAddr]
 		print("Local mem: %s\n" %(str(memoryStack[-1].memory)))
 

@@ -5,7 +5,7 @@
 # 	Memory Object										#
 #														#
 # 	Marco Ramirez 		A01191344						#
-# 	Andres Gutierrez	A01191581       				#
+# 	Andres Gutierrez	A01191581		   				#
 #														#
 #########################################################
 

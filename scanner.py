@@ -5,7 +5,7 @@
 # 	Scanner												#
 #														#
 # 	Marco Ramirez 		A01191344						#
-# 	Andres Gutierrez	A01191581       				#
+# 	Andres Gutierrez	A01191581		 				#
 #														#
 #########################################################
 
@@ -41,7 +41,7 @@ reserved = {
 	'to' : 'TO',
 	'pass' : 'PASS',
 	'default' : 'DEFAULT',
-	'do' :  'DO'
+	'do' :	'DO'
 }
 
 # List of tokens
@@ -81,8 +81,8 @@ t_LPAREN 	= r'\('
 t_RPAREN	= r'\)'
 t_LCURL		= r'{'
 t_RCURL		= r'}'
-t_LBRACKET  = r'\['
-t_RBRACKET  = r'\]'
+t_LBRACKET	= r'\['
+t_RBRACKET	= r'\]'
 t_COLON 	= r':'
 t_COMMA		= r','
 t_DOUBLE_EQUAL = r'=='
@@ -93,7 +93,7 @@ t_LESS 		= r'<'
 t_GREATER	= r'>'
 t_EQUALS	= r'='
 t_AMPERSON	= r'&'
-t_ignore    = ' \t'
+t_ignore	= ' \t'
 
 def t_ID(t):
 	r'[a-zA-Z_][a-zA-Z_0-9]*'
@@ -124,7 +124,7 @@ def t_VARSTRING(t):
 	# 	t.value = string(t.value)
 	# except ValueError:
 	# 	print("String value invalid %d", t.value)
-	#        t.value = ""
+	#		t.value = ""
 	return t
 
 def t_newline(t):

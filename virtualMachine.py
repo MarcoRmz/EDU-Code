@@ -1,12 +1,12 @@
 #########################################################
-#                                                       #
-#   virtualMachine.py                                   #
-#                                                       #
-#   Virtual Machine                                     #
-#                                                       #
-#   Marco Ramirez       A01191344                       #
-#   Andres Gutierrez    A01191581                       #
-#                                                       #
+#														#
+#	 virtualMachine.py									#
+#														#
+#	 Virtual Machine									#
+#														#
+#	 Marco Ramirez		 A01191344						#
+#	 Andres Gutierrez	A01191581						#
+#														#
 #########################################################
 
 from memoryHandler import *
@@ -19,25 +19,33 @@ def startMachine():
 	#Count variable for quadruples
 	i = 0
 
-    #While the quadruple holds no EOF operation
+	#While the quadruple holds no EOF operation
 	while(quadruples.dirQuadruples[i][0] != 99):
 		print "index %d" % i
-    	# Conditions to determine actions on quadruples
-        
-        # Case for PLUS (+)
+		# Conditions to determine actions on quadruples
+		
+		#########################################
+		#										#
+		#			Case for PLUS (+)			#
+		#										#
+		#########################################
 		if(quadruples.dirQuadruples[i][0] == 0):
 			#get operands from the memory
-			operand1 = getValue(quadruples.dirQuadruples[i][1])
+			operand1 = quadruples.dirQuadruples[i][1]
 
 			# If value is a list it links to an address, getValue of the address
 			if type(operand1) is list:
 				operand1 = getValue(operand1[0])
 			
-			operand2 = getValue(quadruples.dirQuadruples[i][2])
+			operand1 = getValue(operand1)
+			
+			operand2 = quadruples.dirQuadruples[i][2]
 
 			# If value is a list it links to an address, getValue of the address
 			if type(operand2) is list:
 				operand2 = getValue(operand2[0])
+
+			operand2 = getValue(operand2)
 
 			if (operand1 == -1) or (operand2 == -1):
 				# Error no value in address
@@ -51,20 +59,28 @@ def startMachine():
 			setValue(quadruples.dirQuadruples[i][3],result)
 
 
-        # Case for MINUS (-)
+		#########################################
+		#										#
+		#			Case for MINUS (-)			#
+		#										#
+		#########################################
 		elif(quadruples.dirQuadruples[i][0] == 1):
 			#get operands from the memory
-			operand1 = getValue(quadruples.dirQuadruples[i][1])
+			operand1 = quadruples.dirQuadruples[i][1]
 
 			# If value is a list it links to an address, getValue of the address
 			if type(operand1) is list:
 				operand1 = getValue(operand1[0])
 			
-			operand2 = getValue(quadruples.dirQuadruples[i][2])
+			operand1 = getValue(operand1)
+			
+			operand2 = quadruples.dirQuadruples[i][2]
 
 			# If value is a list it links to an address, getValue of the address
 			if type(operand2) is list:
 				operand2 = getValue(operand2[0])
+
+			operand2 = getValue(operand2)
 
 			if (operand1 == -1) or (operand2 == -1):
 				# Error no value in address
@@ -78,20 +94,28 @@ def startMachine():
 			setValue(quadruples.dirQuadruples[i][3],result)
 
 
-        # Case for MULT (*)
+		#########################################
+		#										#
+		#			Case for MULT (*)			#
+		#										#
+		#########################################
 		elif(quadruples.dirQuadruples[i][0] == 2):
 			#get operands from the memory
-			operand1 = getValue(quadruples.dirQuadruples[i][1])
+			operand1 = quadruples.dirQuadruples[i][1]
 
 			# If value is a list it links to an address, getValue of the address
 			if type(operand1) is list:
 				operand1 = getValue(operand1[0])
 			
-			operand2 = getValue(quadruples.dirQuadruples[i][2])
+			operand1 = getValue(operand1)
+			
+			operand2 = quadruples.dirQuadruples[i][2]
 
 			# If value is a list it links to an address, getValue of the address
 			if type(operand2) is list:
 				operand2 = getValue(operand2[0])
+
+			operand2 = getValue(operand2)
 
 			if (operand1 == -1) or (operand2 == -1):
 				# Error no value in address
@@ -105,20 +129,28 @@ def startMachine():
 			setValue(quadruples.dirQuadruples[i][3],result)
 
 
-        # Case for DIVIDE (/)
+		#########################################
+		#										#
+		#			Case for DIVIDE (/)			#
+		#										#
+		#########################################
 		elif(quadruples.dirQuadruples[i][0] == 3):
 			#get operands from the memory
-			operand1 = getValue(quadruples.dirQuadruples[i][1])
+			operand1 = quadruples.dirQuadruples[i][1]
 
 			# If value is a list it links to an address, getValue of the address
 			if type(operand1) is list:
 				operand1 = getValue(operand1[0])
 			
-			operand2 = getValue(quadruples.dirQuadruples[i][2])
+			operand1 = getValue(operand1)
+			
+			operand2 = quadruples.dirQuadruples[i][2]
 
 			# If value is a list it links to an address, getValue of the address
 			if type(operand2) is list:
 				operand2 = getValue(operand2[0])
+
+			operand2 = getValue(operand2)
 
 			if (operand1 == -1) or (operand2 == -1):
 				# Error no value in address
@@ -132,20 +164,28 @@ def startMachine():
 			setValue(quadruples.dirQuadruples[i][3],result)
 
 
-        # Case for AND
+		#########################################
+		#										#
+		#			Case for AND				#
+		#										#
+		#########################################
 		elif(quadruples.dirQuadruples[i][0] == 4):
 			#get operands from the memory
-			operand1 = getValue(quadruples.dirQuadruples[i][1])
+			operand1 = quadruples.dirQuadruples[i][1]
 
 			# If value is a list it links to an address, getValue of the address
 			if type(operand1) is list:
 				operand1 = getValue(operand1[0])
 			
-			operand2 = getValue(quadruples.dirQuadruples[i][2])
+			operand1 = getValue(operand1)
+			
+			operand2 = quadruples.dirQuadruples[i][2]
 
 			# If value is a list it links to an address, getValue of the address
 			if type(operand2) is list:
 				operand2 = getValue(operand2[0])
+
+			operand2 = getValue(operand2)
 
 			if (operand1 == -1) or (operand2 == -1):
 				# Error no value in address
@@ -159,20 +199,28 @@ def startMachine():
 			setValue(quadruples.dirQuadruples[i][3],result)
 
 
-        # Case for OR
+		#########################################
+		#										#
+		#			Case for OR					#
+		#										#
+		#########################################
 		elif(quadruples.dirQuadruples[i][0] == 5):
 			#get operands from the memory
-			operand1 = getValue(quadruples.dirQuadruples[i][1])
+			operand1 = quadruples.dirQuadruples[i][1]
 
 			# If value is a list it links to an address, getValue of the address
 			if type(operand1) is list:
 				operand1 = getValue(operand1[0])
 			
-			operand2 = getValue(quadruples.dirQuadruples[i][2])
+			operand1 = getValue(operand1)
+			
+			operand2 = quadruples.dirQuadruples[i][2]
 
 			# If value is a list it links to an address, getValue of the address
 			if type(operand2) is list:
 				operand2 = getValue(operand2[0])
+
+			operand2 = getValue(operand2)
 
 			if (operand1 == -1) or (operand2 == -1):
 				# Error no value in address
@@ -186,20 +234,28 @@ def startMachine():
 			setValue(quadruples.dirQuadruples[i][3],result)
 
 
-        # Case for LESS than (<)
+		#########################################
+		#										#
+		#		Case for LESS than (<)			#
+		#										#
+		#########################################
 		elif(quadruples.dirQuadruples[i][0] == 6):
 			#get operands from the memory
-			operand1 = getValue(quadruples.dirQuadruples[i][1])
+			operand1 = quadruples.dirQuadruples[i][1]
 
 			# If value is a list it links to an address, getValue of the address
 			if type(operand1) is list:
 				operand1 = getValue(operand1[0])
 			
-			operand2 = getValue(quadruples.dirQuadruples[i][2])
+			operand1 = getValue(operand1)
+			
+			operand2 = quadruples.dirQuadruples[i][2]
 
 			# If value is a list it links to an address, getValue of the address
 			if type(operand2) is list:
 				operand2 = getValue(operand2[0])
+
+			operand2 = getValue(operand2)
 
 			if (operand1 == -1) or (operand2 == -1):
 				# Error no value in address
@@ -213,20 +269,28 @@ def startMachine():
 			setValue(quadruples.dirQuadruples[i][3],result)
 
 
-        # Case for  GREATER than (>)
+		#########################################
+		#										#
+		#		Case for GREATER than (>)		#
+		#										#
+		#########################################
 		elif(quadruples.dirQuadruples[i][0] == 7):
 			#get operands from the memory
-			operand1 = getValue(quadruples.dirQuadruples[i][1])
+			operand1 = quadruples.dirQuadruples[i][1]
 
 			# If value is a list it links to an address, getValue of the address
 			if type(operand1) is list:
 				operand1 = getValue(operand1[0])
 			
-			operand2 = getValue(quadruples.dirQuadruples[i][2])
+			operand1 = getValue(operand1)
+			
+			operand2 = quadruples.dirQuadruples[i][2]
 
 			# If value is a list it links to an address, getValue of the address
 			if type(operand2) is list:
 				operand2 = getValue(operand2[0])
+
+			operand2 = getValue(operand2)
 
 			if (operand1 == -1) or (operand2 == -1):
 				# Error no value in address
@@ -240,20 +304,28 @@ def startMachine():
 			setValue(quadruples.dirQuadruples[i][3],result)
 
 
-        # Case for LESS THAN OR EQUALS (<=)
+		#########################################
+		#										#
+		#	Case for LESS THAN OR EQUALS (<=)	#
+		#										#
+		#########################################
 		elif(quadruples.dirQuadruples[i][0] == 8):
 			#get operands from the memory
-			operand1 = getValue(quadruples.dirQuadruples[i][1])
+			operand1 = quadruples.dirQuadruples[i][1]
 
 			# If value is a list it links to an address, getValue of the address
 			if type(operand1) is list:
 				operand1 = getValue(operand1[0])
 			
-			operand2 = getValue(quadruples.dirQuadruples[i][2])
+			operand1 = getValue(operand1)
+			
+			operand2 = quadruples.dirQuadruples[i][2]
 
 			# If value is a list it links to an address, getValue of the address
 			if type(operand2) is list:
 				operand2 = getValue(operand2[0])
+
+			operand2 = getValue(operand2)
 
 			if (operand1 == -1) or (operand2 == -1):
 				# Error no value in address
@@ -267,20 +339,28 @@ def startMachine():
 			setValue(quadruples.dirQuadruples[i][3],result)
 
 
-        # Case for GREATER THAN OR EQUALS (>=)
+		#########################################
+		#										#
+		# Case for GREATER THAN OR EQUALS (<=)	#
+		#										#
+		#########################################
 		elif(quadruples.dirQuadruples[i][0] == 9):
 			#get operands from the memory
-			operand1 = getValue(quadruples.dirQuadruples[i][1])
+			operand1 = quadruples.dirQuadruples[i][1]
 
 			# If value is a list it links to an address, getValue of the address
 			if type(operand1) is list:
 				operand1 = getValue(operand1[0])
 			
-			operand2 = getValue(quadruples.dirQuadruples[i][2])
+			operand1 = getValue(operand1)
+			
+			operand2 = quadruples.dirQuadruples[i][2]
 
 			# If value is a list it links to an address, getValue of the address
 			if type(operand2) is list:
 				operand2 = getValue(operand2[0])
+
+			operand2 = getValue(operand2)
 
 			if (operand1 == -1) or (operand2 == -1):
 				# Error no value in address
@@ -294,20 +374,28 @@ def startMachine():
 			setValue(quadruples.dirQuadruples[i][3],result)
 
 
-        # Case for DOUBLE EQUALS (==)
+		#########################################
+		#										#
+		#		Case for DOUBLE EQUALS (==)		#
+		#										#
+		#########################################
 		elif(quadruples.dirQuadruples[i][0] == 10):
 			#get operands from the memory
-			operand1 = getValue(quadruples.dirQuadruples[i][1])
+			operand1 = quadruples.dirQuadruples[i][1]
 
 			# If value is a list it links to an address, getValue of the address
 			if type(operand1) is list:
 				operand1 = getValue(operand1[0])
 			
-			operand2 = getValue(quadruples.dirQuadruples[i][2])
+			operand1 = getValue(operand1)
+			
+			operand2 = quadruples.dirQuadruples[i][2]
 
 			# If value is a list it links to an address, getValue of the address
 			if type(operand2) is list:
 				operand2 = getValue(operand2[0])
+
+			operand2 = getValue(operand2)
 
 			if (operand1 == -1) or (operand2 == -1):
 				# Error no value in address
@@ -321,20 +409,28 @@ def startMachine():
 			setValue(quadruples.dirQuadruples[i][3],result)
 
 
-        # Case for DIFFERENT (!=)
+		#########################################
+		#										#
+		#		Case for DIFFERENT (!=)			#
+		#										#
+		#########################################
 		elif(quadruples.dirQuadruples[i][0] == 11):
 			#get operands from the memory
-			operand1 = getValue(quadruples.dirQuadruples[i][1])
+			operand1 = quadruples.dirQuadruples[i][1]
 
 			# If value is a list it links to an address, getValue of the address
 			if type(operand1) is list:
 				operand1 = getValue(operand1[0])
 			
-			operand2 = getValue(quadruples.dirQuadruples[i][2])
+			operand1 = getValue(operand1)
+			
+			operand2 = quadruples.dirQuadruples[i][2]
 
 			# If value is a list it links to an address, getValue of the address
 			if type(operand2) is list:
 				operand2 = getValue(operand2[0])
+
+			operand2 = getValue(operand2)
 
 			if (operand1 == -1) or (operand2 == -1):
 				# Error no value in address
@@ -348,15 +444,21 @@ def startMachine():
 			setValue(quadruples.dirQuadruples[i][3],result)
 
 
-        # Case for EQUALS (=)
+		#########################################
+		#										#
+		#			Case for EQUALS (=)			#
+		#										#
+		#########################################
 		elif(quadruples.dirQuadruples[i][0] == 12):
 			#get operands from the memory
-			operand1 = getValue(quadruples.dirQuadruples[i][1])
+			operand1 = quadruples.dirQuadruples[i][1]
 
 			# If value is a list it links to an address, getValue of the address
 			if type(operand1) is list:
 				operand1 = getValue(operand1[0])
 			
+			operand1 = getValue(operand1)
+
 			operand2 = quadruples.dirQuadruples[i][3]
 
 			# If value is a list it links to an address, getValue of the address
@@ -372,13 +474,21 @@ def startMachine():
 			setValue(operand2, operand1)
 
 
-        # Case for GOTO
+		#########################################
+		#										#
+		#			Case for GOTO				#
+		#										#
+		#########################################
 		elif(quadruples.dirQuadruples[i][0] == 13):
 			#obtain the index of the quadruple and jump to it
 			i = quadruples.dirQuadruples[i][3] - 1
 
 
-        # Case for GOTOF
+		#########################################
+		#										#
+		#			Case for GOTOF				#
+		#										#
+		#########################################
 		elif(quadruples.dirQuadruples[i][0] == 14):
 			#if the temporal is false jump to the specified quadruple
 			var_Value = getValue(quadruples.dirQuadruples[i][1])
@@ -392,7 +502,11 @@ def startMachine():
 				i = quadruples.dirQuadruples[i][3] - 1
 
 
-        # Case for GOTOT
+		#########################################
+		#										#
+		#			Case for GOTOT				#
+		#										#
+		#########################################
 		elif(quadruples.dirQuadruples[i][0] == 15):
 			#if the temporal holds a True jump to the specified quadruple
 			var_Value = getValue(quadruples.dirQuadruples[i][1])
@@ -406,7 +520,11 @@ def startMachine():
 				i = quadruples.dirQuadruples[i][3] - 1
 
 
-        # Case for GOSUB
+		#########################################
+		#										#
+		#			Case for GOSUB				#
+		#										#
+		#########################################
 		elif(quadruples.dirQuadruples[i][0] == 16):
 			#append next quadruple to the executionStack
 			executionStack.append(i+1)
@@ -415,7 +533,11 @@ def startMachine():
 			i = quadruples.dirQuadruples[i][3] - 1
 
 
-        # Case for RETURN
+		#########################################
+		#										#
+		#			Case for RETURN				#
+		#										#
+		#########################################
 		elif(quadruples.dirQuadruples[i][0] == 17):
 			#get return value from quadruple
 			rtn = memoryStack[-1].returnAddress
@@ -440,27 +562,43 @@ def startMachine():
 			memoryStack.append(memory_aux)
 
 
-        # Case for PRINT
+		#########################################
+		#										#
+		#			Case for PRINT				#
+		#										#
+		#########################################
 		elif(quadruples.dirQuadruples[i][0] == 18):
-			var_Value = getValue(quadruples.dirQuadruples[i][3])
+			#get operands from the memory
+			operand1 = quadruples.dirQuadruples[i][3]
 
-			if type(var_Value) is list:
-				var_Value = getValue(var_Value[0])
+			# If value is a list it links to an address, getValue of the address
+			if type(operand1) is list:
+				operand1 = getValue(operand1[0])
+			
+			operand1 = getValue(operand1)
 
-			if (var_Value == -1):
+			if (operand1 == -1):
 				# Error no value in address
 				print("Operation failed, variable(s) missing value!")
 				exit(1)
 
-			print(var_Value)
+			print(operand1)
 
 
-        # Case for INPUT
+		#########################################
+		#										#
+		#			Case for INPUT				#
+		#										#
+		#########################################
 		elif(quadruples.dirQuadruples[i][0] == 19):
 			pass
 
 
-        # Case for ERA
+		#########################################
+		#										#
+		#			Case for ERA				#
+		#										#
+		#########################################
 		elif(quadruples.dirQuadruples[i][0] == 20):
 			#creates memory for a specific function createMemory(SubTypeQty)
 			createMemory(quadruples.dirQuadruples[i][2])
@@ -469,7 +607,11 @@ def startMachine():
 			print("Created Function memory: %s" %str(memoryStack[-1].memory))
 
 
-        # Case for ENDPROC
+		#########################################
+		#										#
+		#		Case for ENDPROC				#
+		#										#
+		#########################################
 		elif(quadruples.dirQuadruples[i][0] == 21):
 			#Returns to the next instruction after the function call
 			print ("Delete Function MEMORY: %s" % memoryStack[-1].memory)
@@ -477,13 +619,23 @@ def startMachine():
 			deleteMemory()
 
 
-        # Case for PARAM
+		#########################################
+		#										#
+		#			Case for PARAM				#
+		#										#
+		#########################################
 		elif(quadruples.dirQuadruples[i][0] == 22):
 			#get param types
 			param_type = quadruples.dirQuadruples[i][1]
 
 			#get param virtual memory addresses
 			param_vaddress = quadruples.dirQuadruples[i][2]
+
+			# If param_vaddress is a list it links to an address, getValue of the address
+			if type(param_vaddress) is list:
+				memory_aux = memoryStack.pop()
+				param_vaddress = getValue(param_vaddress[0])
+				memoryStack.append(memory_aux)
 
 			#Global
 			if(param_vaddress < 4000):
@@ -504,8 +656,13 @@ def startMachine():
 
 			#gets real address
 			realAddr = quadruples.dirQuadruples[i][3]
+
+			# If realAddr is a list it links to an address, getValue of the address
+			if type(realAddr) is list:
+				realAddr = getValue(realAddr[0])
+
 			#Global
-			if(param_vaddress < 4000):
+			if(realAddr < 4000):
 				realAddr = realAddr % 1000
 
 			#locales
@@ -516,18 +673,26 @@ def startMachine():
 			memoryStack[-1].memory[param_type][realAddr] = paramValue
 
 
-		# Case for VER
+		#########################################
+		#										#
+		#			Case for VER				#
+		#										#
+		#########################################
 		elif(quadruples.dirQuadruples[i][0] == 23):
 			#get operands from the memory
-			operand1 = getValue(quadruples.dirQuadruples[i][1])
+			operand1 = quadruples.dirQuadruples[i][1]
 
 			if type(operand1) is list:
 				operand1 = getValue(operand1[0])
 
-			operand2 = getValue(quadruples.dirQuadruples[i][3])
+			operand1 = getValue(operand1)
+
+			operand2 = quadruples.dirQuadruples[i][3]
 
 			if type(operand2) is list:
 				operand2 = getValue(operand2[0])
+
+			operand2 = getValue(operand2)
 
 			if (operand1 == -1) or (operand2 == -1):
 				# Error no value in address
@@ -541,13 +706,19 @@ def startMachine():
 				exit(1)
 
 
-		# Case for PLUS_ADDR
+		#########################################
+		#										#
+		#		Case for PLUS_ADDR				#
+		#										#
+		#########################################
 		elif(quadruples.dirQuadruples[i][0] == 24):
 			#get operands from the memory
-			operand1 = getValue(quadruples.dirQuadruples[i][1])
+			operand1 = quadruples.dirQuadruples[i][1]
 
 			if type(operand1) is list:
 				operand1 = getValue(operand1[0])
+
+			operand1 = getValue(operand1)
 
 			operand2 = quadruples.dirQuadruples[i][2]
 
@@ -566,26 +737,26 @@ def startMachine():
 		print("")
 
 #########################################
-#                                       #
-#         Logging Object Rules          #
-#                                       #
+#										#
+#		 Logging Object Rules			#
+#										#
 #########################################
 
 import logging
 logging.basicConfig(
-    level = logging.DEBUG,
-    filename = "parselog.txt",
-    filemode = "w",
-    format = "%(filename)10s:%(lineno)4d:%(message)s"
+	level = logging.DEBUG,
+	filename = "parselog.txt",
+	filemode = "w",
+	format = "%(filename)10s:%(lineno)4d:%(message)s"
 )
 log = logging.getLogger()
 
 parser = yacc.yacc(debug=True)
 
 #########################################
-#                                       #
-#               Main                    #
-#                                       #
+#										#
+#				 Main					#
+#										#
 #########################################
 
 import sys
@@ -605,7 +776,7 @@ if __name__ == '__main__':
 	#Print Tokens
 	# lexer.input(data)
 	# from tok in lexer:
-	#   print(tok)
+	#	 print(tok)
 
 	# Parse tokens read
 	parser.parse(data, tracking=True, debug=log)
@@ -614,7 +785,7 @@ if __name__ == '__main__':
 	initGlobalMemory(globalVarsTypeCounts)
 
 	# Start machine
-	startMachine()
+	#startMachine()
 	
 	print("*****************************************")
 	print("")

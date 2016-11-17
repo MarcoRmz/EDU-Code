@@ -1,12 +1,12 @@
 #########################################################
-#                                                       #
-#   semanticCube.py                                    #
-#                                                       #
-#   Cubo Semantico                                      #
-#                                                       #
-#   Marco Ramirez       A01191344                       #
-#   Andres Gutierrez    A01191581                       #
-#                                                       #
+#														#
+# 	semanticCube.py	 									#
+#														#
+# 	Cubo Semantico										#
+#														#
+# 	Marco Ramirez		A0119134						#
+# 	Andres Gutierrez	A01191581						#
+#														#
 #########################################################
 
 """
@@ -14,26 +14,26 @@ Estructura de cubo
 cubo_sem[tipo1,tipo2,operador] = tipo-resultado
 
 Tipos
-    -1 - ERROR
-    0 - INT
-    1 - FLOAT
-    2 - STRING
-    3 - BOOL
+	-1 - ERROR
+	0 - INT
+	1 - FLOAT
+	2 - STRING
+	3 - BOOL
 
 Operador
-	+      0
-    -      1
-	*      2
-    /      3
-	and    4
-    or     5
-	<      6
-    >      7
-    <=     8
-    >=     9
-    ==    10
-    !=    11
-    =     12
+	+	0
+	-	1
+	*	2
+	/	3
+	and	4
+	or	 5
+	<	6
+	>	7
+	<=	 8
+	>=	 9
+	==	10
+	!=	11
+	=	 12
 
 """
 
@@ -41,16 +41,16 @@ Operador
 cubo_sem={}
 
 #Entero Entero
-cubo_sem[0,0,0] =  0
-cubo_sem[0,0,1] =  0
-cubo_sem[0,0,2] =  0
-cubo_sem[0,0,3] =  0
+cubo_sem[0,0,0] =0
+cubo_sem[0,0,1] =0
+cubo_sem[0,0,2] =0
+cubo_sem[0,0,3] =0
 cubo_sem[0,0,4] = -1
 cubo_sem[0,0,5] = -1
-cubo_sem[0,0,6] =  3
-cubo_sem[0,0,7] =  3
-cubo_sem[0,0,8] =  3
-cubo_sem[0,0,9] =  3
+cubo_sem[0,0,6] =3
+cubo_sem[0,0,7] =3
+cubo_sem[0,0,8] =3
+cubo_sem[0,0,9] =3
 cubo_sem[0,0,10] = 3
 cubo_sem[0,0,11] = 3
 cubo_sem[0,0,12] = 0
@@ -62,10 +62,10 @@ cubo_sem[0,1,2] = -1
 cubo_sem[0,1,3] = -1
 cubo_sem[0,1,4] = -1
 cubo_sem[0,1,5] = -1
-cubo_sem[0,1,6] =  3
-cubo_sem[0,1,7] =  3
-cubo_sem[0,1,8] =  3
-cubo_sem[0,1,9] =  3
+cubo_sem[0,1,6] =3
+cubo_sem[0,1,7] =3
+cubo_sem[0,1,8] =3
+cubo_sem[0,1,9] =3
 cubo_sem[0,1,10] = 3
 cubo_sem[0,1,11] = 3
 cubo_sem[0,1,12] = -1
@@ -107,25 +107,25 @@ cubo_sem[1,0,2] = -1
 cubo_sem[1,0,3] = -1
 cubo_sem[1,0,4] = -1
 cubo_sem[1,0,5] = -1
-cubo_sem[1,0,6] =  3
-cubo_sem[1,0,7] =  3
-cubo_sem[1,0,8] =  3
-cubo_sem[1,0,9] =  3
+cubo_sem[1,0,6] =3
+cubo_sem[1,0,7] =3
+cubo_sem[1,0,8] =3
+cubo_sem[1,0,9] =3
 cubo_sem[1,0,10] = 3
 cubo_sem[1,0,11] = 3
 cubo_sem[1,0,12] = -1
 
 #Float Float
-cubo_sem[1,1,0] =  1
-cubo_sem[1,1,1] =  1
-cubo_sem[1,1,2] =  1
-cubo_sem[1,1,3] =  1
+cubo_sem[1,1,0] =1
+cubo_sem[1,1,1] =1
+cubo_sem[1,1,2] =1
+cubo_sem[1,1,3] =1
 cubo_sem[1,1,4] = -1
 cubo_sem[1,1,5] = -1
-cubo_sem[1,1,6] =  3
-cubo_sem[1,1,7] =  3
-cubo_sem[1,1,8] =  3
-cubo_sem[1,1,9] =  3
+cubo_sem[1,1,6] =3
+cubo_sem[1,1,7] =3
+cubo_sem[1,1,8] =3
+cubo_sem[1,1,9] =3
 cubo_sem[1,1,10] = 3
 cubo_sem[1,1,11] = 3
 cubo_sem[1,1,12] = 1
@@ -191,16 +191,16 @@ cubo_sem[2,1,11] = -1
 cubo_sem[2,1,12] = -1
 
 #String String
-cubo_sem[2,2,0] =  2
+cubo_sem[2,2,0] =2
 cubo_sem[2,2,1] = -1
 cubo_sem[2,2,2] = -1
 cubo_sem[2,2,3] = -1
 cubo_sem[2,2,4] = -1
 cubo_sem[2,2,5] = -1
-cubo_sem[2,2,6] =  3
-cubo_sem[2,2,7] =  3
-cubo_sem[2,2,8] =  3
-cubo_sem[2,2,9] =  3
+cubo_sem[2,2,6] =3
+cubo_sem[2,2,7] =3
+cubo_sem[2,2,8] =3
+cubo_sem[2,2,9] =3
 cubo_sem[2,2,10] = 3
 cubo_sem[2,2,11] = 3
 cubo_sem[2,2,12] = 2
@@ -270,8 +270,8 @@ cubo_sem[3,3,0] = -1
 cubo_sem[3,3,1] = -1
 cubo_sem[3,3,2] = -1
 cubo_sem[3,3,3] = -1
-cubo_sem[3,3,4] =  3
-cubo_sem[3,3,5] =  3
+cubo_sem[3,3,4] =3
+cubo_sem[3,3,5] =3
 cubo_sem[3,3,6] = -1
 cubo_sem[3,3,7] = -1
 cubo_sem[3,3,8] = -1
