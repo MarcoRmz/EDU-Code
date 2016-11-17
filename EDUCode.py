@@ -50,7 +50,7 @@ countParam = 0
 
 #########################################
 #										#
-#		Constants for Quadruples			#
+#		Constants for Quadruples		#
 #										#
 #########################################
 
@@ -137,9 +137,9 @@ def p_programa(p):
 	quadruples.dirQuadruples.append((EOF, None, None, None))
 	quadruples.indexQuadruples += 1
 	print('\n\n\n#########################################')
-	print('#											#')
-	print('#		Compilation Successful!			#')
-	print('#											#')
+	print('#					#')
+	print('#	Compilation Successful!		#')
+	print('#					#')
 	print('#########################################\n\n\n')
 
 def p_programa1(p):

@@ -5,6 +5,7 @@ int s
 
 function void incr(float d) {
 	d = 2.0 + 3.1
+	print(d)
 }
 
 main{
@@ -12,6 +13,8 @@ main{
 	x = -23
 	a[0] = 2.1
 	a[2] = a[0] + 2.2
+	
+	print(a[2])
 
 	incr(1.3)
 }

@@ -785,7 +785,7 @@ if __name__ == '__main__':
 	initGlobalMemory(globalVarsTypeCounts)
 
 	# Start machine
-	#startMachine()
+	startMachine()
 	
 	print("*****************************************")
 	print("")

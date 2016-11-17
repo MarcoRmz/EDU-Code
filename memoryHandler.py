@@ -194,6 +194,9 @@ def deleteMemory():
 
 # Get value from virtual address
 def getValue(virtualAddress):
+	# Parse virtual address to int
+	virtualAddress = int(virtualAddress)
+
 	#Global
 	print("GET VALUE")
 	if(virtualAddress < 4000):
@@ -225,13 +228,16 @@ def getValue(virtualAddress):
 
 #set value from virtual address and value given by the virtual machine
 def setValue(virtualAddress, varValue):
+	# Parse virtual address to int
+	virtualAddress = int(virtualAddress)
+	
 	#Global
 	print("SET VALUE\nvirtual %d, value: %s" %(virtualAddress, str(varValue)))
 	if(virtualAddress < 4000):
 		varType = (virtualAddress // 1000) - 1
 		realAddr = virtualAddress % 1000
-		globalMemory[varType][realAddr] = varValue
 		print("type: %s, addr: %s\nGlobal memory: %s" %(str(varType), str(realAddr), str(globalMemory)))
+		globalMemory[varType][realAddr] = varValue
 
 	#locales
 	elif(virtualAddress >= 10000):
