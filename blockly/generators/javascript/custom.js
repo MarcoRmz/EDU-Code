@@ -93,6 +93,14 @@ Blockly.JavaScript['elseif_statement'] = function(block) {
   return code;
 };
 
+//else
+Blockly.JavaScript['else'] = function(block) {
+  var statements_else_bocy = Blockly.JavaScript.statementToCode(block, 'else_bocy');
+  // TODO: Assemble JavaScript into code variable.
+  var code = "else {\n"+statements_else_bocy+"}\n";
+  return code;
+};
+
 //condicion
 Blockly.JavaScript['condicion'] = function(block) {
   var text_condicion = block.getFieldValue('condicion');
@@ -169,6 +177,69 @@ Blockly.JavaScript['while'] = function(block) {
 Blockly.JavaScript['endline'] = function(block) {
   // TODO: Assemble JavaScript into code variable.
   var code = '\n';
+  return code;
+};
+
+//switch
+Blockly.JavaScript['switch'] = function(block) {
+  var text_switch_var = block.getFieldValue('switch_var');
+  var statements_name = Blockly.JavaScript.statementToCode(block, 'NAME');
+  // TODO: Assemble JavaScript into code variable.
+  var code = 'switch '+text_switch_var + '{\n'+statements_name+'}\n';
+  return code;
+};
+//case
+Blockly.JavaScript['case'] = function(block) {
+  var text_case_val = block.getFieldValue('case_val');
+  var statements_case_body = Blockly.JavaScript.statementToCode(block, 'case_body');
+  // TODO: Assemble JavaScript into code variable.
+  var code = "case "+text_case_val+":\n"+statements_case_body;
+  return code;
+};
+//default:
+Blockly.JavaScript['default'] = function(block) {
+  var statements_default_body = Blockly.JavaScript.statementToCode(block, 'default_body');
+  // TODO: Assemble JavaScript into code variable.
+  var code = 'default:\n'+statements_default_body;
+  return code;
+};
+//pass
+Blockly.JavaScript['pass'] = function(block) {
+  // TODO: Assemble JavaScript into code variable.
+  var code = 'pass\n';
+  return code;
+};
+
+//print
+Blockly.JavaScript['print'] = function(block) {
+  var text_print_values = block.getFieldValue('print_values');
+  // TODO: Assemble JavaScript into code variable.
+  var code = 'print ('+text_print_values+")\n";
+  return code;
+};
+
+//input
+Blockly.JavaScript['input'] = function(block) {
+  var text_input_var = block.getFieldValue('input_var');
+  var text_input_message = block.getFieldValue('input_message');
+  // TODO: Assemble JavaScript into code variable.
+  var code = text_input_var+' = input('+text_input_message+")\n";
+  return code;
+};
+//return
+Blockly.JavaScript['return'] = function(block) {
+  var text_return_value = block.getFieldValue('return_value');
+  // TODO: Assemble JavaScript into code variable.
+  var code = 'return '+text_return_value+"\n";
+  return code;
+};
+
+//llamada
+Blockly.JavaScript['llamada'] = function(block) {
+  var text_id_llamada = block.getFieldValue('id_llamada');
+  var text_parameters_llamada = block.getFieldValue('parameters_llamada');
+  // TODO: Assemble JavaScript into code variable.
+  var code = text_id_llamada+'('+text_parameters_llamada+")\n";
   return code;
 };
 //end
