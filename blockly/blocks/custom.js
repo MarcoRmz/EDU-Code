@@ -155,6 +155,22 @@ Blockly.Blocks['elseif_statement'] = {
     this.setHelpUrl('http://www.example.com/');
   }
 };
+//else
+Blockly.Blocks['else'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("else {");
+    this.appendStatementInput("else_bocy")
+        .setCheck(null);
+    this.appendDummyInput()
+        .appendField("}");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(195);
+    this.setTooltip('');
+    this.setHelpUrl('http://www.example.com/');
+  }
+};
 //condicion
 Blockly.Blocks['condicion'] = {
   init: function() {
@@ -288,6 +304,125 @@ Blockly.Blocks['endline'] = {
     this.setHelpUrl('http://www.example.com/');
   }
 };
+
+//switch definition
+Blockly.Blocks['switch'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("switch")
+        .appendField(new Blockly.FieldTextInput(""), "switch_var")
+        .appendField("{");
+    this.appendStatementInput("NAME")
+        .setCheck(null);
+    this.appendDummyInput()
+        .appendField("}");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setTooltip('');
+    this.setHelpUrl('http://www.example.com/');
+  }
+};
+
+//case definition
+Blockly.Blocks['case'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("case")
+        .appendField(new Blockly.FieldTextInput(""), "case_val")
+        .appendField(":");
+    this.appendStatementInput("case_body")
+        .setCheck(null);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setTooltip('');
+    this.setHelpUrl('http://www.example.com/');
+  }
+};
+//default definition
+
+Blockly.Blocks['default'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("default")
+        .appendField(":");
+    this.appendStatementInput("default_body")
+        .setCheck(null);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setTooltip('');
+    this.setHelpUrl('http://www.example.com/');
+  }
+};
+
+//pass definition
+Blockly.Blocks['pass'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("pass");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setTooltip('');
+    this.setHelpUrl('http://www.example.com/');
+  }
+};
+
+//print definition
+Blockly.Blocks['print'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("print (")
+        .appendField(new Blockly.FieldTextInput(""), "print_values")
+        .appendField(")");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setTooltip('');
+    this.setHelpUrl('http://www.example.com/');
+  }
+};
+
+//input
+Blockly.Blocks['input'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldTextInput(""), "input_var")
+        .appendField(" = input (")
+        .appendField(new Blockly.FieldTextInput(""), "input_message")
+        .appendField(")");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setTooltip('');
+    this.setHelpUrl('http://www.example.com/');
+  }
+};
+
+//return
+Blockly.Blocks['return'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("return ")
+        .appendField(new Blockly.FieldTextInput(""), "return_value");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setTooltip('');
+    this.setHelpUrl('http://www.example.com/');
+  }
+};
+
+//llamada
+Blockly.Blocks['llamada'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldTextInput(""), "id_llamada")
+        .appendField("(")
+        .appendField(new Blockly.FieldTextInput(""), "parameters_llamada")
+        .appendField(")");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setTooltip('');
+    this.setHelpUrl('http://www.example.com/');
+  }
+};
+
 //end definition
 Blockly.Blocks['end'] = {
   init: function() {
