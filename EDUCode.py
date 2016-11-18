@@ -929,11 +929,17 @@ def p_meteParam(p):
 	p[0] = varAddress
 
 def p_print(p):
-	'print : PRINT LPAREN expresion_logica RPAREN'
+	'print : PRINT LPAREN varcte print1 RPAREN'
+	# invert list of print parameters if len(list) > 1
 	printValue = quadruples.sOperands.pop()
 	quadruples.dirQuadruples.append((PRINT, None, None, printValue))
 	quadruples.indexQuadruples += 1
 	p[0] = 'print'
+
+def p_print1(p):
+	''' print1 : epsilon
+				| PLUS varcte print1'''
+	# Append lista print parametros (termina last -> first)
 
 def p_switch(p):
 	'switch	 : SWITCH ID meterIDPOper switch1 LCURL switch2 switch3 RCURL'
