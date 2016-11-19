@@ -807,7 +807,7 @@ if __name__ == '__main__':
 	initGlobalMemory(globalVarsTypeCounts)
 	print "SSSSS" + str(quadruples.dirQuadruples)
 	# Start machine
-	startMachine()
+	#startMachine()
 
 	print("*****************************************")
 	print("")

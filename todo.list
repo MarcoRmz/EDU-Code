@@ -32,6 +32,7 @@ Avance 7:
 ** agregar lista en funciones para marcar si variable es por referencia
 ** revisar variables por referencia, eliminar tupla que sea como vector [dir]
 ** checar era con prueba 7
+** Checar gosub/llamada sJumps
 
 Avance 8:
 ** Blockly gramatica

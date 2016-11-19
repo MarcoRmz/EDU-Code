@@ -675,9 +675,14 @@ def p_return(p):
 	# Verify type of function
 	if functionsDir[function_ptr][0] != VOID:
 		# Generate RETURN with value to return and address to return it to
-		quadruples.sTypes.pop()
-		quadruples.dirQuadruples.append((RETURN, quadruples.sOperands.pop(), None, functionsDir[function_ptr][4]))
-		quadruples.indexQuadruples += 1
+		varType = quadruples.sTypes.pop()
+		if varType == functionsDir[function_ptr][0]:
+			quadruples.dirQuadruples.append((RETURN, quadruples.sOperands.pop(), None, None))
+			quadruples.indexQuadruples += 1
+		else:
+			# Error
+			print("Invalid RETURN type: %s with function type: %s! Line: %s" %(varType, functionsDir[function_ptr][0], p.lineno(1)))
+			exit(1)
 	else:
 		# Error
 		print("Invalid operation RETURN on VOID Function: %s! Line: %s" %(function_ptr, p.lineno(1)))
@@ -700,6 +705,9 @@ def p_llamada(p):
 	# Pedir memoria para funcion
 	# [Tipo, DictVar, ListaParam, indexCuadruplo, FunctionAddress, SubTypeQyt]
 	print("************* FUNCTION CALL FOR: " + str(p[1]))
+	# Get new local variable for function call
+	varSize = setConstantAddress(INT, 1)
+	newValueAddress = ""
 	if functionsDir.has_key(p[1]):
 		if functionsDir[p[1]][0] == 23:
 			subTypeQty = functionsDir[p[1]][5]
@@ -710,11 +718,14 @@ def p_llamada(p):
 				if subTypeQty[x] > 0:
 					totalTypes += 1
 
-			quadruples.dirQuadruples.append((ERA, totalTypes, subTypeQty, functionsDir[p[1]][4]))
+			newValueAddress = getLocalAddress(functionsDir[p[1]][0], varSize)
+			quadruples.dirQuadruples.append((ERA, totalTypes, subTypeQty, newValueAddress))
+
 			if function_ptr != "main":
 				# Save index to fill out ERA when function ends
 				quadruples.sERA.append((p[1], quadruples.indexQuadruples))
 			quadruples.indexQuadruples += 1
+
 		else:
 			# Error
 			print("Function %s is not void, must be assigned for return value!" %(p[1]))
@@ -754,6 +765,9 @@ def p_llamada(p):
 	global countParam
 	countParam = 0
 
+	quadruples.sOperands.append(newValueAddress)
+	quadruples.sTypes.append(functionsDir[p[1]][0])
+
 	p[0] = 'Llamada ' + str(p[1])
 
 def p_llamada1(p):
@@ -777,6 +791,8 @@ def p_llamada3(p):
 	# Pedir memoria para funcion
 	# [Tipo, DictVar, ListaParam, indexCuadruplo, FunctionAddress, SubTypeQyt]
 	print("************* FUNCTION CALL FOR: " + str(p[-1]))
+	varSize = setConstantAddress(INT, 1)
+	newValueAddress = ""
 	if functionsDir.has_key(p[-1]):
 		if functionsDir[p[-1]][0] != 23:
 			subTypeQty = functionsDir[p[-1]][5]
@@ -787,7 +803,9 @@ def p_llamada3(p):
 				if subTypeQty[x] > 0:
 					totalTypes += 1
 
-			quadruples.dirQuadruples.append((ERA, totalTypes, subTypeQty, functionsDir[p[-1]][4]))
+			newValueAddress = getLocalAddress(functionsDir[p[-1]][0], varSize)
+			quadruples.dirQuadruples.append((ERA, totalTypes, subTypeQty, newValueAddress))
+
 			if function_ptr != "main":
 				# Save index to fill out ERA when function ends
 				quadruples.sERA.append((p[-1], quadruples.indexQuadruples))
@@ -829,6 +847,9 @@ def p_llamada3(p):
 
 	global countParam
 	countParam = 0
+
+	quadruples.sOperands.append(newValueAddress)
+	quadruples.sTypes.append(functionsDir[p[-1]][0])
 	p[0] = 'Llamada ' + str(p[-1])
 
 def p_llamada4(p):
@@ -916,11 +937,12 @@ def p_meteParam(p):
 	else:
 		# All parameters are declared of size 1, vectors will be passed as reference
 		varSize = setConstantAddress(INT, 1)
+
 		# Get type from top of parameters list in function -> functionsDir[function_ptr][2][-1]
 		varType = functionsDir[function_ptr][2][-1]
 
 		# Get address for local variable in function
-		varAddress = (varType, varSize)
+		varAddress = getLocalAddress(varType, varSize)
 
 		# Declare variable in function [Type, Address, Size]
 		functionsDir[function_ptr][1][p[-1]] = [functionsDir[function_ptr][2].pop(), varAddress, varSize]
@@ -937,6 +959,10 @@ def p_print(p):
 	printList.reverse()
 	quadruples.dirQuadruples.append((PRINT, None, None, printList))
 	quadruples.indexQuadruples += 1
+
+	global printList
+	printList = []
+
 	p[0] = 'print'
 
 def p_print1(p):
@@ -945,8 +971,6 @@ def p_print1(p):
 	# Append lista print parametros (termina last -> first)
 	if len(p) > 2:
 		printList.append(quadruples.sOperands.pop())
-
-
 
 def p_switch(p):
 	'switch	 : SWITCH ID meterIDPOper switch1 LCURL switch2 switch3 RCURL'

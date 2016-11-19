@@ -3,9 +3,10 @@ start
 float a[3]
 int s
 
-function void incr(float d) {
+function int incr(float d) {
 	d = 2.0 + 3.1
 	print(d)
+	return d
 }
 
 main{
@@ -16,7 +17,7 @@ main{
 	
 	print(a[2])
 
-	incr(1.3)
+	x = incr(1.3) - 2
 }
 
 end
