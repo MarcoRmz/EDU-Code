@@ -45,6 +45,8 @@ functionsDir = {}
 # FROM Temp STACK
 fromTempStack = []
 
+printList = []
+
 # Parameter counter
 countParam = 0
 
@@ -544,7 +546,7 @@ def p_from(p):
 
 	quadruples.dirQuadruples.append((EQUALS,tempAddress, None, fromTempStack[-1]))
 	quadruples.indexQuadruples += 1
-	
+
 	# Genera GOTO
 	gotoFIndex = quadruples.sJumps.pop()
 	quadruples.dirQuadruples.append((GOTO, None, None, quadruples.sJumps.pop()))
@@ -922,7 +924,7 @@ def p_meteParam(p):
 
 		# Declare variable in function [Type, Address, Size]
 		functionsDir[function_ptr][1][p[-1]] = [functionsDir[function_ptr][2].pop(), varAddress, varSize]
-		
+
 		# Append parameter ID to parameter list in function
 		functionsDir[function_ptr][2].append(p[-1])
 	print("PARAMETRO ID LISTAPARAM %s" %functionsDir[function_ptr][2])
@@ -931,8 +933,9 @@ def p_meteParam(p):
 def p_print(p):
 	'print : PRINT LPAREN varcte print1 RPAREN'
 	# invert list of print parameters if len(list) > 1
-	printValue = quadruples.sOperands.pop()
-	quadruples.dirQuadruples.append((PRINT, None, None, printValue))
+	printList.append(quadruples.sOperands.pop())
+	printList.reverse()
+	quadruples.dirQuadruples.append((PRINT, None, None, printList))
 	quadruples.indexQuadruples += 1
 	p[0] = 'print'
 
@@ -940,6 +943,10 @@ def p_print1(p):
 	''' print1 : epsilon
 				| PLUS varcte print1'''
 	# Append lista print parametros (termina last -> first)
+	if len(p) > 2:
+		printList.append(quadruples.sOperands.pop())
+
+
 
 def p_switch(p):
 	'switch	 : SWITCH ID meterIDPOper switch1 LCURL switch2 switch3 RCURL'
@@ -1379,7 +1386,7 @@ def p_var_declaracion2(p):
 		if len(p) == 4:
 			varSize = quadruples.sOperands.pop()
 			quadruples.sTypes.pop()
-		
+
 		# Get address for variable given the type and size
 		varAddress = getLocalAddress(varType, varSize)
 

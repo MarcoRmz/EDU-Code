@@ -23,7 +23,7 @@ def startMachine():
 	while(quadruples.dirQuadruples[i][0] != 99):
 		print "index %d" % i
 		# Conditions to determine actions on quadruples
-		
+
 		#########################################
 		#										#
 		#			Case for PLUS (+)			#
@@ -36,9 +36,9 @@ def startMachine():
 			# If value is a list it links to an address, getValue of the address
 			if type(operand1) is list:
 				operand1 = getValue(operand1[0])
-			
+
 			operand1 = getValue(operand1)
-			
+
 			operand2 = quadruples.dirQuadruples[i][2]
 
 			# If value is a list it links to an address, getValue of the address
@@ -47,7 +47,7 @@ def startMachine():
 
 			operand2 = getValue(operand2)
 
-			if (operand1 == -1) or (operand2 == -1):
+			if (operand1 == None) or (operand2 == None):
 				# Error no value in address
 				print("Operation failed, variable(s) missing value!")
 				exit(1)
@@ -71,9 +71,9 @@ def startMachine():
 			# If value is a list it links to an address, getValue of the address
 			if type(operand1) is list:
 				operand1 = getValue(operand1[0])
-			
+
 			operand1 = getValue(operand1)
-			
+
 			operand2 = quadruples.dirQuadruples[i][2]
 
 			# If value is a list it links to an address, getValue of the address
@@ -82,7 +82,7 @@ def startMachine():
 
 			operand2 = getValue(operand2)
 
-			if (operand1 == -1) or (operand2 == -1):
+			if (operand1 == None) or (operand2 == None):
 				# Error no value in address
 				print("Operation failed, variable(s) missing value!")
 				exit(1)
@@ -106,9 +106,9 @@ def startMachine():
 			# If value is a list it links to an address, getValue of the address
 			if type(operand1) is list:
 				operand1 = getValue(operand1[0])
-			
+
 			operand1 = getValue(operand1)
-			
+
 			operand2 = quadruples.dirQuadruples[i][2]
 
 			# If value is a list it links to an address, getValue of the address
@@ -117,7 +117,7 @@ def startMachine():
 
 			operand2 = getValue(operand2)
 
-			if (operand1 == -1) or (operand2 == -1):
+			if (operand1 == None) or (operand2 == None):
 				# Error no value in address
 				print("Operation failed, variable(s) missing value!")
 				exit(1)
@@ -141,9 +141,9 @@ def startMachine():
 			# If value is a list it links to an address, getValue of the address
 			if type(operand1) is list:
 				operand1 = getValue(operand1[0])
-			
+
 			operand1 = getValue(operand1)
-			
+
 			operand2 = quadruples.dirQuadruples[i][2]
 
 			# If value is a list it links to an address, getValue of the address
@@ -152,7 +152,7 @@ def startMachine():
 
 			operand2 = getValue(operand2)
 
-			if (operand1 == -1) or (operand2 == -1):
+			if (operand1 == None) or (operand2 == None):
 				# Error no value in address
 				print("Operation failed, variable(s) missing value!")
 				exit(1)
@@ -176,9 +176,9 @@ def startMachine():
 			# If value is a list it links to an address, getValue of the address
 			if type(operand1) is list:
 				operand1 = getValue(operand1[0])
-			
+
 			operand1 = getValue(operand1)
-			
+
 			operand2 = quadruples.dirQuadruples[i][2]
 
 			# If value is a list it links to an address, getValue of the address
@@ -187,7 +187,7 @@ def startMachine():
 
 			operand2 = getValue(operand2)
 
-			if (operand1 == -1) or (operand2 == -1):
+			if (operand1 == None) or (operand2 == None):
 				# Error no value in address
 				print("Operation failed, variable(s) missing value!")
 				exit(1)
@@ -211,9 +211,9 @@ def startMachine():
 			# If value is a list it links to an address, getValue of the address
 			if type(operand1) is list:
 				operand1 = getValue(operand1[0])
-			
+
 			operand1 = getValue(operand1)
-			
+
 			operand2 = quadruples.dirQuadruples[i][2]
 
 			# If value is a list it links to an address, getValue of the address
@@ -222,7 +222,7 @@ def startMachine():
 
 			operand2 = getValue(operand2)
 
-			if (operand1 == -1) or (operand2 == -1):
+			if (operand1 == None) or (operand2 == None):
 				# Error no value in address
 				print("Operation failed, variable(s) missing value!")
 				exit(1)
@@ -246,9 +246,9 @@ def startMachine():
 			# If value is a list it links to an address, getValue of the address
 			if type(operand1) is list:
 				operand1 = getValue(operand1[0])
-			
+
 			operand1 = getValue(operand1)
-			
+
 			operand2 = quadruples.dirQuadruples[i][2]
 
 			# If value is a list it links to an address, getValue of the address
@@ -257,7 +257,7 @@ def startMachine():
 
 			operand2 = getValue(operand2)
 
-			if (operand1 == -1) or (operand2 == -1):
+			if (operand1 == None) or (operand2 == None):
 				# Error no value in address
 				print("Operation failed, variable(s) missing value!")
 				exit(1)
@@ -281,9 +281,9 @@ def startMachine():
 			# If value is a list it links to an address, getValue of the address
 			if type(operand1) is list:
 				operand1 = getValue(operand1[0])
-			
+
 			operand1 = getValue(operand1)
-			
+
 			operand2 = quadruples.dirQuadruples[i][2]
 
 			# If value is a list it links to an address, getValue of the address
@@ -292,7 +292,7 @@ def startMachine():
 
 			operand2 = getValue(operand2)
 
-			if (operand1 == -1) or (operand2 == -1):
+			if (operand1 == None) or (operand2 == None):
 				# Error no value in address
 				print("Operation failed, variable(s) missing value!")
 				exit(1)
@@ -316,9 +316,9 @@ def startMachine():
 			# If value is a list it links to an address, getValue of the address
 			if type(operand1) is list:
 				operand1 = getValue(operand1[0])
-			
+
 			operand1 = getValue(operand1)
-			
+
 			operand2 = quadruples.dirQuadruples[i][2]
 
 			# If value is a list it links to an address, getValue of the address
@@ -327,7 +327,7 @@ def startMachine():
 
 			operand2 = getValue(operand2)
 
-			if (operand1 == -1) or (operand2 == -1):
+			if (operand1 == None) or (operand2 == None):
 				# Error no value in address
 				print("Operation failed, variable(s) missing value!")
 				exit(1)
@@ -351,9 +351,9 @@ def startMachine():
 			# If value is a list it links to an address, getValue of the address
 			if type(operand1) is list:
 				operand1 = getValue(operand1[0])
-			
+
 			operand1 = getValue(operand1)
-			
+
 			operand2 = quadruples.dirQuadruples[i][2]
 
 			# If value is a list it links to an address, getValue of the address
@@ -362,7 +362,7 @@ def startMachine():
 
 			operand2 = getValue(operand2)
 
-			if (operand1 == -1) or (operand2 == -1):
+			if (operand1 == None) or (operand2 == None):
 				# Error no value in address
 				print("Operation failed, variable(s) missing value!")
 				exit(1)
@@ -386,9 +386,9 @@ def startMachine():
 			# If value is a list it links to an address, getValue of the address
 			if type(operand1) is list:
 				operand1 = getValue(operand1[0])
-			
+
 			operand1 = getValue(operand1)
-			
+
 			operand2 = quadruples.dirQuadruples[i][2]
 
 			# If value is a list it links to an address, getValue of the address
@@ -397,7 +397,7 @@ def startMachine():
 
 			operand2 = getValue(operand2)
 
-			if (operand1 == -1) or (operand2 == -1):
+			if (operand1 == None) or (operand2 == None):
 				# Error no value in address
 				print("Operation failed, variable(s) missing value!")
 				exit(1)
@@ -421,9 +421,9 @@ def startMachine():
 			# If value is a list it links to an address, getValue of the address
 			if type(operand1) is list:
 				operand1 = getValue(operand1[0])
-			
+
 			operand1 = getValue(operand1)
-			
+
 			operand2 = quadruples.dirQuadruples[i][2]
 
 			# If value is a list it links to an address, getValue of the address
@@ -432,7 +432,7 @@ def startMachine():
 
 			operand2 = getValue(operand2)
 
-			if (operand1 == -1) or (operand2 == -1):
+			if (operand1 == None) or (operand2 == None):
 				# Error no value in address
 				print("Operation failed, variable(s) missing value!")
 				exit(1)
@@ -456,7 +456,7 @@ def startMachine():
 			# If value is a list it links to an address, getValue of the address
 			if type(operand1) is list:
 				operand1 = getValue(operand1[0])
-			
+
 			operand1 = getValue(operand1)
 
 			operand2 = quadruples.dirQuadruples[i][3]
@@ -465,7 +465,7 @@ def startMachine():
 			if type(operand2) is list:
 				operand2 = getValue(operand2[0])
 
-			if (operand1 == -1) or (operand2 == -1):
+			if (operand1 == None) or (operand2 == None):
 				# Error no value in address
 				print("Operation failed, variable(s) missing value!")
 				exit(1)
@@ -493,7 +493,7 @@ def startMachine():
 			#if the temporal is false jump to the specified quadruple
 			var_Value = getValue(quadruples.dirQuadruples[i][1])
 
-			if (var_Value == -1):
+			if (var_Value == None):
 				# Error no value in address
 				print("Operation failed, variable(s) missing value!")
 				exit(1)
@@ -511,7 +511,7 @@ def startMachine():
 			#if the temporal holds a True jump to the specified quadruple
 			var_Value = getValue(quadruples.dirQuadruples[i][1])
 
-			if (var_Value == -1):
+			if (var_Value == None):
 				# Error no value in address
 				print("Operation failed, variable(s) missing value!")
 				exit(1)
@@ -547,7 +547,7 @@ def startMachine():
 			if type(rtn_value) is list:
 				rtn_value = getValue(rtn_value[0])
 
-			if (rtn_value == -1):
+			if (rtn_value == None):
 				# Error no value in address
 				print("Operation failed, variable(s) missing value!")
 				exit(1)
@@ -568,21 +568,43 @@ def startMachine():
 		#										#
 		#########################################
 		elif(quadruples.dirQuadruples[i][0] == 18):
+			print_result = ""
 			#get operands from the memory
 			operand1 = quadruples.dirQuadruples[i][3]
-
+			print "ssss"+str(operand1)
 			# If value is a list it links to an address, getValue of the address
 			if type(operand1) is list:
-				operand1 = getValue(operand1[0])
-			
-			operand1 = getValue(operand1)
+				for x in range(0,len(operand1)):
+					if(type(operand1[x])is list):
+						arr_dir = getValue(operand1[x][0])
+						value = getValue(arr_dir)
+						#if var has value or not
+						if (value == None):
+							# Error no value in address
+							print("Operation failed, variable(s) missing value!")
+							exit(1)
+						if type(value) is str:
+							print_result += value
+						else:
+							print_result += str(value)
+					else:
+						value = getValue(operand1[x])
+						if (value == None):
+							# Error no value in address
+							print("Operation failed, variable(s) missing value!")
+							exit(1)
+						if type(value) is str:
+							print_result += value
+						else:
+							print_result += str(value)
 
-			if (operand1 == -1):
-				# Error no value in address
-				print("Operation failed, variable(s) missing value!")
-				exit(1)
 
-			print(operand1)
+				#curr_operand = getValue(operand1[0])
+
+
+
+				print(print_result)
+
 
 
 		#########################################
@@ -694,7 +716,7 @@ def startMachine():
 
 			operand2 = getValue(operand2)
 
-			if (operand1 == -1) or (operand2 == -1):
+			if (operand1 == None) or (operand2 == None):
 				# Error no value in address
 				print("Operation failed, variable(s) missing value!")
 				exit(1)
@@ -722,7 +744,7 @@ def startMachine():
 
 			operand2 = quadruples.dirQuadruples[i][2]
 
-			if (operand1 == -1) or (operand2 == -1):
+			if (operand1 == None) or (operand2 == None):
 				# Error no value in address
 				print("Operation failed, variable(s) missing value!")
 				exit(1)
@@ -783,10 +805,10 @@ if __name__ == '__main__':
 
 	# Create Memory for global vars
 	initGlobalMemory(globalVarsTypeCounts)
-
+	print "SSSSS" + str(quadruples.dirQuadruples)
 	# Start machine
 	startMachine()
-	
+
 	print("*****************************************")
 	print("")
 	print("Constant Vars: %s\n" %str(constMemory))

@@ -125,6 +125,8 @@ def t_VARSTRING(t):
 	# except ValueError:
 	# 	print("String value invalid %d", t.value)
 	#		t.value = ""
+	#remove quotes from strings
+	t.value = t.value[1:-1]
 	return t
 
 def t_newline(t):

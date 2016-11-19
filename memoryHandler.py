@@ -69,7 +69,7 @@ def initGlobalMemory(SubTypeQty):
 def resetMemoryIndexes():
 	global currentLocalVirtualAddress
 	print("\n\n\n\n LOCAL MEMORY BEFORE RESET \n%s" %str(currentLocalVirtualAddress))
-	
+
 	# Starting Virtual addresses for memory spaces
 	# [INT, FLOAT, STRING, BOOL]
 	currentLocalVirtualAddress = [initialtINTVarAddress, initialtFLOATVarAddress, initialtSTRINGVarAddress, initialtBOOLVarAddress]
@@ -127,10 +127,11 @@ def localAvailableMemory(varType, chunkSize):
 #Global
 def getGlobalAddress(varType, chunkSize):
 	# Parse chunkSize if it's an Address
-	if chunkSize > 1:
-		chunkSize = getValue(chunkSize)
-		if chunkSize == -1:
-			return -1
+	#
+	#if chunkSize > 1:
+	chunkSize = getValue(chunkSize)
+	if chunkSize == None:
+		return None
 	# Check if there's memory available for type with chunkSize
 	if(globalAvailableMemory(varType,chunkSize)):
 		availableAddress = currentGlobalVirtualAddress[varType] + 1000
@@ -159,10 +160,10 @@ def setConstantAddress(varType, varValue):
 # Local
 def getLocalAddress(varType, chunkSize):
 	# Parse chunkSize if it's an Address
-	if chunkSize > 1:
-		chunkSize = getValue(chunkSize)
-		if chunkSize == -1:
-			return -1
+	#if chunkSize > 1:
+	chunkSize = getValue(chunkSize)
+	if chunkSize == None:
+		return None
 	# Check if there's memory available for type with chunkSize
 	if(localAvailableMemory(varType,chunkSize)):
 		availableAddress = currentLocalVirtualAddress[varType]
@@ -221,7 +222,7 @@ def getValue(virtualAddress):
 		print("Local mem: %s\n" %(str(memoryStack[-1].memory)))
 
 	if varValue == None:
-		return -1
+		return None
 	else:
 		return varValue
 
@@ -230,7 +231,7 @@ def getValue(virtualAddress):
 def setValue(virtualAddress, varValue):
 	# Parse virtual address to int
 	virtualAddress = int(virtualAddress)
-	
+
 	#Global
 	print("SET VALUE\nvirtual %d, value: %s" %(virtualAddress, str(varValue)))
 	if(virtualAddress < 4000):
