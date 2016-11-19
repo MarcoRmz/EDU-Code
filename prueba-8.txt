@@ -3,19 +3,30 @@ start
 int s
 
 function int fibo(int x) {
-	if (x == 0 or x == 1) {
-		return 1
-	} elseif (x > 1) {
-		return 2 + 3
-	}
+	if (x == 0) {
+        return 0
+	} elseif (x == 1){
+        return 1
+    }
+
+    return fibo(x-1) + fibo(x-2);
 }
 
 main{
 	int x
-	x = 3
+	int y
+
+	x = 10
+	y = 0
 
 	x = fibo(x)
 	print(x)
+
+	from 10 to 1 by(/2) {
+		print(y)
+		y = y + 1
+	}
+	print(y)
 }
 
 end

@@ -679,6 +679,9 @@ def p_return(p):
 		if varType == functionsDir[function_ptr][0]:
 			quadruples.dirQuadruples.append((RETURN, quadruples.sOperands.pop(), None, None))
 			quadruples.indexQuadruples += 1
+			# Generate ENDPROC
+			quadruples.dirQuadruples.append((ENDPROC, None, None, None))
+			quadruples.indexQuadruples += 1
 		else:
 			# Error
 			print("Invalid RETURN type: %s with function type: %s! Line: %s" %(varType, functionsDir[function_ptr][0], p.lineno(1)))
@@ -790,7 +793,7 @@ def p_llamada3(p):
 	'''llamada3 : LPAREN llamada1 RPAREN'''
 	# Pedir memoria para funcion
 	# [Tipo, DictVar, ListaParam, indexCuadruplo, FunctionAddress, SubTypeQyt]
-	print("************* FUNCTION CALL FOR: " + str(p[-1]))
+	print("************* FUNCTION CALL RETURN FOR: " + str(p[-1]))
 	varSize = setConstantAddress(INT, 1)
 	newValueAddress = ""
 	if functionsDir.has_key(p[-1]):
@@ -1132,20 +1135,7 @@ def p_varcte2(p):
 		# Verify function call exists
 		print("FOUND CALL: %s AT FUNCTION: %s" %(str(p[-1]), function_ptr))
 		if functionsDir.has_key(p[-1]):
-			# Create local variable if function type is != VOID
-			if functionsDir[p[-1]][0] != VOID:
-				# Add cteint 1 for varSize for simple IDs
-				varSize = setConstantAddress(INT, 1)
-				varAddress = getLocalAddress(functionsDir[p[-1]][0], varSize)
-				quadruples.sOperands.append(varAddress)
-				quadruples.sTypes.append(functionsDir[p[-1]][0])
-				p[0] = p[-1]
-				print("%s FUNCTION FOUND" %(parseType(functionsDir[p[-1]][0])))
-			else:
-				quadruples.sOperands.append(p[-1])
-				quadruples.sTypes.append(functionsDir[p[-1]][0])
-				p[0] = p[-1]
-				print("VOID FUNCTION FOUND")
+			p[0] = quadruples.sOperands[-1]
 			print("PILA TIPOS DESPUES DE FUNCTION CALL: %s" %(str(quadruples.sTypes)))
 		else:
 			# ERROR

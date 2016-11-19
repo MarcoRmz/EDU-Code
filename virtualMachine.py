@@ -626,7 +626,7 @@ def startMachine():
 			createMemory(quadruples.dirQuadruples[i][2])
 			#assigns return address to memory
 			memoryStack[-1].returnAddress = quadruples.dirQuadruples[i][3]
-			print("Created Function memory: %s" %str(memoryStack[-1].memory))
+			print("Created Function memory: %s returnAd: %s" %(str(memoryStack[-1].memory), str(memoryStack[-1].returnAddress)))
 
 
 		#########################################
@@ -807,7 +807,7 @@ if __name__ == '__main__':
 	initGlobalMemory(globalVarsTypeCounts)
 	print "SSSSS" + str(quadruples.dirQuadruples)
 	# Start machine
-	#startMachine()
+	startMachine()
 
 	print("*****************************************")
 	print("")
