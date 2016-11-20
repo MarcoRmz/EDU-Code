@@ -1,11 +1,12 @@
 General:
-** print Errores Detallados
+** Errores Detallados en prints
 ** Stack de Errores e imprimir al final (no hacer exit)
 ** Checar comentarios
 ** Pasar todo a ingles
 ** Bitacoras
 ** DOCUMENTACION
-** BLOCKLY
+** BLOCKLY CSS & tutorials
+** Aplicacion Maquina virtual
 
 Diagramas:
 ** actualizar diagramas y gramatica REGEX
@@ -18,25 +19,11 @@ Diagramas:
 ** Cambiar diagrama de vectores para declarar tamaños
 
 Maquina:
-** print solo acepta un mismo tipo, print("Sum: " + sum) ERROR
-** input, como se usa, que viene en parentesis?
+** input, puede tener o no un mensaje a desplegar y usa std input de python
 
-Memoria:
-** Parametros por referencia
-** return funciones
-** Creacion de variable local para input, que tipo??
-
-Avance 7:
+Pendiente:
 ** En llamada, checar si el parametro que se esta checando esta declarado como referencia en la funcion que se llama y mandar direccion de la variable en tope sOperands
 ** En llamada, checar si la variable en tope de pila sOperands es un vector, si si entonces verificar que el parametro en funcion es por referencia, si no marcar error
 ** agregar lista en funciones para marcar si variable es por referencia
 ** revisar variables por referencia, eliminar tupla que sea como vector [dir]
-** checar era con prueba 7
-** Checar gosub/llamada sJumps
-** checar declaracion de funcion con main
-
-Avance 8:
-** Blockly gramatica
-** Blockly CSS & tutorials
-** Documentacion
-** Aplicacion Maquina virtual
+** Creacion de variable local para input manejar como funcion con return
