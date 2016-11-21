@@ -1,0 +1,18 @@
+start
+
+function int factorialRec(int n){
+  if( n == 1){
+    return 1
+  }elseif(n > 1){
+    return n * factorialRec(n-1)
+  }
+}
+
+
+main{
+int x
+x = 12
+print("Factorial rec of "+x+": "+factorialRec(x))
+}
+
+end
