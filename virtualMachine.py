@@ -15,6 +15,16 @@ from EDUCode import *
 
 executionStack = []
 
+def evaluateSTR2BOOL(value):
+	if (value.lower() in ("yes", "true", "t", "v", "verdadero")):
+		return True;
+	elif (value.lower() in ("no", "false", "f", "falso")):
+		return False;
+	else:
+		# Error
+		print("Expected input type BOOL not STRING!")
+		exit(1)
+
 def startMachine():
 	#Count variable for quadruples
 	i = 0
@@ -571,7 +581,7 @@ def startMachine():
 			print_result = ""
 			#get operands from the memory
 			operand1 = quadruples.dirQuadruples[i][3]
-			print "ssss"+str(operand1)
+			print str(operand1)
 			# If value is a list it links to an address, getValue of the address
 			if type(operand1) is list:
 				for x in range(0,len(operand1)):
@@ -598,10 +608,7 @@ def startMachine():
 						else:
 							print_result += str(value)
 
-
 				#curr_operand = getValue(operand1[0])
-
-
 
 				print(print_result)
 
@@ -613,7 +620,67 @@ def startMachine():
 		#										#
 		#########################################
 		elif(quadruples.dirQuadruples[i][0] == 19):
-			pass
+			print_result = ""
+			# get operands from the memory
+			operand1 = quadruples.dirQuadruples[i][1]
+			varType = quadruples.dirQuadruples[i][2]
+			returnAddress = quadruples.dirQuadruples[i][3]
+
+			print str(operand1)
+
+			# If value is a list it links to an address, getValue of the address
+			if type(operand1) is list:
+				for x in range(0,len(operand1)):
+					if(type(operand1[x])is list):
+						arr_dir = getValue(operand1[x][0])
+						value = getValue(arr_dir)
+						#if var has value or not
+						if (value == None):
+							# Error no value in address
+							print("Operation failed, variable(s) missing value!")
+							exit(1)
+						if type(value) is str:
+							print_result += value
+						else:
+							print_result += str(value)
+					else:
+						value = getValue(operand1[x])
+						if (value == None):
+							# Error no value in address
+							print("Operation failed, variable(s) missing value!")
+							exit(1)
+						if type(value) is str:
+							print_result += value
+						else:
+							print_result += str(value)
+
+				# Print generated message & wait for input
+				if (varType == INT) or (varType == FLOAT):
+					# Evaluate input
+					inputValue = eval(raw_input(print_result))
+
+					# Validate input is of expected type
+					if (varType == INT and type(inputValue) is int) or (varType == FLOAT and type(inputValue) is float):
+						# Assign value to return address
+						setValue(returnAddress, inputValue)
+					else:
+						# Error
+						print("Expected input of type %s, not %s!" %(parseType(varType), str(type(inputValue))))
+						exit(1)
+				else:
+					# Get raw input
+					inputValue = raw_input(print_result)
+					if (varType == STRING):
+						inputValue = str(inputValue)
+					elif (varType == BOOL):
+						inputValue	= str(inputValue)
+						inputValue = evaluateSTR2BOOL(inputValue)
+					else:
+						# Error
+						print("Expected input of type %s, not %s!" %(parseType(varType), str(type(inputValue))))
+						exit(1)
+					# Assign value to return address
+					setValue(returnAddress, inputValue)
 
 
 		#########################################

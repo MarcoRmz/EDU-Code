@@ -19,11 +19,10 @@ Diagramas:
 ** Cambiar diagrama de vectores para declarar tamaños
 
 Maquina:
-** input, puede tener o no un mensaje a desplegar y usa std input de python
+** input de string debe de venir "hola" no hola
 
 Pendiente:
 ** En llamada, checar si el parametro que se esta checando esta declarado como referencia en la funcion que se llama y mandar direccion de la variable en tope sOperands
 ** En llamada, checar si la variable en tope de pila sOperands es un vector, si si entonces verificar que el parametro en funcion es por referencia, si no marcar error
 ** agregar lista en funciones para marcar si variable es por referencia
 ** revisar variables por referencia, eliminar tupla que sea como vector [dir]
-** Creacion de variable local para input manejar como funcion con return

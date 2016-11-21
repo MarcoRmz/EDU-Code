@@ -654,7 +654,7 @@ def p_declareFunc(p):
 	'''declareFunc : '''
 	global function_ptr
 	function_ptr = p[-1]
-	#CAMBIO: Todo 2 y 3
+
 	if functionsDir.has_key(function_ptr) == False:
 		# [Tipo, DictVar, ListaParam, indexCuadruplo, FunctionAddress, SubTypeQyt]
 		functionAddress = None
@@ -693,15 +693,47 @@ def p_return(p):
 
 def p_input(p):
 	'''input	: INPUT LPAREN input1 RPAREN'''
-	# METE mensaje a memoria
-	quadruples.dirQuadruples.append((INPUT, quadruples.sOperands[-1], None, None))
+	# Invert list of print parameters if len(list) > 1
+	if len(printList) > 1:
+		printList.reverse()
+
+	# Type of id to return input to
+	varType = quadruples.sTypes[-1]
+	print("type stack: %s" %str(quadruples.sTypes))
+
+	# Add cteint 1 for varSize for return var
+	varSize = setConstantAddress(INT, 1)
+
+	newValueAddress = getLocalAddress(varType, varSize)
+
+	# Generate Input quadruple [INPUT, vars to print, returnType, returnAddress]
+	quadruples.dirQuadruples.append((INPUT, printList, varType, newValueAddress))
 	quadruples.indexQuadruples += 1
-	# METE input a memoria
+
+	# Append input value to sOperands
+	quadruples.sOperands.append(newValueAddress)
+	quadruples.sTypes.append(varType)
+
+	global printList
+	printList = []
+
 	p[0] = p[1]
 
 def p_input1(p):
-	'''input1	: expresion_logica
-				| epsilon'''
+	''' input1 : epsilon
+				| varcte input2'''
+	# Append varcte to print list
+	if len(p) > 2:
+		printList.append(quadruples.sOperands.pop())
+		quadruples.sTypes.pop()
+
+def p_input2(p):
+	''' input2 : epsilon
+				| PLUS varcte input2'''
+	# Append varcte to print list
+	if len(p) > 2:
+		printList.append(quadruples.sOperands.pop())
+		quadruples.sTypes.pop()
 
 def p_llamada(p):
 	'''llamada 	: ID LPAREN llamada1 RPAREN'''
@@ -918,7 +950,6 @@ def p_meteParamTipo(p):
 
 def p_meteParam(p):
 	'meteParam : '
-	#CAMBIO: checar que el id del parametro no sea una var global.
 	print("ENTRO A parametros2 con %s L760" %(str(p[-1])))
 	# Check if ID exists
 	print("FOUND PARAMETER DECLR AT FUNCTION: " + function_ptr)
@@ -952,6 +983,8 @@ def p_print(p):
 	'print : PRINT LPAREN varcte print1 RPAREN'
 	# invert list of print parameters if len(list) > 1
 	printList.append(quadruples.sOperands.pop())
+	quadruples.sTypes.pop()
+	
 	printList.reverse()
 	quadruples.dirQuadruples.append((PRINT, None, None, printList))
 	quadruples.indexQuadruples += 1
@@ -964,9 +997,10 @@ def p_print(p):
 def p_print1(p):
 	''' print1 : epsilon
 				| PLUS varcte print1'''
-	# Append lista print parametros (termina last -> first)
+	# Append varcte to print list
 	if len(p) > 2:
 		printList.append(quadruples.sOperands.pop())
+		quadruples.sTypes.pop()
 
 def p_switch(p):
 	'switch	 : SWITCH ID meterIDPOper switch1 LCURL switch2 switch3 RCURL'

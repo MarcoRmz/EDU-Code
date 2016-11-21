@@ -1,16 +1,16 @@
 start
 
-string name
 string welcome
 
-function void sayHi() {
-	print(welcome + " " + name)
+function void sayHi(string name) {
+	print(welcome + " " + name + "!")
 }
 
 main {
+	string name
+	welcome = "Hello"
 
-	int x
-
-	name = input("What is your name?")
+	name = input("What is your name?: ")
+	sayHi(name)
 }
 end

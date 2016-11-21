@@ -1,0 +1,11 @@
+start
+
+main {
+	int x
+
+	x = input("age: ")
+	x = x + 2
+	print("your age +2: " + x)
+}
+
+end
