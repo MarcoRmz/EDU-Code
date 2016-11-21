@@ -3,27 +3,30 @@ start
 int count
 int sum
 
-function int increase(int x) {
+function void test() {
 	if (sum < 4) {
 		print("Sum es menor a 4")
-		sum = count + -1
-		count = 2
-	}elseif(sum > 5 or sum == 1){
-		return 3
+		count = count + sum * 3
+		if (count > 0) {
+			print("count > 0")
+		} else {
+			print("count < 0")
+			print("count: " + count + " sum: " + sum)
+		}
+	}elseif(sum > 5){
+		print("sum > 5")
 	}elseif(sum == 5){
-		return 0
+		print("sum =  5")
 	}else{
-		return 2
-	}
+		print("entro else")
 
-	return sum
+	}
 }
 
 main {
 	count = -31
 	sum = 3
 
-	
-	print(sum)
+	test()
 }
 end
