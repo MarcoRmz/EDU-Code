@@ -120,12 +120,7 @@ def t_CTE_INT(t):
 
 def t_VARSTRING(t):
 	r'\"[a-zA-Z0-9!@#$%^&*()_+\-=\[\]{};\':\|,.<>\/? X]*\"'
-	# try:
-	# 	t.value = string(t.value)
-	# except ValueError:
-	# 	print("String value invalid %d", t.value)
-	#		t.value = ""
-	#remove quotes from strings
+	# Remove quotes from strings
 	t.value = t.value[1:-1]
 	return t
 
@@ -135,7 +130,7 @@ def t_newline(t):
 
 def t_error(t):
 	if t:
-		print("Error at line " + str(t.lexer.lineno) + " Illegal character " + str(t.value[0]))
+		print("Illegal character: " + str(t.value[0]) + " at line: " + str(t.lexer.lineno))
 	else:
 		print("Unexpected end of input")
 	t.lexer.skip(1)
