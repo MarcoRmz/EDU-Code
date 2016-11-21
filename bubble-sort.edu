@@ -1,0 +1,43 @@
+start
+
+main{
+int a[5]
+int temp
+int j
+int i
+int length
+bool swapped
+
+length = 5
+j = 0
+swapped = true
+a[0] = 3
+a[1] = 7
+a[2] = 1
+a[3] = 5
+a[4] = 0
+
+while(swapped == true){
+  swapped = false
+  j = j+ 1
+  i = 0
+  while(i < length - j){
+      if(a[i] > a[i + 1]){
+        temp = a[i]
+        a[i] = a[i + 1]
+        a[i + 1] = temp
+        swapped = true
+      }
+      i = i + 1
+  }
+}
+
+i=0
+while(i<length){
+  print("a["+i+"] = "+a[i])
+  i = i + 1
+}
+
+}
+
+end
