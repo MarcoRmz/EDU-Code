@@ -708,9 +708,6 @@ def p_llamada(p):
 	# Pedir memoria para funcion
 	# [Tipo, DictVar, ListaParam, indexCuadruplo, FunctionAddress, SubTypeQyt]
 	print("************* FUNCTION CALL FOR: " + str(p[1]))
-	# Get new local variable for function call
-	varSize = setConstantAddress(INT, 1)
-	newValueAddress = ""
 	if functionsDir.has_key(p[1]):
 		if functionsDir[p[1]][0] == 23:
 			subTypeQty = functionsDir[p[1]][5]
@@ -721,8 +718,7 @@ def p_llamada(p):
 				if subTypeQty[x] > 0:
 					totalTypes += 1
 
-			newValueAddress = getLocalAddress(functionsDir[p[1]][0], varSize)
-			quadruples.dirQuadruples.append((ERA, totalTypes, subTypeQty, newValueAddress))
+			quadruples.dirQuadruples.append((ERA, totalTypes, subTypeQty, None))
 
 			if function_ptr != "main":
 				# Save index to fill out ERA when function ends
@@ -767,9 +763,6 @@ def p_llamada(p):
 
 	global countParam
 	countParam = 0
-
-	quadruples.sOperands.append(newValueAddress)
-	quadruples.sTypes.append(functionsDir[p[1]][0])
 
 	p[0] = 'Llamada ' + str(p[1])
 

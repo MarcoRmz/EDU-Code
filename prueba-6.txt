@@ -1,32 +1,21 @@
 start
 
-int count
-int sum
+int s
 
-function void test(string t, bool s) {
-	if(0 > 10) {
-		test(t,s)
-	}
-	print(t)
+function void test() {
+	int x
+	int w
+
+	w = 2
+
+	x = 5 + (4 * (4 - 6) / 2 * (4 - w)) * 2
+
+	print("X: " + x)
 }
 
 main {
-
-	string ho
-	string n
-	if (count > 1){
-		if (count > 2){
-			count = count + 1
-		}
-
-	}
-	else{
-		count = count - 1
-	}
-	sum = 0
-	count = 1
-	ho = "h"
-	n = "f"
-	test(ho, true)
+	s = 0
+	
+	test()
 }
 end

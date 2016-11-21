@@ -3,21 +3,10 @@ start
 int count
 int sum
 
-function int increase(int y) {
-	int x
-
-	x = count * 5
-	sum = 3 + 1
-
-	return sum
-}
-
 main {
 	int x
 	int y
-	string hola
 
-	hola = "ho" + "la"
 	x = 1
 	y = 3
 	count = 1
@@ -27,29 +16,25 @@ main {
 		count = count + 1
 	}
 
-	sum = count
-
-	count = (count / (2 * (4 + 1)) * (3 - sum)) * 8
+	count = (20 / (2 * (count + 1)) * (3 - sum)) * 2
 
 	if ((sum < 4 * 2) and ((x*3)+1 != y * (3 + 2)) or (true and (x == 2))) {
-		if(x > 2){
+		print("if true")
+		if(count > 2){
 			count = count + 1
+			print("if if true")
 		}
 		else{
-			while (x < 5) {
-				x = count + sum
+			while (x > 5) {
+				x = x + count + sum
 			}
+			print("if else true")
 		}
-		sum = count+1
-		count = 2
 	} elseif (true) {
 		pass
 	} else {
 		x = 0
+		print("else true")
 	}
-
-	hola = input(3 * 1)
-
-	print(hola)
 }
 end
