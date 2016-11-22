@@ -11,7 +11,7 @@
 
 from memoryHandler import *
 from quadruples import *
-from EDUCode import *
+from eduCodeParser import *
 
 executionStack = []
 
@@ -901,7 +901,7 @@ if __name__ == '__main__':
 	#	 print(tok)
 
 	# Parse tokens read
-	parser.parse(data, tracking=True, debug=log)
+	parser.parse(data)
 
 	# Create Memory for global vars
 	initGlobalMemory(globalVarsTypeCounts)

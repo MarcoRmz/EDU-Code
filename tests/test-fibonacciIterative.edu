@@ -1,15 +1,5 @@
 start
 
-function int fiboR(int x) {
-	if (x == 0) {
-		return 0
-	} elseif (x == 1){
-		return 1
-	}
-
-	return fiboR(x-1) + fiboR(x-2)
-}
-
 function int fiboI(int n) {
 	int a
 	int b
@@ -31,14 +21,9 @@ function int fiboI(int n) {
 }
 
 main{
-	int x
 	int y
 
-	x = 10
 	y = 10
-
-	x = fiboR(x)
-	print("Fibonacci rec: " + x)
 
 	y = fiboI(y)
 	print("Fibonacci iter: " + y)

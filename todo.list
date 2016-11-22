@@ -16,6 +16,3 @@ Diagramas:
 ** diagrama asignacion
 ** diagrama bloque(return) y funcion(return)
 ** Cambiar diagrama de vectores para declarar tamaños
-
-Pendiente:
-** En llamada, checar si la variable en tope de pila sOperands es un vector, si si entonces verificar que el parametro en funcion es por referencia, si no marcar error
