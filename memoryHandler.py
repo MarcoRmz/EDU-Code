@@ -9,6 +9,12 @@
 #														#
 #########################################################
 
+#########################################
+#										#
+#		 		Imports					#
+#										#
+#########################################
+
 from memory import *
 
 #########################################
@@ -35,10 +41,12 @@ initialLocalVirtualAddresses = [10000, 20000, 30000, 40000]
 # Memory for global variables
 globalMemory = []
 
-# Dictionary Memory for constants for virtual machine (key: address, value: value)
+# Dictionary Memory for constants for virtual machine
+# (key: address, value: value)
 constMemory = {}
 
-# Inverted Dictionary Memory for constants for compiler (key: value, value: address)
+# Inverted Dictionary Memory for constants for compiler
+# (key: value, value: address)
 invertedConstMemory = {}
 
 # Execution stack for memory
@@ -50,10 +58,17 @@ memoryStack = []
 #										#
 #########################################
 
+# Function that initializes the Global memory with the
+# amount of global variables used in the program given
+# by the SubTypeQty parameter
 def initGlobalMemory(SubTypeQty):
 	global globalMemory
 
+	# Initializes the memory with a list for each type
+	# [[INTs], [FLOATs], [STRINGs], [BOOLs]]
 	globalMemory = [[None]] * 4
+
+	# Adds a space for each variable used in its corresponding type
 	count = 0
 	for i in range(0, 4):
 		if SubTypeQty[i] != 0:
@@ -65,7 +80,9 @@ def initGlobalMemory(SubTypeQty):
 #		Functions for Compiler		 	#
 #										#
 #########################################
-#Resets memory indexes
+
+# Function used to reset the memory indexes
+# after a function is finished compiling
 def resetMemoryIndexes():
 	global currentLocalVirtualAddress
 
@@ -73,109 +90,162 @@ def resetMemoryIndexes():
 	# [INT, FLOAT, STRING, BOOL]
 	currentLocalVirtualAddress = [initialtINTVarAddress, initialtFLOATVarAddress, initialtSTRINGVarAddress, initialtBOOLVarAddress]
 
-#Checks if there is available memory for type and chunkSize for global memory
+# Function that checks if there is available memory
+# in the global memory for type and chunkSize given
 def globalAvailableMemory(varType, chunkSize):
+	# TYPE INT
 	if(varType == 0):
-		if currentGlobalVirtualAddress[0] + chunkSize < 2000:
+		if currentGlobalVirtualAddress[0] + chunkSize < 1000:
 			return True
+	# TYPE FLOAT
 	elif(varType == 1):
-		if currentGlobalVirtualAddress[1] + chunkSize < 3000:
+		if currentGlobalVirtualAddress[1] + chunkSize < 2000:
 			return True
+	# TYPE STRING
 	elif(varType == 2):
-		if currentGlobalVirtualAddress[2] + chunkSize < 4000:
+		if currentGlobalVirtualAddress[2] + chunkSize < 3000:
 			return True
+	# TYPE BOOL
 	elif(varType == 3):
-		if currentGlobalVirtualAddress[3] + chunkSize < 5000:
+		if currentGlobalVirtualAddress[3] + chunkSize < 4000:
 			return True
 	return False
 
-#Checks if there is available memory for type and chunkSize for constants memory
+# Function that checks if there is available memory
+# in constant memory for type given
 def constantAvailableMemory(varType):
+	# TYPE INT
 	if(varType == 0):
 		if currentConstantVirtualAddress[0] + 1 < 6000:
 			return True
+	# TYPE FLOAT
 	elif(varType == 1):
 		if currentConstantVirtualAddress[1] + 1 < 7000:
 			return True
+	# TYPE STRING
 	elif(varType == 2):
 		if currentConstantVirtualAddress[2] + 1 < 8000:
 			return True
+	# TYPE BOOL
 	elif(varType == 3):
 		if currentConstantVirtualAddress[3] + 1 < 9000:
 			return True
 	return False
 
-#Checks if there is available memory for type and chunkSize for local memory
+# Function that checks if there is available memory
+# in the local memory for type and chunkSize given
 def localAvailableMemory(varType, chunkSize):
+	# TYPE INT
 	if(varType == 0):
 		if currentLocalVirtualAddress[0] + chunkSize < 20000:
 			return True
+	# TYPE FLOAT
 	elif(varType == 1):
 		if currentLocalVirtualAddress[1] + chunkSize < 30000:
 			return True
+	# TYPE STRING
 	elif(varType == 2):
 		if currentLocalVirtualAddress[2] + chunkSize < 40000:
 			return True
+	# TYPE BOOL
 	elif(varType == 3):
 		if currentLocalVirtualAddress[3] + chunkSize < 50000:
 			return True
 	return False
 
-# Ask for next available memory address
-#Global
+# Function that asks for next available memory address
+# in the global memory given the type and size of the variable
 def getGlobalAddress(varType, chunkSize):
-	# Parse chunkSize if it's an Address
-	#
-	#if chunkSize > 1:
+	# Parse chunkSize to get value
 	chunkSize = getValue(chunkSize)
+
+	# Check if chunkSize contains a value
 	if chunkSize == None:
 		return None
+
 	# Check if there's memory available for type with chunkSize
 	if(globalAvailableMemory(varType,chunkSize)):
+		# Fetch next available index
 		availableAddress = currentGlobalVirtualAddress[varType] + 1000
+
+		# Move index by the chunkSize used
 		currentGlobalVirtualAddress[varType] += chunkSize
+
+		# Return the available memory address
 		return availableAddress
 	else:
-		print("Segmentation fault: out of memory")
+		# ERROR
+		print("Segmentation fault: out of global memory")
 		exit(1)
 
-# Constants
+# Function that adds the given value from varValue to the constants
+# memory dictionary in the corresponding type given by the varType
+# and returns its address for its memory address
 def setConstantAddress(varType, varValue):
+	# Checks if value already exists in dictionary
 	if invertedConstMemory.has_key(varValue):
+		# If value exists it returns its address
 		return invertedConstMemory[varValue]
 	else:
 		# Check if there's memory available for type
 		if(constantAvailableMemory(varType)):
+			# Fetch next available index
 			availableAddress = currentConstantVirtualAddress[varType]
+
+			# Move index by 1
 			currentConstantVirtualAddress[varType] += 1
+
+			# Add used address in inverted constant dictionary
 			invertedConstMemory[varValue] = availableAddress
+
+			# Add value in constant dictionary
 			constMemory[availableAddress] = varValue
+
+			# Return the used memory address
 			return availableAddress
 		else:
-			print("Segmentation fault: out of memory")
+			# ERROR
+			print("Segmentation fault: out of constant memory")
 			exit(1)
 
-# Local
+# Function that asks for next available memory address
+# in the local memory given the type and size of the variable
 def getLocalAddress(varType, chunkSize):
-	# Parse chunkSize if it's an Address
-	#if chunkSize > 1:
+	# Parse chunkSize to get value
 	chunkSize = getValue(chunkSize)
+
+	# Check if chunkSize contains a value
 	if chunkSize == None:
 		return None
+	
 	# Check if there's memory available for type with chunkSize
 	if(localAvailableMemory(varType,chunkSize)):
+		# Fetch next available index
 		availableAddress = currentLocalVirtualAddress[varType]
+
+		# Move index by the chunkSize used
 		currentLocalVirtualAddress[varType] += chunkSize
+
+		# Return the available memory address
 		return availableAddress
 	else:
-		print("Segmentation fault: out of memory")
+		# ERROR
+		print("Segmentation fault: out of local memory")
 		exit(1)
 
+# Function that gets the total amount of variables
+# per type used in the local memory by substracting the
+# current indexes by the initial indexes
 def getLocalVarQty():
-	totalVarQyt = [0,0,0,0]
+	# Initializes list with total amounts to return
+	totalVarQty = [0,0,0,0]
+
+	# Substracts the current index type in x by the initial index type in x
 	for x in xrange(0,4):
-		totalVarQyt[x] = currentLocalVirtualAddress[x] - initialLocalVirtualAddresses[x]
-	return totalVarQyt
+		totalVarQty[x] = currentLocalVirtualAddress[x] - initialLocalVirtualAddresses[x]
+
+	# Returns tha total amounts per type in the list totalVarQty
+	return totalVarQty
 
 #########################################
 #										#
@@ -183,54 +253,86 @@ def getLocalVarQty():
 #										#
 #########################################
 
-# Function to Create Memory for process
+# Function used by the quadruple ERA to create
+# memory for a new function with the amount of space
+# needed given the amount of variables used per type
+# by the parameter SubTypeQty
 def createMemory(SubTypeQty):
+	# Initializes the memory and appends it to the memory stack
 	memoryStack.append(Memory(SubTypeQty))
 
-# Function to Delete process Memory
+# Function used by the ENDPROC quadruple that
+# deletes the function's Memory
 def deleteMemory():
 	del memoryStack[-1]
 
-# Get value from virtual address
+# Function used to parse the given virtualAddress
+# to a real address and return the correct value
 def getValue(virtualAddress):
 	# Parse virtual address to int
 	virtualAddress = int(virtualAddress)
 
-	#Global
+	# Checks if virtual address is in the Global memory range
 	if(virtualAddress < 4000):
+		# Get the variable type by getting the first number
+		# and substracting it by the offset
 		varType = (virtualAddress // 1000) - 1
+
+		# Get the real address by getting everything except the first number
 		realAddr = virtualAddress % 1000
+
+		# Use the type and the real address to fetch the value
 		varValue = globalMemory[varType][realAddr]
 
-	#constantes
+	# Checks if virtual address is in the constants memory range
 	elif(virtualAddress < 10000):
+		# Uses the address to fetch the value
 		varValue = constMemory[virtualAddress]
 
-	#locales
+	# Checks if virtual address is in the local memory range
 	else:
+		# Get the variable type by getting the first number
+		# and substracting it by the offset
 		varType = (virtualAddress // 10000) - 1
+
+		# Get the real address by getting everything except the first number
 		realAddr = virtualAddress % 10000
+
+		# Use the type and the real address to fetch the value
 		varValue = memoryStack[-1].memory[varType][realAddr]
 
+	# Verify that the address contained a value and return it
 	if varValue == None:
 		return None
 	else:
 		return varValue
 
-
-#set value from virtual address and value given by the virtual machine
+# Function used to parse the given virtualAddress to a
+# real address and set the given value in the real address
 def setValue(virtualAddress, varValue):
 	# Parse virtual address to int
 	virtualAddress = int(virtualAddress)
 
-	#Global
+	# Checks if virtual address is in the Global memory range
 	if(virtualAddress < 4000):
+		# Get the variable type by getting the first number
+		# and substracting it by the offset
 		varType = (virtualAddress // 1000) - 1
+
+		# Get the real address by getting everything except the first number
 		realAddr = virtualAddress % 1000
+
+		# Use the type and the real address to set the value
 		globalMemory[varType][realAddr] = varValue
 
 	#locales
 	elif(virtualAddress >= 10000):
+		# Get the variable type by getting the first number
+		# and substracting it by the offset
 		varType = (virtualAddress // 10000) - 1
+
+		# Get the real address by getting everything except the first number
 		realAddr = virtualAddress % 10000
+
+		# Use the type and the real address to set the value
 		memoryStack[-1].memory[varType][realAddr] = varValue

@@ -11,7 +11,11 @@
 
 import ply.lex as lex
 
-# List of reserved words
+#########################################
+#										#
+#		 List of reserved words			#
+#										#
+#########################################
 reserved = {
 	'start' : 'START',
 	'main' : 'MAIN',
@@ -43,7 +47,11 @@ reserved = {
 	'do' :	'DO'
 }
 
-# List of tokens
+#########################################
+#										#
+#		 	List of tokens				#
+#										#
+#########################################
 tokens = [
 	'CTE_INT',
 	'CTE_FLOAT',
@@ -71,7 +79,11 @@ tokens = [
 	'RBRACKET',
 ] + list(reserved.values())
 
-# Regular Expresions for Tokens
+#########################################
+#										#
+#	Regular Expresions for Tokens		#
+#										#
+#########################################
 t_PLUS 		= r'\+'
 t_MINUS 	= r'-'
 t_TIMES		= r'\*'
@@ -94,11 +106,13 @@ t_EQUALS	= r'='
 t_AMPERSON	= r'&'
 t_ignore	= ' \t'
 
+# Function with regular expression for IDs
 def t_ID(t):
 	r'[a-zA-Z_][a-zA-Z_0-9]*'
 	t.type = reserved.get(t.value,'ID')
 	return t
 
+# Function with regular expression for FLOATS
 def t_CTE_FLOAT(t):
 	r"\d+\.\d*"
 	try:
@@ -108,6 +122,7 @@ def t_CTE_FLOAT(t):
 		t.value = 0
 	return t
 
+# Function with regular expression for INTS
 def t_CTE_INT(t):
 	r'\d+'
 	try:
@@ -117,16 +132,21 @@ def t_CTE_INT(t):
 		t.value = 0
 	return t
 
+# Function with regular expression for STRINGS
 def t_VARSTRING(t):
 	r'\"[a-zA-Z0-9!@#$%^&*()_+\-=\[\]{};\':\|,.<>\/? X]*\"'
 	# Remove quotes from strings
 	t.value = t.value[1:-1]
 	return t
 
+# Function with regular expression for new line,
+# manages line number count
 def t_newline(t):
 	r'\n+'
 	t.lexer.lineno += t.value.count("\n")
 
+# Function to catch characters that don't fall in
+# any regular expression
 def t_error(t):
 	if t:
 		print("Illegal character: %s at line: %s" %(str(t.value[0]), str(t.lexer.lineno)))
@@ -134,6 +154,7 @@ def t_error(t):
 		print("Unexpected end of input")
 	t.lexer.skip(1)
 
+# Function to catch EOF
 def t_eof(t):
 	return None
 

@@ -1,8 +1,7 @@
 General:
-** Errores Detallados en prints
-** Stack de Errores e imprimir al final (no hacer exit)
-** Checar comentarios
-** Pasar todo a ingles
+** Errores Detallados en prints de parser
+** Checar comentarios de parser
+** Pasar todo a ingles en parser
 ** BLOCKLY CSS & tutorials
 ** Manual
 

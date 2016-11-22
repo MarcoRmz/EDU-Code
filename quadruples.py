@@ -9,7 +9,19 @@
 #														#
 #########################################################
 
+#########################################
+#										#
+#		 		Imports					#
+#										#
+#########################################
+
 from semanticCube import *
+
+#########################################
+#										#
+#		 		Variables				#
+#										#
+#########################################
 
 # Stack for Operators
 sOperators = []
@@ -29,7 +41,7 @@ sERA = []
 # Stack for REFERENCE_PARAMS
 sPARAMS = []
 
-# Index for Quadruples
+# Marks the index for the current quadruple
 indexQuadruples = 0
 
 # Directory for Quadruples
