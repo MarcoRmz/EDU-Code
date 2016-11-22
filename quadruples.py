@@ -26,6 +26,9 @@ sJumps = []
 # Stack for ERAs
 sERA = []
 
+# Stack for REFERENCE_PARAMS
+sPARAMS = []
+
 # Index for Quadruples
 indexQuadruples = 0
 

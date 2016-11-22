@@ -581,7 +581,7 @@ def startMachine():
 			print_result = ""
 			#get operands from the memory
 			operand1 = quadruples.dirQuadruples[i][3]
-			print str(operand1)
+
 			# If value is a list it links to an address, getValue of the address
 			if type(operand1) is list:
 				for x in range(0,len(operand1)):
@@ -613,7 +613,6 @@ def startMachine():
 				print(print_result)
 
 
-
 		#########################################
 		#										#
 		#			Case for INPUT				#
@@ -625,8 +624,6 @@ def startMachine():
 			operand1 = quadruples.dirQuadruples[i][1]
 			varType = quadruples.dirQuadruples[i][2]
 			returnAddress = quadruples.dirQuadruples[i][3]
-
-			print str(operand1)
 
 			# If value is a list it links to an address, getValue of the address
 			if type(operand1) is list:
@@ -743,23 +740,23 @@ def startMachine():
 				#gets value from previous function (memory object)
 				paramValue = memoryStack[-2].memory[param_type][param_realAddr]
 
-			#gets real address
-			realAddr = quadruples.dirQuadruples[i][3]
+			# Gets function variable address
+			functionVarAddress = quadruples.dirQuadruples[i][3]
 
-			# If realAddr is a list it links to an address, getValue of the address
-			if type(realAddr) is list:
-				realAddr = getValue(realAddr[0])
+			# If functionVarAddress is a list it links to an address, getValue of the address
+			if type(functionVarAddress) is list:
+				functionVarAddress = getValue(functionVarAddress[0])
 
 			#Global
-			if(realAddr < 4000):
-				realAddr = realAddr % 1000
+			if(functionVarAddress < 4000):
+				functionVarAddress = functionVarAddress % 1000
 
 			#locales
 			else:
-				realAddr = realAddr % 10000
+				functionVarAddress = functionVarAddress % 10000
 
 			#assigns paramValue to corresponding memory address
-			memoryStack[-1].memory[param_type][realAddr] = paramValue
+			memoryStack[-1].memory[param_type][functionVarAddress] = paramValue
 
 
 		#########################################
@@ -822,6 +819,42 @@ def startMachine():
 			#save the new value for the specified address
 			setValue(quadruples.dirQuadruples[i][3],result)
 
+
+		#########################################
+		#										#
+		#		Case for REFERENCE_PARAM		#
+		#										#
+		#########################################
+		elif(quadruples.dirQuadruples[i][0] == 25):
+			# Get variables from the quadraple
+			varAddress = quadruples.dirQuadruples[i][1]
+
+			# If var is a list get indirect address
+			if type(varAddress) is list:
+				varAddress = getValue(varAddress[0])
+
+			varAddress = getValue(varAddress)
+
+			returnAddress = quadruples.dirQuadruples[i][3]
+
+			# Store current memory in temporary var
+			memory_aux = memoryStack.pop()
+			
+			# If var is a list get indirect address
+			if type(returnAddress) is list:
+				returnAddress = getValue(returnAddress[0])
+
+			if (varAddress == None) or (returnAddress == None):
+				# Error no value in address
+				print("Operation failed, variable(s) missing value!")
+				exit(1)
+
+			# Set varAddress value to reference parameter
+			setValue(returnAddress, varAddress)
+
+			# Restore current memory
+			memoryStack.append(memory_aux)
+
 		i += 1
 		print("")
 
@@ -872,7 +905,7 @@ if __name__ == '__main__':
 
 	# Create Memory for global vars
 	initGlobalMemory(globalVarsTypeCounts)
-	print "SSSSS" + str(quadruples.dirQuadruples)
+
 	# Start machine
 	startMachine()
 

@@ -1,40 +1,26 @@
 start
 
-int count
-int sum
+function void increase(int &a, float &b, string &c) {
+	a = a * 2
 
-function int increase(int y, int x) {
-	sum = sum + 1
-	return sum
-}
+	print(c + a + " es mayor a " + b)
 
-function void test(string t, bool s) {
-	print(t)
+	c = "New: "
+	b = 30.2
 }
 
 main {
 	int x
-	int y
-	string ho
-	sum = 0
-	count = 1
-	x = -99
+	float y
+	string z
 
-	test(ho, true)
+	x = 5
+	y = 3.0
+	z = "Result: "
 
-	y = increase(5, 0)
+	increase(&x, &y, &z)
 
-	while(x < 0) {
-		x = 0
-		do {
-			print(x)
-			count = sum +1
-			from 2 to 10 by (+2) {
-				ho = input("hola")
-			}
-		} while(y > 1)
-		y = 3
-	}
-	x = y
+	print(z + x + " es menor a " + y)
+
 }
 end

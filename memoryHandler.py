@@ -68,12 +68,10 @@ def initGlobalMemory(SubTypeQty):
 #Resets memory indexes
 def resetMemoryIndexes():
 	global currentLocalVirtualAddress
-	print("\n\n\n\n LOCAL MEMORY BEFORE RESET \n%s" %str(currentLocalVirtualAddress))
 
 	# Starting Virtual addresses for memory spaces
 	# [INT, FLOAT, STRING, BOOL]
 	currentLocalVirtualAddress = [initialtINTVarAddress, initialtFLOATVarAddress, initialtSTRINGVarAddress, initialtBOOLVarAddress]
-	print("LOCAL MEMORY AFTER RESET \n%s\n\n\n" %str(currentLocalVirtualAddress))
 
 #Checks if there is available memory for type and chunkSize for global memory
 def globalAvailableMemory(varType, chunkSize):
@@ -199,8 +197,8 @@ def getValue(virtualAddress):
 	virtualAddress = int(virtualAddress)
 
 	#Global
-	print("GET VALUE")
 	if(virtualAddress < 4000):
+		print("GET VALUE")
 		varType = (virtualAddress // 1000) - 1
 		realAddr = virtualAddress % 1000
 		print("Type: %d, rAddr: %d" %(varType, realAddr))
@@ -209,12 +207,11 @@ def getValue(virtualAddress):
 
 	#constantes
 	elif(virtualAddress < 10000):
-		print("vAddr: %d" %(virtualAddress))
 		varValue = constMemory[virtualAddress]
-		print("Constants: %s\n" %(str(constMemory)))
 
 	#locales
 	else:
+		print("GET VALUE")
 		varType = (virtualAddress // 10000) - 1
 		realAddr = virtualAddress % 10000
 		print("Type: %d, rAddr: %d, memory-1: %s" %(varType, realAddr, str(memoryStack[-1].memory)))
