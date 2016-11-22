@@ -99,7 +99,7 @@ Blockly.Blocks['var_assign'] = {
         .appendField(new Blockly.FieldTextInput(""), "var_value");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour(290);
+    this.setColour(180);
     this.setTooltip('');
     this.setHelpUrl('http://www.example.com/');
   }
@@ -114,6 +114,7 @@ Blockly.Blocks['main'] = {
         .setCheck(null);
     this.appendDummyInput()
         .appendField("}");
+    this.setColour(255);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setTooltip('');

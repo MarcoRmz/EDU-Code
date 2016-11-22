@@ -1,0 +1,28 @@
+html, body {
+  height: 100%;
+}
+body {
+  background-color: #fff;
+  font-family: sans-serif;
+  overflow: hidden;
+}
+h1 {
+  font-weight: normal;
+  font-size: 140%;
+}
+#blocklyDiv {
+  float: right;
+  height: 95%;
+  width: 70%;
+  margin-right: 3em;
+}
+#importExport {
+  font-family: monospace;
+}
+
+.container2 {
+  margin-left: 3em;
+}
+#aboutus{
+  margin-top: 6em;
+}

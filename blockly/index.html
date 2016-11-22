@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8">
 <title>Blockly Playground</title>
+<link rel="stylesheet" type="text/css" href="./bootstrap/css/bootstrap.css"/>
+<link rel="stylesheet" type="text/css" href="./css/style.css"/>
 <script src="blockly/blockly_uncompressed.js"></script>
 <script src="blockly/generators/javascript.js"></script>
 <script src="blockly/generators/javascript/logic.js"></script>
@@ -120,176 +122,124 @@ function logger(e) {
   console.log(e);
 }
 
-function spaghetti(n) {
-  var xml = spaghettiXml;
-  for(var i = 0; i < n; i++) {
-    xml = xml.replace(/(<(statement|next)( name="DO0")?>)<\//g,
-        '$1' + spaghettiXml + '</');
-  }
-  xml = '<xml xmlns="http://www.w3.org/1999/xhtml">' + xml + '</xml>';
-  var dom = Blockly.Xml.textToDom(xml);
-  console.time('Spaghetti domToWorkspace');
-  Blockly.Xml.domToWorkspace(dom, workspace);
-  console.timeEnd('Spaghetti domToWorkspace');
-}
-var spaghettiXml = [
-  '  <block type="controls_if">',
-  '    <value name="IF0">',
-  '      <block type="logic_compare">',
-  '        <field name="OP">EQ</field>',
-  '        <value name="A">',
-  '          <block type="math_arithmetic">',
-  '            <field name="OP">MULTIPLY</field>',
-  '            <value name="A">',
-  '              <block type="math_number">',
-  '                <field name="NUM">6</field>',
-  '              </block>',
-  '            </value>',
-  '            <value name="B">',
-  '              <block type="math_number">',
-  '                <field name="NUM">7</field>',
-  '              </block>',
-  '            </value>',
-  '          </block>',
-  '        </value>',
-  '        <value name="B">',
-  '          <block type="math_number">',
-  '            <field name="NUM">42</field>',
-  '          </block>',
-  '        </value>',
-  '      </block>',
-  '    </value>',
-  '    <statement name="DO0"></statement>',
-  '    <next></next>',
-  '  </block>'].join('\n');
-
 </script>
 
-<style>
-html, body {
-  height: 100%;
-}
-body {
-  background-color: #fff;
-  font-family: sans-serif;
-  overflow: hidden;
-}
-h1 {
-  font-weight: normal;
-  font-size: 140%;
-}
-#blocklyDiv {
-  float: right;
-  height: 95%;
-  width: 70%;
-}
-#importExport {
-  font-family: monospace;
-}
-</style>
+
 </head>
 <body onload="start()">
 
+  <nav class="navbar navbar-inverse">
+    <div class="container container2">
+      <div class="navbar-header">
+        <img class="pull-left" src="img/edu-code.png" width="58" height="49">
+        <a class="navbar-brand" href="index.html">Edu-Code</a>
+      </div>
+
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="index.html">Playground</a></li>
+        <li><a href="tutorials.html">Tutorials</a></li>
+        <li><a href="aboutus.html">AboutUs</a></li>
+      </ul>
+
+  </nav>
   <div id="blocklyDiv"></div>
-
-  <h1>Edu Code Playground </h1>
-
-  <form id="options">
-    <select name="dir" onchange="document.forms.options.submit()">
-      <option value="ltr">LTR</option>
-      <option value="rtl">RTL</option>
-    </select>
-  </form>
-
-  <p>
-    <input type="button" value="Export to XML" onclick="toXml()">
-    &nbsp;
-    <input type="button" value="Import from XML" onclick="fromXml()" id="import">
-    <br>
-    <input type="button" value="To JavaScript" onclick="toCode('JavaScript')">
-    &nbsp;
-    <input type="button" value="To Python" onclick="toCode('Python')">
-    &nbsp;
-    <input type="button" value="To Edu Code" onclick="toCode('JavaScript')" id="import">
-    <br>
-    <textarea id="importExport" style="width: 26%; height: 12em"
-      onchange="taChange();" onkeyup="taChange()"></textarea>
-  </p>
-
-  <p>
-    Stress test: &nbsp;
-    <input type="button" value="Spaghetti!" onclick="spaghetti(8)">
-  </p>
-
-  <xml id="toolbox-simple" style="display: none">
-    <block type="controls_if"></block>
-    <block type="logic_compare"></block>
-    <!-- <block type="control_repeat"></block> -->
-    <block type="logic_operation"></block>
-    <block type="controls_repeat_ext">
-      <value name="TIMES">
-        <shadow type="math_number">
-          <field name="NUM">10</field>
-        </shadow>
-      </value>
-    </block>
-    <block type="logic_operation"></block>
-    <block type="logic_negate"></block>
-    <block type="logic_boolean"></block>
-    <block type="logic_null" disabled="true"></block>
-    <block type="logic_ternary"></block>
-  </xml>
-
-  <xml id="toolbox-categories" style="display: none">
-    <category name="Program" colour="100">
-      <block type="start"></block>
-      <block type="main"></block>
-      <block type="end"></block>
-    </category>
-
-    <category name="Variables" colour="50">
-      <block type="var_declaracion"></block>
-      <block type="var_assign"></block>
-    </category>
-
-    <category name="Functions" colour = "20">
-      <block type="function_definition"></block>
-      <block type="parameter1"></block>
-      <block type="parameter2"></block>
-      <block type="empty_parameter"></block>
-      <block type="llamada"></block>
-      <block type="return"></block>
-    </category>
-
-    <category name="Conditionals" colour="150">
-      <block type="if_statement"></block>
-      <block type="elseif_statement"></block>
-      <block type="else"></block>
-      <block type="condicion"></block>
-      <block type="switch"></block>
-      <block type="case"></block>
-      <block type="default"></block>
-      <block type="pass"></block>
-    </category>
-
-    <category name="Loops" colour= "175">
-        <block type="condicion"></block>
-        <block type="do_while"></block>
-        <block type ="from_to_by"></block>
-        <block type="by_plus"></block>
-        <block type="by_minus"></block>
-        <block type="by_mult"></block>
-        <block type="by_div"></block>
-        <block type="while"></block>
-    </category>
-
-    <category name="Extras" colour="220">
-      <block type="input"></block>
-      <block type="print"></block>
-      <block type="endline"></block>
-    </category>
+  <div class="container container2">
 
 
-  </xml>
+      <h1>Edu Code Playground </h1>
+
+      <form id="options">
+        <select name="dir" onchange="document.forms.options.submit()">
+          <option value="ltr">LTR</option>
+          <option value="rtl">RTL</option>
+        </select>
+      </form>
+
+      <p>
+        <input type="button" value="Export to XML" onclick="toXml()">
+        &nbsp;
+        <input type="button" value="Import from XML" onclick="fromXml()" id="import">
+        <br>
+      
+        <input type="button" value="To Edu Code" onclick="toCode('JavaScript')" id="import">
+        <br>
+        <textarea id="importExport" style="width: 26%; height: 12em"
+          onchange="taChange();" onkeyup="taChange()"></textarea>
+      </p>
+
+
+
+      <xml id="toolbox-simple" style="display: none">
+        <block type="controls_if"></block>
+        <block type="logic_compare"></block>
+        <!-- <block type="control_repeat"></block> -->
+        <block type="logic_operation"></block>
+        <block type="controls_repeat_ext">
+          <value name="TIMES">
+            <shadow type="math_number">
+              <field name="NUM">10</field>
+            </shadow>
+          </value>
+        </block>
+        <block type="logic_operation"></block>
+        <block type="logic_negate"></block>
+        <block type="logic_boolean"></block>
+        <block type="logic_null" disabled="true"></block>
+        <block type="logic_ternary"></block>
+      </xml>
+
+      <xml id="toolbox-categories" style="display: none">
+        <category name="Program" colour="100">
+          <block type="start"></block>
+          <block type="main"></block>
+          <block type="end"></block>
+        </category>
+
+        <category name="Variables" colour="50">
+          <block type="var_declaracion"></block>
+          <block type="var_assign"></block>
+        </category>
+
+        <category name="Functions" colour = "20">
+          <block type="function_definition"></block>
+          <block type="parameter1"></block>
+          <block type="parameter2"></block>
+          <block type="empty_parameter"></block>
+          <block type="llamada"></block>
+          <block type="return"></block>
+        </category>
+
+        <category name="Conditionals" colour="150">
+          <block type="if_statement"></block>
+          <block type="elseif_statement"></block>
+          <block type="else"></block>
+          <block type="condicion"></block>
+          <block type="switch"></block>
+          <block type="case"></block>
+          <block type="default"></block>
+          <block type="pass"></block>
+        </category>
+
+        <category name="Loops" colour= "175">
+            <block type="condicion"></block>
+            <block type="do_while"></block>
+            <block type ="from_to_by"></block>
+            <block type="by_plus"></block>
+            <block type="by_minus"></block>
+            <block type="by_mult"></block>
+            <block type="by_div"></block>
+            <block type="while"></block>
+        </category>
+
+        <category name="Extras" colour="220">
+          <block type="input"></block>
+          <block type="print"></block>
+          <block type="endline"></block>
+        </category>
+
+
+      </xml>
+  </div>
+
 </body>
 </html>
