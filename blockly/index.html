@@ -26,6 +26,9 @@
 <script src="blockly/blocks/variables.js"></script>
 <script src="blockly/blocks/procedures.js"></script>
 <script src="blocks/custom.js"></script>
+<script src="js/fileSaver.js"></script>
+
+
 <script>
 'use strict';
 var workspace = null;
@@ -102,6 +105,8 @@ function toCode(lang) {
   taChange();
 }
 
+
+
 // Disable the "Import from XML" button if the XML is invalid.
 // Preserve text between page reloads.
 function taChange() {
@@ -154,18 +159,18 @@ function logger(e) {
           <option value="rtl">RTL</option>
         </select>
       </form>
-
       <p>
         <input type="button" value="Export to XML" onclick="toXml()">
         &nbsp;
         <input type="button" value="Import from XML" onclick="fromXml()" id="import">
         <br>
-      
+        <input type="button" value="Save file" onclick="saveFile()" id="import">
         <input type="button" value="To Edu Code" onclick="toCode('JavaScript')" id="import">
         <br>
         <textarea id="importExport" style="width: 26%; height: 12em"
           onchange="taChange();" onkeyup="taChange()"></textarea>
       </p>
+
 
 
 
@@ -221,7 +226,7 @@ function logger(e) {
         </category>
 
         <category name="Loops" colour= "175">
-            <block type="condicion"></block>
+            <block type="condicion_loop"></block>
             <block type="do_while"></block>
             <block type ="from_to_by"></block>
             <block type="by_plus"></block>

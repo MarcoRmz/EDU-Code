@@ -42,6 +42,7 @@ Blockly.Blocks['function_definition'] = {
         .setCheck(null);
     this.appendDummyInput()
         .appendField("}");
+    this.setColour(100);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setTooltip('');
@@ -185,6 +186,19 @@ Blockly.Blocks['condicion'] = {
     this.setHelpUrl('http://www.example.com/');
   }
 };
+//condicion loop
+Blockly.Blocks['condicion_loop'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("(")
+        .appendField(new Blockly.FieldTextInput(""), "condicion_loop")
+        .appendField("){");
+    this.setOutput(true, null);
+    this.setColour(0);
+    this.setTooltip('');
+    this.setHelpUrl('http://www.example.com/');
+  }
+};
 //dowhile definition
 Blockly.Blocks['do_while'] = {
   init: function() {
@@ -313,6 +327,7 @@ Blockly.Blocks['switch'] = {
         .appendField("switch")
         .appendField(new Blockly.FieldTextInput(""), "switch_var")
         .appendField("{");
+    this.setColour(195);
     this.appendStatementInput("NAME")
         .setCheck(null);
     this.appendDummyInput()
@@ -331,6 +346,7 @@ Blockly.Blocks['case'] = {
         .appendField("case")
         .appendField(new Blockly.FieldTextInput(""), "case_val")
         .appendField(":");
+    this.setColour(195);
     this.appendStatementInput("case_body")
         .setCheck(null);
     this.setPreviousStatement(true, null);
@@ -346,6 +362,7 @@ Blockly.Blocks['default'] = {
     this.appendDummyInput()
         .appendField("default")
         .appendField(":");
+    this.setColour(195);
     this.appendStatementInput("default_body")
         .setCheck(null);
     this.setPreviousStatement(true, null);
@@ -363,6 +380,7 @@ Blockly.Blocks['pass'] = {
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setTooltip('');
+    this.setColour(195);
     this.setHelpUrl('http://www.example.com/');
   }
 };
@@ -402,6 +420,7 @@ Blockly.Blocks['return'] = {
     this.appendDummyInput()
         .appendField("return ")
         .appendField(new Blockly.FieldTextInput(""), "return_value");
+    this.setColour(100);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setTooltip('');
@@ -417,6 +436,7 @@ Blockly.Blocks['llamada'] = {
         .appendField("(")
         .appendField(new Blockly.FieldTextInput(""), "parameters_llamada")
         .appendField(")");
+    this.setColour(100);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setTooltip('');

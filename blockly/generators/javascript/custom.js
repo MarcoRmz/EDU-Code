@@ -109,6 +109,14 @@ Blockly.JavaScript['condicion'] = function(block) {
   // TODO: Change ORDER_NONE to the correct strength.
   return [code, Blockly.JavaScript.ORDER_NONE];
 };
+//condicion loop
+Blockly.JavaScript['condicion_loop'] = function(block) {
+  var text_condicion_loop = block.getFieldValue('condicion_loop');
+  // TODO: Assemble JavaScript into code variable.
+  var code = text_condicion_loop;
+  // TODO: Change ORDER_NONE to the correct strength.
+  return [code, Blockly.JavaScript.ORDER_NONE];
+};
 //do while
 Blockly.JavaScript['do_while'] = function(block) {
   var statements_do_while_bloque = Blockly.JavaScript.statementToCode(block, 'do_while_bloque');
