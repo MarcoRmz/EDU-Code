@@ -36,7 +36,6 @@ reserved = {
 	'or' : 'OR',
 	'input' : 'INPUT',
 	'print' : 'PRINT',
-	'vector' : 'VECTOR',
 	'by' : 'BY',
 	'to' : 'TO',
 	'pass' : 'PASS',

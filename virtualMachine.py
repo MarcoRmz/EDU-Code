@@ -4,7 +4,7 @@
 #														#
 #	 Virtual Machine									#
 #														#
-#	 Marco Ramirez		 A01191344						#
+#	 Marco Ramirez		A01191344						#
 #	 Andres Gutierrez	A01191581						#
 #														#
 #########################################################
