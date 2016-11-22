@@ -25,13 +25,40 @@ def evaluateSTR2BOOL(value):
 		print("Expected input type BOOL not STRING!")
 		exit(1)
 
+# Prints all program info:
+#	Constant and Global memory
+#	Functions & Main
+#	Quadruples
+def programInfo():
+	print("*****************************************")
+	print("")
+	print("Constant Vars: %s\n" %str(constMemory))
+	
+	print("Global Vars: %s\n" %str(globalVars))
+
+	i = 0
+	tempFunct = functionsDir.items()
+	while(i < len(functionsDir)):
+		print("function: %s, type: %s\nVars: %s\n" %(tempFunct[i][0], str(tempFunct[i][1][0]), str(tempFunct[i][1][1])))
+		i += 1
+
+	print("*****************************************")
+	print("quadruples: ")
+	i = 0
+	while(quadruples.dirQuadruples[i][0] != 99):
+		print("%d) %s" %(i, str(quadruples.dirQuadruples[i])))
+		i += 1
+	print("%d) %s" %(i, str(quadruples.dirQuadruples[i])))
+
+	print("*****************************************")
+	print("\nProgram Successful")
+
 def startMachine():
 	#Count variable for quadruples
 	i = 0
 
 	#While the quadruple holds no EOF operation
 	while(quadruples.dirQuadruples[i][0] != 99):
-		print "index %d" % i
 		# Conditions to determine actions on quadruples
 
 		#########################################
@@ -690,7 +717,6 @@ def startMachine():
 			createMemory(quadruples.dirQuadruples[i][2])
 			#assigns return address to memory
 			memoryStack[-1].returnAddress = quadruples.dirQuadruples[i][3]
-			print("Created Function memory: %s returnAd: %s" %(str(memoryStack[-1].memory), str(memoryStack[-1].returnAddress)))
 
 
 		#########################################
@@ -700,7 +726,6 @@ def startMachine():
 		#########################################
 		elif(quadruples.dirQuadruples[i][0] == 21):
 			#Returns to the next instruction after the function call
-			print ("Delete Function MEMORY: %s" % memoryStack[-1].memory)
 			i = executionStack.pop() - 1
 			deleteMemory()
 
@@ -856,24 +881,6 @@ def startMachine():
 			memoryStack.append(memory_aux)
 
 		i += 1
-		print("")
-
-#########################################
-#										#
-#		 Logging Object Rules			#
-#										#
-#########################################
-
-import logging
-logging.basicConfig(
-	level = logging.DEBUG,
-	filename = "parselog.txt",
-	filemode = "w",
-	format = "%(filename)10s:%(lineno)4d:%(message)s"
-)
-log = logging.getLogger()
-
-parser = yacc.yacc(debug=True)
 
 #########################################
 #										#
@@ -895,12 +902,8 @@ if __name__ == '__main__':
 	f = open(fin, 'r')
 	data = f.read()
 
-	#Print Tokens
-	# lexer.input(data)
-	# from tok in lexer:
-	#	 print(tok)
-
 	# Parse tokens read
+	parser = yacc.yacc()
 	parser.parse(data)
 
 	# Create Memory for global vars
@@ -909,25 +912,5 @@ if __name__ == '__main__':
 	# Start machine
 	startMachine()
 
-	print("*****************************************")
-	print("")
-	print("Constant Vars: %s\n" %str(constMemory))
-	i = 0
-	print("Global Vars: %s\n" %str(globalVars))
-	tempFunct = functionsDir.items()
-	while(i < len(functionsDir)):
-		print("function: %s, type: %s\nVars: %s\n" %(tempFunct[i][0], str(tempFunct[i][1][0]), str(tempFunct[i][1][1])))
-		i += 1
-
-	print("*****************************************")
-	print("quadruples: ")
-	i = 0
-	while(quadruples.dirQuadruples[i][0] != 99):
-		print("%d) %s" %(i, str(quadruples.dirQuadruples[i])))
-		i += 1
-	print("%d) %s" %(i, str(quadruples.dirQuadruples[i])))
-
-	print("*****************************************")
-	print("Num quadruples: " + str(quadruples.indexQuadruples))
-	print("*****************************************")
-	print("\nProgram Successful")
+	# Print program details: memory, modules, quadruples
+	#programInfo()

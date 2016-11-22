@@ -140,11 +140,6 @@ def p_programa(p):
 	# Generate quadruple for END OF FILE
 	quadruples.dirQuadruples.append((EOF, None, None, None))
 	quadruples.indexQuadruples += 1
-	print('\n\n\n#########################################')
-	print('#					#')
-	print('#	Compilation Successful!		#')
-	print('#					#')
-	print('#########################################\n\n\n')
 
 def p_programa1(p):
 	'''programa1 : var_declaracion programa1
@@ -642,7 +637,7 @@ def p_funcion5(p):
 	quadruples.dirQuadruples.append((ENDPROC, None, None, None))
 	quadruples.indexQuadruples += 1
 	functionsDir[p[1]][5] = getLocalVarQty()
-	print("memory used in %s: %s" %(p[1], str(functionsDir[p[1]][5])))
+
 	while len(quadruples.sERA) != 0:
 		# GET ERA index to fill
 		tempERA = quadruples.sERA.pop()
@@ -698,6 +693,8 @@ def p_return(p):
 
 def p_input(p):
 	'''input	: INPUT LPAREN input1 RPAREN'''
+	global printList
+
 	# Invert list of print parameters if len(list) > 1
 	if len(printList) > 1:
 		printList.reverse()
@@ -718,7 +715,6 @@ def p_input(p):
 	quadruples.sOperands.append(newValueAddress)
 	quadruples.sTypes.append(varType)
 
-	global printList
 	printList = []
 
 	p[0] = p[1]
@@ -741,9 +737,9 @@ def p_input2(p):
 
 def p_llamada(p):
 	'''llamada 	: ID LPAREN llamada1 RPAREN'''
+	global countParam
 	# Pedir memoria para funcion
 	# [Tipo, DictVar, ListaParam, indexCuadruplo, FunctionAddress, SubTypeQyt]
-	print("************* FUNCTION CALL FOR: " + str(p[1]))
 	if functionsDir.has_key(p[1]):
 		if functionsDir[p[1]][0] == 23:
 			subTypeQty = functionsDir[p[1]][5]
@@ -770,15 +766,12 @@ def p_llamada(p):
 		print("Function %s is not declared!" %(p[1]))
 		exit(1)
 
-	print("@@@@@@@@@@@@@@@@ countParam: " + str(countParam))
 	# Function parameter list
 	paramList = functionsDir[p[1]][2]
 
 	# Verificar que countParam == len(parametros) de la funcion
-	print('################ %s' %str(functionsDir[p[1]]))
 	if len(paramList) == countParam:
 		# Verifica que parametros recibidos sean del tipo que se espera en el mismo orden
-		print("\n\n\nVerification of parameters in call, paramList: %s" %str(paramList))
 		while (countParam > 0):
 			varID = paramList[countParam-1][1]
 			varType = functionsDir[p[1]][1][varID][0]
@@ -789,10 +782,9 @@ def p_llamada(p):
 			else:
 				# Get parameter to send
 				varAddress = quadruples.sOperands.pop()
-				print("param ref flag: %s of type: %s and var to check: %s" %(str(paramList[countParam-1][0]), type(paramList[countParam-1][0]), str(varAddress)))
+				
 				# Verify function variable expects reference parameter
 				if paramList[countParam-1][0]:
-					print("Reference param expected")
 					# Verify parameters by reference are correct
 					if type(varAddress) is not list:
 						# Error
@@ -817,23 +809,18 @@ def p_llamada(p):
 					# remove reference flag and leave only addres in varAddress
 					varAddress = varAddress[1]
 
-				print("var: %s" %str(varAddress))
-
 				quadruples.dirQuadruples.append((PARAM, quadruples.sTypes.pop(), varAddress, functionsDir[p[1]][1][varID][1]))
 				quadruples.indexQuadruples += 1
-			global countParam
 			countParam -= 1
 
 		# Genera cuadruplo GOSUB
 		quadruples.dirQuadruples.append((GOSUB, p[1], None, functionsDir[p[1]][3]))
 		quadruples.indexQuadruples += 1
-		print("PILA OPERANDOS: %s	PILA TIPOS: %s	PILA OPERADORES: %s" %(str(quadruples.sOperands), str(quadruples.sTypes), str(quadruples.sOperators)))
 	else:
 		# Error
 		print("Function: %s expected %d parameter(s), recieved %d!" %(p[1], len(paramList), countParam))
 		exit(1)
 
-	global countParam
 	countParam = 0
 
 	p[0] = 'Llamada ' + str(p[1])
@@ -861,9 +848,10 @@ def p_addReferenceFlag(p):
 
 def p_llamada3(p):
 	'''llamada3 : LPAREN llamada1 RPAREN'''
+	global countParam
+
 	# Pedir memoria para funcion
 	# [Tipo, DictVar, ListaParam, indexCuadruplo, FunctionAddress, SubTypeQyt]
-	print("************* FUNCTION CALL RETURN FOR: " + str(p[-1]))
 	varSize = setConstantAddress(INT, 1)
 	newValueAddress = ""
 	if functionsDir.has_key(p[-1]):
@@ -892,12 +880,10 @@ def p_llamada3(p):
 		print("Function %s is not declared!" %(p[-1]))
 		exit(1)
 
-	print("@@@@@@@@@@@@@@@@ countParam: " + str(countParam))
 	# Function parameter list
 	paramList = functionsDir[p[-1]][2]
 
 	# Verificar que countParam == len(parametros) de la funcion
-	print('################ %s' %str(functionsDir[p[-1]]))
 	if len(paramList) == countParam:
 		# Verifica que parametros recibidos sean del tipo que se espera en el mismo orden
 		while (countParam > 0):
@@ -939,19 +925,16 @@ def p_llamada3(p):
 				
 				quadruples.dirQuadruples.append((PARAM, quadruples.sTypes.pop(), varAddress, functionsDir[p[-1]][1][varID][1]))
 				quadruples.indexQuadruples += 1
-			global countParam
 			countParam -= 1
 
 		# Genera cuadruplo GOSUB
 		quadruples.dirQuadruples.append((GOSUB, p[-1], None, functionsDir[p[-1]][3]))
 		quadruples.indexQuadruples += 1
-		print("PILA OPERANDOS: %s	PILA TIPOS: %s	PILA OPERADORES: %s" %(str(quadruples.sOperands), str(quadruples.sTypes), str(quadruples.sOperators)))
 	else:
 		# Error
 		print("Function: %s expected %d parameter(s), recieved %d!" %(p[-1], len(paramList), countParam))
 		exit(1)
 
-	global countParam
 	countParam = 0
 
 	quadruples.sOperands.append(newValueAddress)
@@ -1033,7 +1016,6 @@ def p_meteParamTipo(p):
 
 def p_meteParam(p):
 	'meteParam : '
-	print("ENTRO A parametros2 con %s L760" %(str(p[-1])))
 	# Check if ID exists
 	if globalVars.has_key(p[-1]):
 		# ERROR
@@ -1058,11 +1040,12 @@ def p_meteParam(p):
 
 		# Append parameter ID to parameter list in function
 		functionsDir[function_ptr][2][-1][1] = p[-1]
-	print("PARAMETRO ID LISTAPARAM %s" %functionsDir[function_ptr][2])
 	p[0] = varAddress
 
 def p_print(p):
-	'print : PRINT LPAREN varcte print1 RPAREN'
+	'''print : PRINT LPAREN varcte print1 RPAREN'''
+	global printList
+
 	# invert list of print parameters if len(list) > 1
 	printList.append(quadruples.sOperands.pop())
 	quadruples.sTypes.pop()
@@ -1071,7 +1054,6 @@ def p_print(p):
 	quadruples.dirQuadruples.append((PRINT, None, None, printList))
 	quadruples.indexQuadruples += 1
 
-	global printList
 	printList = []
 
 	p[0] = p[1]
@@ -1213,7 +1195,6 @@ def p_varcte2(p):
 				| factorAddFakeCover LBRACKET expresion_logica checarExpresion RBRACKET'''
 	if len(p) == 2:
 		# Check if ID exists
-		print("FOUND ID: %s AT FUNCTION: %s" %(str(p[-1]), function_ptr))
 		if globalVars.has_key(p[-1]):
 			# Check id is not a vector
 			varSize = setConstantAddress(INT, 1)
@@ -1242,10 +1223,8 @@ def p_varcte2(p):
 		p[0] = p[-1]
 	elif len(p) == 3:
 		# Verify function call exists
-		print("FOUND CALL: %s AT FUNCTION: %s" %(str(p[-1]), function_ptr))
 		if functionsDir.has_key(p[-1]):
 			p[0] = quadruples.sOperands[-1]
-			print("PILA TIPOS DESPUES DE FUNCTION CALL: %s" %(str(quadruples.sTypes)))
 		else:
 			# ERROR
 			print("Function: %s is not declared! Line: %s" %(p[-1], p.lineno(-1)))
@@ -1321,7 +1300,6 @@ def p_varcte4(p):
 	''' varcte4 : epsilon
 				| factorAddFakeCover LBRACKET expresion_logica checarExpresion RBRACKET'''
 	if len(p) == 2:
-		print("FOUND ID: %s AT FUNCTION: %s" %(str(p[-1]), function_ptr))
 		# Get Address for constant value 1
 		varSize = setConstantAddress(INT, 1)
 		

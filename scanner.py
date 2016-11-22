@@ -105,7 +105,7 @@ def t_CTE_FLOAT(t):
 	try:
 		t.value = float(t.value)
 	except ValueError:
-		print("Float value too large %f", t.value)
+		print("Float value too large %f at line: %s" %(t.value), str(t.lexer.lineno))
 		t.value = 0
 	return t
 
@@ -114,7 +114,7 @@ def t_CTE_INT(t):
 	try:
 		t.value = int(t.value)
 	except ValueError:
-		print("Integer value too large %d", t.value)
+		print("Integer value too large %d at line: %s" %(t.value, str(t.lexer.lineno)))
 		t.value = 0
 	return t
 
@@ -130,7 +130,7 @@ def t_newline(t):
 
 def t_error(t):
 	if t:
-		print("Illegal character: " + str(t.value[0]) + " at line: " + str(t.lexer.lineno))
+		print("Illegal character: %s at line: %s" %(str(t.value[0]), str(t.lexer.lineno)))
 	else:
 		print("Unexpected end of input")
 	t.lexer.skip(1)

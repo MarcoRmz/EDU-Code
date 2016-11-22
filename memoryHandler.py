@@ -198,12 +198,9 @@ def getValue(virtualAddress):
 
 	#Global
 	if(virtualAddress < 4000):
-		print("GET VALUE")
 		varType = (virtualAddress // 1000) - 1
 		realAddr = virtualAddress % 1000
-		print("Type: %d, rAddr: %d" %(varType, realAddr))
 		varValue = globalMemory[varType][realAddr]
-		print("Global mem: %s\n" %(str(globalMemory)))
 
 	#constantes
 	elif(virtualAddress < 10000):
@@ -211,12 +208,9 @@ def getValue(virtualAddress):
 
 	#locales
 	else:
-		print("GET VALUE")
 		varType = (virtualAddress // 10000) - 1
 		realAddr = virtualAddress % 10000
-		print("Type: %d, rAddr: %d, memory-1: %s" %(varType, realAddr, str(memoryStack[-1].memory)))
 		varValue = memoryStack[-1].memory[varType][realAddr]
-		print("Local mem: %s\n" %(str(memoryStack[-1].memory)))
 
 	if varValue == None:
 		return None
@@ -230,11 +224,9 @@ def setValue(virtualAddress, varValue):
 	virtualAddress = int(virtualAddress)
 
 	#Global
-	print("SET VALUE\nvirtual %d, value: %s" %(virtualAddress, str(varValue)))
 	if(virtualAddress < 4000):
 		varType = (virtualAddress // 1000) - 1
 		realAddr = virtualAddress % 1000
-		print("type: %s, addr: %s\nGlobal memory: %s" %(str(varType), str(realAddr), str(globalMemory)))
 		globalMemory[varType][realAddr] = varValue
 
 	#locales
@@ -242,4 +234,3 @@ def setValue(virtualAddress, varValue):
 		varType = (virtualAddress // 10000) - 1
 		realAddr = virtualAddress % 10000
 		memoryStack[-1].memory[varType][realAddr] = varValue
-		print("type: %s, addr: %s\nFunction memory: %s" %(str(varType), str(realAddr), str(memoryStack[-1].memory)))
