@@ -10,7 +10,7 @@
 <script src="generators/javascript/custom.js"></script>
 <script src="blocks/custom.js"></script>
 <script src="js/fileSaver.js"></script>
-
+<script src="js/preloadedPrograms.js"></script>
 
 <script>
 'use strict';
@@ -82,6 +82,13 @@ function fromXml() {
   taChange();
 }
 
+function fromXml2(s) {
+  var input = s;
+  var xml = Blockly.Xml.textToDom(input);
+  Blockly.Xml.domToWorkspace(xml, workspace);
+  taChange();
+}
+
 function toCode(lang) {
   var output = document.getElementById('importExport');
   output.value = Blockly[lang].workspaceToCode(workspace);
@@ -115,8 +122,14 @@ function saveFile(){
 	var fileContent = document.getElementById("importExport");
 
 	var name = prompt("How do you want to name the file?");
-	name = name + ".edu";
-	text_file(fileContent.value,name);
+
+  if (name != ""){
+    name = name + ".edu";
+  	text_file(fileContent.value,name);
+  }else{
+    alert("Error no file name given.");
+  }
+
 
 
 	function text_file(text,name) {
@@ -191,18 +204,18 @@ function saveFile(){
       </xml>
 
       <xml id="toolbox-categories" style="display: none">
-        <category name="Program" colour="100">
+        <category name="Program" colour="255">
           <block type="start"></block>
           <block type="main"></block>
           <block type="end"></block>
         </category>
 
-        <category name="Variables" colour="50">
+        <category name="Variables" colour="180">
           <block type="var_declaracion"></block>
           <block type="var_assign"></block>
         </category>
 
-        <category name="Functions" colour = "20">
+        <category name="Functions" colour = "100">
           <block type="function_definition"></block>
           <block type="parameter1"></block>
           <block type="parameter2"></block>
@@ -211,7 +224,7 @@ function saveFile(){
           <block type="return"></block>
         </category>
 
-        <category name="Conditionals" colour="150">
+        <category name="Conditionals" colour="195">
           <block type="if_statement"></block>
           <block type="elseif_statement"></block>
           <block type="else"></block>
@@ -222,7 +235,7 @@ function saveFile(){
           <block type="pass"></block>
         </category>
 
-        <category name="Loops" colour= "175">
+        <category name="Loops" colour= "0">
             <block type="condicion_loop"></block>
             <block type="do_while"></block>
             <block type ="from_to_by"></block>
@@ -233,7 +246,7 @@ function saveFile(){
             <block type="while"></block>
         </category>
 
-        <category name="Extras" colour="220">
+        <category name="Extras" colour="999">
           <block type="input"></block>
           <block type="print"></block>
           <block type="endline"></block>
