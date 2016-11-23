@@ -23,7 +23,7 @@ function int fiboI(int n) {
 main{
 	int y
 
-	y = 10
+	y = input("Calculate fibonacci for: ")
 
 	y = fiboI(y)
 	print("Fibonacci iter: " + y)

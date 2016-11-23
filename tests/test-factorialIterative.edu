@@ -1,6 +1,5 @@
 start
 
-
 function int factorialCic(int n){
   int i
   int res
@@ -13,12 +12,10 @@ function int factorialCic(int n){
   return res
 }
 
-
 main{
 int x
-x = 12
+x = input("Calculate factorial for: ")
 print("Factorial cic of "+x+": "+factorialCic(x))
 }
-
 
 end

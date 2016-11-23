@@ -183,9 +183,9 @@ termino1 -> '/' termino
 termino1 -> epsilon
 
 <TIPO>
-TIPO -> CTE_INT
-TIPO -> CTE_FLOAT
-TIPO -> VARSTRING
+TIPO -> CTE_INT1
+TIPO -> CTE_FLOAT1
+TIPO -> VARSTRING1
 TIPO -> cte_bool
 
 <CTE_INT1>
