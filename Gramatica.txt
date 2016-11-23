@@ -85,15 +85,29 @@ FACTOR -> factor1
 
 factor1 -> var_cte
 
+<FUNCION>
+FUNCION -> FUNCTION funcion4
+
+funcion1 -> epsilon
+funcion1 -> var_declaracion funcion1
+
+funcion2 -> epsilon
+funcion2 -> estatuto funcion2
+
+funcion3 -> epsilon
+funcion3 -> parametros
+
+funcion4 -> VOID funcion5
+funcion4 -> tipo funcion5
+
+funcion5 -> ID '(' funcion3 ')' '{' funcion1 estatuto funcion2 '}'
+
 <FROM>
 FROM -> FROM cteFrom TP cteFrom BY '(' from1 cteFrom ')' bloque
-
 from1 -> '+'
 from1 -> '*'
 from1 -> '/'
 from1 -> '-'
-
-
 
 <VAR_DECLARACION>
 VAR_DECLARACION -> tipo var_declaracion1
@@ -124,8 +138,6 @@ TIPO -> float
 TIPO -> string
 TIPO -> bool
 
-
-
 <TERMINO>
 TERMINO -> factor termino1
 
@@ -153,11 +165,6 @@ main2 -> epsilon
 
 <WHILE>
 WHILE -> WHILE '(' expresion ')' bloque
-
-
-
-
-
 
 <LLAMADA>
 LLAMADA -> ID '(' llamada1 ')'
@@ -201,20 +208,16 @@ INPUT -> ID '=' input '(' input1 ')'
 input1 -> epsilon
 input1 -> CTE_STRING
 
-
-
-
-
 <SWITCH>
-SWITCH -> SWITCH ID switch1  '{' switch2  switch3 '}'
+SWITCH -> SWITCH ID switch1 '{' switch2  switch3 '}'
 
 switch1 -> epsilon
-switch1 -> '[' exp ']'
+switch1 -> '[' expresion_logica ']'
 
 switch2 -> epsilon
-switch2 -> CASE var_cte ':' switch4 switch2
+switch2 -> CASE varcte ':' switch4 switch2
 
 switch3 -> DEFAULT ':' switch4
 
-switch4 -> estatuto
+switch4 -> bloque
 switch4 -> '{' PASS '}'
