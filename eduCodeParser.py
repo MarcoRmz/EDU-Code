@@ -809,7 +809,7 @@ def p_declareFunc(p):
 		functionAddress = None
 
 		# Checks if fucntion is different than type void
-		if parseTypeIndex(p[-2]) != 23:
+		if parseTypeIndex(p[-2]) != VOID:
 			# Parses the function type
 			varType = parseTypeIndex(p[-2])
 
@@ -830,7 +830,7 @@ def p_declareFunc(p):
 def p_return(p):
 	'''return	: RETURN expresion_logica'''
 	# Verify type of function is not void
-	if functionsDir[functionPtr][0] != VOID:
+	if functionsDir[functionPtr][0] != VOID and functionsDir[functionPtr][0] != 'main':
 		# Get return variable type from stack
 		varType = quadruples.sTypes.pop()
 
@@ -911,7 +911,7 @@ def p_llamada(p):
 	# Verify function exists
 	if functionsDir.has_key(p[1]):
 		# Verify function is of type void
-		if functionsDir[p[1]][0] == 23:
+		if functionsDir[p[1]][0] == VOID:
 			# Get total variables per type used in function
 			subTypeQty = functionsDir[p[1]][5]
 
@@ -1055,7 +1055,7 @@ def p_llamada3(p):
 	# Verify function exists
 	if functionsDir.has_key(p[-1]):
 		# Verify function is not of type void
-		if functionsDir[p[-1]][0] != 23:
+		if functionsDir[p[-1]][0] != VOID and functionsDir[p[-1]][0] != 'main':
 			# Get total variables per type used in function
 			subTypeQty = functionsDir[p[-1]][5]
 
