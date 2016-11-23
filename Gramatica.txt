@@ -110,23 +110,33 @@ funcion4 -> tipo funcion5
 funcion5 -> ID '(' funcion3 ')' '{' funcion1 estatuto funcion2 '}'
 
 <RETURN>
-***************
+RETURN -> RETURN expresion_logica
 
 <INPUT>
-INPUT -> TIPO ID '=' input '(' input1 ')'
-INPUT -> ID '=' input '(' input1 ')'
+INPUT -> INPUT '(' input1 ')'
+
 
 input1 -> epsilon
-input1 -> CTE_STRING
+input1 -> varcte input2
+
+input2 -> epsilon
+input2 -> '+' varcte input2
 
 <LLAMADA>
 LLAMADA -> ID '(' llamada1 ')'
 
 llamada1 -> epsilon
-llamada1-> exp llamada2
+llamada1-> llamada5 llamada2
 
 llamada2 -> epsilon
-llamada2 -> ',' exp llamada2
+llamada2 -> ',' llamada5 llamada2
+
+llamada3 -> '(' llamada1 ')'
+
+llamada4 -> varcte3
+
+llamada5 -> expresion_logica
+llamada5 -> '&' llamada4
 
 <MAIN>
 MAIN -> MAIN '{' main1 estatuto main2 '}'
@@ -139,7 +149,6 @@ main2 -> epsilon
 
 <PARAMETROS>
 PARAMETROS -> tipo parametros1 ID parametros2
-PARAMETROS -> VECTOR tipo parametros1 ID parametros2
 
 parametros1 -> '&'
 parametros1 -> epsilon
@@ -225,4 +234,3 @@ var_declaracion2 -> '[' cte_int1 ']'
 
 <WHILE>
 WHILE -> WHILE '(' expresion_logica ')' bloque
-
