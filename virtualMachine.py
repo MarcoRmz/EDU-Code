@@ -19,6 +19,7 @@ from memoryHandler import *
 from quadruples import *
 from eduCodeParser import *
 import sys
+import string
 
 #########################################
 #										#
@@ -1016,17 +1017,19 @@ if __name__ == '__main__':
 		print("No EDU-Code file provided!")
 		exit(1)
 
-	# Open and read file
-
+	# Open file
 	try:
 		f = open(eduFile, 'r')
 	except IOError:
 		print "Error: File doesn't appear to exist!"
 		exit(1)
 
+	# Read File
 	data = f.read()
 
-	# clear all non ascii
+	# Clean all invalid python characters
+	printable = set(string.printable)
+	data = filter(lambda x: x in printable, data)
 
 	# Parse tokens from data
 	parser = yacc.yacc()
