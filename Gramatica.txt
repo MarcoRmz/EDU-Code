@@ -68,7 +68,7 @@ expresion1 -> '==' expresion
 expresion1 -> epsilon
 
 <EXPRESION_LOGICA>
-EXPRESION_LOGICA -> expresion expresion_logica
+EXPRESION_LOGICA -> expresion expresion_logica1
 
 expresion_logica1 -> AND expresion_logica
 expresion_logica1 -> OR expresion_logica

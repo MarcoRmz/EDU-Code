@@ -1,22 +1,22 @@
 PROGRAMA  ::= START var_declaracion* funcion* main END
 
-ASIGNACION ::= ID '=' (EXP | LLAMADA | ASIGNACION_VECTOR)
+ASIGNACION ::= ID ('['expresion_logica']')? '=' (expresion_logica | input)
 
 BLOQUE ::= '{' estatuto+ '}'
 
-CONDICION  ::= IF '(' expresion_logica ')' ('{' PASS '}' | bloque) (((ELSEIF ('{' PASS '}' | bloque))+)? (ELSE (bloque | ('{' PASS '}'))?))?
+CONDICION  ::= IF '(' expresion_logica ')' ('{' PASS '}' | bloque) ((ELSEIF '(' expresion_logica ')'( ('{' PASS '}'| bloque)))? (ELSE (bloque | ('{' PASS '}')))?)?
 
 DO_WHILE ::= DO bloque WHILE '(' expresion_logica ')'
 
-ESTATUTO ::= (inicializacion | condicion | print | input | switch | while | do_while |for | llamada)
+ESTATUTO ::= (asignacion | llamada | return | condicion | switch | while | do_while | print | input | from)
 
-EXP ::= termino ((('+' | '-')termino)+)?
+EXP ::= termino (('+' | '-') exp)?
 
-EXPRESION ::= factor_logico ((('<' | '>' | '!' '=' | '=' '=') factor_logico)+)?
+EXPRESION ::= exp ((('<=' expresion | '>=' expresion|'<' expresion | '>' expresion| '!=' expresion | '==' expresion)))?
 
-EXPRESION_LOGICA ::= expresion (((AND | OR) expresion)+)?
+EXPRESION_LOGICA ::= expresion (((AND | OR) expresion_logica))?
 
-FACTOR ::= (('(' exp ')') | (('+' | '-')? var_cte))
+FACTOR ::= (('(' expresion_logica ')') |  var_cte)
 
 CTEFROM ::=
 
@@ -24,7 +24,7 @@ FROM ::= 'FOR' CTE_INT TO CTE_INT BY '(' ('+' | '-' | '*' | '/') CTE_INT ')' blo
 
 FUNCION ::= FUNCTION (VOID | tipo) ID '(' parametros? ')' '{' var_declaracion* estatuto+ (RETURN exp)? '}'
 
-RETURN ::= 
+RETURN ::=
 
 INPUT ::= 'INPUT' '(' CTE_STRING? ')'
 
