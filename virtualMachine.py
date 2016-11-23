@@ -775,7 +775,7 @@ def startMachine():
 					# Verifies that value is not None
 					if (value == None):
 						# Error no value in address
-						print("Operation PRINT failed, variable(s) missing value!")
+						print("Operation INPUT failed, variable(s) missing value!")
 						exit(1)
 
 					# Checks if value is already of type STRING
@@ -1011,14 +1011,19 @@ def startMachine():
 if __name__ == '__main__':
 	# Check for argument on file name to read
 	if (len(sys.argv) > 1):
-		fin = sys.argv[1]
+		eduFile = sys.argv[1]
 	else:
 		print("No EDU-Code file provided!")
 		exit(1)
 
 	# Open and read file
-	
-	f = open(fin, 'r')
+
+	try:
+		f = open(eduFile, 'r')
+	except IOError:
+		print "Error: File doesn't appear to exist!"
+		exit(1)
+
 	data = f.read()
 
 	# clear all non ascii

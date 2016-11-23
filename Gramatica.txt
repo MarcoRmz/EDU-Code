@@ -78,7 +78,7 @@ expresion_logica1 -> epsilon
 FACTOR -> '(' expresion_logica ')'
 FACTOR -> factor1
 
-factor1 -> var_cte
+factor1 -> varcte
 
 <CTEFROM>
 CTEFROM -> '+' CTE_INT
@@ -86,7 +86,7 @@ CTEFROM -> '-' CTE_INT
 CTEFROM -> CTE_INT
 
 <FROM>
-FROM -> FROM cteFrom TP cteFrom BY '(' from1 cteFrom ')' bloque
+FROM -> FROM cteFrom TO cteFrom BY '(' from1 cteFrom ')' bloque
 from1 -> '+'
 from1 -> '*'
 from1 -> '/'
@@ -114,7 +114,6 @@ RETURN -> RETURN expresion_logica
 
 <INPUT>
 INPUT -> INPUT '(' input1 ')'
-
 
 input1 -> epsilon
 input1 -> varcte input2
@@ -184,10 +183,10 @@ termino1 -> '/' termino
 termino1 -> epsilon
 
 <TIPO>
-TIPO -> INT
-TIPO -> FLOAT
-TIPO -> STRING
-TIPO -> BOOL
+TIPO -> CTE_INT
+TIPO -> CTE_FLOAT
+TIPO -> VARSTRING
+TIPO -> cte_bool
 
 <CTE_INT1>
 CTE_INT1 -> '+' CTE_INT
