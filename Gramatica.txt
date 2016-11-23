@@ -88,6 +88,12 @@ factor1 -> var_cte
 <FROM>
 FROM -> FROM cteFrom TP cteFrom BY '(' from1 cteFrom ')' bloque
 
+from1 -> '+'
+from1 -> '*'
+from1 -> '/'
+from1 -> '-'
+
+
 
 <VAR_DECLARACION>
 VAR_DECLARACION -> tipo var_declaracion1
@@ -195,28 +201,9 @@ INPUT -> ID '=' input '(' input1 ')'
 input1 -> epsilon
 input1 -> CTE_STRING
 
-<FOR>
-FOR -> FOR CTE_INT TO CTE_INT BY '(' for1 CTE_INT ')' bloque
 
-for1 -> '+'
-for1 -> '-'
-for1 -> '/'
-for1 -> '*'
 
-<FUNCION>
-FUNCION -> FUNCTION funcion1
 
-funcion1 -> VOID ID '(' funcion4 ')' '{' funcion2 estatuto funcion3 '}'
-funcion1 -> tipo ID '(' funcion4 ')' '{' funcion2 estatuto funcion3 RETURN ID '}'
-
-funcion2 -> epsilon
-funcion2 -> var_declaracion funcion2
-
-funcion3 -> epsilon
-funcion3 -> estatuto funcion3
-
-funcion4 -> parametros
-funcion4 -> epsilon
 
 <SWITCH>
 SWITCH -> SWITCH ID switch1  '{' switch2  switch3 '}'
