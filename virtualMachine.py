@@ -1017,8 +1017,11 @@ if __name__ == '__main__':
 		exit(1)
 
 	# Open and read file
+	
 	f = open(fin, 'r')
 	data = f.read()
+
+	# clear all non ascii
 
 	# Parse tokens from data
 	parser = yacc.yacc()

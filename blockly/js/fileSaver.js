@@ -14,19 +14,6 @@
 /*! @source http://purl.eligrey.com/github/FileSaver.js/blob/master/FileSaver.js */
 
 
-function saveFile(){
-
-	var fileContent = document.getElementById("importExport");
-
-	text_file(fileContent.value);
-	var name = prompt("How do you want to name the file?");
-
-	function text_file(text,name) {
-		var blob = new Blob([text], {type: "text/plain;charset=utf-8"});
-		saveAs(blob, name);]
-	}
-}
-
 var saveAs = saveAs || (function(view) {
 	"use strict";
 	// IE <10 is explicitly unsupported
