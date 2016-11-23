@@ -157,13 +157,10 @@ parametros2 -> ',' parametros
 parametros2 -> epsilon
 
 <PRINT>
-PRINT -> PRINT '(' print1 ')'
+PRINT -> PRINT '(' varcte print1 ')'
 
-print1 -> CTE_STRING print2
-print1 -> ID print2
-
-print2 -> epsilon
-print2 -> + print1
+print1 -> epsilon
+print1 -> '+' varcte print1
 
 <SWITCH>
 SWITCH -> SWITCH ID switch1 '{' switch2  switch3 '}'
@@ -187,46 +184,53 @@ termino1 -> '/' termino
 termino1 -> epsilon
 
 <TIPO>
-TIPO -> int
-TIPO -> float
-TIPO -> string
-TIPO -> bool
+TIPO -> INT
+TIPO -> FLOAT
+TIPO -> STRING
+TIPO -> BOOL
 
 <VAR_CTE>
-VAR_CTE -> ID var_cte1
-VAR_CTE -> CTE_INT
-VAR_CTE -> CTE_FLOAT
-VAR_CTE -> CTE_STRING
+VAR_CTE -> var_cte1
+VAR_CTE -> cte_int1
+VAR_CTE -> cte_float1
+VAR_CTE -> varstring1
 VAR_CTE -> cte_bool
 
-var_cte1 -> epsilon
-var_cte1 -> '(' exp var_cte2 ')'
-var_cte1 -> '[' exp ']'
+var_cte1 -> ID varcte2
 
-var_cte2 -> ',' exp var_cte2
 var_cte2 -> epsilon
+var_cte2 -> llamada3
+var_cte2 -> '[' expresion_logica ']'
+
+var_cte3 -> ID varcte4
+
+var_cte4 -> epsilon
+var_cte4 -> '[' expresion_logica ']'
 
 <CTE_INT1>
-*******************
+CTE_INT1 -> '+' CTE_INT
+CTE_INT1 -> '-' CTE_INT
+CTE_INT1 -> CTE_INT
 
 <CTE_FLOAT1>
-*******************
+CTE_FLOAT1 -> '+' CTE_FLOAT
+CTE_FLOAT1 -> '-' CTE_FLOAT
+CTE_FLOAT1 -> CTE_FLOAT
 
 <VARSTRING1>
-*******************
+VARSTRING1 -> VARSTRING
 
 <CTE_BOOL>
-CTE_BOOL -> TRUE | FALSE
+CTE_BOOL -> TRUE
+CTE_BOOL -> FALSE
 
 <VAR_DECLARACION>
 VAR_DECLARACION -> tipo var_declaracion1
-VAR_DECLARACION -> VECTOR tipo var_declaracion2
 
-var_declaracion1 -> ID
-var_declaracion1 -> inicializacion
+var_declaracion1 -> ID var_declaracion2
 
-var_declaracion2 -> ID
-var_declaracion2 -> inicializacion_vector
+var_declaracion2 -> epsilon
+var_declaracion2 -> '[' cte_int1 ']'
 
 <WHILE>
-WHILE -> WHILE '(' expresion ')' bloque
+WHILE -> WHILE '(' expresion_logica ')' bloque
