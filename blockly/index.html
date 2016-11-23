@@ -57,13 +57,17 @@ function getToolboxElement() {
 function saveFile(){
 	var fileContent = Blockly['JavaScript'].workspaceToCode(workspace);
 
-  var name = prompt("How do you want to name the file?");
+  if (fileContent != '') {
+    var name = prompt("How do you want to name the file?");
 
-  if (name != null){
-    name = name + ".edu";
-  	text_file(fileContent,name);
-  }else{
-    alert("Error no file name given.");
+    if (name != null){
+      name = name + ".edu";
+    	text_file(fileContent,name);
+    }else{
+      alert("Error no file name given.");
+    }
+  } else{
+    alert("Can't save file of empty program.");
   }
 
 	function text_file(text,name) {
