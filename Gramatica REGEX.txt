@@ -10,11 +10,11 @@ DO_WHILE ::= DO bloque WHILE '(' expresion_logica ')'
 
 ESTATUTO ::= (asignacion | llamada | return | condicion | switch | while | do_while | print | input | from)
 
-EXP ::= termino (('+' | '-') exp)?
+EXP ::= termino (('+' | '-') termino)*
 
-EXPRESION ::= exp ((('<=' expresion | '>=' expresion|'<' expresion | '>' expresion| '!=' expresion | '==' expresion)))?
+EXPRESION ::= exp (('<=' | '>=' |'<' | '>'| '!=' | '==') exp)*
 
-EXPRESION_LOGICA ::= expresion (((AND | OR) expresion_logica))?
+EXPRESION_LOGICA ::= expresion ((AND | OR) expresion)*
 
 FACTOR ::= (('(' expresion_logica ')') | varcte)
 
