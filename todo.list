@@ -1,13 +1,10 @@
-General:
-** BLOCKLY CSS & tutorials
+Entrega:
 ** Manual
+** TODO en CD
+** Video
+** Engargolar Documentos
 
-Diagramas:
-** actualizar diagramas y gramatica REGEX
-** Agregar diagrama ctefrom y modificar for(from) acorde
-** Actualizar diagrama de Switch
-** diagrama condicion elseif
-** diagrama do while
-** diagrama asignacion
-** diagrama bloque(return) y funcion(return)
-** Cambiar diagrama de vectores para declarar tamaños
+Blockly:
+** BLOCKLY CSS & tutorials
+** Blockly example tests
+** Save file
