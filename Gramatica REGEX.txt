@@ -1,12 +1,10 @@
-ASIGNACION ::= ID '=' (EXP | LLAMADA | ASIGNACION_VECTOR)
+PROGRAMA  ::= START var_declaracion* funcion* main END
 
-ASIGNACION_VECTOR ::= '[' (VAR_CTE | ( VAR_CTE ',')+)? ']'
+ASIGNACION ::= ID '=' (EXP | LLAMADA | ASIGNACION_VECTOR)
 
 BLOQUE ::= '{' estatuto+ '}'
 
 CONDICION  ::= IF '(' expresion_logica ')' ('{' PASS '}' | bloque) (((ELSEIF ('{' PASS '}' | bloque))+)? (ELSE (bloque | ('{' PASS '}'))?))?
-
-CTE_BOOL ::= (TRUE | FALSE)
 
 DO_WHILE ::= DO bloque WHILE '(' expresion_logica ')'
 
@@ -20,15 +18,13 @@ EXPRESION_LOGICA ::= expresion (((AND | OR) expresion)+)?
 
 FACTOR ::= (('(' exp ')') | (('+' | '-')? var_cte))
 
-FACTOR_LOGICO ::= (('(' expresion_logica ')') | (('+' | '-')? var_cte))
+CTEFROM ::=
 
-FOR ::= 'FOR' CTE_INT TO CTE_INT BY '(' ('+' | '-' | '*' | '/') CTE_INT ')' bloque
+FROM ::= 'FOR' CTE_INT TO CTE_INT BY '(' ('+' | '-' | '*' | '/') CTE_INT ')' bloque
 
 FUNCION ::= FUNCTION (VOID | tipo) ID '(' parametros? ')' '{' var_declaracion* estatuto+ (RETURN exp)? '}'
 
-INICIALIZACION ::= ID  '=' var_cte
-
-INICIALIZACION_VECTOR ::= ID '=' '[' (var_cte | (var_cte (',' var_cte)+))? ']'
+RETURN ::= 
 
 INPUT ::= 'INPUT' '(' CTE_STRING? ')'
 
@@ -40,13 +36,19 @@ PARAMETROS ::= VECTOR? tipo '&'? ID (',' VECTOR? tipo '&'? ID)*
 
 PRINT ::= 'PRINT' '(' ((ID | CTE_STRING) ('+' (ID | CTE_STRING))*) ')'
 
-PROGRAMA  ::= START var_declaracion* funcion* main END
-
 SWITCH ::= 'SWITCH' ID ('[' exp ']')?  '{' (CASE var_cte ':' (estatuto | '{' PASS '}'))* DEFAULT ':' (estatuto | '{' PASS '}') '}'
 
 TERMINO ::= factor ((('*' | '/')factor)+)?
 
 TIPO ::= (INT | FLOAT | STRING | BOOL)
+
+CTE_INT1 ::=
+
+CTE_FLOAT1 ::=
+
+CTE_BOOL ::= (TRUE | FALSE)
+
+VARSTRING1 ::=
 
 VAR_CTE ::= (ID (('(' ( exp ( ',' exp )* )? ')')|('[' exp ']'))? | CTE_INT | CTE_FLOAT | CTE_STRING | cte_bool)
 
