@@ -10,7 +10,7 @@
 <script src="generators/javascript/custom.js"></script>
 <script src="blocks/custom.js"></script>
 <script src="js/fileSaver.js"></script>
-
+<script src="js/preloadedPrograms.js"></script>
 
 <script>
 'use strict';
@@ -78,6 +78,13 @@ function toXml() {
 function fromXml() {
   var input = document.getElementById('importExport');
   var xml = Blockly.Xml.textToDom(input.value);
+  Blockly.Xml.domToWorkspace(xml, workspace);
+  taChange();
+}
+
+function fromXml2(s) {
+  var input = s;
+  var xml = Blockly.Xml.textToDom(input);
   Blockly.Xml.domToWorkspace(xml, workspace);
   taChange();
 }
