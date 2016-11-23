@@ -55,7 +55,7 @@ function getToolboxElement() {
 }
 
 function saveFile(){
-	var fileContent = Blockly['JavaScript'].workspaceToCode(workspace);
+	var fileContent = Blockly.JavaScript.workspaceToCode(workspace);
 
   if (fileContent != '') {
     var name = prompt("How do you want to name the file?");
