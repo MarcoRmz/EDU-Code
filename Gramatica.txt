@@ -2,10 +2,92 @@
 PROGRAMA -> START programa1 programa2 main END
 
 programa1 -> var_declaracion programa1
-programa1 -> vacio
+programa1 -> epsilon
 
 programa2 -> funcion programa2
-programa2 -> vacio
+programa2 -> epsilon
+
+<ASIGNACION>
+ASIGNACION -> ID asignacion1 EQUALS asignacion2
+
+asignacion1 -> epsilon
+asignacion1 -> '[' expresion_logica ']'
+
+asignacion2 -> expresion_logica
+asignacion2 -> input
+
+<BLOQUE>
+BLOQUE -> '{' estatuto bloque1 '}'
+
+bloque1 -> epsilon
+bloque1 -> estatuto bloque1
+
+<CONDICION>
+CONDICION -> IF '(' expresion_logica ')' condicion1 condicion2 condicion3
+
+condicion1 -> bloque
+condicion1 -> '{' PASS '}'
+
+condicion2 -> ELSEIF '(' expresion_logica ')'condicion1 condicion2
+condicion2 -> epsilon
+
+condicion3 -> ELSE condicion1
+condicion3 -> epsilon
+
+<CTEFROM>
+CTEFROM -> '+' CTE_INT
+CTEFROM -> '-' CTE_INT
+CTEFROM -> CTE_INT
+
+<DO_WHILE>
+DO_WHILE -> DO bloque WHILE '(' expresion_logica ')'
+
+<ESTATUTO>
+ESTATUTO -> asignacion
+ESTATUTO -> llamada
+ESTATUTO -> return
+ESTATUTO -> condicion
+ESTATUTO -> switch
+ESTATUTO -> while
+ESTATUTO -> do_while
+ESTATUTO -> print
+ESTATUTO -> input
+ESTATUTO -> from
+
+<EXP>
+EXP -> termino exp1
+
+exp1 -> '+' exp
+exp1 -> '-' exp
+exp1 -> epsilon
+
+<EXPRESION>
+EXPRESION -> exp expresion1
+
+expresion1 -> '>' expresion
+expresion1 -> '<' expresion
+expresion1 -> '>=' expresion
+expresion1 -> '<=' expresion
+expresion1 -> '!=' expresion
+expresion1 -> '==' expresion
+expresion1 -> epsilon
+
+<EXPRESION_LOGICA>
+EXPRESION_LOGICA -> expresion expresion_logica
+
+expresion_logica1 -> AND expresion_logica
+expresion_logica1 -> OR expresion_logica
+expresion_logica1 -> epsilon
+
+<FACTOR>
+FACTOR -> '(' expresion_logica ')'
+FACTOR -> factor1
+
+factor1 -> var_cte
+
+<FROM>
+FROM -> FROM cteFrom TP cteFrom BY '(' from1 cteFrom ')' bloque
+
 
 <VAR_DECLARACION>
 VAR_DECLARACION -> tipo var_declaracion1
@@ -22,10 +104,10 @@ PARAMETROS -> tipo parametros1 ID parametros2
 PARAMETROS -> VECTOR tipo parametros1 ID parametros2
 
 parametros1 -> '&'
-parametros1 -> vacio
+parametros1 -> epsilon
 
 parametros2 -> ',' parametros
-parametros2 -> vacio
+parametros2 -> epsilon
 
 <INICIALIZACION>
 INICIALIZACION -> ID EQUAL exp
@@ -36,90 +118,48 @@ TIPO -> float
 TIPO -> string
 TIPO -> bool
 
-<BLOQUE>
-BLOQUE -> '{' estatuto bloque1 '}'
 
-bloque1 -> vacio
-bloque1 -> estatuto bloque1
-
-<EXP>
-EXP -> termino exp1
-
-exp1 -> '+' exp
-exp1 -> '-' exp
-exp1 -> vacio
 
 <TERMINO>
 TERMINO -> factor termino1
 
 termino1 -> '*' termino
 termino1 -> '/' termino
-termino1 -> vacio
+termino1 -> epsilon
 
 <INICIALIZACION_VECTOR>
 INICIALIZACION_VECTOR -> ID = '[' inicializacion_vector1 ']'
 
 inicializacion_vector1 -> expresion inicializacion_vector2
-inicializacion_vector1 -> vacio
+inicializacion_vector1 -> epsilon
 
 inicializacion_vector2 -> ',' var_cte inicializacion_vector2
-inicializacion_vector2 -> vacio
+inicializacion_vector2 -> epsilon
 
 <MAIN>
 MAIN -> MAIN '{' main1 estatuto main2 '}'
 
-main1 -> vacio
+main1 -> epsilon
 main1 -> var_declaracion main1
 
 main2 -> estatuto main2
-main2 -> vacio
+main2 -> epsilon
 
 <WHILE>
 WHILE -> WHILE '(' expresion ')' bloque
 
-<FACTOR>
-FACTOR -> '(' expresion ')'
-FACTOR -> factor1 var_cte
 
-factor1 -> '-' var_cte
-factor1 -> '+' var_cte
-factor1 -> vacio
 
-<ESTATUTO>
-ESTATUTO -> inicializacion
-ESTATUTO -> condicion
-ESTATUTO -> print
-ESTATUTO -> input
-ESTATUTO -> switch
-ESTATUTO -> while
-ESTATUTO -> for
-ESTATUTO -> llamada
 
-<EXPRESION>
-EXPRESION -> expresion1
 
-expresion1 -> vacio
-expresion1 -> expresion2 exp
-
-expresion2 -> '>'
-expresion2 -> '<'
-expresion2 -> '!' '='
-expresion2 -> '=' '='
-
-<EXPRESION_LOGICA>
-EXPRESION_LOGICA -> exp expresion_logica1 expresion
-
-expresion_logica1 -> AND exp
-expresion_logica1 -> OR exp
-expresion_logica1 -> vacio
 
 <LLAMADA>
 LLAMADA -> ID '(' llamada1 ')'
 
-llamada1 -> vacio
+llamada1 -> epsilon
 llamada1-> exp llamada2
 
-llamada2 -> vacio
+llamada2 -> epsilon
 llamada2 -> ',' exp llamada2
 
 <VAR_CTE>
@@ -129,12 +169,12 @@ VAR_CTE -> CTE_FLOAT
 VAR_CTE -> CTE_STRING
 VAR_CTE -> cte_bool
 
-var_cte1 -> vacio
+var_cte1 -> epsilon
 var_cte1 -> '(' exp var_cte2 ')'
 var_cte1 -> '[' exp ']'
 
 var_cte2 -> ',' exp var_cte2
-var_cte2 -> vacio
+var_cte2 -> epsilon
 
 <CTE_BOOL>
 CTE_BOOL -> TRUE | FALSE
@@ -145,26 +185,14 @@ PRINT -> PRINT '(' print1 ')'
 print1 -> CTE_STRING print2
 print1 -> ID print2
 
-print2 -> vacio
+print2 -> epsilon
 print2 -> + print1
-
-<CONDICION>
-CONDICION -> IF '(' expresion_logica ')' condicion1 condicion2 condicion3
-
-condicion1 -> bloque
-condicion1 -> '{' PASS '}'
-
-condicion2 -> ELSE IF condicion1 condicion2
-condicion2 -> vacio
-
-condicion3 -> ELSE condicion1
-condicion3 -> vacio
 
 <INPUT>
 INPUT -> TIPO ID '=' input '(' input1 ')'
 INPUT -> ID '=' input '(' input1 ')'
 
-input1 -> vacio
+input1 -> epsilon
 input1 -> CTE_STRING
 
 <FOR>
@@ -181,22 +209,22 @@ FUNCION -> FUNCTION funcion1
 funcion1 -> VOID ID '(' funcion4 ')' '{' funcion2 estatuto funcion3 '}'
 funcion1 -> tipo ID '(' funcion4 ')' '{' funcion2 estatuto funcion3 RETURN ID '}'
 
-funcion2 -> vacio
+funcion2 -> epsilon
 funcion2 -> var_declaracion funcion2
 
-funcion3 -> vacio
+funcion3 -> epsilon
 funcion3 -> estatuto funcion3
 
 funcion4 -> parametros
-funcion4 -> vacio
+funcion4 -> epsilon
 
 <SWITCH>
 SWITCH -> SWITCH ID switch1  '{' switch2  switch3 '}'
 
-switch1 -> vacio
+switch1 -> epsilon
 switch1 -> '[' exp ']'
 
-switch2 -> vacio
+switch2 -> epsilon
 switch2 -> CASE var_cte ':' switch4 switch2
 
 switch3 -> DEFAULT ':' switch4

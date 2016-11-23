@@ -59,7 +59,7 @@ def programInfo():
 	print("")
 	# Prints constant memory
 	print("Constant Vars: %s\n" %str(constMemory))
-	
+
 	# Prints global memory
 	print("Global Vars: %s\n" %str(globalVars))
 
@@ -982,7 +982,7 @@ def startMachine():
 
 			# Store current memory in temporary var
 			memoryAux = memoryStack.pop()
-			
+
 			# If returnAddress is a list get indirect address
 			if type(returnAddress) is list:
 				returnAddress = getValue(returnAddress[0])
