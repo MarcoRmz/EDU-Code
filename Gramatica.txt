@@ -34,11 +34,6 @@ condicion2 -> epsilon
 condicion3 -> ELSE condicion1
 condicion3 -> epsilon
 
-<CTEFROM>
-CTEFROM -> '+' CTE_INT
-CTEFROM -> '-' CTE_INT
-CTEFROM -> CTE_INT
-
 <DO_WHILE>
 DO_WHILE -> DO bloque WHILE '(' expresion_logica ')'
 
@@ -85,6 +80,18 @@ FACTOR -> factor1
 
 factor1 -> var_cte
 
+<CTEFROM>
+CTEFROM -> '+' CTE_INT
+CTEFROM -> '-' CTE_INT
+CTEFROM -> CTE_INT
+
+<FROM>
+FROM -> FROM cteFrom TP cteFrom BY '(' from1 cteFrom ')' bloque
+from1 -> '+'
+from1 -> '*'
+from1 -> '/'
+from1 -> '-'
+
 <FUNCION>
 FUNCION -> FUNCTION funcion4
 
@@ -102,22 +109,33 @@ funcion4 -> tipo funcion5
 
 funcion5 -> ID '(' funcion3 ')' '{' funcion1 estatuto funcion2 '}'
 
-<FROM>
-FROM -> FROM cteFrom TP cteFrom BY '(' from1 cteFrom ')' bloque
-from1 -> '+'
-from1 -> '*'
-from1 -> '/'
-from1 -> '-'
+<RETURN>
+***************
 
-<VAR_DECLARACION>
-VAR_DECLARACION -> tipo var_declaracion1
-VAR_DECLARACION -> VECTOR tipo var_declaracion2
+<INPUT>
+INPUT -> TIPO ID '=' input '(' input1 ')'
+INPUT -> ID '=' input '(' input1 ')'
 
-var_declaracion1 -> ID
-var_declaracion1 -> inicializacion
+input1 -> epsilon
+input1 -> CTE_STRING
 
-var_declaracion2 -> ID
-var_declaracion2 -> inicializacion_vector
+<LLAMADA>
+LLAMADA -> ID '(' llamada1 ')'
+
+llamada1 -> epsilon
+llamada1-> exp llamada2
+
+llamada2 -> epsilon
+llamada2 -> ',' exp llamada2
+
+<MAIN>
+MAIN -> MAIN '{' main1 estatuto main2 '}'
+
+main1 -> epsilon
+main1 -> var_declaracion main1
+
+main2 -> estatuto main2
+main2 -> epsilon
 
 <PARAMETROS>
 PARAMETROS -> tipo parametros1 ID parametros2
@@ -129,14 +147,28 @@ parametros1 -> epsilon
 parametros2 -> ',' parametros
 parametros2 -> epsilon
 
-<INICIALIZACION>
-INICIALIZACION -> ID EQUAL exp
+<PRINT>
+PRINT -> PRINT '(' print1 ')'
 
-<TIPO>
-TIPO -> int
-TIPO -> float
-TIPO -> string
-TIPO -> bool
+print1 -> CTE_STRING print2
+print1 -> ID print2
+
+print2 -> epsilon
+print2 -> + print1
+
+<SWITCH>
+SWITCH -> SWITCH ID switch1 '{' switch2  switch3 '}'
+
+switch1 -> epsilon
+switch1 -> '[' expresion_logica ']'
+
+switch2 -> epsilon
+switch2 -> CASE varcte ':' switch4 switch2
+
+switch3 -> DEFAULT ':' switch4
+
+switch4 -> bloque
+switch4 -> '{' PASS '}'
 
 <TERMINO>
 TERMINO -> factor termino1
@@ -145,35 +177,11 @@ termino1 -> '*' termino
 termino1 -> '/' termino
 termino1 -> epsilon
 
-<INICIALIZACION_VECTOR>
-INICIALIZACION_VECTOR -> ID = '[' inicializacion_vector1 ']'
-
-inicializacion_vector1 -> expresion inicializacion_vector2
-inicializacion_vector1 -> epsilon
-
-inicializacion_vector2 -> ',' var_cte inicializacion_vector2
-inicializacion_vector2 -> epsilon
-
-<MAIN>
-MAIN -> MAIN '{' main1 estatuto main2 '}'
-
-main1 -> epsilon
-main1 -> var_declaracion main1
-
-main2 -> estatuto main2
-main2 -> epsilon
-
-<WHILE>
-WHILE -> WHILE '(' expresion ')' bloque
-
-<LLAMADA>
-LLAMADA -> ID '(' llamada1 ')'
-
-llamada1 -> epsilon
-llamada1-> exp llamada2
-
-llamada2 -> epsilon
-llamada2 -> ',' exp llamada2
+<TIPO>
+TIPO -> int
+TIPO -> float
+TIPO -> string
+TIPO -> bool
 
 <VAR_CTE>
 VAR_CTE -> ID var_cte1
@@ -189,35 +197,28 @@ var_cte1 -> '[' exp ']'
 var_cte2 -> ',' exp var_cte2
 var_cte2 -> epsilon
 
+<CTE_INT1>
+*******************
+
+<CTE_FLOAT1>
+*******************
+
+<VARSTRING1>
+*******************
+
 <CTE_BOOL>
 CTE_BOOL -> TRUE | FALSE
 
-<PRINT>
-PRINT -> PRINT '(' print1 ')'
+<VAR_DECLARACION>
+VAR_DECLARACION -> tipo var_declaracion1
+VAR_DECLARACION -> VECTOR tipo var_declaracion2
 
-print1 -> CTE_STRING print2
-print1 -> ID print2
+var_declaracion1 -> ID
+var_declaracion1 -> inicializacion
 
-print2 -> epsilon
-print2 -> + print1
+var_declaracion2 -> ID
+var_declaracion2 -> inicializacion_vector
 
-<INPUT>
-INPUT -> TIPO ID '=' input '(' input1 ')'
-INPUT -> ID '=' input '(' input1 ')'
+<WHILE>
+WHILE -> WHILE '(' expresion ')' bloque
 
-input1 -> epsilon
-input1 -> CTE_STRING
-
-<SWITCH>
-SWITCH -> SWITCH ID switch1 '{' switch2  switch3 '}'
-
-switch1 -> epsilon
-switch1 -> '[' expresion_logica ']'
-
-switch2 -> epsilon
-switch2 -> CASE varcte ':' switch4 switch2
-
-switch3 -> DEFAULT ':' switch4
-
-switch4 -> bloque
-switch4 -> '{' PASS '}'
